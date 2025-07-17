@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.socket.fault.dao.TblFaultDao">
+
+
+    <!-- 更新手动恢复故障状态 -->
+    <update id="updateManualClear">
+        update tbl_fault
+        <set>
+            <if test="manualClear != null">
+                i_manual_clear = #{manualClear},
+            </if>
+        </set>
+        where v_elevator_code = #{elevatorCode}
+        and i_fault_type = #{faultNum}
+    </update>
+
+    <!--清空所有的临时故障-->
+    <update id="disappearAllTempFault">
+        update tbl_fault_temp
+        SET i_status = 1
+        where v_elevator_code = #{elevatorCode}
+          and i_status = 0
+    </update>
+
+
+    <!-- 更加电梯编号获取所有故障中的故障编号 -->
+    <select id="getByCodeFailure" resultType="java.lang.String">
+        select
+        i_fault_type
+        from tbl_fault
+        <where>
+            i_status = 0
+            and v_elevator_code = #{elevatorCode}
+        </where>
+    </select>
+
+
+    <select id="getFaultSecondTypeByCode" resultType="java.lang.String">
+        select
+        v_fault_second_type
+        from tbl_fault
+        <where>
+            i_status = 0
+            and v_elevator_code = #{elevatorCode}
+        </where>
+    </select>
+
+
+</mapper>

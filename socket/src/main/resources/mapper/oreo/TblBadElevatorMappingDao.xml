@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.socket.elevator.dao.TblRedirectElevatorMappingDao">
+
+    <resultMap type="com.shmashine.socket.elevator.entity.TblRedirectElevatorMapping" id="redirectElevatorMap">
+        <result property="id" column="id" jdbcType="VARCHAR"/>
+        <result property="vElevatorCode" column="v_elevator_code" jdbcType="VARCHAR"/>
+        <result property="vRedirectCodes" column="v_redirect_codes" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="getByElevatorCode" resultMap="redirectElevatorMap">
+        select id,
+               v_elevator_code,
+               v_redirect_codes
+        from tbl_redirect_elevator_mapping
+        where v_elevator_code = #{elevatorCode}
+    </select>
+
+</mapper>

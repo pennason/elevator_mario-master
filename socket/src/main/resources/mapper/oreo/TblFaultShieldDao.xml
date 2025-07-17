@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.socket.fault.dao.TblFaultShieldDao">
+
+    <resultMap type="com.shmashine.socket.fault.entity.TblFaultShield" id="TblFaultShieldMap">
+        <result property="vFaultShieldId" column="v_fault_shield_id" jdbcType="VARCHAR"/>
+        <result property="vElevatorId" column="v_elevator_id" jdbcType="VARCHAR"/>
+        <result property="vElevatorCode" column="v_elevator_code" jdbcType="VARCHAR"/>
+        <result property="iFaultType" column="i_fault_type" jdbcType="INTEGER"/>
+        <result property="vFaultName" column="v_fault_name" jdbcType="VARCHAR"/>
+        <result property="iIsUserVisible" column="i_is_user_visible" jdbcType="INTEGER"/>
+        <result property="iIsReport" column="i_is_report" jdbcType="INTEGER"/>
+        <result property="dtCreateTime" column="dt_create_time" jdbcType="TIMESTAMP"/>
+        <result property="dtModifyTime" column="dt_modify_time" jdbcType="TIMESTAMP"/>
+        <result property="vCreateUserId" column="v_create_user_id" jdbcType="VARCHAR"/>
+        <result property="vModifyUserId" column="v_modify_user_id" jdbcType="VARCHAR"/>
+        <result property="iDelFlag" column="i_del_flag" jdbcType="INTEGER"/>
+    </resultMap>
+
+
+    <!-- 获取所有故障屏蔽规则 -->
+    <select id="list" resultMap="TblFaultShieldMap">
+        select
+        v_fault_shield_id, v_elevator_id, v_elevator_code, i_fault_type, v_fault_name, i_is_user_visible, i_is_report,
+        dt_create_time, dt_modify_time, v_create_user_id, v_modify_user_id, i_del_flag
+        from tbl_fault_shield
+        <where>
+            <if test="vFaultShieldId != null and vFaultShieldId != ''">
+                and v_fault_shield_id = #{vFaultShieldId}
+            </if>
+            <if test="vElevatorId != null and vElevatorId != ''">
+                and v_elevator_id = #{vElevatorId}
+            </if>
+            <if test="vElevatorCode != null and vElevatorCode != ''">
+                and v_elevator_code = #{vElevatorCode}
+            </if>
+            <if test="iFaultType != null">
+                and i_fault_type = #{iFaultType}
+            </if>
+            <if test="vFaultName != null and vFaultName != ''">
+                and v_fault_name = #{vFaultName}
+            </if>
+            <if test="iIsUserVisible != null">
+                and i_is_user_visible = #{iIsUserVisible}
+            </if>
+            <if test="iIsReport != null">
+                and i_is_report = #{iIsReport}
+            </if>
+            <if test="dtCreateTime != null">
+                and dt_create_time = #{dtCreateTime}
+            </if>
+            <if test="dtModifyTime != null">
+                and dt_modify_time = #{dtModifyTime}
+            </if>
+            <if test="vCreateUserId != null and vCreateUserId != ''">
+                and v_create_user_id = #{vCreateUserId}
+            </if>
+            <if test="vModifyUserId != null and vModifyUserId != ''">
+                and v_modify_user_id = #{vModifyUserId}
+            </if>
+            <if test="iDelFlag != null">
+                and i_del_flag = #{iDelFlag}
+            </if>
+        </where>
+    </select>
+
+    <update id="updateFaultShieldId">
+        UPDATE
+            tbl_fault_shield
+        SET v_fault_shield_id = #{id}
+        WHERE v_elevator_code = #{elevatorCode}
+          AND i_fault_type = #{faultType}
+    </update>
+
+
+</mapper>

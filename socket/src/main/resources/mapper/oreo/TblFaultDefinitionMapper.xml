@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.socket.fault.dao.TblFaultDefinitionDao">
+
+    <resultMap type="com.shmashine.socket.fault.entity.TblFaultDefinition" id="TblFaultDefinitionResultMap">
+        <result property="vFaultDefinitionId" column="v_fault_definition_id" jdbcType="VARCHAR"/>
+        <result property="iFaultType" column="i_fault_type" jdbcType="INTEGER"/>
+        <result property="vFaultName" column="v_fault_name" jdbcType="VARCHAR"/>
+        <result property="iLevel" column="i_level" jdbcType="INTEGER"/>
+        <result property="vLevelName" column="v_level_name" jdbcType="VARCHAR"/>
+        <result property="iIsSaveVideo" column="i_is_save_video" jdbcType="INTEGER"/>
+        <result property="iIsSaveImage" column="i_is_save_image" jdbcType="INTEGER"/>
+        <result property="iFilterFlag" column="i_filter_flag" jdbcType="INTEGER"/>
+        <result property="vPlatformName" column="v_platform_name" jdbcType="VARCHAR"/>
+        <result property="iElevatorType" column="i_elevator_type" jdbcType="INTEGER"/>
+        <result property="iMashineFaultType" column="i_mashine_fault_type" jdbcType="INTEGER"/>
+        <result property="dtCreateTime" column="dt_create_time" jdbcType="TIMESTAMP"/>
+        <result property="dtModifyTime" column="dt_modify_time" jdbcType="TIMESTAMP"/>
+        <result property="vCreateUserId" column="v_create_user_id" jdbcType="VARCHAR"/>
+        <result property="vModifyUserId" column="v_modify_user_id" jdbcType="VARCHAR"/>
+        <result property="iDelFlag" column="i_del_flag" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <resultMap type="com.shmashine.socket.fault.entity.TblFaultDefinition0902" id="TblFaultDefinition0902ResultMap">
+        <result property="faultDefinitionId" column="fault_definition_id" jdbcType="VARCHAR"/>
+        <result property="faultType" column="fault_type" jdbcType="VARCHAR"/>
+        <result property="faultName" column="fault_name" jdbcType="VARCHAR"/>
+        <result property="faultSecondType" column="fault_second_type" jdbcType="VARCHAR"/>
+        <result property="faultSecondName" column="fault_second_name" jdbcType="VARCHAR"/>
+        <result property="resolve" column="resolve" jdbcType="VARCHAR"/>
+        <result property="remark" column="remark" jdbcType="VARCHAR"/>
+        <result property="level" column="level" jdbcType="INTEGER"/>
+        <result property="levelName" column="level_name" jdbcType="VARCHAR"/>
+        <result property="saveVideo" column="save_video" jdbcType="INTEGER"/>
+        <result property="saveImage" column="save_image" jdbcType="INTEGER"/>
+        <result property="filterFlag" column="filter_flag" jdbcType="INTEGER"/>
+        <result property="uncivilizedBehaviorFlag" column="uncivilized_behavior_flag" jdbcType="INTEGER"/>
+        <result property="platformType" column="platform_type" jdbcType="INTEGER"/>
+        <result property="elevatorType" column="elevator_type" jdbcType="INTEGER"/>
+        <result property="sensorType" column="sensor_type" jdbcType="INTEGER"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="modifyTime" column="modify_time" jdbcType="TIMESTAMP"/>
+        <result property="createUserId" column="create_user_id" jdbcType="VARCHAR"/>
+        <result property="modifyUserId" column="modify_user_id" jdbcType="VARCHAR"/>
+        <result property="delFlag" column="del_flag" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="table_field">
+        v_fault_definiton_id
+        , i_fault_type, v_fault_name, i_level, v_level_name, i_save_video, i_save_image, i_filter_flag, v_platform_name, i_elevator_type, i_mashine_fault_type, dt_create_time, dt_modify_time, v_create_user_id, v_modify_user_id, i_del_flag
+    </sql>
+
+    <select id="list" resultMap="TblFaultDefinitionResultMap">
+        select *
+        from tbl_fault_definition
+    </select>
+
+
+    <update id="updateFaultDefinitionId">
+        update tbl_fault_definition
+        set v_fault_definiton_id = #{nextId}
+        where v_fault_definiton_id = #{id}
+    </update>
+
+
+    <select id="getFaultNameByFaultType" resultType="java.lang.String">
+        select v_fault_name
+        from tbl_fault_definition
+        where i_fault_type = #{faultType}
+    </select>
+
+
+    <select id="getByFaultType" resultMap="TblFaultDefinition0902ResultMap">
+        select *
+        from tbl_fault_definition_0902
+        where fault_type = #{faultType}
+          and platform_type = 1
+    </select>
+
+    <select id="getEscalatorDefByFaultType" resultMap="TblFaultDefinition0902ResultMap">
+        select *
+        from tbl_fault_definition_0902
+        where fault_type = #{faultType}
+          and platform_type = #{platformType}
+    </select>
+
+
+    <select id="getByFaultTypeAndSecondType" resultMap="TblFaultDefinition0902ResultMap">
+        select *
+        from tbl_fault_definition_0902
+        where fault_type = #{faultType}
+          and fault_second_type = #{secondType}
+    </select>
+
+
+</mapper>

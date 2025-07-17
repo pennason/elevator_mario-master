@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.shmashine.socket.nezha.dao.FailureShieldDao">
+
+
+    <select id="list" resultType="com.shmashine.socket.nezha.domain.FailureShieldDO">
+        select
+        `id`,`elevator_id`,`elevator_code`,`failure_id`,`failure_name`,`is_user_visible`,`is_report`,`create_user`,`create_time`,`update_user`,`update_time`,`del_flag`
+        from pro_failure_shield
+        <where>
+            del_flag = 0
+            <if test="id != null and id != ''">and id = #{id}</if>
+            <if test="elevatorId != null and elevatorId != ''">and elevator_id = #{elevatorId}</if>
+            <if test="elevatorCode != null and elevatorCode != ''">and `elevator_code` = #{elevatorCode}</if>
+            <if test="failureId != null and failureId != ''">and failure_id = #{failureId}</if>
+            <if test="isUserVisible != null and isUserVisible != ''">and is_user_visible = #{isUserVisible}</if>
+            <if test="isReport != null and isReport != ''">and is_report = #{isReport}</if>
+            <if test="createUser != null and createUser != ''">and create_user = #{createUser}</if>
+            <if test="createTime != null and createTime != ''">and create_time = #{createTime}</if>
+            <if test="updateUser != null and updateUser != ''">and update_user = #{updateUser}</if>
+            <if test="updateTime != null and updateTime != ''">and update_time = #{updateTime}</if>
+            <if test="delFlag != null and delFlag != ''">and del_flag = #{delFlag}</if>
+        </where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+            <otherwise>
+                order by id desc
+            </otherwise>
+        </choose>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+</mapper>

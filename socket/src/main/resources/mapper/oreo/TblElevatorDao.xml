@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.socket.elevator.dao.TblElevatorDao">
+
+    <resultMap type="com.shmashine.socket.elevator.entity.TblElevator" id="TblElevatorMap">
+        <result property="vElevatorId" column="v_elevator_id" jdbcType="VARCHAR"/>
+        <result property="vElevatorCode" column="v_elevator_code" jdbcType="VARCHAR"/>
+        <result property="iProvinceId" column="i_province_id" jdbcType="INTEGER"/>
+        <result property="iCityId" column="i_city_id" jdbcType="INTEGER"/>
+        <result property="iAreaId" column="i_area_id" jdbcType="INTEGER"/>
+        <result property="vAddress" column="v_address" jdbcType="VARCHAR"/>
+        <result property="iElevatorType" column="i_elevator_type" jdbcType="INTEGER"/>
+        <result property="iElevatorUseType" column="i_elevator_use_type" jdbcType="INTEGER"/>
+        <result property="iElevatorPlaceType" column="i_elevator_place_type" jdbcType="INTEGER"/>
+        <result property="vElevatorBrandId" column="v_elevator_brand_id" jdbcType="VARCHAR"/>
+        <result property="iMaintainDays" column="i_maintain_days" jdbcType="INTEGER"/>
+        <result property="dLastMaintainDate" column="d_last_maintain_date" jdbcType="OTHER"/>
+        <result property="dNextMaintainDate" column="d_next_maintain_date" jdbcType="OTHER"/>
+        <result property="dLastInspectDate" column="d_last_inspect_date" jdbcType="OTHER"/>
+        <result property="dNextInspectDate" column="d_next_inspect_date" jdbcType="OTHER"/>
+        <result property="vMaintainCompanyId" column="v_maintain_company_id" jdbcType="VARCHAR"/>
+        <result property="vPropertyCompanyId" column="v_property_company_id" jdbcType="VARCHAR"/>
+        <result property="iGovernmentId" column="i_government_id" jdbcType="VARCHAR"/>
+        <result property="vMaintainPersonName" column="v_maintain_person_name" jdbcType="VARCHAR"/>
+        <result property="vMaintainPersonTel" column="v_maintain_person_tel" jdbcType="VARCHAR"/>
+        <result property="vEmergencyPersonName" column="v_emergency_person_name" jdbcType="VARCHAR"/>
+        <result property="vEmergencyPersonTel" column="v_emergency_person_tel" jdbcType="VARCHAR"/>
+        <result property="vHttpPtCodes" column="v_http_pt_codes" jdbcType="VARCHAR"/>
+        <result property="vLongitude" column="v_longitude" jdbcType="VARCHAR"/>
+        <result property="vLatitude" column="v_latitude" jdbcType="VARCHAR"/>
+        <result property="iCoordinateType" column="i_coordinate_type" jdbcType="INTEGER"/>
+        <result property="vProjectId" column="v_project_id" jdbcType="VARCHAR"/>
+        <result property="vVillageId" column="v_village_id" jdbcType="VARCHAR"/>
+        <result property="iInstallStatus" column="i_install_status" jdbcType="INTEGER"/>
+        <result property="dtInstallTime" column="dt_install_time" jdbcType="TIMESTAMP"/>
+        <result property="iOnLine" column="i_on_line" jdbcType="INTEGER"/>
+        <result property="iModeStatus" column="i_mode_status" jdbcType="INTEGER"/>
+        <result property="iFaultStatus" column="i_fault_status" jdbcType="INTEGER"/>
+        <result property="iMaxFloor" column="i_max_floor" jdbcType="INTEGER"/>
+        <result property="iMinFloor" column="i_min_floor" jdbcType="INTEGER"/>
+        <result property="vFloorDetail" column="v_floor_detail" jdbcType="VARCHAR"/>
+        <result property="vFloorSettingStatus" column="v_floor_setting_status" jdbcType="VARCHAR"/>
+        <result property="dcSpeed" column="dc_speed" jdbcType="NUMERIC"/>
+        <result property="biRunCount" column="bi_run_count" jdbcType="INTEGER"/>
+        <result property="biDoorCount" column="bi_door_count" jdbcType="INTEGER"/>
+        <result property="biBendCount" column="bi_bend_count" jdbcType="INTEGER"/>
+        <result property="biLevelTriggerCount" column="bi_level_trigger_count" jdbcType="INTEGER"/>
+        <result property="biRunDistanceCount" column="bi_run_distance_count" jdbcType="INTEGER"/>
+        <result property="iDt" column="i_dt" jdbcType="INTEGER"/>
+        <result property="iDt1" column="i_dt1" jdbcType="INTEGER"/>
+        <result property="iDt2" column="i_dt2" jdbcType="INTEGER"/>
+        <result property="iNps" column="i_nps" jdbcType="INTEGER"/>
+        <result property="iNpr" column="i_npr" jdbcType="INTEGER"/>
+        <result property="dcNdaj" column="dc_ndaj" jdbcType="NUMERIC"/>
+        <result property="iAngle" column="i_angle" jdbcType="INTEGER"/>
+        <result property="iAngleType" column="i_angle_type" jdbcType="INTEGER"/>
+        <result property="vSglnCode" column="v_sgln_code" jdbcType="VARCHAR"/>
+        <result property="vUnitCode" column="v_unit_code" jdbcType="VARCHAR"/>
+        <result property="vEquipmentCode" column="v_equipment_code" jdbcType="VARCHAR"/>
+        <result property="vRegistrationAuthority" column="v_registration_authority" jdbcType="VARCHAR"/>
+        <result property="vRegistrationMechanism" column="v_registration_mechanism" jdbcType="VARCHAR"/>
+        <result property="vRegistrationCertificateNo" column="v_registration_certificate_no" jdbcType="VARCHAR"/>
+        <result property="dtCreateTime" column="dt_create_time" jdbcType="TIMESTAMP"/>
+        <result property="dtModifyTime" column="dt_modify_time" jdbcType="TIMESTAMP"/>
+        <result property="vCreateUserId" column="v_create_user_id" jdbcType="VARCHAR"/>
+        <result property="vModifyUserId" column="v_modify_user_id" jdbcType="VARCHAR"/>
+        <result property="iDelFlag" column="i_del_flag" jdbcType="INTEGER"/>
+        <result property="iFilterFlag" column="i_filter_flag" jdbcType="INTEGER"/>
+    </resultMap>
+
+
+    <!-- 根据电梯编号获取电梯 -->
+    <select id="getByElevatorCode" resultMap="TblElevatorMap">
+        select v_elevator_id,
+               v_elevator_code,
+               i_province_id,
+               i_city_id,
+               i_area_id,
+               v_address,
+               i_elevator_type,
+               i_elevator_use_type,
+               i_elevator_place_type,
+               v_elevator_brand_id,
+               i_maintain_days,
+               d_last_maintain_date,
+               d_next_maintain_date,
+               d_last_inspect_date,
+               d_next_inspect_date,
+               v_maintain_company_id,
+               v_property_company_id,
+               i_government_id,
+               v_maintain_person_name,
+               v_maintain_person_tel,
+               v_emergency_person_name,
+               v_emergency_person_tel,
+               v_http_pt_codes,
+               v_longitude,
+               v_latitude,
+               i_coordinate_type,
+               v_project_id,
+               v_village_id,
+               i_install_status,
+               dt_install_time,
+               i_on_line,
+               i_mode_status,
+               i_fault_status,
+               i_max_floor,
+               i_min_floor,
+               v_floor_detail,
+               v_floor_setting_status,
+               dc_speed,
+               bi_run_count,
+               bi_door_count,
+               bi_bend_count,
+               bi_level_trigger_count,
+               bi_run_distance_count,
+               i_dt,
+               i_dt1,
+               i_dt2,
+               i_nps,
+               i_npr,
+               dc_ndaj,
+               i_angle,
+               i_angle_type,
+               v_sgln_code,
+               v_unit_code,
+               v_equipment_code,
+               v_registration_authority,
+               v_registration_mechanism,
+               v_registration_certificate_no,
+               dt_create_time,
+               dt_modify_time,
+               v_create_user_id,
+               v_modify_user_id,
+               i_del_flag,
+               i_filter_flag
+        from tbl_elevator
+        where v_elevator_code = #{elevatorCode}
+    </select>
+
+
+    <update id="updateModeStatus">
+        update tbl_elevator
+        set i_mode_status = #{modeStatus}
+        where v_elevator_code = #{elevatorCode}
+    </update>
+
+
+    <update id="updateOnlineStatus">
+        update tbl_elevator
+        set i_on_line = #{onLine}
+        where v_elevator_code = #{elevatorCode}
+    </update>
+
+
+    <select id="list" resultMap="TblElevatorMap">
+        select *
+        from tbl_elevator
+    </select>
+
+    <!--获取所有电梯设备状态-->
+    <select id="getAllNettyDeviceStatus" resultType="java.util.HashMap">
+        SELECT te.v_elevator_code    elevatorCode,
+               td.v_sensor_type      sensorType,
+               te.i_on_line       AS elevatorStatus,
+               td.i_online_status AS deviceStatus
+        FROM tbl_elevator te
+                 INNER JOIN tbl_device td ON te.v_elevator_id = td.v_elevator_id
+        WHERE td.eType IN ("201", "301", "MX201", "MX301", "MX201M")
+        ORDER BY te.v_elevator_code
+    </select>
+
+    <!--获取电梯是否开启检测人数-->
+    <select id="getDetectedPeopleNumsIsOpen" resultType="java.lang.Boolean">
+        SELECT is_open_detected_people_nums
+        FROM tbl_elevator_config
+        WHERE elevator_code = #{elevatorCode}
+    </select>
+
+    <update id="updateElevatorId">
+        update tbl_elevator
+        set v_elevator_id = #{nextId}
+        where v_elevator_code = #{elevatorCode}
+    </update>
+
+    <update id="updateFloorSettingStatus">
+        update tbl_elevator
+        set v_floor_setting_status = #{settingFloorStatus}
+        where v_elevator_code = #{elevatorCode}
+    </update>
+
+
+    <update id="updateFaultStatus">
+        update tbl_elevator
+        set i_fault_status = #{status}
+        where v_elevator_code = #{elevatorCode}
+    </update>
+
+    <update id="changeDeviceStatus">
+        update tbl_device
+        set i_online_status = #{status}
+        where v_elevator_code = #{elevatorCode}
+          and v_sensor_type = #{sensorType}
+    </update>
+
+    <update id="changeElevatorStatus">
+        update tbl_elevator
+        set i_on_line = #{status}
+        where v_elevator_code = #{elevatorCode}
+    </update>
+
+
+</mapper>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.shmashine.socket.nezha.dao.ElevatorNewDao">
+
+
+    <update id="updateDevice" parameterType="com.shmashine.socket.nezha.domain.ElevatorNewDO">
+        update pro_elevator
+        <set>
+            <if test="ccid != null">`ccid` = #{ccid},</if>
+            <if test="imei != null">`imei` = #{imei},</if>
+            <if test="hw_version != null">`hw_version` = #{hw_version},</if>
+            <if test="sw_version != null">`sw_version` = #{sw_version},</if>
+            <if test="debugInfo != null ">iotSecret=#{debugInfo},</if>
+            <if test="updatemethod != null ">updatemethod=#{updatemethod},</if>
+            <if test="updatemethod == null ">updatemethod=null,</if>
+        </set>
+        where code = #{code}
+    </update>
+
+
+    <update id="updateVersion" parameterType="com.shmashine.socket.nezha.domain.ElevatorNewDO">
+        update pro_elevator
+        <set>
+
+            <if test="masterVersion != null ">master_version=#{masterVersion},</if>
+            <if test="slaveVersion != null ">slave_version=#{slaveVersion}</if>
+        </set>
+        where code = #{code}
+    </update>
+
+
+    <update id="updateOnline">
+        update pro_elevator
+        set online_date=now(),
+            onLine=1
+        where code = #{code}
+    </update>
+
+
+    <update id="updateOffline">
+        update pro_elevator
+        set offline_date=now(),
+            onLine=0
+        where code = #{code}
+    </update>
+
+
+</mapper>

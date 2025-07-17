@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.socket.file.dao.FileDao">
+
+    <resultMap type="com.shmashine.socket.file.entity.TblSysFile" id="TblSysFileResultMap">
+        <result property="vFileId" column="v_file_id" jdbcType="VARCHAR"/>
+        <result property="vFileType" column="v_file_type" jdbcType="VARCHAR"/>
+        <result property="vFileName" column="v_file_name" jdbcType="VARCHAR"/>
+        <result property="vBusinessId" column="v_business_id" jdbcType="VARCHAR"/>
+        <result property="iBusinessType" column="i_business_type" jdbcType="INTEGER"/>
+        <result property="vUrl" column="v_url" jdbcType="VARCHAR"/>
+        <result property="vRemark" column="v_remark" jdbcType="VARCHAR"/>
+        <result property="dtCreateTime" column="dt_create_time" jdbcType="TIMESTAMP"/>
+        <result property="dtModifyTime" column="dt_modify_time" jdbcType="TIMESTAMP"/>
+        <result property="vCreateUserId" column="v_create_user_id" jdbcType="VARCHAR"/>
+        <result property="vModifyUserId" column="v_modify_user_id" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="table_field">
+        v_file_id
+        , v_file_type, v_file_name, v_business_id, i_business_type, v_url, v_remark, dt_create_time, dt_modify_time, v_create_user_id, v_modify_user_id
+    </sql>
+
+    <!--新增实体属性不为null的列-->
+    <insert id="insert" keyProperty="vFileId" useGeneratedKeys="true"
+            parameterType="com.shmashine.socket.file.entity.TblSysFile">
+        insert into tbl_sys_file
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="vFileId != null">
+                v_file_id,
+            </if>
+            <if test="vFileType != null">
+                v_file_type,
+            </if>
+            <if test="vFileName != null">
+                v_file_name,
+            </if>
+            <if test="vBusinessId != null">
+                v_business_id,
+            </if>
+            <if test="iBusinessType != null">
+                i_business_type,
+            </if>
+            <if test="vUrl != null">
+                v_url,
+            </if>
+            <if test="vRemark != null">
+                v_remark,
+            </if>
+            <if test="dtCreateTime != null">
+                dt_create_time,
+            </if>
+            <if test="dtModifyTime != null">
+                dt_modify_time,
+            </if>
+            <if test="vCreateUserId != null">
+                v_create_user_id,
+            </if>
+            <if test="vModifyUserId != null">
+                v_modify_user_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="vFileId != null">
+                #{vFileId,jdbcType=VARCHAR},
+            </if>
+            <if test="vFileType != null">
+                #{vFileType,jdbcType=VARCHAR},
+            </if>
+            <if test="vFileName != null">
+                #{vFileName,jdbcType=VARCHAR},
+            </if>
+            <if test="vBusinessId != null">
+                #{vBusinessId,jdbcType=VARCHAR},
+            </if>
+            <if test="iBusinessType != null">
+                #{iBusinessType,jdbcType=INTEGER},
+            </if>
+            <if test="vUrl != null">
+                #{vUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="vRemark != null">
+                #{vRemark,jdbcType=VARCHAR},
+            </if>
+            <if test="dtCreateTime != null">
+                #{dtCreateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="dtModifyTime != null">
+                #{dtModifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="vCreateUserId != null">
+                #{vCreateUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="vModifyUserId != null">
+                #{vModifyUserId,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+</mapper>

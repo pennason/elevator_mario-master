@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.socket.nezha.dao.ElevatorFailureDao">
+
+
+    <update id="manualRepairConfirm">
+        update pro_mnt_elevator_failure
+        <set>
+            status=1,manul_clear=#{manul_clean}
+        </set>
+        where status=1 and manul_clear=-1 and elevator_no=#{sensor_code} and fault_type=#{fault_type}
+    </update>
+
+
+    <!-- 查询电梯故障中的故障编号 -->
+    <select id="getByCodeFailure" resultType="java.lang.String">
+        SELECT fault_type
+        FROM pro_mnt_elevator_failure
+        where elevator_no = #{elevatorCode}
+          and status = 0
+    </select>
+
+
+</mapper>

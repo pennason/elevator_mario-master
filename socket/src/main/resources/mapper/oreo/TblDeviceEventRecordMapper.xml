@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.socket.device.dao.TblDeviceEventRecordDao">
+
+    <resultMap type="com.shmashine.socket.device.entity.TblDeviceEventRecord" id="TblDeviceEventRecordResultMap">
+        <result property="vDeviceEventRecordId" column="v_device_event_record_id" jdbcType="VARCHAR"/>
+        <result property="vElevatorCode" column="v_elevator_code" jdbcType="VARCHAR"/>
+        <result property="vSensorType" column="v_sensor_type" jdbcType="VARCHAR"/>
+        <result property="iType" column="i_type" jdbcType="INTEGER"/>
+        <result property="dtHappenTime" column="dt_happen_time" jdbcType="TIMESTAMP"/>
+        <result property="dtCreateTime" column="dt_create_time" jdbcType="TIMESTAMP"/>
+        <result property="dtModifyTime" column="dt_modify_time" jdbcType="TIMESTAMP"/>
+        <result property="vCreateUserId" column="v_create_user_id" jdbcType="VARCHAR"/>
+        <result property="vModifyUserId" column="v_modify_user_id" jdbcType="VARCHAR"/>
+        <result property="iDelFlag" column="i_del_flag" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="table_field">
+        v_device_event_record_id
+        , v_elevator_code, v_sensor_type, i_type, dt_happen_time, dt_create_time, dt_modify_time, v_create_user_id, v_modify_user_id, i_del_flag
+    </sql>
+
+
+    <!--新增实体属性不为null的列-->
+    <insert id="insert" keyProperty="vDeviceEventRecordId" useGeneratedKeys="true"
+            parameterType="com.shmashine.socket.device.entity.TblDeviceEventRecord">
+        insert into tbl_device_event_record
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="vDeviceEventRecordId != null">
+                v_device_event_record_id,
+            </if>
+            <if test="vElevatorCode != null">
+                v_elevator_code,
+            </if>
+            <if test="vSensorType != null">
+                v_sensor_type,
+            </if>
+            <if test="iType != null">
+                i_type,
+            </if>
+            <if test="vReason != null">
+                v_reason,
+            </if>
+            <if test="dtHappenTime != null">
+                dt_happen_time,
+            </if>
+            <if test="dtCreateTime != null">
+                dt_create_time,
+            </if>
+            <if test="dtModifyTime != null">
+                dt_modify_time,
+            </if>
+            <if test="vCreateUserId != null">
+                v_create_user_id,
+            </if>
+            <if test="vModifyUserId != null">
+                v_modify_user_id,
+            </if>
+            <if test="iDelFlag != null">
+                i_del_flag,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="vDeviceEventRecordId != null">
+                #{vDeviceEventRecordId,jdbcType=VARCHAR},
+            </if>
+            <if test="vElevatorCode != null">
+                #{vElevatorCode,jdbcType=VARCHAR},
+            </if>
+            <if test="vSensorType != null">
+                #{vSensorType,jdbcType=VARCHAR},
+            </if>
+            <if test="iType != null">
+                #{iType,jdbcType=INTEGER},
+            </if>
+            <if test="vReason != null">
+                #{vReason,jdbcType=VARCHAR},
+            </if>
+            <if test="dtHappenTime != null">
+                #{dtHappenTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="dtCreateTime != null">
+                #{dtCreateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="dtModifyTime != null">
+                #{dtModifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="vCreateUserId != null">
+                #{vCreateUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="vModifyUserId != null">
+                #{vModifyUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="iDelFlag != null">
+                #{iDelFlag,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+
+
+</mapper>

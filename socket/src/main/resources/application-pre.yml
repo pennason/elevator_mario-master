@@ -1,0 +1,76 @@
+# 设备连接端口
+netty:
+  cube:
+    port: 27501
+  car_roof:
+    port: 27601
+  car_roof_tls:
+    port: 27611
+  motor_port:
+    port: 27701
+  motor_port_tls:
+    port: 27711
+  front:
+    port: 27801
+  SingleBox:
+    port: 27901
+  SingleBox_tls:
+    port: 27911
+  escalator:
+    port: 28001
+  CarDoor:
+    port: 28011
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://shmashine-eureka:8080/eureka/
+  instance:
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+    # 优先使用IP地址方式进行注册服务
+    prefer-ip-address: true
+
+# kafka topic 名称
+kafka:
+  topic:
+    consumer:
+      nettyTopic: dev_web_nezha
+    producer:
+      monitor: dev_oreo_monitor
+      mergeMonitor: dev_cube_report_merge_monitor
+      fault: dev_oreo_fault
+      preFault: dev_oreo_preFault
+      tr: dev_oreo_tr
+      http: dev_netty_nezha
+      event: dev_oreo_event
+      detectedPeopleNums: dev_people_flow_statistics
+      cubeMonitor: dev_cube_monitor
+      cubeTr: dev_cube_tr
+      cubeEvent: dev_cube_event
+      cubeFault: dev_cube_fault
+      cubeTrapped: dev_cube_trapped
+      cubeOnlineOffline: dev_cube_online_offline
+
+spring:
+  data:
+    mongodb:
+      host: 10.0.0.124
+      port: 27017
+      database: MX
+      username: shmashine
+      password: Shmashine@666
+  redis:
+    database: 2
+    host: 10.0.0.113
+    port: 6379
+    password: shmashine@666
+    timeout: 5000
+
+  boot:
+    admin:
+      client:
+        url: http://spring-boot-admin:8080 #配置admin-server地址
+        username: shmashine
+        password: shmashine
+        instance:
+          service-url: http://shmashine-socket:8080

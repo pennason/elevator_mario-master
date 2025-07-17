@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.shmashine.socket.nezha.dao.ElevatorEventRecordDao">
+
+    <select id="get" resultType="com.shmashine.socket.nezha.domain.ElevatorEventRecordDO">
+        select `id`, `elevator_code`, `type_id`, `data`, `start_time`
+        from pro_elevator_event_record
+        where id = #{value}
+    </select>
+
+    <select id="getLatest" resultType="com.shmashine.socket.nezha.domain.ElevatorEventRecordDO">
+        select `id`, `elevator_code`, `type_id`, `data`, `start_time`
+        from pro_elevator_event_record
+        where elevator_code = #{value}
+        order by id DESC limit 1
+    </select>
+
+    <select id="list" resultType="com.shmashine.socket.nezha.domain.ElevatorEventRecordDO">
+        select `id`,`elevator_code`,`type_id`,`data`,`start_time` from pro_elevator_event_record
+        <where>
+            <if test="id != null and id != ''">and id = #{id}</if>
+            <if test="elevatorCode != null and elevatorCode != ''">and elevator_code like '%${elevatorCode}%'</if>
+            <if test="typeId != null and typeId != ''">and type_id = #{typeId}</if>
+            <if test="data != null and data != ''">and data = #{data}</if>
+            <if test="startTime != null and startTime != ''">and start_time &gt;= #{startTime}</if>
+            <if test="endTime != null and endTime != ''">and start_time &lt;= #{endTime}</if>
+            <if test="sensorType != null and sensorType != ''">and sensor_type = #{sensorType}</if>
+
+        </where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+            <otherwise>
+                order by id desc
+            </otherwise>
+        </choose>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <select id="count" resultType="int">
+        select count(*) from pro_elevator_event_record
+        <where>
+            <if test="id != null and id != ''">and id = #{id}</if>
+            <if test="elevatorCode != null and elevatorCode != ''">and elevator_code like '%${elevatorCode}%'</if>
+            <if test="typeId != null and typeId != ''">and type_id = #{typeId}</if>
+            <if test="data != null and data != ''">and data = #{data}</if>
+            <if test="startTime != null and startTime != ''">and start_time &gt;= #{startTime}</if>
+            <if test="endTime != null and endTime != ''">and start_time &lt;= #{endTime}</if>
+            <if test="sensorType != null and sensorType != ''">and sensor_type = #{sensorType}</if>
+        </where>
+    </select>
+
+    <insert id="save" parameterType="com.shmashine.socket.nezha.domain.ElevatorEventRecordDO" useGeneratedKeys="true"
+            keyProperty="id">
+        insert into pro_elevator_event_record
+        (`elevator_code`,
+         `type_id`,
+         `data`,
+         `start_time`,
+         `sensor_type`)
+        values (#{elevatorCode},
+                #{typeId},
+                #{data},
+                now(),
+                #{sensorType})
+    </insert>
+
+
+    <select id="freqsort" resultType="map">
+        SELECT elevator_code,COUNT(id) AS cnt FROM pro_elevator_event_record
+        <where>
+            <if test="id != null and id != ''">and id = #{id}</if>
+            <if test="elevatorCode != null and elevatorCode != ''">and elevator_code like '%${elevatorCode}%'</if>
+            <if test="typeId != null and typeId != ''">and type_id = #{typeId}</if>
+            <if test="data != null and data != ''">and data = #{data}</if>
+            <if test="startTime != null and startTime != ''">and start_time &gt;= #{startTime}</if>
+            <if test="endTime != null and endTime != ''">and start_time &lt;= #{endTime}</if>
+            <if test="sensorType != null and sensorType != ''">and sensor_type = #{sensorType}</if>
+        </where>
+        WHERE start_time > DATE_ADD(NOW(),INTERVAL -14 DAY)
+        GROUP BY elevator_code ORDER BY cnt DESC
+        limit 100
+
+    </select>
+
+    <select id="trendmap" resultType="map">
+        SELECT DATE_FORMAT (start_time,'%Y-%m-%d %H') AS date,COUNT(id) AS cnt FROM pro_elevator_event_record
+        <where>
+            <if test="id != null and id != ''">and id = #{id}</if>
+            <if test="elevatorCode != null and elevatorCode != ''">and elevator_code like '%${elevatorCode}%'</if>
+            <if test="typeId != null and typeId != ''">and type_id = #{typeId}</if>
+            <if test="data != null and data != ''">and data = #{data}</if>
+            <if test="startTime != null and startTime != ''">and start_time &gt;= #{startTime}</if>
+            <if test="endTime != null and endTime != ''">and start_time &lt;= #{endTime}</if>
+            <if test="sensorType != null and sensorType != ''">and sensor_type = #{sensorType}</if>
+        </where>
+        WHERE start_time > DATE_ADD(NOW(),INTERVAL -7 DAY)
+        GROUP BY date
+        ORDER BY start_time asc;
+
+    </select>
+
+
+</mapper>
