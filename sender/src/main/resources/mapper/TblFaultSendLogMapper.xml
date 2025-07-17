@@ -1,0 +1,579 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.sender.dao.TblFaultSendLogDao">
+
+    <resultMap type="com.shmashine.common.entity.TblFaultSendLog" id="TblFaultSendLogResultMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="faultId" column="fault_id" jdbcType="VARCHAR"/>
+        <result property="faultType" column="fault_type" jdbcType="VARCHAR"/>
+        <result property="elevatorCode" column="elevator_code" jdbcType="VARCHAR"/>
+        <result property="registerNo" column="register_no" jdbcType="VARCHAR"/>
+        <result property="ptCodes" column="pt_codes" jdbcType="VARCHAR"/>
+        <result property="logType" column="log_type" jdbcType="VARCHAR"/>
+        <result property="faultMessage" column="fault_message" jdbcType="VARCHAR"/>
+        <result property="sendMessage" column="send_message" jdbcType="VARCHAR"/>
+        <result property="responseMessage" column="response_message" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="table_field">
+        id
+        , fault_id, fault_type, elevator_code, register_no, pt_codes, log_type, fault_message, send_message, response_message, create_time
+    </sql>
+
+    <!--通过Id查询单个-->
+    <select id="getById" resultMap="TblFaultSendLogResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="table_field"/>
+        from tbl_fault_send_log
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+
+    <!--通过实体不为空的属性作为筛选条件查询列表-->
+    <select id="listByEntity" resultMap="TblFaultSendLogResultMap"
+            parameterType="com.shmashine.common.entity.TblFaultSendLog">
+        select
+        <include refid="table_field"/>
+        from tbl_fault_send_log
+        <where>
+            <if test="id != null">
+                and id = #{id,jdbcType=INTEGER}
+            </if>
+            <if test="faultId != null">
+                and fault_id = #{faultId,jdbcType=VARCHAR}
+            </if>
+            <if test="faultType != null">
+                and fault_type = #{faultType,jdbcType=VARCHAR}
+            </if>
+            <if test="elevatorCode != null">
+                and elevator_code = #{elevatorCode,jdbcType=VARCHAR}
+            </if>
+            <if test="registerNo != null">
+                and register_no = #{registerNo,jdbcType=VARCHAR}
+            </if>
+            <if test="ptCodes != null">
+                and pt_codes = #{ptCodes,jdbcType=VARCHAR}
+            </if>
+            <if test="logType != null">
+                and log_type = #{logType,jdbcType=VARCHAR}
+            </if>
+            <if test="faultMessage != null">
+                and fault_message = #{faultMessage,jdbcType=VARCHAR}
+            </if>
+            <if test="sendMessage != null">
+                and send_message = #{sendMessage,jdbcType=VARCHAR}
+            </if>
+            <if test="responseMessage != null">
+                and response_message = #{responseMessage,jdbcType=VARCHAR}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime,jdbcType=TIMESTAMP}
+            </if>
+        </where>
+    </select>
+
+    <!--通过实体不为空的属性作为筛选条件查询单个-->
+    <select id="getByEntity" resultMap="TblFaultSendLogResultMap"
+            parameterType="com.shmashine.common.entity.TblFaultSendLog">
+        select
+        <include refid="table_field"/>
+        from tbl_fault_send_log
+        <where>
+            <if test="id != null">
+                and id = #{id,jdbcType=INTEGER}
+            </if>
+            <if test="faultId != null">
+                and fault_id = #{faultId,jdbcType=VARCHAR}
+            </if>
+            <if test="faultType != null">
+                and fault_type = #{faultType,jdbcType=VARCHAR}
+            </if>
+            <if test="elevatorCode != null">
+                and elevator_code = #{elevatorCode,jdbcType=VARCHAR}
+            </if>
+            <if test="registerNo != null">
+                and register_no = #{registerNo,jdbcType=VARCHAR}
+            </if>
+            <if test="ptCodes != null">
+                and pt_codes = #{ptCodes,jdbcType=VARCHAR}
+            </if>
+            <if test="logType != null">
+                and log_type = #{logType,jdbcType=VARCHAR}
+            </if>
+            <if test="faultMessage != null">
+                and fault_message = #{faultMessage,jdbcType=VARCHAR}
+            </if>
+            <if test="sendMessage != null">
+                and send_message = #{sendMessage,jdbcType=VARCHAR}
+            </if>
+            <if test="responseMessage != null">
+                and response_message = #{responseMessage,jdbcType=VARCHAR}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime,jdbcType=TIMESTAMP}
+            </if>
+        </where>
+    </select>
+
+    <!--通过Id列表作为筛选条件查询列表，列表长度不为0-->
+    <select id="listByIds" resultMap="TblFaultSendLogResultMap" parameterType="list">
+        select
+        <include refid="table_field"/>
+        from tbl_fault_send_log
+        where id in
+        <foreach item="item" collection="list" separator="," open="(" close=")" index="index">
+            #{item}
+        </foreach>
+    </select>
+
+    <!--新增实体属性不为null的列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true"
+            parameterType="com.shmashine.common.entity.TblFaultSendLog">
+        insert into tbl_fault_send_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="faultId != null">
+                fault_id,
+            </if>
+            <if test="faultType != null">
+                fault_type,
+            </if>
+            <if test="elevatorCode != null">
+                elevator_code,
+            </if>
+            <if test="registerNo != null">
+                register_no,
+            </if>
+            <if test="ptCodes != null">
+                pt_codes,
+            </if>
+            <if test="logType != null">
+                log_type,
+            </if>
+            <if test="faultMessage != null">
+                fault_message,
+            </if>
+            <if test="sendMessage != null">
+                send_message,
+            </if>
+            <if test="responseMessage != null">
+                response_message,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="faultId != null">
+                #{faultId,jdbcType=VARCHAR},
+            </if>
+            <if test="faultType != null">
+                #{faultType,jdbcType=VARCHAR},
+            </if>
+            <if test="elevatorCode != null">
+                #{elevatorCode,jdbcType=VARCHAR},
+            </if>
+            <if test="registerNo != null">
+                #{registerNo,jdbcType=VARCHAR},
+            </if>
+            <if test="ptCodes != null">
+                #{ptCodes,jdbcType=VARCHAR},
+            </if>
+            <if test="logType != null">
+                #{logType,jdbcType=VARCHAR},
+            </if>
+            <if test="faultMessage != null">
+                #{faultMessage,jdbcType=VARCHAR},
+            </if>
+            <if test="sendMessage != null">
+                #{sendMessage,jdbcType=VARCHAR},
+            </if>
+            <if test="responseMessage != null">
+                #{responseMessage,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+
+    <!--新增实体属性不为null的列且不为空字符串-->
+    <insert id="insertIsNotEmpty" keyProperty="id" useGeneratedKeys="true"
+            parameterType="com.shmashine.common.entity.TblFaultSendLog">
+        insert into tbl_fault_send_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null and id != ''">
+                id,
+            </if>
+            <if test="faultId != null and faultId != ''">
+                fault_id,
+            </if>
+            <if test="faultType != null and faultType != ''">
+                fault_type,
+            </if>
+            <if test="elevatorCode != null and elevatorCode != ''">
+                elevator_code,
+            </if>
+            <if test="registerNo != null and registerNo != ''">
+                register_no,
+            </if>
+            <if test="ptCodes != null and ptCodes != ''">
+                pt_codes,
+            </if>
+            <if test="logType != null and logType != ''">
+                log_type,
+            </if>
+            <if test="faultMessage != null and faultMessage != ''">
+                fault_message,
+            </if>
+            <if test="sendMessage != null and sendMessage != ''">
+                send_message,
+            </if>
+            <if test="responseMessage != null and responseMessage != ''">
+                response_message,
+            </if>
+            <if test="createTime != null and createTime != ''">
+                create_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="faultId != null">
+                #{faultId,jdbcType=VARCHAR},
+            </if>
+            <if test="faultType != null">
+                #{faultType,jdbcType=VARCHAR},
+            </if>
+            <if test="elevatorCode != null">
+                #{elevatorCode,jdbcType=VARCHAR},
+            </if>
+            <if test="registerNo != null">
+                #{registerNo,jdbcType=VARCHAR},
+            </if>
+            <if test="ptCodes != null">
+                #{ptCodes,jdbcType=VARCHAR},
+            </if>
+            <if test="logType != null">
+                #{logType,jdbcType=VARCHAR},
+            </if>
+            <if test="faultMessage != null">
+                #{faultMessage,jdbcType=VARCHAR},
+            </if>
+            <if test="sendMessage != null">
+                #{sendMessage,jdbcType=VARCHAR},
+            </if>
+            <if test="responseMessage != null">
+                #{responseMessage,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+
+    <!--批量新增所有列，列表长度不能为0-->
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true" parameterType="list">
+        insert into tbl_fault_send_log
+        ( id ,fault_id, fault_type, elevator_code, register_no, pt_codes, log_type, fault_message, send_message,
+        response_message, create_time)
+        values
+        <foreach item="item" collection="list" separator="," open="" close="" index="index">
+            (#{item.id,jdbcType=INTEGER},#{item.faultId,jdbcType=VARCHAR}, #{item.faultType,jdbcType=VARCHAR},
+            #{item.elevatorCode,jdbcType=VARCHAR}, #{item.registerNo,jdbcType=VARCHAR},
+            #{item.ptCodes,jdbcType=VARCHAR}, #{item.logType,jdbcType=VARCHAR}, #{item.faultMessage,jdbcType=VARCHAR},
+            #{item.sendMessage,jdbcType=VARCHAR}, #{item.responseMessage,jdbcType=VARCHAR},
+            #{item.createTime,jdbcType=TIMESTAMP})
+        </foreach>
+    </insert>
+
+    <!--通过主键修改实体属性不为null的列-->
+    <update id="update" parameterType="com.shmashine.common.entity.TblFaultSendLog">
+        update tbl_fault_send_log
+        <set>
+            <if test="faultId != null and faultId != ''">
+                fault_id = #{faultId,jdbcType=VARCHAR},
+            </if>
+            <if test="faultType != null and faultType != ''">
+                fault_type = #{faultType,jdbcType=VARCHAR},
+            </if>
+            <if test="elevatorCode != null and elevatorCode != ''">
+                elevator_code = #{elevatorCode,jdbcType=VARCHAR},
+            </if>
+            <if test="registerNo != null and registerNo != ''">
+                register_no = #{registerNo,jdbcType=VARCHAR},
+            </if>
+            <if test="ptCodes != null and ptCodes != ''">
+                pt_codes = #{ptCodes,jdbcType=VARCHAR},
+            </if>
+            <if test="logType != null and logType != ''">
+                log_type = #{logType,jdbcType=VARCHAR},
+            </if>
+            <if test="faultMessage != null and faultMessage != ''">
+                fault_message = #{faultMessage,jdbcType=VARCHAR},
+            </if>
+            <if test="sendMessage != null and sendMessage != ''">
+                send_message = #{sendMessage,jdbcType=VARCHAR},
+            </if>
+            <if test="responseMessage != null and responseMessage != ''">
+                response_message = #{responseMessage,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <!--通过表字段修改实体属性不为null的列-->
+    <update id="updateByField">
+        update tbl_fault_send_log
+        <set>
+            <if test="where.faultId == null and set.faultId != null and set.faultId != ''">
+                fault_id = #{set.faultId,jdbcType=VARCHAR},
+            </if>
+            <if test="where.faultType == null and set.faultType != null and set.faultType != ''">
+                fault_type = #{set.faultType,jdbcType=VARCHAR},
+            </if>
+            <if test="where.elevatorCode == null and set.elevatorCode != null and set.elevatorCode != ''">
+                elevator_code = #{set.elevatorCode,jdbcType=VARCHAR},
+            </if>
+            <if test="where.registerNo == null and set.registerNo != null and set.registerNo != ''">
+                register_no = #{set.registerNo,jdbcType=VARCHAR},
+            </if>
+            <if test="where.ptCodes == null and set.ptCodes != null and set.ptCodes != ''">
+                pt_codes = #{set.ptCodes,jdbcType=VARCHAR},
+            </if>
+            <if test="where.logType == null and set.logType != null and set.logType != ''">
+                log_type = #{set.logType,jdbcType=VARCHAR},
+            </if>
+            <if test="where.faultMessage == null and set.faultMessage != null and set.faultMessage != ''">
+                fault_message = #{set.faultMessage,jdbcType=VARCHAR},
+            </if>
+            <if test="where.sendMessage == null and set.sendMessage != null and set.sendMessage != ''">
+                send_message = #{set.sendMessage,jdbcType=VARCHAR},
+            </if>
+            <if test="where.responseMessage == null and set.responseMessage != null and set.responseMessage != ''">
+                response_message = #{set.responseMessage,jdbcType=VARCHAR},
+            </if>
+            <if test="where.createTime == null and set.createTime != null">
+                create_time = #{set.createTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        <where>
+            <if test="where.id != null">
+                and id = #{where.id,jdbcType=INTEGER}
+            </if>
+            <if test="where.faultId != null">
+                and fault_id = #{where.faultId,jdbcType=VARCHAR}
+            </if>
+            <if test="where.faultType != null">
+                and fault_type = #{where.faultType,jdbcType=VARCHAR}
+            </if>
+            <if test="where.elevatorCode != null">
+                and elevator_code = #{where.elevatorCode,jdbcType=VARCHAR}
+            </if>
+            <if test="where.registerNo != null">
+                and register_no = #{where.registerNo,jdbcType=VARCHAR}
+            </if>
+            <if test="where.ptCodes != null">
+                and pt_codes = #{where.ptCodes,jdbcType=VARCHAR}
+            </if>
+            <if test="where.logType != null">
+                and log_type = #{where.logType,jdbcType=VARCHAR}
+            </if>
+            <if test="where.faultMessage != null">
+                and fault_message = #{where.faultMessage,jdbcType=VARCHAR}
+            </if>
+            <if test="where.sendMessage != null">
+                and send_message = #{where.sendMessage,jdbcType=VARCHAR}
+            </if>
+            <if test="where.responseMessage != null">
+                and response_message = #{where.responseMessage,jdbcType=VARCHAR}
+            </if>
+            <if test="where.createTime != null">
+                and create_time = #{where.createTime,jdbcType=TIMESTAMP}
+            </if>
+        </where>
+    </update>
+
+    <!--通过主键修改实体列表，列表长度不能为0，注意：当实体属性为null时，对应的列也会别更新为null-->
+    <update id="updateBatch" parameterType="list">
+        update tbl_fault_send_log
+        <trim prefix="set" suffixOverrides=",">
+            <trim prefix="fault_id = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when id = #{item.id} then #{item.faultId}
+                </foreach>
+            </trim>
+            <trim prefix="fault_type = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when id = #{item.id} then #{item.faultType}
+                </foreach>
+            </trim>
+            <trim prefix="elevator_code = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when id = #{item.id} then #{item.elevatorCode}
+                </foreach>
+            </trim>
+            <trim prefix="register_no = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when id = #{item.id} then #{item.registerNo}
+                </foreach>
+            </trim>
+            <trim prefix="pt_codes = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when id = #{item.id} then #{item.ptCodes}
+                </foreach>
+            </trim>
+            <trim prefix="log_type = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when id = #{item.id} then #{item.logType}
+                </foreach>
+            </trim>
+            <trim prefix="fault_message = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when id = #{item.id} then #{item.faultMessage}
+                </foreach>
+            </trim>
+            <trim prefix="send_message = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when id = #{item.id} then #{item.sendMessage}
+                </foreach>
+            </trim>
+            <trim prefix="response_message = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when id = #{item.id} then #{item.responseMessage}
+                </foreach>
+            </trim>
+            <trim prefix="create_time = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when id = #{item.id} then #{item.createTime}
+                </foreach>
+            </trim>
+        </trim>
+        where id in
+        <foreach collection="list" index="index" item="item" separator="," open="(" close=")">
+            #{item.id,jdbcType=INTEGER}
+        </foreach>
+    </update>
+
+
+    <update id="updateById">
+        update tbl_fault_send_log
+        set response_message = '上传成功！'
+        where fault_id = #{faultId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById" parameterType="java.lang.Integer">
+        delete
+        from tbl_fault_send_log
+        where id = #{id,jdbcType=INTEGER}     </delete>
+
+    <!--通过实体非空属性删除-->
+    <delete id="deleteByEntity" parameterType="com.shmashine.common.entity.TblFaultSendLog">
+        delete from tbl_fault_send_log
+        <where>
+            <if test="faultId != null">
+                and fault_id = #{faultId,jdbcType=VARCHAR}
+            </if>
+            <if test="faultType != null">
+                and fault_type = #{faultType,jdbcType=VARCHAR}
+            </if>
+            <if test="elevatorCode != null">
+                and elevator_code = #{elevatorCode,jdbcType=VARCHAR}
+            </if>
+            <if test="registerNo != null">
+                and register_no = #{registerNo,jdbcType=VARCHAR}
+            </if>
+            <if test="ptCodes != null">
+                and pt_codes = #{ptCodes,jdbcType=VARCHAR}
+            </if>
+            <if test="logType != null">
+                and log_type = #{logType,jdbcType=VARCHAR}
+            </if>
+            <if test="faultMessage != null">
+                and fault_message = #{faultMessage,jdbcType=VARCHAR}
+            </if>
+            <if test="sendMessage != null">
+                and send_message = #{sendMessage,jdbcType=VARCHAR}
+            </if>
+            <if test="responseMessage != null">
+                and response_message = #{responseMessage,jdbcType=VARCHAR}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime,jdbcType=TIMESTAMP}
+            </if>
+        </where>
+    </delete>
+
+    <!--通过主键列表删除，列表长度不能为0-->
+    <delete id="deleteByIds" parameterType="list">
+        delete from tbl_fault_send_log where id in
+        <foreach item="item" collection="list" separator="," open="(" close=")" index="index">
+            #{item}
+        </foreach>
+    </delete>
+
+    <select id="countAll" resultType="int">
+        select count(id)
+        from tbl_fault_send_log
+    </select>
+
+    <select id="countByEntity" parameterType="com.shmashine.common.entity.TblFaultSendLog" resultType="int">
+        select count(id) from tbl_fault_send_log
+        <where>
+            <if test="id != null">
+                and id = #{id,jdbcType=INTEGER}
+            </if>
+            <if test="faultId != null">
+                and fault_id = #{faultId,jdbcType=VARCHAR}
+            </if>
+            <if test="faultType != null">
+                and fault_type = #{faultType,jdbcType=VARCHAR}
+            </if>
+            <if test="elevatorCode != null">
+                and elevator_code = #{elevatorCode,jdbcType=VARCHAR}
+            </if>
+            <if test="registerNo != null">
+                and register_no = #{registerNo,jdbcType=VARCHAR}
+            </if>
+            <if test="ptCodes != null">
+                and pt_codes = #{ptCodes,jdbcType=VARCHAR}
+            </if>
+            <if test="logType != null">
+                and log_type = #{logType,jdbcType=VARCHAR}
+            </if>
+            <if test="faultMessage != null">
+                and fault_message = #{faultMessage,jdbcType=VARCHAR}
+            </if>
+            <if test="sendMessage != null">
+                and send_message = #{sendMessage,jdbcType=VARCHAR}
+            </if>
+            <if test="responseMessage != null">
+                and response_message = #{responseMessage,jdbcType=VARCHAR}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime,jdbcType=TIMESTAMP}
+            </if>
+        </where>
+    </select>
+
+    <!--获取最近一小时推送失败的故障记录-->
+    <select id="getNeedRetryPushFaults" resultType="com.shmashine.common.entity.TblFaultSendLog">
+        select
+        <include refid="table_field"/>
+        from tbl_fault_send_log
+        where create_time &gt;= (NOW() - INTERVAL 1 HOUR)
+        AND response_message = '未知响应！'
+    </select>
+
+</mapper>

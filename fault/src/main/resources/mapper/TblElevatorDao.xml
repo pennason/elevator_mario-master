@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.fault.elevator.dao.TblElevatorDao">
+
+    <resultMap type="com.shmashine.fault.elevator.entity.TblElevator" id="TblElevatorMap">
+        <result property="vElevatorId" column="v_elevator_id" jdbcType="VARCHAR"/>
+        <result property="vElevatorCode" column="v_elevator_code" jdbcType="VARCHAR"/>
+        <result property="iProvinceId" column="i_province_id" jdbcType="INTEGER"/>
+        <result property="iCityId" column="i_city_id" jdbcType="INTEGER"/>
+        <result property="iAreaId" column="i_area_id" jdbcType="INTEGER"/>
+        <result property="vAddress" column="v_address" jdbcType="VARCHAR"/>
+        <result property="iElevatorType" column="i_elevator_type" jdbcType="INTEGER"/>
+        <result property="iElevatorUseType" column="i_elevator_use_type" jdbcType="INTEGER"/>
+        <result property="iElevatorPlaceType" column="i_elevator_place_type" jdbcType="INTEGER"/>
+        <result property="vElevatorBrandId" column="v_elevator_brand_id" jdbcType="VARCHAR"/>
+        <result property="iMaintainDays" column="i_maintain_days" jdbcType="INTEGER"/>
+        <result property="dLastMaintainDate" column="d_last_maintain_date" jdbcType="OTHER"/>
+        <result property="dNextMaintainDate" column="d_next_maintain_date" jdbcType="OTHER"/>
+        <result property="dLastInspectDate" column="d_last_inspect_date" jdbcType="OTHER"/>
+        <result property="dNextInspectDate" column="d_next_inspect_date" jdbcType="OTHER"/>
+        <result property="vMaintainCompanyId" column="v_maintain_company_id" jdbcType="VARCHAR"/>
+        <result property="vPropertyCompanyId" column="v_property_company_id" jdbcType="VARCHAR"/>
+        <result property="iGovernmentId" column="i_government_id" jdbcType="VARCHAR"/>
+        <result property="vMaintainPersonName" column="v_maintain_person_name" jdbcType="VARCHAR"/>
+        <result property="vMaintainPersonTel" column="v_maintain_person_tel" jdbcType="VARCHAR"/>
+        <result property="vEmergencyPersonName" column="v_emergency_person_name" jdbcType="VARCHAR"/>
+        <result property="vEmergencyPersonTel" column="v_emergency_person_tel" jdbcType="VARCHAR"/>
+        <result property="vHttpPtCodes" column="v_http_pt_codes" jdbcType="VARCHAR"/>
+        <result property="vLongitude" column="v_longitude" jdbcType="VARCHAR"/>
+        <result property="vLatitude" column="v_latitude" jdbcType="VARCHAR"/>
+        <result property="iCoordinateType" column="i_coordinate_type" jdbcType="INTEGER"/>
+        <result property="vProjectId" column="v_project_id" jdbcType="VARCHAR"/>
+        <result property="vVillageId" column="v_village_id" jdbcType="VARCHAR"/>
+        <result property="iInstallStatus" column="i_install_status" jdbcType="INTEGER"/>
+        <result property="dtInstallTime" column="dt_install_time" jdbcType="TIMESTAMP"/>
+        <result property="iOnLine" column="i_on_line" jdbcType="INTEGER"/>
+        <result property="iModeStatus" column="i_mode_status" jdbcType="INTEGER"/>
+        <result property="iFaultStatus" column="i_fault_status" jdbcType="INTEGER"/>
+        <result property="iMaxFloor" column="i_max_floor" jdbcType="INTEGER"/>
+        <result property="iMinFloor" column="i_min_floor" jdbcType="INTEGER"/>
+        <result property="vFloorDetail" column="v_floor_detail" jdbcType="VARCHAR"/>
+        <result property="vFloorSettingStatus" column="v_floor_setting_status" jdbcType="VARCHAR"/>
+        <result property="dcSpeed" column="dc_speed" jdbcType="NUMERIC"/>
+        <result property="biRunCount" column="bi_run_count" jdbcType="INTEGER"/>
+        <result property="biDoorCount" column="bi_door_count" jdbcType="INTEGER"/>
+        <result property="biBendCount" column="bi_bend_count" jdbcType="INTEGER"/>
+        <result property="biLevelTriggerCount" column="bi_level_trigger_count" jdbcType="INTEGER"/>
+        <result property="biRunDistanceCount" column="bi_run_distance_count" jdbcType="INTEGER"/>
+        <result property="iDt" column="i_dt" jdbcType="INTEGER"/>
+        <result property="iDt1" column="i_dt1" jdbcType="INTEGER"/>
+        <result property="iDt2" column="i_dt2" jdbcType="INTEGER"/>
+        <result property="iNps" column="i_nps" jdbcType="INTEGER"/>
+        <result property="iNpr" column="i_npr" jdbcType="INTEGER"/>
+        <result property="dcNdaj" column="dc_ndaj" jdbcType="NUMERIC"/>
+        <result property="iAngle" column="i_angle" jdbcType="INTEGER"/>
+        <result property="iAngleType" column="i_angle_type" jdbcType="INTEGER"/>
+        <result property="vSglnCode" column="v_sgln_code" jdbcType="VARCHAR"/>
+        <result property="vUnitCode" column="v_unit_code" jdbcType="VARCHAR"/>
+        <result property="vEquipmentCode" column="v_equipment_code" jdbcType="VARCHAR"/>
+        <result property="vRegistrationAuthority" column="v_registration_authority" jdbcType="VARCHAR"/>
+        <result property="vRegistrationMechanism" column="v_registration_mechanism" jdbcType="VARCHAR"/>
+        <result property="vRegistrationCertificateNo" column="v_registration_certificate_no" jdbcType="VARCHAR"/>
+        <result property="dtCreateTime" column="dt_create_time" jdbcType="TIMESTAMP"/>
+        <result property="dtModifyTime" column="dt_modify_time" jdbcType="TIMESTAMP"/>
+        <result property="vCreateUserId" column="v_create_user_id" jdbcType="VARCHAR"/>
+        <result property="vModifyUserId" column="v_modify_user_id" jdbcType="VARCHAR"/>
+        <result property="iDelFlag" column="i_del_flag" jdbcType="INTEGER"/>
+    </resultMap>
+
+
+    <!-- 根据电梯编号获取电梯 -->
+    <select id="getByElevatorCode" resultType="com.shmashine.fault.elevator.entity.TblElevator">
+        SELECT te.v_elevator_id,
+               te.v_elevator_code,
+               te.v_elevator_name,
+               te.i_province_id,
+               te.i_city_id,
+               te.i_area_id,
+               te.v_address,
+               te.i_elevator_type,
+               te.i_elevator_use_type,
+               te.i_elevator_place_type,
+               te.v_elevator_brand_id,
+               te.i_maintain_days,
+               te.d_last_maintain_date,
+               te.d_next_maintain_date,
+               te.d_last_inspect_date,
+               te.d_next_inspect_date,
+               te.v_maintain_company_id,
+               te.v_property_company_id,
+               te.i_government_id,
+               te.v_maintain_person_name,
+               te.v_maintain_person_tel,
+               te.v_emergency_person_name,
+               te.v_emergency_person_tel,
+               te.v_http_pt_codes,
+               te.v_longitude,
+               te.v_latitude,
+               te.i_coordinate_type,
+               te.v_project_id,
+               te.v_village_id,
+               tv.v_village_name AS village_name,
+               te.i_install_status,
+               te.dt_install_time,
+               te.i_on_line,
+               te.i_mode_status,
+               te.i_fault_status,
+               te.i_filter_flag,
+               te.i_max_floor,
+               te.i_min_floor,
+               te.v_floor_detail,
+               te.v_floor_setting_status,
+               te.dc_speed,
+               te.bi_run_count,
+               te.bi_door_count,
+               te.bi_bend_count,
+               te.bi_level_trigger_count,
+               te.bi_run_distance_count,
+               te.i_dt,
+               te.i_dt1,
+               te.i_dt2,
+               te.i_nps,
+               te.i_npr,
+               te.dc_ndaj,
+               te.i_angle,
+               te.i_angle_type,
+               te.v_sgln_code,
+               te.v_unit_code,
+               te.v_equipment_code,
+               te.v_registration_authority,
+               te.v_registration_mechanism,
+               te.v_registration_certificate_no,
+               te.dt_create_time,
+               te.dt_modify_time,
+               te.v_create_user_id,
+               te.v_modify_user_id,
+               te.i_del_flag
+        FROM tbl_elevator te
+                 LEFT JOIN tbl_village tv ON te.v_village_id = tv.v_village_id
+        WHERE te.v_elevator_code = #{elevatorCode}
+    </select>
+
+
+    <update id="updateModeStatus">
+        update tbl_elevator
+        set i_mode_status = #{modeStatus}
+        where v_elevator_code = #{elevatorCode}
+    </update>
+
+
+    <update id="updateOnlineStatus">
+        update tbl_elevator
+        set i_on_line = #{onLine}
+        where v_elevator_code = #{elevatorCode}
+    </update>
+
+
+    <select id="list" resultType="com.shmashine.fault.elevator.entity.TblElevator">
+        select *
+        from tbl_elevator
+    </select>
+
+    <update id="updateElevatorId">
+        update tbl_elevator
+        set v_elevator_id = #{nextId}
+        where v_elevator_code = #{elevatorCode}
+    </update>
+
+    <update id="updateFloorSettingStatus">
+        update tbl_elevator
+        set v_floor_setting_status = #{settingFloorStatus}
+        where v_elevator_code = #{code}
+    </update>
+
+
+    <!-- 根据电梯编号，修改统计数据 -->
+    <update id="updateStatisticalInformationByElevatorCode">
+        update tbl_elevator
+        <set>
+            <if test="messageJson.run_count != null">
+                bi_run_count = bi_run_count + #{messageJson.run_count},
+            </if>
+            <if test="messageJson.door_times != null">
+                bi_door_count = bi_door_count + #{messageJson.door_times},
+            </if>
+            <if test="messageJson.level_off_times != null">
+                bi_level_trigger_count = bi_level_trigger_count + #{messageJson.level_off_times},
+            </if>
+            <if test="messageJson.bend_count != null">
+                bi_bend_count = bi_bend_count + #{messageJson.bend_count},
+            </if>
+            <if test="messageJson.run_distance != null">
+                bi_run_distance_count = bi_run_distance_count + #{messageJson.run_distance},
+            </if>
+            <if test="messageJson.backAndForthCount != null">
+                back_and_forth_count = back_and_forth_count + #{messageJson.backAndForthCount}
+            </if>
+        </set>
+        where v_elevator_code = #{elevatorCode}
+    </update>
+
+    <!-- 根据电梯编号，修改统计数据 -->
+    <update id="updateStatisticalInformationByElevatorCode2">
+        update tbl_elevator
+        <set>
+            <if test="messageJson.run_count != null">
+                bi_run_count = #{messageJson.run_count},
+            </if>
+            <if test="messageJson.door_times != null">
+                bi_door_count = bi_door_count + #{messageJson.door_times},
+            </if>
+            <if test="messageJson.level_off_times != null">
+                bi_level_trigger_count = bi_level_trigger_count + #{messageJson.level_off_times},
+            </if>
+            <if test="messageJson.bend_count != null">
+                bi_bend_count = #{messageJson.bend_count},
+            </if>
+            <if test="messageJson.run_distance != null">
+                bi_run_distance_count = bi_run_distance_count + #{messageJson.run_distance},
+            </if>
+            <if test="messageJson.run_time != null">
+                dt_install_time = #{messageJson.run_time}
+            </if>
+        </set>
+        where v_elevator_code = #{elevatorCode}
+    </update>
+
+    <!-- 根据电梯编号，修改统计数据 -->
+    <update id="updateStatisticalInformationByElevatorCode3">
+        update tbl_elevator
+        <set>
+            <if test="messageJson.run_count != null">
+                bi_run_count = #{messageJson.run_count},
+            </if>
+            <if test="messageJson.door_times != null">
+                bi_door_count = #{messageJson.door_times},
+            </if>
+            <if test="messageJson.level_off_times != null">
+                bi_level_trigger_count = #{messageJson.level_off_times},
+            </if>
+            <if test="messageJson.bend_count != null">
+                bi_bend_count = #{messageJson.bend_count},
+            </if>
+            <if test="messageJson.run_distance != null">
+                bi_run_distance_count = #{messageJson.run_distance},
+            </if>
+            <if test="messageJson.run_time != null">
+                bi_run_time = #{messageJson.run_time}
+            </if>
+        </set>
+        where v_elevator_code = #{elevatorCode}
+    </update>
+
+    <select id="getFaultElevator" resultType="String">
+        SELECT v_elevator_code
+        FROM tbl_fault
+        WHERE v_event_channel = 5
+          AND dt_report_time &gt; DATE_SUB(NOW(), INTERVAL 1 DAY )
+          AND v_elevator_id
+            IN
+              (SELECT v_elevator_id from tbl_elevator_principal WHERE principal_id = #{userId})
+        GROUP BY v_elevator_code
+    </select>
+
+    <select id="getClient" resultType="String">
+        select project.v_party_a
+        FROM tbl_elevator ele
+                 left join tbl_project project on project.v_project_id = ele.v_project_id
+        WHERE v_elevator_id = #{vElevatorId}
+    </select>
+
+    <select id="getProjectAndVillageByElevatorCode" resultType="com.shmashine.common.entity.DeviceMaintenanceOrder">
+        select te.v_elevator_id   AS id,
+               te.v_elevator_code AS elevatorCode,
+               te.v_project_id    AS projectId,
+               tp.v_project_name  AS projectName,
+               te.v_village_id    AS villageId,
+               tv.v_village_name  AS villageName,
+               te.v_address       AS address
+        FROM tbl_elevator te
+                 INNER JOIN tbl_project tp ON te.v_project_id = tp.v_project_id
+                 INNER JOIN tbl_village tv ON te.v_village_id = tv.v_village_id
+        where v_elevator_code = #{elevatorCode}
+    </select>
+
+
+    <update id="updateFaultStatus">
+        update tbl_elevator
+        set i_fault_status = #{status}
+        where v_elevator_code = #{elevatorCode}
+    </update>
+
+
+    <update id="updateInstallStatus">
+        update tbl_elevator
+        set i_install_status = #{status}
+        where v_elevator_code = #{elevatorCode}
+    </update>
+
+    <!--更新电梯表设备配置状态-->
+    <update id="updateDeviceConfStatusByCode">
+        update tbl_elevator
+        set device_conf_status = #{status}
+        where v_elevator_code = #{elevatorCode}
+    </update>
+
+</mapper>

@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.sender.dao.TblThirdPartyRuijinWorkOrderDao">
+
+    <resultMap type="com.shmashine.common.entity.TblThirdPartyRuijinWorkOrder"
+               id="TblThirdPartyRuijinWorkOrderResultMap">
+        <result property="registerNumber" column="register_number" jdbcType="VARCHAR"/>
+        <result property="workOrderNumber" column="work_order_number" jdbcType="VARCHAR"/>
+        <result property="contractNumber" column="contract_number" jdbcType="VARCHAR"/>
+        <result property="maintenanceCompanyCode" column="maintenance_company_code" jdbcType="VARCHAR"/>
+        <result property="maintenanceCompanyName" column="maintenance_company_name" jdbcType="VARCHAR"/>
+        <result property="orderTypeNumber" column="order_type_number" jdbcType="VARCHAR"/>
+        <result property="teamCode" column="team_code" jdbcType="VARCHAR"/>
+        <result property="ordeTime" column="orde_time" jdbcType="OTHER"/>
+        <result property="orderStatus" column="order_status" jdbcType="VARCHAR"/>
+        <result property="dealEmployeeCode" column="deal_employee_code" jdbcType="VARCHAR"/>
+        <result property="dealEmployeeName" column="deal_employee_name" jdbcType="VARCHAR"/>
+        <result property="dealEmployeeTel" column="deal_employee_tel" jdbcType="VARCHAR"/>
+        <result property="shouldCompleteDate" column="should_complete_date" jdbcType="OTHER"/>
+        <result property="signTime" column="sign_time" jdbcType="OTHER"/>
+        <result property="completeTime" column="complete_time" jdbcType="OTHER"/>
+        <result property="confirmTime" column="confirm_time" jdbcType="OTHER"/>
+        <result property="items" column="items" jdbcType="VARCHAR"/>
+        <result property="failureInfo" column="failure_info" jdbcType="VARCHAR"/>
+        <result property="nextMaintenanceDate" column="next_maintenance_date" jdbcType="OTHER"/>
+        <result property="issues" column="issues" jdbcType="VARCHAR"/>
+        <result property="issueHandling" column="issue_handling" jdbcType="VARCHAR"/>
+        <result property="rescueTel" column="rescue_tel" jdbcType="VARCHAR"/>
+        <result property="wbid" column="wbid" jdbcType="VARCHAR"/>
+        <result property="orderExplain" column="order_explain" jdbcType="VARCHAR"/>
+        <result property="dtCreateTime" column="dt_create_time" jdbcType="TIMESTAMP"/>
+        <result property="dtModifyTime" column="dt_modify_time" jdbcType="TIMESTAMP"/>
+        <result property="vCreateUserId" column="v_create_user_id" jdbcType="VARCHAR"/>
+        <result property="vModifyUserId" column="v_modify_user_id" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="table_field">
+        register_number
+        , work_order_number, contract_number, maintenance_company_code, maintenance_company_name, order_type_number, team_code, orde_time, order_status, deal_employee_code, deal_employee_name, deal_employee_tel, should_complete_date, sign_time, complete_time, confirm_time, items, failure_info, next_maintenance_date, issues, issue_handling, rescue_tel, wbid, order_explain, dt_create_time, dt_modify_time, v_create_user_id, v_modify_user_id
+    </sql>
+
+    <!--新增实体属性不为null的列-->
+    <insert id="insert" keyProperty="registerNumber" useGeneratedKeys="true"
+            parameterType="com.shmashine.common.entity.TblThirdPartyRuijinWorkOrder">
+        insert into tbl_third_party_ruijin_work_order
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="registerNumber != null">
+                register_number,
+            </if>
+            <if test="workOrderNumber != null">
+                work_order_number,
+            </if>
+            <if test="contractNumber != null">
+                contract_number,
+            </if>
+            <if test="maintenanceCompanyCode != null">
+                maintenance_company_code,
+            </if>
+            <if test="maintenanceCompanyName != null">
+                maintenance_company_name,
+            </if>
+            <if test="orderTypeNumber != null">
+                order_type_number,
+            </if>
+            <if test="teamCode != null">
+                team_code,
+            </if>
+            <if test="ordeTime != null">
+                orde_time,
+            </if>
+            <if test="orderStatus != null">
+                order_status,
+            </if>
+            <if test="dealEmployeeCode != null">
+                deal_employee_code,
+            </if>
+            <if test="dealEmployeeName != null">
+                deal_employee_name,
+            </if>
+            <if test="dealEmployeeTel != null">
+                deal_employee_tel,
+            </if>
+            <if test="shouldCompleteDate != null">
+                should_complete_date,
+            </if>
+            <if test="signTime != null">
+                sign_time,
+            </if>
+            <if test="completeTime != null">
+                complete_time,
+            </if>
+            <if test="confirmTime != null">
+                confirm_time,
+            </if>
+            <if test="items != null">
+                items,
+            </if>
+            <if test="failureInfo != null">
+                failure_info,
+            </if>
+
+            next_maintenance_date,
+
+            <if test="issues != null">
+                issues,
+            </if>
+            <if test="issueHandling != null">
+                issue_handling,
+            </if>
+            <if test="rescueTel != null">
+                rescue_tel,
+            </if>
+            <if test="wbid != null">
+                wbid,
+            </if>
+            <if test="orderExplain != null">
+                order_explain,
+            </if>
+            <if test="overdue != null">
+                overdue,
+            </if>
+            <if test="dtCreateTime != null">
+                dt_create_time,
+            </if>
+            <if test="dtModifyTime != null">
+                dt_modify_time,
+            </if>
+            <if test="vCreateUserId != null">
+                v_create_user_id,
+            </if>
+            <if test="vModifyUserId != null">
+                v_modify_user_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="registerNumber != null">
+                #{registerNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="workOrderNumber != null">
+                #{workOrderNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="contractNumber != null">
+                #{contractNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="maintenanceCompanyCode != null">
+                #{maintenanceCompanyCode,jdbcType=VARCHAR},
+            </if>
+            <if test="maintenanceCompanyName != null">
+                #{maintenanceCompanyName,jdbcType=VARCHAR},
+            </if>
+            <if test="orderTypeNumber != null">
+                #{orderTypeNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="teamCode != null">
+                #{teamCode,jdbcType=VARCHAR},
+            </if>
+            <if test="ordeTime != null">
+                #{ordeTime,jdbcType=OTHER},
+            </if>
+            <if test="orderStatus != null">
+                #{orderStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="dealEmployeeCode != null">
+                #{dealEmployeeCode,jdbcType=VARCHAR},
+            </if>
+            <if test="dealEmployeeName != null">
+                #{dealEmployeeName,jdbcType=VARCHAR},
+            </if>
+            <if test="dealEmployeeTel != null">
+                #{dealEmployeeTel,jdbcType=VARCHAR},
+            </if>
+            <if test="shouldCompleteDate != null">
+                #{shouldCompleteDate,jdbcType=OTHER},
+            </if>
+            <if test="signTime != null">
+                #{signTime,jdbcType=OTHER},
+            </if>
+            <if test="completeTime != null">
+                #{completeTime,jdbcType=OTHER},
+            </if>
+            <if test="confirmTime != null">
+                #{confirmTime,jdbcType=OTHER},
+            </if>
+            <if test="items != null">
+                #{items,jdbcType=VARCHAR},
+            </if>
+            <if test="failureInfo != null">
+                #{failureInfo,jdbcType=VARCHAR},
+            </if>
+
+            DATE_SUB(#{completeTime,jdbcType=OTHER}, INTERVAL - 15 DAY ),
+
+            <if test="issues != null">
+                #{issues,jdbcType=VARCHAR},
+            </if>
+            <if test="issueHandling != null">
+                #{issueHandling,jdbcType=VARCHAR},
+            </if>
+            <if test="rescueTel != null">
+                #{rescueTel,jdbcType=VARCHAR},
+            </if>
+            <if test="wbid != null">
+                #{wbid,jdbcType=VARCHAR},
+            </if>
+            <if test="orderExplain != null">
+                #{orderExplain,jdbcType=VARCHAR},
+            </if>
+            <if test="overdue != null">
+                #{overdue},
+            </if>
+            <if test="dtCreateTime != null">
+                #{dtCreateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="dtModifyTime != null">
+                #{dtModifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="vCreateUserId != null">
+                #{vCreateUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="vModifyUserId != null">
+                #{vModifyUserId,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <!--批量新增所有列，列表长度不能为0-->
+    <insert id="insertBatch" keyProperty="registerNumber" useGeneratedKeys="true" parameterType="list">
+        insert into tbl_third_party_ruijin_work_order
+        ( register_number ,work_order_number, contract_number, maintenance_company_code, maintenance_company_name,
+        order_type_number, team_code, orde_time, order_status, deal_employee_code, deal_employee_name,
+        deal_employee_tel, should_complete_date, sign_time, complete_time, confirm_time, items, failure_info,
+        next_maintenance_date, issues, issue_handling, rescue_tel, wbid, order_explain)
+        values
+        <foreach item="item" collection="list" separator="," open="" close="" index="index">
+            (#{item.registerNumber,jdbcType=VARCHAR},#{item.workOrderNumber,jdbcType=VARCHAR},
+            #{item.contractNumber,jdbcType=VARCHAR}, #{item.maintenanceCompanyCode,jdbcType=VARCHAR},
+            #{item.maintenanceCompanyName,jdbcType=VARCHAR}, #{item.orderTypeNumber,jdbcType=VARCHAR},
+            #{item.teamCode,jdbcType=VARCHAR}, #{item.ordeTime,jdbcType=OTHER}, #{item.orderStatus,jdbcType=VARCHAR},
+            #{item.dealEmployeeCode,jdbcType=VARCHAR}, #{item.dealEmployeeName,jdbcType=VARCHAR},
+            #{item.dealEmployeeTel,jdbcType=VARCHAR}, #{item.shouldCompleteDate,jdbcType=OTHER},
+            #{item.signTime,jdbcType=OTHER}, #{item.completeTime,jdbcType=OTHER}, #{item.confirmTime,jdbcType=OTHER},
+            #{item.items,jdbcType=VARCHAR}, #{item.failureInfo,jdbcType=VARCHAR}, DATE_SUB(
+            #{item.completeTime,jdbcType=OTHER}, INTERVAL - 15 DAY ), #{item.issues,jdbcType=VARCHAR},
+            #{item.issueHandling,jdbcType=VARCHAR}, #{item.rescueTel,jdbcType=VARCHAR}, #{item.wbid,jdbcType=VARCHAR},
+            #{item.orderExplain,jdbcType=VARCHAR})
+        </foreach>
+    </insert>
+
+    <!--通过主键删除-->
+    <delete id="deleteByWorkOrderNumber" parameterType="java.lang.String">
+        delete
+        from tbl_third_party_ruijin_work_order
+        where work_order_number = #{workOrderNumber,jdbcType=VARCHAR}
+    </delete>
+
+    <!--通过主键列表删除，列表长度不能为0-->
+    <delete id="deleteAll" parameterType="list">
+        delete
+        from tbl_third_party_ruijin_work_order
+    </delete>
+
+    <select id="getWorkOrderNumber" parameterType="java.lang.String" resultType="java.lang.String">
+        select work_order_number
+        from tbl_third_party_ruijin_work_order
+        where work_order_number = #{value}
+    </select>
+
+    <!--获取存在的工单id-->
+    <select id="searchWorkOrderNumberByWorkOrderNumbers" resultType="java.lang.String">
+        select work_order_number
+        from tbl_third_party_ruijin_work_order
+        where work_order_number in
+        <foreach collection="list" item="id" index="index" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </select>
+</mapper>

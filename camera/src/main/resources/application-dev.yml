@@ -1,0 +1,44 @@
+# sa-token 配置
+sa-token:
+  # 配置 Sa-Token 单独使用的 Redis 连接
+  alone-redis:
+    database: 12  # 默认13
+    host: redis
+    port: 6379
+    password: shmashine@666
+    timeout: 5000
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://shmashine-eureka:8008/eureka/
+  instance:
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+    # \u4F18\u5148\u4F7F\u7528IP\u5730\u5740\u65B9\u5F0F\u8FDB\u884C\u6CE8\u518C\u670D\u52A1
+    prefer-ip-address: true
+
+endpoint:
+  shmashine-camera-tysl: http://shmashine-camera-tysl:8014
+
+spring:
+  redis:
+    database: 1
+    host: redis
+    port: 6379
+    password: shmashine@666
+    timeout: 5000
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    #    driverClassName: net.sf.log4jdbc.DriverSpy
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://mysql8:3306/elevator_master?useSSL=false&useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&autoReconnect=true&failOverReadOnly=false&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+    username: root
+    password: shmashine@666
+  boot:
+    admin:
+      client:
+        url: http://spirng-boot-admin:9999
+        username: shmashine
+        password: shmashine
+        instance:
+          service-url: http://shmashine-camera:8005

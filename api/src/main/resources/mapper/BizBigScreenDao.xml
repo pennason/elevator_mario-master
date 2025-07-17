@@ -1,0 +1,1363 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shmashine.api.dao.BizBigScreenDao">
+
+    <!-- 瑞金事件导出Excel  -->
+    <resultMap type="com.shmashine.api.module.ruijin.EventDownloadModuleMap"
+               id="eventDownloadModuleMap">
+        <result property="elevatorName" column="v_elevator_name" jdbcType="VARCHAR"/>
+        <result property="address" column="v_address" jdbcType="VARCHAR"/>
+        <result property="reportTime" column="dt_report_time" jdbcType="VARCHAR"/>
+        <result property="faultName" column="v_fault_name" jdbcType="VARCHAR"/>
+        <result property="status" column="i_status" jdbcType="VARCHAR"/>
+    </resultMap>
+
+
+    <!-- 大屏接口电梯分类通用接口 -->
+    <select id="countElevatorClassificationInfoV1" resultType="java.util.Map">
+        select
+        sys.v_name_zh_cn,
+        count(temp.register_number) AS `number`,
+        GROUP_CONCAT(temp.v_elevator_name) as `v_codes`
+        from
+        tbl_sys_systeminfo sys
+        left join (
+        SELECT
+        eleRuijin.register_number,
+        eleRuijin.model,
+        ele.v_elevator_name
+        FROM tbl_third_party_ruijin_elevator eleRuijin
+        join tbl_elevator ele on eleRuijin.register_number = ele.v_equipment_code
+        <if test="!faultStatisticalQuantitySearchModule.isAdminFlag">
+            join tbl_sys_user_resource resource on ele.v_elevator_id = resource.v_resource_id and resource.v_user_id =
+            #{faultStatisticalQuantitySearchModule.userId}
+        </if>
+        <where>
+            <if test="faultStatisticalQuantitySearchModule.villageId != 'null' and faultStatisticalQuantitySearchModule.villageId != ''">
+                and ele.v_village_id = #{faultStatisticalQuantitySearchModule.villageId}
+            </if>
+        </where>
+        ) temp on sys.v_name_zh_cn = temp.model
+        <where>
+            sys.v_sysid = '10034' and sys.v_syssubid != '0'
+        </where>
+        group by sys.v_name_zh_cn
+    </select>
+
+    <!-- 困人来源排行统计 -->
+    <select id="statisticsOnTheSourceOfPovertyV1" resultType="java.util.Map">
+        SELECT
+        sys.v_sysvalue5 AS v_sysvalue5,
+        sys.v_name_zh_cn,
+        IFNULL(temp.number,0) AS number,
+        IFNULL(temp.proportion,0) AS proportion
+        FROM
+        tbl_sys_systeminfo sys
+        LEft JOIN
+        (
+        SELECT
+        sys.v_sysvalue5,
+        sys.v_name_zh_cn,
+        count(distinct envent.event_number) AS number,
+        CONCAT(ROUND((count(distinct envent.event_number) / count(1)) * 100,2),'%') AS proportion
+        FROM
+        tbl_sys_systeminfo sys
+        left join tbl_third_party_ruijin_envent envent on sys.v_sysvalue5 = envent.event_channel
+        left join tbl_elevator ele on ele.v_equipment_code = envent.register_number
+        left join (select count(distinct event_number) as number from tbl_third_party_ruijin_envent) temp on 1 = 1
+        <where>
+            sys.v_sysid = '10029' AND sys.v_syssubid != '0' and envent.failure_code = '09'
+            <if test="timeFlag != null and timeFlag != ''">
+                <if test="timeFlag == '00'">
+                    <![CDATA[AND DATE_SUB(CURDATE(), INTERVAL 7 DAY) <= envent.occur_time]]>
+                </if>
+                <if test="timeFlag == '11'">
+                    <![CDATA[AND DATE_SUB(CURDATE(), INTERVAL 30 DAY) <= envent.occur_time]]>
+                </if>
+                <if test="timeFlag == '22'">
+                    <![CDATA[AND DATE_SUB(CURDATE(), INTERVAL 365 DAY) <= envent.occur_time]]>
+                </if>
+            </if>
+            <if test="villageId != null and villageId != ''">
+                AND ele.v_village_id = #{villageId}
+            </if>
+        </where>
+        GROUP BY sys.v_sysvalue5
+        ) temp on sys.v_sysvalue5 = temp.v_sysvalue5
+        WHERE
+        sys.v_sysid = '10029' AND sys.v_syssubid != '0'
+        ORDER BY `number` DESC, v_sysvalue5
+    </select>
+
+    <!-- 故障统计 困人统计 不文明行为统计 数量统计 -->
+    <select id="faultStatisticalQuantityV1" resultType="java.util.Map">
+        SELECT
+        '困人统计' AS `name`,
+        count(distinct envent.event_number) AS `number`
+        FROM
+        tbl_third_party_ruijin_envent envent
+        join tbl_elevator ele on envent.failure_code = '09' and envent.register_number = ele.v_equipment_code
+        <!--<if test="!isAdminFlag">-->
+        <!--join tbl_sys_user_resource resource on ele.v_elevator_id = resource.v_resource_id and resource.v_user_id =-->
+        <!--#{userId}-->
+        <!--</if>-->
+        <where>
+            <if test="timeFlag != null and timeFlag != ''">
+                <if test="timeFlag == '00'">
+                    <![CDATA[AND DATE_SUB(CURDATE(), INTERVAL 7 DAY) <= envent.occur_time]]>
+                </if>
+                <if test="timeFlag == '11'">
+                    <![CDATA[AND DATE_SUB(CURDATE(), INTERVAL 30 DAY) <= envent.occur_time]]>
+                </if>
+                <if test="timeFlag == '22'">
+                    <![CDATA[AND DATE_SUB(CURDATE(), INTERVAL 365 DAY) <= envent.occur_time]]>
+                </if>
+            </if>
+            <if test="villageId != null and villageId != ''">
+                AND ele.v_village_id = #{villageId}
+            </if>
+        </where>
+
+        UNION
+
+        SELECT
+        '故障统计' AS `name`,
+        count(distinct envent.event_number) AS `number`
+        FROM
+        tbl_third_party_ruijin_envent envent
+        join tbl_elevator ele on envent.event_type = 1 and envent.register_number = ele.v_equipment_code
+        <if test="!isAdminFlag">
+            join tbl_sys_user_resource resource on ele.v_elevator_id = resource.v_resource_id and resource.v_user_id =
+            #{userId}
+        </if>
+        <where>
+            <if test="timeFlag != null and timeFlag != ''">
+                <if test="timeFlag == '00'">
+                    <![CDATA[AND DATE_SUB(CURDATE(), INTERVAL 7 DAY) <= envent.occur_time]]>
+                </if>
+                <if test="timeFlag == '11'">
+                    <![CDATA[AND DATE_SUB(CURDATE(), INTERVAL 30 DAY) <= envent.occur_time]]>
+                </if>
+                <if test="timeFlag == '22'">
+                    <![CDATA[AND DATE_SUB(CURDATE(), INTERVAL 365 DAY) <= envent.occur_time]]>
+                </if>
+            </if>
+            <if test="villageId != null and villageId != ''">
+                AND ele.v_village_id = #{villageId}
+            </if>
+        </where>
+
+        UNION
+
+        SELECT
+        '不文明行为统计' AS `name`,
+        count( 1 ) AS `number`
+        FROM
+        tbl_fault fault
+        join tbl_elevator ele on ele.v_elevator_id = fault.v_elevator_id and ele.v_elevator_code = fault.v_elevator_code
+        <if test="!isAdminFlag">
+            join tbl_sys_user_resource resource on ele.v_elevator_id = resource.v_resource_id and resource.v_user_id =
+            #{userId}
+        </if>
+        <where>
+            (fault.i_fault_type = 20 or fault.i_fault_type = 38 or fault.i_fault_type = 39)
+            <if test="timeFlag != null and timeFlag != ''">
+                <if test="timeFlag == '00'">
+                    <![CDATA[AND DATE_SUB(CURDATE(), INTERVAL 7 DAY) <= fault.dt_report_time]]>
+                </if>
+                <if test="timeFlag == '11'">
+                    <![CDATA[AND DATE_SUB(CURDATE(), INTERVAL 30 DAY) <= fault.dt_report_time]]>
+                </if>
+                <if test="timeFlag == '22'">
+                    <![CDATA[AND DATE_SUB(CURDATE(), INTERVAL 365 DAY) <= fault.dt_report_time]]>
+                </if>
+            </if>
+            <if test="villageId != null and villageId != ''">
+                AND ele.v_village_id = #{villageId}
+            </if>
+        </where>
+    </select>
+
+    <!-- 不文明行为统计（每种不文明行为占比） -->
+    <select id="uncivilizedBehaviorV1" resultType="java.util.Map">
+        (SELECT
+        definition.fault_type,
+        definition.fault_name,
+        ifNULL(temp.number, 0) AS number
+        FROM
+        `tbl_fault_definition_0902` definition
+        LEFT JOIN (
+        SELECT
+        fault.i_fault_type,
+        count(CASE fault.v_fault_id WHEN NULL THEN 0 ELSE fault.i_fault_num END) AS number
+        FROM
+        tbl_fault fault
+        JOIN tbl_elevator ele ON ele.v_elevator_id = fault.v_elevator_id AND ele.v_elevator_code = fault.v_elevator_code
+        <!--<if test="!isAdminFlag">-->
+        <!--join tbl_sys_user_resource resource on ele.v_elevator_id = resource.v_resource_id and resource.v_user_id =-->
+        <!--#{userId}-->
+        <!--</if>-->
+        <where>
+            <choose>
+                <when test="faultTypes != null and faultTypes.size() > 0">
+                    fault.i_fault_type in
+                    <foreach collection="faultTypes" item="item" open="(" close=")" separator=",">
+                        #{item}
+                    </foreach>
+                </when>
+                <otherwise>
+                    (fault.i_fault_type = 20 or fault.i_fault_type = 37)
+                </otherwise>
+            </choose>
+            <if test="timeFlag != null and timeFlag != ''">
+                <if test="timeFlag == '00'">
+                    <![CDATA[AND DATE_SUB(CURDATE(), INTERVAL 7 DAY) <= fault.dt_report_time]]>
+                </if>
+                <if test="timeFlag == '11'">
+                    <![CDATA[AND DATE_SUB(CURDATE(), INTERVAL 30 DAY) <= fault.dt_report_time]]>
+                </if>
+                <if test="timeFlag == '22'">
+                    <![CDATA[AND DATE_SUB(CURDATE(), INTERVAL 365 DAY) <= fault.dt_report_time]]>
+                </if>
+            </if>
+            <if test="villageId != null and villageId != ''">
+                AND ele.v_village_id = #{villageId}
+            </if>
+            <if test="vProjectId != null and vProjectId != ''">
+                AND ele.v_project_id = #{vProjectId}
+            </if>
+        </where>
+        group by fault.i_fault_type
+        ) temp ON temp.i_fault_type = definition.fault_type
+        WHERE
+        <choose>
+            <when test="faultTypes != null and faultTypes.size() > 0">
+                definition.i_fault_type in
+                <foreach collection="faultTypes" item="item" open="(" close=")" separator=",">
+                    #{item}
+                </foreach>
+            </when>
+            <otherwise>
+                (definition.fault_type = 20 or definition.fault_type = 37)
+            </otherwise>
+        </choose>
+        AND definition.uncivilized_behavior_flag = 1
+        GROUP BY
+        definition.fault_type, definition.fault_name
+        ORDER BY
+        temp.`number`,definition.fault_type DESC)
+
+        UNION
+
+        (SELECT
+        'NA' as fault_type,
+        '检修次数' as fault_name,
+        COALESCE(sum(ifNULL(temp.cnt, 0)), 0) AS number
+        FROM
+        `tbl_fault_definition_0902` definition
+        LEFT JOIN (
+        SELECT
+        fault.i_fault_type,
+        fault.d_report_date,
+        case
+        when fault.i_fault_num >= 1 then 1
+        else 0
+        end AS cnt
+        FROM
+        tbl_fault fault
+        JOIN tbl_elevator ele ON ele.v_elevator_id = fault.v_elevator_id AND ele.v_elevator_code = fault.v_elevator_code
+        <!--<if test="!isAdminFlag">-->
+        <!--join tbl_sys_user_resource resource on ele.v_elevator_id = resource.v_resource_id and resource.v_user_id =-->
+        <!--#{userId}-->
+        <!--</if>-->
+        <where>
+            (fault.i_fault_type = 6 or fault.i_fault_type = 29)
+            <if test="timeFlag != null and timeFlag != ''">
+                <if test="timeFlag == '00'">
+                    and <![CDATA[DATE_SUB(CURDATE(), INTERVAL 7 DAY) <= fault.dt_report_time]]>
+                </if>
+                <if test="timeFlag == '11'">
+                    and <![CDATA[DATE_SUB(CURDATE(), INTERVAL 30 DAY) <= fault.dt_report_time]]>
+                </if>
+                <if test="timeFlag == '22'">
+                    and <![CDATA[DATE_SUB(CURDATE(), INTERVAL 365 DAY) <= fault.dt_report_time]]>
+                </if>
+            </if>
+            <if test="villageId != null and villageId != ''">
+                AND ele.v_village_id = #{villageId}
+            </if>
+            <if test="vProjectId != null and vProjectId != ''">
+                AND ele.v_project_id = #{vProjectId}
+            </if>
+        </where>
+        group by fault.d_report_date
+        ) temp ON temp.i_fault_type = definition.fault_type
+        WHERE
+        definition.fault_type = 6
+        or
+        definition.fault_type = 29)
+
+        UNION
+
+        (select
+        'NA' as fault_type,
+        '运行次数' as fault_name,
+        ifNULL(sum(ele_rd.bi_run_count), 0) AS number
+        from tbl_elevator_run_count as ele_rd
+        JOIN tbl_elevator ele ON ele.v_elevator_code = ele_rd.v_elevator_code
+        <!--<if test="!isAdminFlag">-->
+        <!--join tbl_sys_user_resource resource on ele.v_elevator_id = resource.v_resource_id and resource.v_user_id =-->
+        <!--#{userId}-->
+        <!--</if>-->
+        <where>
+            <if test="timeFlag != null and timeFlag != ''">
+                <if test="timeFlag == '00'">
+                    <![CDATA[DATE_SUB(CURDATE(), INTERVAL 7 DAY) <= ele_rd.dt_report_date]]>
+                </if>
+                <if test="timeFlag == '11'">
+                    <![CDATA[DATE_SUB(CURDATE(), INTERVAL 30 DAY) <= ele_rd.dt_report_date]]>
+                </if>
+                <if test="timeFlag == '22'">
+                    <![CDATA[DATE_SUB(CURDATE(), INTERVAL 365 DAY) <= ele_rd.dt_report_date]]>
+                </if>
+            </if>
+            <if test="villageId != null and villageId != ''">
+                AND ele.v_village_id = #{villageId}
+            </if>
+            <if test="vProjectId != null and vProjectId != ''">
+                AND ele.v_project_id = #{vProjectId}
+            </if>
+        </where>
+        )
+    </select>
+
+    <!-- 每种不文明行为前三电梯占比-->
+    <select id="uncivilizedBehaviorByTopThreeV1" resultType="java.util.Map">
+        <if test="faultStatisticalQuantitySearchModule.faultType != null and faultStatisticalQuantitySearchModule.faultType != '' and faultStatisticalQuantitySearchModule.faultType != '0'">
+            SELECT
+            ele.v_elevator_id,
+            ele.v_elevator_code,
+            ele.v_elevator_name,
+            IFNULL(sum(fault.i_fault_num),0) as number
+            FROM
+            tbl_elevator ele
+            JOIN tbl_fault fault ON ele.v_elevator_id = fault.v_elevator_id AND ele.v_elevator_code =
+            fault.v_elevator_code
+            <!--<if test="!faultStatisticalQuantitySearchModule.isAdminFlag">-->
+            <!--join tbl_sys_user_resource resource on ele.v_elevator_id = resource.v_resource_id and resource.v_user_id =-->
+            <!--#{faultStatisticalQuantitySearchModule.userId}-->
+            <!--</if>-->
+            <where>
+                <if test="faultStatisticalQuantitySearchModule.faultType != null and faultStatisticalQuantitySearchModule.faultType != ''">
+                    AND fault.i_fault_type = #{faultStatisticalQuantitySearchModule.faultType}
+                </if>
+                <if test="faultStatisticalQuantitySearchModule.timeFlag != null and faultStatisticalQuantitySearchModule.timeFlag != ''">
+                    <if test="faultStatisticalQuantitySearchModule.timeFlag == '00'">
+                        <![CDATA[AND DATE_SUB(CURDATE(), INTERVAL 7 DAY) <= fault.dt_report_time]]>
+                    </if>
+                    <if test="faultStatisticalQuantitySearchModule.timeFlag == '11'">
+                        <![CDATA[AND DATE_SUB(CURDATE(), INTERVAL 30 DAY) <= fault.dt_report_time]]>
+                    </if>
+                    <if test="faultStatisticalQuantitySearchModule.timeFlag == '22'">
+                        <![CDATA[AND DATE_SUB(CURDATE(), INTERVAL 365 DAY) <= fault.dt_report_time]]>
+                    </if>
+                </if>
+                <if test="faultStatisticalQuantitySearchModule.villageId != null and faultStatisticalQuantitySearchModule.villageId != ''">
+                    AND ele.v_village_id = #{faultStatisticalQuantitySearchModule.villageId}
+                </if>
+                <if test="faultStatisticalQuantitySearchModule.vProjectId != null and faultStatisticalQuantitySearchModule.vProjectId != ''">
+                    AND ele.v_project_id = #{faultStatisticalQuantitySearchModule.vProjectId}
+                </if>
+                and fault.i_del_flag = 0
+            </where>
+            GROUP BY ele.v_elevator_id,ele.v_elevator_code
+            ORDER BY number desc
+            LIMIT 3
+        </if>
+
+        <if test="faultStatisticalQuantitySearchModule.faultType == null or faultStatisticalQuantitySearchModule.faultType == ''">
+            SELECT
+            ele.v_elevator_id,
+            ele.v_elevator_code,
+            ele.v_elevator_name,
+            COALESCE(sum(ifNULL(temp.cnt, 0)), 0) AS number
+            FROM
+            `tbl_elevator` ele
+            INNER JOIN (
+            SELECT
+            fault.i_fault_type,
+            fault.d_report_date,
+            fault.v_elevator_id,
+            case
+            when fault.i_fault_num >= 1 then 1
+            else 0
+            end AS cnt
+            FROM
+            tbl_fault fault
+            JOIN tbl_elevator ele ON ele.v_elevator_id = fault.v_elevator_id AND ele.v_elevator_code =
+            fault.v_elevator_code
+            <where>
+                (fault.i_fault_type = 6 or fault.i_fault_type = 29)
+                <if test="faultStatisticalQuantitySearchModule.timeFlag != null and faultStatisticalQuantitySearchModule.timeFlag != ''">
+                    <if test="faultStatisticalQuantitySearchModule.timeFlag == '00'">
+                        AND <![CDATA[DATE_SUB(CURDATE(), INTERVAL 7 DAY) <= fault.d_report_date]]>
+                    </if>
+                    <if test="faultStatisticalQuantitySearchModule.timeFlag == '11'">
+                        AND <![CDATA[DATE_SUB(CURDATE(), INTERVAL 30 DAY) <= fault.d_report_date]]>
+                    </if>
+                    <if test="faultStatisticalQuantitySearchModule.timeFlag == '22'">
+                        AND <![CDATA[DATE_SUB(CURDATE(), INTERVAL 365 DAY) <= fault.d_report_date]]>
+                    </if>
+                </if>
+                <if test="faultStatisticalQuantitySearchModule.villageId != null and faultStatisticalQuantitySearchModule.villageId != ''">
+                    AND ele.v_village_id = #{faultStatisticalQuantitySearchModule.villageId}
+                </if>
+                <if test="faultStatisticalQuantitySearchModule.vProjectId != null and faultStatisticalQuantitySearchModule.vProjectId != ''">
+                    AND ele.v_project_id = #{faultStatisticalQuantitySearchModule.vProjectId}
+                </if>
+                and fault.i_del_flag = 0
+            </where>
+            group by fault.d_report_date, fault.v_elevator_id
+            ) temp ON temp.v_elevator_id = ele.v_elevator_id
+            GROUP BY ele.v_elevator_id, ele.v_elevator_name
+            ORDER BY number desc
+            LIMIT 3
+        </if>
+    </select>
+
+    <select id="uncivilizedBehaviorByTopThreeV1RunCount" resultType="java.util.Map">
+        SELECT
+        ele.v_elevator_id,
+        ele.v_elevator_code,
+        ele.v_elevator_name,
+        IFNULL(sum(ele_rd.bi_run_count), 0) as number
+        FROM
+        tbl_elevator as ele
+        join tbl_elevator_run_count ele_rd on ele.v_elevator_code = ele_rd.v_elevator_code
+        <where>
+            <if test="faultStatisticalQuantitySearchModule.timeFlag != null and faultStatisticalQuantitySearchModule.timeFlag != ''">
+                <if test="faultStatisticalQuantitySearchModule.timeFlag == '00'">
+                    <![CDATA[DATE_SUB(CURDATE(), INTERVAL 7 DAY) <= ele_rd.dt_report_date]]>
+                </if>
+                <if test="faultStatisticalQuantitySearchModule.timeFlag == '11'">
+                    <![CDATA[DATE_SUB(CURDATE(), INTERVAL 30 DAY) <= ele_rd.dt_report_date]]>
+                </if>
+                <if test="faultStatisticalQuantitySearchModule.timeFlag == '22'">
+                    <![CDATA[DATE_SUB(CURDATE(), INTERVAL 365 DAY) <= ele_rd.dt_report_date]]>
+                </if>
+                <if test="faultStatisticalQuantitySearchModule.villageId != null and faultStatisticalQuantitySearchModule.villageId != ''">
+                    AND ele.v_village_id = #{faultStatisticalQuantitySearchModule.villageId}
+                </if>
+                <if test="faultStatisticalQuantitySearchModule.vProjectId != null and faultStatisticalQuantitySearchModule.vProjectId != ''">
+                    AND ele.v_project_id = #{faultStatisticalQuantitySearchModule.vProjectId}
+                </if>
+            </if>
+        </where>
+        GROUP BY ele.v_elevator_id, ele.v_elevator_code
+        ORDER BY number desc
+        LIMIT 3
+    </select>
+
+    <!-- 智能监管 通用-->
+    <select id="intelligentSupervisionV1" resultType="java.util.Map">
+        SELECT
+        '维保单位' AS `lable`,
+        maintenance_company_name AS number,
+        '' AS `name`
+        FROM
+        `tbl_third_party_ruijin_maintenance`
+        where
+        register_number = '31103101042006030320'
+
+        union
+
+        SELECT
+        '维保逾期电梯' AS `label`,
+        COUNT(`order`.work_order_number) AS `number`,
+        GROUP_CONCAT( DISTINCT ele.v_elevator_name ORDER BY ele.v_elevator_name ) AS `name`
+        FROM
+        tbl_third_party_ruijin_work_order `order`
+        inner join
+        tbl_elevator as ele on order.register_number = ele.v_equipment_code
+        <where>
+            <![CDATA[
+             Date ( IFNULL(`order`.complete_time,CURDATE())) > Date (DATE_ADD(`order`.should_complete_date, INTERVAL 2 DAY))
+             ]]>
+            <if test="module.timeFlag == '00'">
+                <![CDATA[AND DATE_SUB(CURDATE(), INTERVAL 7 DAY) <= `order`.should_complete_date]]>
+            </if>
+
+            <if test="module.timeFlag == '11'">
+                <![CDATA[AND DATE_SUB(CURDATE(), INTERVAL 30 DAY) <= `order`.should_complete_date ]]>
+            </if>
+
+            <if test="module.timeFlag == '22'">
+                <![CDATA[AND DATE_SUB(CURDATE(), INTERVAL 365 DAY) <= `order`.should_complete_date ]]>
+            </if>
+            <if test="module.villageId != null and module.villageId != ''">
+                AND ele.v_village_id = #{module.villageId}
+            </if>
+        </where>
+
+        UNION
+
+        SELECT
+        '年检30天内到期电梯' as `label`,
+        count( DISTINCT ele.v_elevator_name ) AS number,
+        GROUP_CONCAT( DISTINCT ele.v_elevator_name ORDER BY ele.v_elevator_name ) AS `name`
+        from
+        `tbl_elevator` as ele
+        <!--<if test="!module.isAdminFlag">-->
+        <!--join tbl_sys_user_resource resource on ele.v_elevator_id = resource.v_resource_id and resource.v_user_id =-->
+        <!--#{module.userId}-->
+        <!--</if>-->
+        where (ele.d_next_inspect_date between CURDATE() and DATE_ADD(CURDATE(), INTERVAL 30 DAY))
+        <if test="module.villageId != null and module.villageId != ''">
+            AND ele.v_village_id = #{module.villageId}
+        </if>
+
+        UNION
+
+        SELECT
+        '年检缺失电梯' as `label`,
+        count( DISTINCT ele.v_elevator_code ) AS `number`,
+        GROUP_CONCAT( DISTINCT ele.v_elevator_name ORDER BY ele.v_elevator_name ) AS `name`
+        from
+        `tbl_elevator` as ele
+        <!--<if test="!module.isAdminFlag">-->
+        <!--join tbl_sys_user_resource resource on ele.v_elevator_id = resource.v_resource_id and resource.v_user_id =-->
+        <!--#{module.userId}-->
+        <!--</if>-->
+        where (ele.d_next_inspect_date is null or
+        <![CDATA[DATE_ADD(DATE_ADD(ele.d_last_inspect_date, INTERVAL 1 year ), interval 1 month) < ele.d_next_inspect_date ]]>
+        )
+        <if test="module.villageId != null and module.villageId != ''">
+            AND ele.v_village_id = #{module.villageId}
+        </if>
+
+        <!--<if test="module.maintenanceCompanyCode != null and module.maintenanceCompanyCode != ''">-->
+        <!--where maintenance.maintenance_company_code in-->
+        <!--<foreach collection="module.maintenanceCompanyCode.split(',')" item="item" index="index" open="(" close=")" separator=",">-->
+        <!--#{item}-->
+        <!--</foreach>-->
+        <!--</if>-->
+    </select>
+
+    <!-- 根据工单查看工单详情信息 -->
+    <select id="getEnventDetailById" resultType="java.util.Map">
+        SELECT status_time,
+               status,
+               handler,
+               handler_tel,
+               rescue_company_name,
+               CASE STATUS
+                   WHEN 1 THEN
+                       '渠道上报'
+                   WHEN 2 THEN
+                       '新建工单'
+                   WHEN 3 THEN
+                       '已接单'
+                   WHEN 4 THEN
+                       '已签到'
+                   WHEN 5 THEN
+                       '已完成'
+                   WHEN 6 THEN
+                       '已确认'
+                   end
+                   AS comment
+        FROM tbl_third_party_ruijin_envent_detail
+        where event_id = #{ event_id }
+        ORDER BY status_time desc
+    </select>
+
+    <!--    &lt;!&ndash;正常维保&ndash;&gt;-->
+    <!--    <select id="numberOfNormalMaintenanceWorkOrders" resultType="int">-->
+    <!--        SELECT count( 1 )-->
+    <!--        FROM-->
+    <!--        `tbl_third_party_ruijin_work_order` `order`-->
+    <!--        <if test="!faultStatisticalQuantitySearchModule.isAdminFlag">-->
+    <!--            join tbl_elevator ele on ele.v_equipment_code = `order`.register_number-->
+    <!--            JOIN tbl_sys_user_resource resource ON ele.v_elevator_id = resource.v_resource_id AND resource.v_user_id =-->
+    <!--            #{faultStatisticalQuantitySearchModule.userId}-->
+    <!--        </if>-->
+    <!--        <where>-->
+    <!--            <if test="faultStatisticalQuantitySearchModule.timeFlag != null and faultStatisticalQuantitySearchModule.timeFlag != ''">-->
+    <!--                <if test="faultStatisticalQuantitySearchModule.timeFlag == '00'">-->
+    <!--                    <![CDATA[-->
+    <!--                         Date ( `order`.complete_time )<= Date (DATE_ADD(`order`.should_complete_date, INTERVAL 2 DAY))-->
+    <!--                         AND DATE_SUB(CURDATE(), INTERVAL 7 DAY) <= `order`.should_complete_date-->
+    <!--                    ]]>-->
+    <!--                </if>-->
+    <!--                <if test="faultStatisticalQuantitySearchModule.timeFlag == '11'">-->
+    <!--                    <![CDATA[-->
+    <!--                         Date ( `order`.complete_time )<= Date (DATE_ADD(`order`.should_complete_date, INTERVAL 2 DAY))-->
+    <!--                         AND DATE_SUB(CURDATE(), INTERVAL 30 DAY) <= `order`.should_complete_date-->
+    <!--                    ]]>-->
+    <!--                </if>-->
+    <!--                <if test="faultStatisticalQuantitySearchModule.timeFlag == '22'">-->
+    <!--                    <![CDATA[-->
+    <!--                         Date ( `order`.complete_time )<= Date (DATE_ADD(`order`.should_complete_date, INTERVAL 2 DAY))-->
+    <!--                         AND DATE_SUB(CURDATE(), INTERVAL 356 DAY) <= `order`.should_complete_date-->
+    <!--                    ]]>-->
+    <!--                </if>-->
+    <!--            </if>-->
+    <!--            <if test="faultStatisticalQuantitySearchModule.villageId != null and faultStatisticalQuantitySearchModule.villageId != ''">-->
+    <!--                AND ele.v_village_id = #{faultStatisticalQuantitySearchModule.villageId}-->
+    <!--            </if>-->
+    <!--        </where>-->
+    <!--    </select>-->
+
+    <!--超期维保-->
+    <select id="numberOfOverdueMaintenanceWorkOrders" resultType="int">
+        SELECT count( 1 )
+        FROM
+        `tbl_third_party_ruijin_work_order` `order`
+        <if test="!faultStatisticalQuantitySearchModule.isAdminFlag">
+            join tbl_elevator ele on ele.v_equipment_code = `order`.register_number
+            JOIN tbl_sys_user_resource resource ON ele.v_elevator_id = resource.v_resource_id AND resource.v_user_id =
+            #{faultStatisticalQuantitySearchModule.userId}
+        </if>
+        <where>
+            <if test="faultStatisticalQuantitySearchModule.timeFlag != null and faultStatisticalQuantitySearchModule.timeFlag != ''">
+                <if test="faultStatisticalQuantitySearchModule.timeFlag == '00'">
+                    <![CDATA[
+                         Date ( IFNULL(`order`.complete_time,CURDATE())) > Date (DATE_ADD(`order`.should_complete_date, INTERVAL 2 DAY))
+                         AND DATE_SUB(CURDATE(), INTERVAL 7 DAY) <= `order`.should_complete_date
+                    ]]>
+                </if>
+                <if test="faultStatisticalQuantitySearchModule.timeFlag == '11'">
+                    <![CDATA[
+                         Date ( IFNULL(`order`.complete_time,CURDATE())) > Date (DATE_ADD(`order`.should_complete_date, INTERVAL 2 DAY))
+                         AND DATE_SUB(CURDATE(), INTERVAL 30 DAY) <= `order`.should_complete_date
+                    ]]>
+                </if>
+                <if test="faultStatisticalQuantitySearchModule.timeFlag == '22'">
+                    <![CDATA[
+                         Date ( IFNULL(`order`.complete_time,CURDATE())) > Date (DATE_ADD(`order`.should_complete_date, INTERVAL 2 DAY))
+                         AND DATE_SUB(CURDATE(), INTERVAL 356 DAY) <= `order`.should_complete_date
+                    ]]>
+                </if>
+            </if>
+            <if test="faultStatisticalQuantitySearchModule.villageId != null and faultStatisticalQuantitySearchModule.villageId != ''">
+                AND ele.v_village_id = #{faultStatisticalQuantitySearchModule.villageId}
+            </if>
+        </where>
+    </select>
+
+    <!-- 本年度不文明行为走势-->
+    <select id="trendOfUncivilizedBehaviorInThisYearV1" resultType="java.util.HashMap">
+        SELECT
+        definition.fault_name AS name,
+        date_format( fault.dt_report_time, '%Y-%m' ) AS date,
+        count( 1 ) AS number
+        FROM
+        tbl_fault fault
+        JOIN tbl_fault_definition_0902 definition ON definition.fault_type = fault.i_fault_type AND
+        definition.uncivilized_behavior_flag = 1
+        JOIN tbl_elevator ele ON ele.v_elevator_id = fault.v_elevator_id AND ele.v_elevator_code = fault.v_elevator_code
+        <!--<if test="!isAdminFlag">-->
+        <!--JOIN tbl_sys_user_resource resource ON ele.v_elevator_id = resource.v_resource_id AND resource.v_user_id =-->
+        <!--#{userId}-->
+        <!--</if>-->
+        WHERE
+        <choose>
+            <when test="faultTypes != null and faultTypes.size() > 0">
+                fault.i_fault_type in
+                <foreach collection="faultTypes" item="item" open="(" close=")" separator=",">
+                    #{item}
+                </foreach>
+            </when>
+            <otherwise>
+                (fault.i_fault_type = 20 or fault.i_fault_type = 37)
+            </otherwise>
+        </choose>
+        and <![CDATA[ DATE_SUB(CURDATE(), INTERVAL 12 month ) <= fault.dt_report_time]]>
+        <if test="villageId != null and villageId != '' and villageId != 'null' and villageId != 'undefined'">
+            AND ele.v_village_id = #{villageId}
+        </if>
+        <if test="vProjectId != null and vProjectId != ''">
+            AND ele.v_project_id = #{vProjectId}
+        </if>
+        GROUP BY name,date
+
+        union
+
+        select
+        '运行次数' as name,
+        date_format( ele_rd.dt_report_date, '%Y-%m' ) AS date,
+        sum(ele_rd.bi_run_count) as number
+        from tbl_elevator_run_count as ele_rd
+        join tbl_elevator ele ON ele.v_elevator_code = ele_rd.v_elevator_code
+        <!--<if test="!isAdminFlag">-->
+        <!--JOIN tbl_sys_user_resource resource ON ele.v_elevator_id = resource.v_resource_id AND resource.v_user_id =-->
+        <!--#{userId}-->
+        <!--</if>-->
+        <where>
+            and <![CDATA[DATE_SUB(CURDATE(), INTERVAL 12 month) <= ele_rd.dt_report_date]]>
+            <if test="villageId != null and villageId != '' and villageId != 'null' and villageId != 'undefined'">
+                AND ele.v_village_id = #{villageId}
+            </if>
+            <if test="vProjectId != null and vProjectId != ''">
+                AND ele.v_project_id = #{vProjectId}
+            </if>
+        </where>
+        GROUP BY name,date
+
+        union
+
+        SELECT
+        '检修次数' as name,
+        date_format( temp.d_report_date, '%Y-%m' ) AS date,
+        COUNT(1) AS number
+        FROM (SELECT
+        fault.i_fault_type,
+        fault.d_report_date
+        FROM
+        tbl_fault fault
+        JOIN tbl_elevator ele ON ele.v_elevator_id = fault.v_elevator_id AND ele.v_elevator_code = fault.v_elevator_code
+        <where>
+            (fault.i_fault_type = 6 or fault.i_fault_type = 29)
+            AND <![CDATA[DATE_SUB(CURDATE(), INTERVAL 12 month) <= fault.dt_report_time]]>
+            <if test="villageId != null and villageId != ''">
+                AND ele.v_village_id = #{villageId}
+            </if>
+            <if test="vProjectId != null and vProjectId != ''">
+                AND ele.v_project_id = #{vProjectId}
+            </if>
+        </where>
+        group by fault.d_report_date,fault.v_elevator_code) temp
+        GROUP BY temp.d_report_date
+    </select>
+
+    <!-- 前一月不文明行为走势 -->
+    <select id="trendOfUncivilizedBehaviorInThePreviousMonthV1" resultType="java.util.HashMap">
+        SELECT
+        definition.fault_name AS name,
+        date_format( fault.dt_report_time, '%Y-%m-%d' ) AS date,
+        count( 1 ) AS number
+        FROM
+        tbl_fault fault
+        JOIN tbl_fault_definition_0902 definition ON definition.fault_type = fault.i_fault_type AND
+        definition.uncivilized_behavior_flag = 1
+        JOIN tbl_elevator ele ON ele.v_elevator_id = fault.v_elevator_id AND ele.v_elevator_code = fault.v_elevator_code
+        <!--<if test="!isAdminFlag">-->
+        <!--JOIN tbl_sys_user_resource resource ON ele.v_elevator_id = resource.v_resource_id AND resource.v_user_id =-->
+        <!--#{userId}-->
+        <!--</if>-->
+        WHERE
+        <choose>
+            <when test="faultTypes != null and faultTypes.size() > 0">
+                fault.i_fault_type in
+                <foreach collection="faultTypes" item="item" open="(" close=")" separator=",">
+                    #{item}
+                </foreach>
+            </when>
+            <otherwise>
+                (fault.i_fault_type = 20 or fault.i_fault_type = 37)
+            </otherwise>
+        </choose>
+        and <![CDATA[ DATE_SUB(CURDATE(), INTERVAL 30 DAY) <= fault.dt_report_time ]]>
+        <if test="villageId != null and villageId != '' and villageId != 'null' and villageId != 'undefined'">
+            AND ele.v_village_id = #{villageId}
+        </if>
+        <if test="vProjectId != null and vProjectId != ''">
+            AND ele.v_project_id = #{vProjectId}
+        </if>
+        GROUP BY name,date
+
+        union
+
+        select
+        '运行次数' as name,
+        date_format( ele_rd.dt_report_date, '%Y-%m-%d' ) AS date,
+        sum(ele_rd.bi_run_count) as number
+        from tbl_elevator_run_count as ele_rd
+        join tbl_elevator ele ON ele.v_elevator_code = ele_rd.v_elevator_code
+        <!--<if test="!isAdminFlag">-->
+        <!--JOIN tbl_sys_user_resource resource ON ele.v_elevator_id = resource.v_resource_id AND resource.v_user_id =-->
+        <!--#{userId}-->
+        <!--</if>-->
+        <where>
+            and <![CDATA[DATE_SUB(CURDATE(), INTERVAL 30 DAY) <= ele_rd.dt_report_date]]>
+            <if test="villageId != null and villageId != '' and villageId != 'null' and villageId != 'undefined'">
+                AND ele.v_village_id = #{villageId}
+            </if>
+            <if test="vProjectId != null and vProjectId != ''">
+                AND ele.v_project_id = #{vProjectId}
+            </if>
+        </where>
+        GROUP BY name,date
+
+        union
+
+        SELECT
+        '检修次数' as name,
+        date_format( temp.d_report_date, '%Y-%m-%d' ) AS date,
+        COUNT(1) AS number
+        FROM (SELECT
+        fault.i_fault_type,
+        fault.d_report_date
+        FROM
+        tbl_fault fault
+        JOIN tbl_elevator ele ON ele.v_elevator_id = fault.v_elevator_id AND ele.v_elevator_code = fault.v_elevator_code
+        <where>
+            (fault.i_fault_type = 6 or fault.i_fault_type = 29)
+            AND <![CDATA[DATE_SUB(CURDATE(), INTERVAL 30 DAY) <= fault.dt_report_time]]>
+            <if test="villageId != null and villageId != ''">
+                AND ele.v_village_id = #{villageId}
+            </if>
+            <if test="vProjectId != null and vProjectId != ''">
+                AND ele.v_project_id = #{vProjectId}
+            </if>
+        </where>
+        group by fault.d_report_date,fault.v_elevator_code) temp
+        GROUP BY temp.d_report_date
+    </select>
+
+    <!-- 前一周不文明行为走势 -->
+    <select id="trendOfUncivilizedBehaviorInThePreviousWeekV1" resultType="java.util.HashMap">
+        SELECT
+        definition.fault_name AS name,
+        date_format( fault.dt_report_time, '%Y-%m-%d' ) AS date,
+        count( 1 ) AS number
+        FROM
+        tbl_fault fault
+        JOIN tbl_fault_definition_0902 definition ON definition.fault_type = fault.i_fault_type AND
+        definition.uncivilized_behavior_flag = 1
+        JOIN tbl_elevator ele ON ele.v_elevator_id = fault.v_elevator_id AND ele.v_elevator_code = fault.v_elevator_code
+        <if test="!isAdminFlag">
+            JOIN tbl_sys_user_resource resource ON ele.v_elevator_id = resource.v_resource_id AND resource.v_user_id =
+            #{userId}
+        </if>
+        WHERE
+        <choose>
+            <when test="faultTypes != null and faultTypes.size() > 0">
+                fault.i_fault_type in
+                <foreach collection="faultTypes" item="item" open="(" close=")" separator=",">
+                    #{item}
+                </foreach>
+            </when>
+            <otherwise>
+                (fault.i_fault_type = 20 or fault.i_fault_type = 37)
+            </otherwise>
+        </choose>
+        and <![CDATA[DATE_SUB(CURDATE(), INTERVAL 7 DAY) <= fault.dt_report_time ]]>
+        <if test="villageId != null and villageId != '' and villageId != 'null' and villageId != 'undefined'">
+            AND ele.v_village_id = #{villageId}
+        </if>
+        <if test="vProjectId != null and vProjectId != ''">
+            AND ele.v_project_id = #{vProjectId}
+        </if>
+        GROUP BY name,date
+
+        union
+
+        select
+        '运行次数' as name,
+        date_format( ele_rd.dt_report_date, '%Y-%m-%d' ) AS date,
+        sum(ele_rd.bi_run_count) as number
+        from tbl_elevator_run_count as ele_rd
+        join tbl_elevator ele ON ele.v_elevator_code = ele_rd.v_elevator_code
+        <!--<if test="!isAdminFlag">-->
+        <!--JOIN tbl_sys_user_resource resource ON ele.v_elevator_id = resource.v_resource_id AND resource.v_user_id =-->
+        <!--#{userId}-->
+        <!--</if>-->
+        and <![CDATA[ DATE_SUB(CURDATE(), INTERVAL 7 DAY) <= ele_rd.dt_report_date ]]>
+        <if test="villageId != null and villageId != '' and villageId != 'null' and villageId != 'undefined'">
+            AND ele.v_village_id = #{villageId}
+        </if>
+        <if test="vProjectId != null and vProjectId != ''">
+            AND ele.v_project_id = #{vProjectId}
+        </if>
+        GROUP BY name,date
+
+        union
+
+        SELECT
+        '检修次数' as name,
+        date_format( temp.d_report_date, '%Y-%m-%d' ) AS date,
+        COUNT(1) AS number
+        FROM (SELECT
+        fault.i_fault_type,
+        fault.d_report_date
+        FROM
+        tbl_fault fault
+        JOIN tbl_elevator ele ON ele.v_elevator_id = fault.v_elevator_id AND ele.v_elevator_code = fault.v_elevator_code
+        <where>
+            (fault.i_fault_type = 6 or fault.i_fault_type = 29)
+            AND <![CDATA[DATE_SUB(CURDATE(), INTERVAL 7 DAY) <= fault.dt_report_time]]>
+            <if test="villageId != null and villageId != ''">
+                AND ele.v_village_id = #{villageId}
+            </if>
+            <if test="vProjectId != null and vProjectId != ''">
+                AND ele.v_project_id = #{vProjectId}
+            </if>
+        </where>
+        group by fault.d_report_date,fault.v_elevator_code) temp
+        GROUP BY temp.d_report_date
+    </select>
+
+    <!-- 获取电梯数量接口v1 -->
+    <select id="countElevatorV1" resultType="java.util.Map">
+        SELECT 'maintenanceCount' AS `key`, COUNT(`order`.work_order_number) AS number
+        FROM
+        tbl_third_party_ruijin_work_order `order`
+        JOIN tbl_elevator ele on ele.v_equipment_code = `order`.register_number
+        <!--<if test="!isAdminFlag">-->
+        <!--JOIN tbl_sys_user_resource resource ON ele.v_elevator_id = resource.v_resource_id AND resource.v_user_id =-->
+        <!--#{userId}-->
+        <!--</if>-->
+        <where>
+            <![CDATA[
+             DATE_FORMAT(`order`.complete_time, '%Y%m') = DATE_FORMAT(CURDATE(),'%Y%m')
+             ]]>
+            <if test="villageId != null and villageId != ''">
+                AND ele.v_village_id = #{villageId}
+            </if>
+        </where>
+        UNION
+        SELECT
+        'maintenanceCountStr' AS `key`,
+        GROUP_CONCAT(ele.v_elevator_name) AS `number`
+        FROM
+        tbl_third_party_ruijin_work_order `order`
+        JOIN tbl_elevator ele on ele.v_equipment_code = `order`.register_number
+        <!--<if test="!isAdminFlag">-->
+        <!--JOIN tbl_sys_user_resource resource ON ele.v_elevator_id = resource.v_resource_id AND resource.v_user_id =-->
+        <!--#{userId}-->
+        <!--</if>-->
+        <where>
+            <![CDATA[
+             DATE_FORMAT(`order`.complete_time, '%Y%m') = DATE_FORMAT(CURDATE(),'%Y%m')
+             ]]>
+            <if test="villageId != null and villageId != ''">
+                AND ele.v_village_id = #{villageId}
+            </if>
+        </where>
+
+        union
+
+        (SELECT
+        'checkCount' as `key`,
+        COALESCE(sum(ifNULL(temp.cnt, 0)), 0) AS number
+        FROM
+        `tbl_fault_definition_0902` definition
+        LEFT JOIN (
+        SELECT
+        fault.i_fault_type,
+        fault.d_report_date,
+        case
+        when fault.i_fault_num >= 1 then 1
+        else 0
+        end AS cnt
+        FROM
+        tbl_fault fault
+        JOIN tbl_elevator ele ON ele.v_elevator_id = fault.v_elevator_id AND ele.v_elevator_code = fault.v_elevator_code
+        <!--<if test="!isAdminFlag">-->
+        <!--join tbl_sys_user_resource resource on ele.v_elevator_id = resource.v_resource_id and resource.v_user_id =-->
+        <!--#{userId}-->
+        <!--</if>-->
+        <where>
+            (fault.i_fault_type = 6 or fault.i_fault_type = 29)
+            and DATE_FORMAT(`fault`.dt_report_time, '%Y%m') = DATE_FORMAT(CURDATE(),'%Y%m')
+            <if test="villageId != null and villageId != ''">
+                AND ele.v_village_id = #{villageId}
+            </if>
+        </where>
+        group by fault.d_report_date
+        ) temp ON temp.i_fault_type = definition.fault_type
+        WHERE
+        definition.fault_type = 6
+        or
+        definition.fault_type = 29)
+        union
+        (SELECT
+        'checkCountStr' as `key`,
+        GROUP_CONCAT(temp.v_elevator_name) AS `number`
+        FROM
+        `tbl_fault_definition_0902` definition
+        LEFT JOIN (
+        SELECT
+        fault.i_fault_type,
+        fault.d_report_date,
+        ele.v_elevator_name,
+        case
+        when fault.i_fault_num >= 1 then 1
+        else 0
+        end AS cnt
+        FROM
+        tbl_fault fault
+        JOIN tbl_elevator ele ON ele.v_elevator_id = fault.v_elevator_id AND ele.v_elevator_code = fault.v_elevator_code
+        <!--<if test="!isAdminFlag">-->
+        <!--join tbl_sys_user_resource resource on ele.v_elevator_id = resource.v_resource_id and resource.v_user_id =-->
+        <!--#{userId}-->
+        <!--</if>-->
+        <where>
+            (fault.i_fault_type = 6 or fault.i_fault_type = 29)
+            and DATE_FORMAT(`fault`.dt_report_time, '%Y%m') = DATE_FORMAT(CURDATE(),'%Y%m')
+            <if test="villageId != null and villageId != ''">
+                AND ele.v_village_id = #{villageId}
+            </if>
+        </where>
+        group by fault.d_report_date
+        ) temp ON temp.i_fault_type = definition.fault_type
+        WHERE
+        definition.fault_type = 6
+        or
+        definition.fault_type = 29)
+
+        union
+
+        SELECT 'totalQuantity' AS `key`, count(ele.v_elevator_id) AS `number` FROM `tbl_elevator` ele
+        join tbl_third_party_ruijin_elevator eleRuijin on eleRuijin.register_number = ele.v_equipment_code
+        <!--<if test="!isAdminFlag">-->
+        <!--join tbl_sys_user_resource resource on ele.v_elevator_id = resource.v_resource_id and resource.v_user_id =-->
+        <!--#{userId}-->
+        <!--</if>-->
+        <where>
+            <if test="villageId != 'null' and villageId != 'undefined'">
+                ele.v_village_id = #{villageId}
+            </if>
+        </where>
+        UNION
+        SELECT 'totalQuantityStr' AS `key`, GROUP_CONCAT(ele.v_elevator_name) AS `number` FROM `tbl_elevator` ele
+        join tbl_third_party_ruijin_elevator eleRuijin on eleRuijin.register_number = ele.v_equipment_code
+        <!--<if test="!isAdminFlag">-->
+        <!--join tbl_sys_user_resource resource on ele.v_elevator_id = resource.v_resource_id and resource.v_user_id =-->
+        <!--#{userId}-->
+        <!--</if>-->
+        <where>
+            <if test="villageId != 'null' and villageId != 'undefined'">
+                ele.v_village_id = #{villageId}
+            </if>
+        </where>
+        UNION
+
+        SELECT 'onlineQuantity' AS `key`, count(ele.v_elevator_id) AS `number` FROM `tbl_elevator` ele
+        join tbl_third_party_ruijin_elevator eleRuijin on eleRuijin.register_number = ele.v_equipment_code
+        <!--<if test="!isAdminFlag">-->
+        <!--join tbl_sys_user_resource resource on ele.v_elevator_id = resource.v_resource_id and resource.v_user_id =-->
+        <!--#{userId}-->
+        <!--</if>-->
+        <where>
+            ele.i_on_line = '1'
+            <if test="villageId != 'null' and villageId != 'undefined'">
+                and ele.v_village_id = #{villageId}
+            </if>
+        </where>
+        UNION
+        SELECT 'onlineQuantityStr' AS `key`, GROUP_CONCAT(ele.v_elevator_name) AS `number` FROM `tbl_elevator` ele
+        join tbl_third_party_ruijin_elevator eleRuijin on eleRuijin.register_number = ele.v_equipment_code
+        <!--<if test="!isAdminFlag">-->
+        <!--join tbl_sys_user_resource resource on ele.v_elevator_id = resource.v_resource_id and resource.v_user_id =-->
+        <!--#{userId}-->
+        <!--</if>-->
+        <where>
+            ele.i_on_line = '1'
+            <if test="villageId != 'null' and villageId != 'undefined'">
+                and ele.v_village_id = #{villageId}
+            </if>
+        </where>
+        UNION
+
+        SELECT 'offlineQuantity' AS `key`, count(ele.v_elevator_id) AS `number` FROM `tbl_elevator` ele
+        join tbl_third_party_ruijin_elevator eleRuijin on eleRuijin.register_number = ele.v_equipment_code
+        <!--<if test="!isAdminFlag">-->
+        <!--join tbl_sys_user_resource resource on ele.v_elevator_id = resource.v_resource_id and resource.v_user_id =-->
+        <!--#{userId}-->
+        <!--</if>-->
+        <where>
+            ele.i_on_line = '0'
+            <if test="villageId != 'null' and villageId != 'undefined'">
+                and ele.v_village_id = #{villageId}
+            </if>
+        </where>
+        UNION
+        SELECT 'offlineQuantityStr' AS `key`, GROUP_CONCAT(ele.v_elevator_name) AS `number` FROM `tbl_elevator` ele
+        join tbl_third_party_ruijin_elevator eleRuijin on eleRuijin.register_number = ele.v_equipment_code
+        <!--<if test="!isAdminFlag">-->
+        <!--join tbl_sys_user_resource resource on ele.v_elevator_id = resource.v_resource_id and resource.v_user_id =-->
+        <!--#{userId}-->
+        <!--</if>-->
+        <where>
+            ele.i_on_line = '0'
+            <if test="villageId != 'null' and villageId != 'undefined'">
+                and ele.v_village_id = #{villageId}
+            </if>
+        </where>
+        UNION
+
+        SELECT 'overhaulQuantity' AS `key`, count(ele.v_elevator_id) AS `number` FROM `tbl_elevator` ele
+        join tbl_third_party_ruijin_elevator eleRuijin on eleRuijin.register_number = ele.v_equipment_code
+        <!--<if test="!isAdminFlag">-->
+        <!--join tbl_sys_user_resource resource on ele.v_elevator_id = resource.v_resource_id and resource.v_user_id =-->
+        <!--#{userId}-->
+        <!--</if>-->
+        <where>
+            ele.i_mode_status = '1'
+            <if test="villageId != 'null' and villageId != 'undefined'">
+                and ele.v_village_id = #{villageId}
+            </if>
+        </where>
+        UNION
+        SELECT 'overhaulQuantityStr' AS `key`, GROUP_CONCAT(ele.v_elevator_name) AS `number` FROM `tbl_elevator` ele
+        join tbl_third_party_ruijin_elevator eleRuijin on eleRuijin.register_number = ele.v_equipment_code
+        <!--<if test="!isAdminFlag">-->
+        <!--join tbl_sys_user_resource resource on ele.v_elevator_id = resource.v_resource_id and resource.v_user_id =-->
+        <!--#{userId}-->
+        <!--</if>-->
+        <where>
+            ele.i_mode_status = '1'
+            <if test="villageId != 'null' and villageId != 'undefined'">
+                and ele.v_village_id = #{villageId}
+            </if>
+        </where>
+        UNION
+
+        SELECT 'faultQuantity' AS `key`, count(distinct ele.v_elevator_id) AS `number` FROM `tbl_elevator` ele
+        join tbl_third_party_ruijin_elevator eleRuijin on eleRuijin.register_number = ele.v_equipment_code
+        join tbl_third_party_ruijin_envent envent on envent.register_number = ele.v_equipment_code
+        <!--<if test="!isAdminFlag">-->
+        <!--join tbl_sys_user_resource resource on ele.v_elevator_id = resource.v_resource_id and resource.v_user_id =-->
+        <!--#{userId}-->
+        <!--</if>-->
+        <where>
+            <![CDATA[ envent.current_status < 5 ]]>
+            <if test="villageId != 'null' and villageId != 'undefined'">
+                and ele.v_village_id = #{villageId}
+            </if>
+        </where>
+        UNION
+        SELECT 'faultQuantityStr' AS `key`, GROUP_CONCAT(ele.v_elevator_name) AS `number` FROM `tbl_elevator` ele
+        join tbl_third_party_ruijin_elevator eleRuijin on eleRuijin.register_number = ele.v_equipment_code
+        join tbl_third_party_ruijin_envent envent on envent.register_number = ele.v_equipment_code
+        <!--<if test="!isAdminFlag">-->
+        <!--join tbl_sys_user_resource resource on ele.v_elevator_id = resource.v_resource_id and resource.v_user_id =-->
+        <!--#{userId}-->
+        <!--</if>-->
+        <where>
+            <![CDATA[ envent.current_status < 5 ]]>
+            <if test="villageId != 'null' and villageId != 'undefined'">
+                and ele.v_village_id = #{villageId}
+            </if>
+        </where>
+        UNION
+
+        select
+        'oldAndWornOut' AS `key`, count( ele.v_elevator_id ) AS `number`
+        From
+        `tbl_elevator` ele
+        join tbl_third_party_ruijin_elevator eleRuijin on eleRuijin.register_number = ele.v_equipment_code
+        <!--<if test="!isAdminFlag">-->
+        <!--join tbl_sys_user_resource resource on ele.v_elevator_id = resource.v_resource_id and resource.v_user_id =-->
+        <!--#{userId}-->
+        <!--</if>-->
+        <where>
+            DATEDIFF((SELECT now()),ele.dt_create_time) >= 730
+            <if test="villageId != null and villageId != 'undefined'">
+                and ele.v_village_id = #{villageId}
+            </if>
+        </where>
+        UNION
+        select
+        'oldAndWornOutStr' AS `key`, GROUP_CONCAT(ele.v_elevator_name) AS `number`
+        From
+        `tbl_elevator` ele
+        join tbl_third_party_ruijin_elevator eleRuijin on eleRuijin.register_number = ele.v_equipment_code
+        <!--<if test="!isAdminFlag">-->
+        <!--join tbl_sys_user_resource resource on ele.v_elevator_id = resource.v_resource_id and resource.v_user_id =-->
+        <!--#{userId}-->
+        <!--</if>-->
+        <where>
+            DATEDIFF((SELECT now()),ele.dt_create_time) >= 730
+            <if test="villageId != null and villageId != 'undefined'">
+                and ele.v_village_id = #{villageId}
+            </if>
+        </where>
+    </select>
+
+    <!-- 故障占比 -->
+    <select id="statisticsFaultPovertyV1" resultType="java.util.Map">
+        SELECT
+        envent.failure_code AS i_fault_type,
+        definition.fault_name AS v_fault_name,
+        count(distinct envent.event_number) AS `number`
+        FROM
+        tbl_third_party_ruijin_envent envent
+        left join tbl_elevator ele on envent.register_number = ele.v_equipment_code
+        join tbl_fault_definition_0902 definition on definition.platform_type = 2 and envent.failure_code =
+        definition.fault_type
+        <!--<if test="!isAdminFlag">-->
+        <!--join tbl_sys_user_resource resource on ele.v_elevator_id = resource.v_resource_id and resource.v_user_id =-->
+        <!--#{userId}-->
+        <!--</if>-->
+        <where>
+            envent.event_type = 1
+            <if test="timeFlag != null and timeFlag != ''">
+                <if test="timeFlag == '00'">
+                    <![CDATA[AND DATE_SUB(CURDATE(), INTERVAL 7 DAY) <= envent.occur_time]]>
+                </if>
+                <if test="timeFlag == '11'">
+                    <![CDATA[AND DATE_SUB(CURDATE(), INTERVAL 30 DAY) <= envent.occur_time]]>
+                </if>
+                <if test="timeFlag == '22'">
+                    <![CDATA[AND DATE_SUB(CURDATE(), INTERVAL 365 DAY) <= envent.occur_time]]>
+                </if>
+            </if>
+            <if test="villageId != null and villageId != ''">
+                AND ele.v_village_id = #{villageId}
+            </if>
+        </where>
+        GROUP BY
+        envent.failure_code
+        ORDER BY `number` DESC
+    </select>
+
+    <select id="searchUncivilizedBehavior" resultType="java.util.Map">
+        SELECT definition.fault_type,
+               definition.fault_name,
+               0 AS number
+        FROM `tbl_fault_definition_0902` definition
+        WHERE definition.fault_type = 20
+           or definition.fault_type = 38
+           or definition.fault_type = 39
+        order by definition.fault_type
+    </select>
+
+    <!-- 基本电梯信息查询 大屏 -->
+    <select id="getElevatorInfoV1" resultType="java.util.Map">
+        SELECT ele.v_elevator_code,
+               ele.v_elevator_name,
+               IFNULL(ele.v_address, '--')                        AS v_address,
+               IFNULL(envent.occur_time, '无故障')                AS real_time_fault,
+               IFNULL(envent.occur_time, '暂无')                  AS start_fault_time,
+               IFNULL(envent.event_desc, '无故障')                AS fault_name,
+               IFNULL(ele.v_equipment_code, '--')                 AS v_equipment_code,
+               IFNULL(brand.v_elevator_brand_name, '--')          AS v_elevator_brand_name,
+               IFNULL(sys.v_name_zh_cn, '--')                     AS elevator_type_name,
+               IFNULL(sys2.v_name_zh_cn, '--')                    AS fault_status,
+               IFNULL(ele.d_last_maintain_date, '--')             AS last_maintain_date,
+               IFNULL(ele.d_next_inspect_date, '--')              AS next_inspect_date,
+               ele.dt_install_time                                AS dt_install_time,
+               IFNULL(erc.bi_run_count, '--')                     AS bi_run_count,
+               IFNULL(erc.bi_door_count, '--')                    AS bi_door_count,
+               IFNULL(erc.bi_bend_count, '--')                    AS bi_bend_count,
+               IFNULL(erc.bi_run_distance_count, '--')            AS bi_run_distance_count,
+               IFNULL(maintenance.first_maintainer_name, '暂无')  AS first_maintainer_name,
+               IFNULL(maintenance.second_maintainer_name, '暂无') AS second_maintainer_name,
+               IFNULL(maintenance.safety_administrator, '暂无')   AS safety_administrator
+        FROM tbl_elevator ele
+                 JOIN tbl_third_party_ruijin_elevator ruijinEle ON ruijinEle.register_number = ele.v_equipment_code
+                 left JOIN tbl_elevator_run_count erc on erc.v_elevator_code = ele.v_elevator_code
+                 left JOIN tbl_third_party_ruijin_maintenance maintenance
+                           ON maintenance.register_number = ele.v_equipment_code
+                 left JOIN tbl_third_party_ruijin_envent envent
+                           on envent.register_number = ele.v_equipment_code and <![CDATA[ envent.current_status < 5 ]]>
+        left JOIN tbl_elevator_brand brand on brand.v_elevator_brand_id = ele.v_elevator_brand_id
+                 left JOIN tbl_sys_systeminfo sys on sys.v_sysid = '10002' and sys.v_syssubid != '0' and ele.i_elevator_type = sys.v_sysvalue5
+        left JOIN tbl_sys_systeminfo sys2
+        on sys2.v_sysid = '10018' and sys2.v_syssubid != '0' and ele.i_fault_status = sys2.v_sysvalue5
+        where
+            ele.v_equipment_code = #{register_number}
+          and erc.dt_report_date = DATE_FORMAT(DATE_SUB(current_date
+            , interval 1 day)
+            , '%Y-%m-%d')
+        group by ele.v_elevator_code, ele.v_equipment_code
+    </select>
+
+    <!--统计故障次数信息——儿童医院项目统计平台故障-->
+    <select id="faultStatisticalQuantityByMX" resultType="java.util.Map">
+        SELECT
+        '困人统计' AS `name`,
+        count(1) AS `number`
+        FROM
+        tbl_fault tf
+        join tbl_elevator ele on tf.v_elevator_id = ele.v_elevator_id AND (tf.i_fault_type = '7' or tf.i_fault_type =
+        '8')
+        <where>
+            <if test="timeFlag != null and timeFlag != ''">
+                <if test="timeFlag == '00'">
+                    <![CDATA[AND DATE_SUB(CURDATE(), INTERVAL 7 DAY) <= tf.dt_report_time]]>
+                </if>
+                <if test="timeFlag == '11'">
+                    <![CDATA[AND DATE_SUB(CURDATE(), INTERVAL 30 DAY) <= tf.dt_report_time]]>
+                </if>
+                <if test="timeFlag == '22'">
+                    <![CDATA[AND DATE_SUB(CURDATE(), INTERVAL 365 DAY) <= tf.dt_report_time]]>
+                </if>
+            </if>
+            <if test="villageId != null and villageId != ''">
+                AND ele.v_village_id = #{villageId}
+            </if>
+            <if test="vProjectId != null and vProjectId != ''">
+                AND ele.v_project_id = #{vProjectId}
+            </if>
+        </where>
+
+        UNION
+
+        SELECT
+        '故障统计' AS `name`,
+        count(1) AS `number`
+        FROM
+        tbl_fault tf
+        join tbl_elevator ele on tf.v_elevator_id = ele.v_elevator_id and tf.i_uncivilized_behavior_flag = 0
+        <if test="!isAdminFlag">
+            join tbl_sys_user_resource resource on ele.v_elevator_id = resource.v_resource_id and resource.v_user_id =
+            #{userId}
+        </if>
+        <where>
+            <if test="timeFlag != null and timeFlag != ''">
+                <if test="timeFlag == '00'">
+                    <![CDATA[AND DATE_SUB(CURDATE(), INTERVAL 7 DAY) <= tf.dt_report_time]]>
+                </if>
+                <if test="timeFlag == '11'">
+                    <![CDATA[AND DATE_SUB(CURDATE(), INTERVAL 30 DAY) <= tf.dt_report_time]]>
+                </if>
+                <if test="timeFlag == '22'">
+                    <![CDATA[AND DATE_SUB(CURDATE(), INTERVAL 365 DAY) <= tf.dt_report_time]]>
+                </if>
+            </if>
+            <if test="villageId != null and villageId != ''">
+                AND ele.v_village_id = #{villageId}
+            </if>
+            <if test="vProjectId != null and vProjectId != ''">
+                AND ele.v_project_id = #{vProjectId}
+            </if>
+        </where>
+
+        UNION
+
+        SELECT
+        '不文明行为统计' AS `name`,
+        count( 1 ) AS `number`
+        FROM
+        tbl_fault fault
+        join tbl_elevator ele on ele.v_elevator_id = fault.v_elevator_id and ele.v_elevator_code = fault.v_elevator_code
+        <!--        <if test="!isAdminFlag">-->
+        <!--            join tbl_sys_user_resource resource on ele.v_elevator_id = resource.v_resource_id and resource.v_user_id =-->
+        <!--            #{userId}-->
+        <!--        </if>-->
+        <where>
+            (fault.i_fault_type = 20 or fault.i_fault_type = 38 or fault.i_fault_type = 39)
+            <if test="timeFlag != null and timeFlag != ''">
+                <if test="timeFlag == '00'">
+                    <![CDATA[AND DATE_SUB(CURDATE(), INTERVAL 7 DAY) <= fault.dt_report_time]]>
+                </if>
+                <if test="timeFlag == '11'">
+                    <![CDATA[AND DATE_SUB(CURDATE(), INTERVAL 30 DAY) <= fault.dt_report_time]]>
+                </if>
+                <if test="timeFlag == '22'">
+                    <![CDATA[AND DATE_SUB(CURDATE(), INTERVAL 365 DAY) <= fault.dt_report_time]]>
+                </if>
+            </if>
+            <if test="villageId != null and villageId != ''">
+                AND ele.v_village_id = #{villageId}
+            </if>
+            <if test="vProjectId != null and vProjectId != ''">
+                AND ele.v_project_id = #{vProjectId}
+            </if>
+        </where>
+    </select>
+
+</mapper>

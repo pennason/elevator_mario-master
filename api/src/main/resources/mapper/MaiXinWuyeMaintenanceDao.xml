@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shmashine.api.dao.MaiXinWuyeMaintenanceDao">
+
+    <!--获取维保统计-->
+    <select id="getMaintenanceCount" resultType="java.lang.Integer">
+        SELECT
+        ifnull(COUNT(order.register_number), 0)
+        FROM
+        `tbl_mx_work_order` `order`
+        JOIN tbl_elevator ele ON ele.v_equipment_code = `order`.register_number
+        <where>
+            <if test="timeFlag != null and timeFlag != ''">
+                <if test="timeFlag == '00'">
+                    <![CDATA[AND DATE_SUB(CURDATE(), INTERVAL 7 DAY) <= order.complete_time]]>
+                </if>
+                <if test="timeFlag == '11'">
+                    <![CDATA[AND DATE_SUB(CURDATE(), INTERVAL 30 DAY) <= order.complete_time]]>
+                </if>
+                <if test="timeFlag == '22'">
+                    <![CDATA[AND DATE_SUB(CURDATE(), INTERVAL 365 DAY) <= order.complete_time]]>
+                </if>
+                <if test="timeFlag == 'dd'">
+                    <![CDATA[AND DATE_SUB(CURDATE(), INTERVAL 1 DAY) <= order.complete_time]]>
+                </if>
+            </if>
+            <if test="dtReportTime != null and dtReportTime != ''">
+                <![CDATA[  and DATE_FORMAT(order.complete_time,'%Y-%m-%d') >= #{dtReportTime} ]]>
+            </if>
+            <if test="dtEndTime != null and dtEndTime != ''">
+                <![CDATA[ and DATE_FORMAT(order.complete_time,'%Y-%m-%d') <=  #{dtEndTime} ]]>
+            </if>
+            <if test="iFaultType != null and iFaultType != ''">
+                and order.order_type_number = #{iFaultType}
+            </if>
+            <if test="villageId != null and villageId != ''">
+                AND ele.v_village_id = #{villageId}
+            </if>
+            <if test="vProjectId != null and vProjectId != ''">
+                AND ele.v_project_id = #{vProjectId}
+            </if>
+            <if test="iStatus != null and iStatus != ''">
+                AND order.order_status = #{iStatus}
+            </if>
+            <if test="vElevatorCode != null and vElevatorCode != ''">
+                AND ele.v_elevator_code = #{vElevatorCode}
+            </if>
+            <if test="elevatorCode != null and !elevatorCode.isEmpty()">
+                AND ele.v_elevator_code IN
+                <foreach item="code" collection="elevatorCode" open="(" separator="," close=")">
+                    #{code}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+    <!--  超期维保-->
+    <select id="getOverdueMaintenanceCount" resultType="java.lang.Integer">
+        SELECT
+        ifnull(COUNT(order.register_number), 0)
+        FROM
+        `tbl_mx_work_order` `order`
+        JOIN tbl_elevator ele ON ele.v_equipment_code = `order`.register_number
+        <where>
+            <if test="timeFlag != null and timeFlag != ''">
+                <if test="timeFlag == '00'">
+                    <![CDATA[AND DATE_SUB(CURDATE(), INTERVAL 7 DAY) <= order.complete_time]]>
+                </if>
+                <if test="timeFlag == '11'">
+                    <![CDATA[AND DATE_SUB(CURDATE(), INTERVAL 30 DAY) <= order.complete_time]]>
+                </if>
+                <if test="timeFlag == '22'">
+                    <![CDATA[AND DATE_SUB(CURDATE(), INTERVAL 365 DAY) <= order.complete_time]]>
+                </if>
+                <if test="timeFlag == 'dd'">
+                    <![CDATA[AND DATE_SUB(CURDATE(), INTERVAL 1 DAY) <= order.complete_time]]>
+                </if>
+            </if>
+            <if test="dtReportTime != null and dtReportTime != ''">
+                <![CDATA[  and DATE_FORMAT(order.complete_time,'%Y-%m-%d') >= #{dtReportTime} ]]>
+            </if>
+            <if test="dtEndTime != null and dtEndTime != ''">
+                <![CDATA[ and DATE_FORMAT(order.complete_time,'%Y-%m-%d') <=  #{dtEndTime} ]]>
+            </if>
+            <if test="iFaultType != null and iFaultType != ''">
+                and order.order_type_number = #{iFaultType}
+            </if>
+            <if test="villageId != null and villageId != ''">
+                AND ele.v_village_id = #{villageId}
+            </if>
+            <if test="vProjectId != null and vProjectId != ''">
+                AND ele.v_project_id = #{vProjectId}
+            </if>
+            <if test="iStatus != null and iStatus != ''">
+                AND order.order_status = #{iStatus}
+            </if>
+            <if test="vElevatorCode != null and vElevatorCode != ''">
+                AND ele.v_elevator_code = #{vElevatorCode}
+            </if>
+            <if test="elevatorCode != null and !elevatorCode.isEmpty()">
+                AND ele.v_elevator_code IN
+                <foreach item="code" collection="elevatorCode" open="(" separator="," close=")">
+                    #{code}
+                </foreach>
+            </if>
+            AND <![CDATA[
+             Date ( IFNULL(`order`.complete_time,CURDATE())) > Date (DATE_ADD(`order`.should_complete_date, INTERVAL 2 DAY))
+             AND DATE_SUB(CURDATE(), INTERVAL 365 DAY) <= `order`.should_complete_date
+            ]]>
+        </where>
+    </select>
+
+    <!--获取本年度维保记录-->
+    <select id="getOverdueOrders" resultType="java.util.Map">
+        SELECT `order`.id, DATE ( `order`.complete_time ) AS complete_time, DATE ( `order`.next_maintenance_date ) AS next_maintenance_date, `order`.register_number, ele.v_elevator_name AS elevator_name
+        FROM
+            `tbl_mx_work_order` `order`
+            JOIN tbl_elevator ele
+        ON ele.v_equipment_code = `order`.register_number
+        where
+            <![CDATA[ DATE_FORMAT(CURDATE()
+            , '%Y-01-01 00:00:00') <= `order`.complete_time ]]>
+            AND ele.v_elevator_id = #{elevatorId}
+        ORDER BY complete_time ASC
+    </select>
+
+    <!--分组查询维保记录-->
+    <select id="queryMaintenanceWorkOrdersList" resultType="java.util.Map">
+        SELECT
+        order.id,
+        order.register_number,
+        ele.v_elevator_code,
+        ele.v_elevator_name,
+        ele.v_address,
+        ele.v_village_id AS villageId,
+        order.should_complete_date as should_complete_date,
+        order.complete_time as complete_time,
+        order.next_maintenance_date as next_maintenance_time,
+        DATE( `order`.complete_time ) AS complete_data,
+        DATE( `order`.next_maintenance_date ) AS next_maintenance_date,
+        order.work_order_number as workOrderNumber,
+        order.deal_employee_name as deal_employee_name,
+        order.deal_employee_tel as deal_employee_tel,
+        order.sign_time as sign_time,
+        order.order_type_number as order_type_number,
+        order.order_status as i_status,
+        order.fileUrl as fileUrl
+        FROM
+        `tbl_mx_work_order` `order`
+        JOIN tbl_elevator ele ON ele.v_equipment_code = `order`.register_number
+        <if test="!isAdminFlag">
+            JOIN tbl_sys_user_resource resource ON ele.v_elevator_id = resource.v_resource_id AND resource.v_user_id =
+            #{userId}
+        </if>
+        <where>
+            <if test="dtReportTime != null and dtReportTime != ''">
+                <![CDATA[  and DATE_FORMAT(order.complete_time,'%Y-%m-%d') >= #{dtReportTime} ]]>
+            </if>
+            <if test="dtEndTime != null and dtEndTime != ''">
+                <![CDATA[ and DATE_FORMAT(order.complete_time,'%Y-%m-%d') <=  #{dtEndTime} ]]>
+            </if>
+            <if test="villageId != null and villageId != ''">
+                AND ele.v_village_id = #{villageId}
+            </if>
+            <if test="iFaultType != null and iFaultType != ''">
+                and order.order_type_number = #{iFaultType}
+            </if>
+            <if test="vProjectId != null and vProjectId != ''">
+                AND ele.v_project_id = #{vProjectId}
+            </if>
+            <if test="iStatus != null and iStatus != ''">
+                AND order.order_status = #{iStatus}
+            </if>
+            <if test="vElevatorCode != null and vElevatorCode != ''">
+                and (
+                ele.v_elevator_code like CONCAT('%',#{vElevatorCode},'%')
+                or ele.v_elevator_name like CONCAT('%',#{vElevatorCode},'%')
+                )
+            </if>
+        </where>
+        ORDER BY complete_time desc, v_elevator_name asc
+    </select>
+</mapper>

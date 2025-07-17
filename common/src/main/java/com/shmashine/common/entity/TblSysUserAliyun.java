@@ -1,0 +1,245 @@
+package com.shmashine.common.entity;
+
+import java.io.Serializable;
+import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+/**
+ * 平台用户扩展阿里云账号表(TblSysUserAliyun)实体类
+ *
+ * @author little.li
+ * @since 2020-08-05 15:33:16
+ */
+public class TblSysUserAliyun implements Serializable {
+    private static final long serialVersionUID = 245557764197785654L;
+    /**
+     * 主键id
+     */
+    private String vUserAliyunId;
+    /**
+     * 关联平台用户id
+     */
+    private String vUserId;
+    /**
+     * 用户名
+     */
+    private String vUserName;
+    /**
+     * 阿里云用户名
+     */
+    private String vAliyunUserName;
+    /**
+     * 阿里云用户密码
+     */
+    private String vAliyunPassword;
+    /**
+     * ak
+     */
+    private String vAccessKeyId;
+    /**
+     * sk
+     */
+    private String vAccessKeySecret;
+    /**
+     * instanceId
+     */
+    private String vInstanceId;
+    /**
+     * 阿里云子账户clientId
+     */
+    private String vOauthClientId;
+    /**
+     * 阿里云子账户clientSecret
+     */
+    private String vOauthClientSecret;
+    /**
+     * AccessToken
+     */
+    private String vAccessToken;
+    /**
+     * RefreshToken
+     */
+    private String vRefreshToken;
+    /**
+     * 创建时间
+     */
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
+    private Date dtCreateTime;
+    /**
+     * 修改时间
+     */
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
+    private Date dtModifyTime;
+    /**
+     * 创建人
+     */
+    private String vCreateId;
+    /**
+     * 修改人
+     */
+    private String vModifyId;
+    /**
+     * 删除标识 0-未删除，1-已删除
+     */
+    private Integer iDelFlag;
+
+    @JsonProperty("vUserAliyunId")
+    public String getVUserAliyunId() {
+        return vUserAliyunId;
+    }
+
+    public void setVUserAliyunId(String vUserAliyunId) {
+        this.vUserAliyunId = vUserAliyunId;
+    }
+
+    @JsonProperty("vUserId")
+    public String getVUserId() {
+        return vUserId;
+    }
+
+    public void setVUserId(String vUserId) {
+        this.vUserId = vUserId;
+    }
+
+    @JsonProperty("vUserName")
+    public String getVUserName() {
+        return vUserName;
+    }
+
+    public void setVUserName(String vUserName) {
+        this.vUserName = vUserName;
+    }
+
+    @JsonProperty("vAliyunUserName")
+    public String getVAliyunUserName() {
+        return vAliyunUserName;
+    }
+
+    public void setVAliyunUserName(String vAliyunUserName) {
+        this.vAliyunUserName = vAliyunUserName;
+    }
+
+    @JsonProperty("vAliyunPassword")
+    public String getVAliyunPassword() {
+        return vAliyunPassword;
+    }
+
+    public void setVAliyunPassword(String vAliyunPassword) {
+        this.vAliyunPassword = vAliyunPassword;
+    }
+
+    @JsonProperty("vAccessKeyId")
+    public String getVAccessKeyId() {
+        return vAccessKeyId;
+    }
+
+    public void setVAccessKeyId(String vAccessKeyId) {
+        this.vAccessKeyId = vAccessKeyId;
+    }
+
+    @JsonProperty("vAccessKeySecret")
+    public String getVAccessKeySecret() {
+        return vAccessKeySecret;
+    }
+
+    public void setVAccessKeySecret(String vAccessKeySecret) {
+        this.vAccessKeySecret = vAccessKeySecret;
+    }
+
+    @JsonProperty("vInstanceId")
+    public String getVInstanceId() {
+        return vInstanceId;
+    }
+
+    public void setVInstanceId(String vInstanceId) {
+        this.vInstanceId = vInstanceId;
+    }
+
+    @JsonProperty("vOauthClientId")
+    public String getVOauthClientId() {
+        return vOauthClientId;
+    }
+
+    public void setVOauthClientId(String vOauthClientId) {
+        this.vOauthClientId = vOauthClientId;
+    }
+
+    @JsonProperty("vOauthClientSecret")
+    public String getVOauthClientSecret() {
+        return vOauthClientSecret;
+    }
+
+    public void setVOauthClientSecret(String vOauthClientSecret) {
+        this.vOauthClientSecret = vOauthClientSecret;
+    }
+
+    @JsonProperty("vAccessToken")
+    public String getVAccessToken() {
+        return vAccessToken;
+    }
+
+    public void setVAccessToken(String vAccessToken) {
+        this.vAccessToken = vAccessToken;
+    }
+
+    @JsonProperty("vRefreshToken")
+    public String getVRefreshToken() {
+        return vRefreshToken;
+    }
+
+    public void setVRefreshToken(String vRefreshToken) {
+        this.vRefreshToken = vRefreshToken;
+    }
+
+    @JsonProperty("dtCreateTime")
+    public Date getDtCreateTime() {
+        return dtCreateTime;
+    }
+
+    public void setDtCreateTime(Date dtCreateTime) {
+        this.dtCreateTime = dtCreateTime;
+    }
+
+    @JsonProperty("dtModifyTime")
+    public Date getDtModifyTime() {
+        return dtModifyTime;
+    }
+
+    public void setDtModifyTime(Date dtModifyTime) {
+        this.dtModifyTime = dtModifyTime;
+    }
+
+    @JsonProperty("vCreateId")
+    public String getVCreateId() {
+        return vCreateId;
+    }
+
+    public void setVCreateId(String vCreateId) {
+        this.vCreateId = vCreateId;
+    }
+
+    @JsonProperty("vModifyId")
+    public String getVModifyId() {
+        return vModifyId;
+    }
+
+    public void setVModifyId(String vModifyId) {
+        this.vModifyId = vModifyId;
+    }
+
+    @JsonProperty("iDelFlag")
+    public Integer getIDelFlag() {
+        return iDelFlag;
+    }
+
+    public void setIDelFlag(Integer iDelFlag) {
+        this.iDelFlag = iDelFlag;
+    }
+
+}

@@ -1,0 +1,61 @@
+server:
+  #  port: 8101
+  port: 8080
+
+# kafka topic 名称
+kafka:
+  topic:
+    forward:
+      forward-test: kafka_forward_test
+
+
+spring:
+  profiles:
+    active: dev
+  application:
+    name: kafka-forward-check
+  kafka:
+    producer:
+      bootstrap-servers: kafka.pro.internal.shmashine.com:29092
+      retries: 0
+      batch-size: 16384
+      buffer-memory: 33554432
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      properties:
+        security.protocol: SASL_PLAINTEXT
+        sasl.mechanism: PLAIN
+        sasl.jaas.config: org.apache.kafka.common.security.plain.PlainLoginModule required username="producer" password="secret20190219";
+    consumer:
+      bootstrap-servers: kafka:9092
+      group-id: kafka-forward-test
+      auto-offset-reset: latest
+      enable-auto-commit: true
+      auto-commit-interval: 100
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      properties:
+        security.protocol: SASL_PLAINTEXT
+        sasl.mechanism: PLAIN
+        sasl.jaas.config: org.apache.kafka.common.security.plain.PlainLoginModule required username="producer" password="secret20190219";
+
+# 监控信息
+management:
+  endpoints:
+    web:
+      exposure:
+        #        include: "health,prometheus,httptrace"
+        include: "*"
+  endpoint:
+    health:
+      show-details: ALWAYS
+      probes:
+        enabled: true
+      group:
+        readiness:
+          include: db
+    prometheus:
+      enabled: true
+  metrics:
+    tags:
+      application: ${spring.application.name}

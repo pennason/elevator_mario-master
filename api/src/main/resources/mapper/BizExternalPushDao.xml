@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shmashine.api.dao.BizExternalPushDao">
+
+    <!-- 屏蔽规则查询列表 -->
+    <select id="searchExternalPushList" resultType="java.util.Map">
+        SELECT
+        send_shiled.v_fault_send_shiled_id,
+        send_shiled.v_elevator_id,
+        send_shiled.v_elevator_code,
+        ele.i_elevator_type,
+        send_shiled.v_register_no,
+        send_shiled.v_fault_type,
+        send_shiled.v_fault_name,
+        send_shiled.v_pt_code,
+        sysinfo.v_name_zh_cn AS v_pt_code_name,
+        sysinfo2.v_name_zh_cn AS i_is_report_name,
+        send_shiled.i_is_report,
+        send_shiled.dt_create_time,
+        send_shiled.dt_modify_time,
+        send_shiled.v_create_user_id,
+        send_shiled.v_modify_user_id
+        FROM
+        tbl_fault_send_shiled send_shiled
+        left join tbl_sys_systeminfo sysinfo on sysinfo.v_sysvalue5 = send_shiled.v_pt_code and sysinfo.v_sysid =
+        '10022'
+        left join tbl_sys_systeminfo sysinfo2 on sysinfo2.v_sysvalue5 = send_shiled.i_is_report and sysinfo2.v_sysid =
+        '10011'
+        left join tbl_elevator ele on ele.v_elevator_id = send_shiled.v_elevator_id
+        <where>
+            <if test="vFaultSendShiledId != null and vFaultSendShiledId != ''">
+                and v_fault_send_shiled_id like concat('%',#{vFaultSendShiledId,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="vElevatorId != null  and vElevatorId != ''">
+                and v_elevator_id like concat('%',#{vElevatorId,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="vElevatorCode != null and vElevatorCode != ''">
+                and v_elevator_code like concat('%',#{vElevatorCode,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="vRegisterNo != null and vRegisterNo != ''">
+                and v_register_no like concat('%', #{vRegisterNo,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="vFaultType != null and vFaultType != ''">
+                and v_fault_type = #{vFaultType,jdbcType=VARCHAR}
+            </if>
+            <if test="vFaultName != null and vFaultName != ''">
+                and v_fault_name like concat('%', #{vFaultName,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="vPtCode != null and vPtCode != ''">
+                and v_pt_code = #{vPtCode,jdbcType=VARCHAR}
+            </if>
+            <if test="iIsReport != null and iIsReport != ''">
+                and i_is_report = #{iIsReport,jdbcType=INTEGER}
+            </if>
+        </where>
+    </select>
+</mapper>

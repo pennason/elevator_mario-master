@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shmashine.userclientapplets.dao.VillageDao">
+
+    <select id="getProjectByDeptId" resultType="java.lang.String">
+        select
+        v_project_id
+        from tbl_project
+        where v_dept_id
+        <foreach collection="results" item="item" open="IN(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+
+    <select id="getVillageByDeptIds" resultType="com.shmashine.userclientapplets.entity.Village">
+        select
+        village.v_village_id,
+        village.v_village_name
+        from tbl_village village
+        inner join tbl_elevator ele on ele.v_village_id = village.v_village_id
+        <if test="!admin">
+            join tbl_sys_user_resource resource on ele.v_elevator_id = resource.v_resource_id and v_user_id =
+            #{userId}
+        </if>
+        <where>
+            <if test="villageName != null and villageName != ''">
+                and village.v_village_name LIKE CONCAT('%',#{villageName},'%')
+            </if>
+        </where>
+        group by village.v_village_id
+    </select>
+
+</mapper>

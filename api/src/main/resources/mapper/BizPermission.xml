@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shmashine.api.dao.BizPermissionDao">
+
+    <!-- 根据用户获取路由权限  -->
+    <select id="getPermissionV2" resultType="com.shmashine.api.module.login.output.ResponsePermission">
+        SELECT
+        fun.v_parent_id AS parentId,
+        fun.v_menu_id AS functionId,
+        fun.v_menu_type AS type,
+        fun.v_menu_name AS functionName,
+        fun.v_icon AS functionIcon,
+        fun.v_menu_url AS path,
+        fun.v_status AS status,
+        fun.i_order_num AS orderNumber
+        FROM
+        tbl_sys_user usr
+        INNER JOIN tbl_sys_user_role userrole ON userrole.v_user_id = usr.v_user_id
+        INNER JOIN tbl_sys_role_menu permission ON userrole.v_role_id = permission.v_role_id
+        INNER JOIN tbl_sys_menu fun ON fun.v_menu_id = permission.v_menu_id
+        <where>
+            userrole.v_user_id = #{userId} and usr.i_status = 0
+            AND permission.i_del_flag = 0
+        </where>
+        ORDER BY fun.i_order_num
+    </select>
+
+
+    <!-- 根据用户获取路由权限  -->
+    <select id="getPermission" resultType="com.shmashine.api.module.login.output.ResponsePermission">
+        SELECT
+        fun.v_parent_id AS parentId,
+        fun.v_menu_id AS functionId,
+        fun.v_menu_type AS type,
+        fun.v_menu_name AS functionName,
+        fun.v_icon AS functionIcon,
+        fun.v_menu_url AS path,
+        fun.v_status AS status
+        FROM
+        tbl_sys_user usr
+        INNER JOIN tbl_sys_user_role userrole ON userrole.v_user_id = usr.v_user_id
+        INNER JOIN tbl_sys_role_menu permission ON userrole.v_role_id = permission.v_role_id
+        INNER JOIN tbl_sys_menu fun ON fun.v_menu_id = permission.v_menu_id
+        <where>
+            userrole.v_user_id = #{userId} and usr.i_status = 0
+        </where>
+        ORDER BY fun.i_order_num
+    </select>
+
+    <!-- 根据用户获取路由权限 0 代表有权限  -->
+    <select id="getRoleFunctionListCheck" resultType="com.shmashine.api.module.role.output.RoleFunctionListModule">
+        SELECT
+        menu.v_menu_id AS `value`,
+        menu.v_menu_name AS `title`,
+        menu.v_parent_id AS parentId,
+        menu.v_menu_type AS type,
+        CASE
+        WHEN tmp.v_menu_id = menu.v_menu_id THEN
+        '0' else '1'
+        END AS `flag`
+        FROM
+        tbl_sys_menu menu
+        LEFT JOIN
+        (select tbl_sys_role_menu.v_menu_id, tbl_sys_role_menu.v_role_id from tbl_sys_role_menu where
+        tbl_sys_role_menu.i_del_flag = 0 and tbl_sys_role_menu.v_role_id = #{roleId})
+        as tmp
+        ON menu.v_menu_id = tmp.v_menu_id
+        where menu.i_del_flag = 0
+        <!-- AND roleMenu.v_role_id = #{roleId} -->
+        ORDER BY menu.i_order_num
+    </select>
+
+    <!-- 获取所有菜单  -->
+    <select id="getRoleFunctionList" resultType="com.shmashine.api.module.role.output.RoleFunctionListModule">
+        SELECT menu.v_menu_id   AS `value`,
+               menu.v_menu_name AS `title`,
+               menu.v_parent_id AS parentId,
+               menu.v_menu_type AS type
+        FROM tbl_sys_menu menu
+        where menu.i_del_flag = 0
+        ORDER BY menu.i_order_num
+    </select>
+
+</mapper>

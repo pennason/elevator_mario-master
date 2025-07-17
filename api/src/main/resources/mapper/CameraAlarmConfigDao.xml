@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.api.dao.CameraAlarmConfigDao">
+
+
+    <!--根据电梯ID获取摄像头报警配置-->
+    <select id="getByElevatorId" resultType="com.shmashine.api.entity.CameraAlarmConfig">
+        SELECT *
+        FROM camera_alarm_config
+        WHERE elevator_id = #{elevatorId}
+    </select>
+
+    <!--新增摄像头告警配置-->
+    <insert id="addCameraAlarmConfig">
+        insert into camera_alarm_config
+        (id, elevator_code, elevator_id, dev_serial, alarm_type, fault_type, fault_status, camera_firmware_version)
+        VALUES (#{id}, #{elevatorCode}, #{elevatorId}, #{devSerial}, #{alarmType}, #{faultType}, #{faultStatus},
+                #{cameraFirmwareVersion})
+    </insert>
+
+    <!--删除摄像头告警配置-->
+    <delete id="delCameraAlarmConfig">
+        DELETE
+        FROM camera_alarm_config
+        WHERE id = #{id}
+    </delete>
+
+    <!--修改摄像头告警配置-->
+    <update id="updateCameraAlarmConfig">
+        UPDATE camera_alarm_config
+        <set>
+            <if test="elevatorCode != null and elevatorCode != ''">
+                elevator_code = #{elevatorCode},
+            </if>
+            <if test="elevatorId != null and elevatorId != ''">
+                elevator_id = #{elevatorId},
+            </if>
+            <if test="devSerial != null and devSerial != ''">
+                dev_serial = #{devSerial},
+            </if>
+            <if test="alarmType != null and alarmType != ''">
+                alarm_type = #{alarmType},
+            </if>
+            <if test="faultType != null and faultType != ''">
+                fault_type = #{faultType},
+            </if>
+            <if test="faultStatus != null">
+                fault_status = #{faultStatus},
+            </if>
+            <if test="cameraFirmwareVersion != null and cameraFirmwareVersion != ''">
+                camera_firmware_version = #{cameraFirmwareVersion}
+            </if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+</mapper>

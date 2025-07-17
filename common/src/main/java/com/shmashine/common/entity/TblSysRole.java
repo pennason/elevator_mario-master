@@ -1,0 +1,143 @@
+package com.shmashine.common.entity;
+
+
+import java.io.Serializable;
+import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+
+/**
+ * 角色表(TblSysRole)实体类
+ *
+ * @author makejava
+ * @since 2020-05-20 14:25:53
+ */
+public class TblSysRole implements Serializable {
+    private static final long serialVersionUID = 591426932550605705L;
+    /**
+     * 角色编号
+     */
+    private String vRoleId;
+    /**
+     * 角色名称
+     */
+    private String vRoleName;
+    /**
+     * 角色标识
+     */
+    private String vRoleSign;
+    /**
+     * 备注
+     */
+    private String vRemark;
+    /**
+     * 创建时间
+     */
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
+    private Date dtCreatetime;
+    /**
+     * 修改时间
+     */
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
+    private Date dtModifytime;
+    /**
+     * 创建人
+     */
+    private String vCreateid;
+    /**
+     * 修改人
+     */
+    private String vModifyid;
+    /**
+     * 登陆是否验证手机
+     */
+    private Boolean bLoginVerifyPhone;
+
+    @JsonProperty("vRoleId")
+    public String getVRoleId() {
+        return vRoleId;
+    }
+
+    public void setVRoleId(String vRoleId) {
+        this.vRoleId = vRoleId;
+    }
+
+    @JsonProperty("vRoleName")
+    public String getVRoleName() {
+        return vRoleName;
+    }
+
+    public void setVRoleName(String vRoleName) {
+        this.vRoleName = vRoleName;
+    }
+
+    @JsonProperty("vRoleSign")
+    public String getVRoleSign() {
+        return vRoleSign;
+    }
+
+    public void setVRoleSign(String vRoleSign) {
+        this.vRoleSign = vRoleSign;
+    }
+
+    @JsonProperty("vRemark")
+    public String getVRemark() {
+        return vRemark;
+    }
+
+    public void setVRemark(String vRemark) {
+        this.vRemark = vRemark;
+    }
+
+    @JsonProperty("dtCreatetime")
+    public Date getDtCreatetime() {
+        return dtCreatetime;
+    }
+
+    public void setDtCreatetime(Date dtCreatetime) {
+        this.dtCreatetime = dtCreatetime;
+    }
+
+    @JsonProperty("dtModifytime")
+    public Date getDtModifytime() {
+        return dtModifytime;
+    }
+
+    public void setDtModifytime(Date dtModifytime) {
+        this.dtModifytime = dtModifytime;
+    }
+
+    @JsonProperty("vCreateid")
+    public String getVCreateid() {
+        return vCreateid;
+    }
+
+    public void setVCreateid(String vCreateid) {
+        this.vCreateid = vCreateid;
+    }
+
+    @JsonProperty("vModifyid")
+    public String getVModifyid() {
+        return vModifyid;
+    }
+
+    public void setVModifyid(String vModifyid) {
+        this.vModifyid = vModifyid;
+    }
+
+    @JsonProperty("bLoginVerifyPhone")
+    public Boolean getbLoginVerifyPhone() {
+        return bLoginVerifyPhone;
+    }
+
+    public void setbLoginVerifyPhone(Boolean bLoginVerifyPhone) {
+        this.bLoginVerifyPhone = bLoginVerifyPhone;
+    }
+
+}

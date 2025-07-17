@@ -1,0 +1,14 @@
+package com.shmashine.commonbigscreen.entity;
+
+import lombok.Data;
+
+/**
+ * 参数中的分页参数 权限参数，用户参数
+ */
+@Data
+public class PageListParams {
+    public Integer pageSize = 10;
+    public Integer pageIndex = 1;
+    public boolean isAdminFlag;
+    public String userId;
+}

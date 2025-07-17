@@ -1,0 +1,23 @@
+package com.shmashine.api.entity.base;
+
+import lombok.Data;
+
+/**
+ * 参数中的分页参数 权限参数，用户参数
+ */
+
+@Data
+public class PageListParams {
+    public Integer pageSize;
+    public Integer pageIndex;
+    public boolean isAdminFlag;
+    public String userId;
+
+    public boolean isAdminFlag() {
+        return isAdminFlag;
+    }
+
+    public void setAdminFlag(boolean adminFlag) {
+        isAdminFlag = adminFlag;
+    }
+}

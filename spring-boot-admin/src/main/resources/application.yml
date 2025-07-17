@@ -1,0 +1,31 @@
+server:
+  #  port: 9999
+  port: 8080
+spring:
+  application:
+    name: spring-boot-admin
+  security:
+    user:
+      name: shmashine
+      password: shmashine
+
+# 监控信息
+management:
+  endpoints:
+    web:
+      exposure:
+        #        include: "health,prometheus,httptrace"
+        include: "*"
+  endpoint:
+    health:
+      show-details: ALWAYS
+      probes:
+        enabled: true
+      group:
+        readiness:
+          include: db
+    prometheus:
+      enabled: true
+  metrics:
+    tags:
+      application: ${spring.application.name}

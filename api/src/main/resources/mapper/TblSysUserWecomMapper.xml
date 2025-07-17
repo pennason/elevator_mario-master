@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.api.dao.TblSysUserWecomMapper">
+    <sql id="TABLE_NAME">
+        tbl_sys_user_wecom
+    </sql>
+    <sql id="BASE_COLUMNS">
+        user_id
+        , wecom_corp_id, wecom_corp_name, wecom_agent_id, wecom_user_id, wecom_user_name
+    </sql>
+    <sql id="ALL_COLUMNS">
+        <include refid="BASE_COLUMNS"/>,
+        id, create_time, create_by, modify_time, modify_by, deleted
+    </sql>
+
+    <!-- 查询 -->
+
+    <!-- 根据用户ID获取相关企业用户ID -->
+    <select id="getByUserId" resultType="com.shmashine.common.entity.TblSysUserWecomEntity">
+        SELECT
+        <include refid="ALL_COLUMNS"/>
+        FROM
+        <include refid="TABLE_NAME"/>
+        WHERE user_id = #{userId} AND wecom_corp_id = #{wecomCorpId}
+    </select>
+
+    <!-- 根据用户ID列表获取相关企业用户ID列表 -->
+    <select id="listByUserIds" resultType="com.shmashine.common.entity.TblSysUserWecomEntity">
+        SELECT
+        <include refid="ALL_COLUMNS"/>
+        FROM
+        <include refid="TABLE_NAME"/>
+        WHERE user_id IN
+        <foreach collection="userIds" item="userId" open="(" separator="," close=")">
+            #{userId}
+        </foreach>
+        AND wecom_corp_id = #{wecomCorpId}
+    </select>
+
+    <!-- 添加 -->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true"
+            parameterType="com.shmashine.common.entity.TblSysUserWecomEntity">
+        INSERT INTO
+        <include refid="TABLE_NAME"/>
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            user_id,
+            <if test="entity.wecomCorpId != null and entity.wecomCorpId != ''">wecom_corp_id,</if>
+            <if test="entity.wecomCorpName != null and entity.wecomCorpName != ''">wecom_corp_name,</if>
+            <if test="entity.wecomAgentId != null and entity.wecomAgentId != ''">wecom_agent_id,</if>
+            <if test="entity.wecomUserId != null and entity.wecomUserId != ''">wecom_user_id,</if>
+            <if test="entity.wecomUserName != null and entity.wecomUserName != ''">wecom_user_name,</if>
+            <if test="entity.createBy != null">create_by,</if>
+            <if test="entity.modifyBy != null">modify_by,</if>
+            <if test="entity.deleted != null">deleted,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            #{entity.userId},
+            <if test="entity.wecomCorpId != null and entity.wecomCorpId != ''">#{entity.wecomCorpId},</if>
+            <if test="entity.wecomCorpName != null and entity.wecomCorpName != ''">#{entity.wecomCorpName},</if>
+            <if test="entity.wecomAgentId != null and entity.wecomAgentId != ''">#{entity.wecomAgentId},</if>
+            <if test="entity.wecomUserId != null and entity.wecomUserId != ''">#{entity.wecomUserId},</if>
+            <if test="entity.wecomUserName != null and entity.wecomUserName != ''">#{entity.wecomUserName},</if>
+            <if test="entity.createBy != null">#{entity.createBy},</if>
+            <if test="entity.modifyBy != null">#{entity.modifyBy},</if>
+            <if test="entity.deleted != null">#{entity.deleted},</if>
+        </trim>
+        ON DUPLICATE KEY UPDATE
+        <trim suffixOverrides=",">
+            <if test="entity.wecomUserId != null and entity.wecomUserId != ''">wecom_user_id = #{entity.wecomUserId},
+            </if>
+            <if test="entity.wecomUserName != null and entity.wecomUserName != ''">wecom_user_name =
+                #{entity.wecomUserName},
+            </if>
+            <if test="entity.modifyBy != null">modify_by = #{entity.modifyBy},</if>
+            <if test="entity.deleted != null">deleted = #{entity.deleted},</if>
+        </trim>
+    </insert>
+
+    <update id="updateById" parameterType="com.shmashine.common.entity.TblSysUserWecomEntity">
+        UPDATE
+        <include refid="TABLE_NAME"/>
+        <set>
+            <if test="entity.wecomUserId != null and entity.wecomUserId != ''">wecom_user_id = #{entity.wecomUserId},
+            </if>
+            <if test="entity.wecomUserName != null and entity.wecomUserName != ''">wecom_user_name =
+                #{entity.wecomUserName},
+            </if>
+            <if test="entity.createBy != null">create_by = #{entity.createBy},</if>
+            <if test="entity.modifyBy != null">modify_by = #{entity.modifyBy},</if>
+            <if test="entity.deleted != null">deleted = #{entity.deleted},</if>
+        </set>
+        <where>
+            <choose>
+                <when test="entity.id != null and entity.id > 0">
+                    id = #{entity.id}
+                </when>
+                <otherwise>
+                    user_id = #{entity.userId} AND wecom_corp_id = #{entity.wecomCorpId}
+                </otherwise>
+            </choose>
+        </where>
+    </update>
+
+    <!-- 删除 -->
+    <delete id="deleteById">
+        UPDATE
+        <include refid="TABLE_NAME"/>
+        SET deleted = 1
+        WHERE id = #{id}
+    </delete>
+
+
+</mapper>

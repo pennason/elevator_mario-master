@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shmashine.api.dao.BizThirdPartyRuijinEnventDao">
+
+    <!-- 删除数据 -->
+    <delete id="deleteThirdPartyRuijinEnventData">
+        delete
+        from tbl_third_party_ruijin_envent
+        where event_number = #{eventNumber}
+    </delete>
+    <delete id="deleteThirdPartyRuijinEnventDataDetail">
+        delete
+        from tbl_third_party_ruijin_envent_detail
+        where event_number = #{eventNumber};
+    </delete>
+
+</mapper>

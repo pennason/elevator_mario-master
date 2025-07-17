@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.fault.fault.dao.TblFaultTempDao">
+
+    <resultMap type="com.shmashine.fault.fault.entity.TblFaultTemp" id="TblFaultTempMap">
+        <result property="vFaultId" column="v_fault_id" jdbcType="VARCHAR"/>
+        <result property="vElevatorCode" column="v_elevator_code" jdbcType="VARCHAR"/>
+        <result property="vAddress" column="v_address" jdbcType="VARCHAR"/>
+        <result property="dtReportTime" column="dt_report_time" jdbcType="TIMESTAMP"/>
+        <result property="dtEndTime" column="dt_end_time" jdbcType="TIMESTAMP"/>
+        <result property="iFaultType" column="i_fault_type" jdbcType="VARCHAR"/>
+        <result property="vFaultName" column="v_fault_name" jdbcType="VARCHAR"/>
+        <result property="vFaultSecondType" column="v_fault_second_type" jdbcType="VARCHAR"/>
+        <result property="vFaultSecondName" column="v_fault_second_name" jdbcType="VARCHAR"/>
+        <result property="iLevel" column="i_level" jdbcType="INTEGER"/>
+        <result property="iLevelName" column="i_level_name" jdbcType="VARCHAR"/>
+        <result property="iFaultMessage" column="i_fault_message" jdbcType="VARCHAR"/>
+        <result property="iFaultNum" column="i_fault_num" jdbcType="INTEGER"/>
+        <result property="iUncivilizedBehaviorFlag" column="i_uncivilized_behavior_flag" jdbcType="INTEGER"/>
+        <result property="iModeStatus" column="i_mode_status" jdbcType="INTEGER"/>
+        <result property="iStatus" column="i_status" jdbcType="INTEGER"/>
+        <result property="iConfirmStatus" column="i_confirm_status" jdbcType="INTEGER"/>
+        <result property="iManualClear" column="i_manual_clear" jdbcType="INTEGER"/>
+        <result property="dtCreateTime" column="dt_create_time" jdbcType="TIMESTAMP"/>
+        <result property="dtModifyTime" column="dt_modify_time" jdbcType="TIMESTAMP"/>
+        <result property="vModifyUserId" column="v_modify_user_id" jdbcType="VARCHAR"/>
+        <result property="iDelFlag" column="i_del_flag" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="TblFaultTempMap">
+        select v_fault_id,
+               v_elevator_code,
+               v_address,
+               dt_report_time,
+               dt_end_time,
+               i_fault_type,
+               v_fault_name,
+               i_level,
+               i_level_name,
+               i_fault_message,
+               i_fault_num,
+               i_uncivilized_behavior_flag,
+               i_mode_status,
+               i_status,
+               i_confirm_status,
+               i_manual_clear,
+               dt_create_time,
+               dt_modify_time,
+               v_modify_user_id,
+               i_del_flag
+        from tbl_fault_temp
+        where v_fault_id = #{vFaultId}
+    </select>
+
+
+    <!-- 通过电梯编号和故障类型，查找故障中的记录 -->
+    <select id="getInFaultByFaultType" resultMap="TblFaultTempMap">
+        select *
+        from tbl_fault_temp
+        <where>
+            i_status = 0
+            and v_elevator_code = #{elevatorCode}
+            and i_fault_type = #{faultType}
+            <if test="faultSecondType != null and faultSecondType != ''">
+                and v_fault_second_type = #{faultSecondType}
+            </if>
+        </where>
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="TblFaultTempMap">
+        select v_fault_id,
+               v_elevator_code,
+               v_address,
+               dt_report_time,
+               dt_end_time,
+               i_fault_type,
+               v_fault_name,
+               i_level,
+               i_level_name,
+               i_fault_message,
+               i_fault_num,
+               i_uncivilized_behavior_flag,
+               i_mode_status,
+               i_status,
+               i_confirm_status,
+               i_manual_clear,
+               dt_create_time,
+               dt_modify_time,
+               v_modify_user_id,
+               i_del_flag
+        from tbl_fault_temp limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="TblFaultTempMap">
+        select
+        v_fault_id, v_elevator_code, v_address, dt_report_time, dt_end_time, i_fault_type, v_fault_name, i_level,
+        i_level_name, i_fault_message, i_fault_num, i_uncivilized_behavior_flag, i_mode_status, i_status,
+        i_confirm_status, i_manual_clear, dt_create_time, dt_modify_time, v_modify_user_id, i_del_flag
+        from tbl_fault_temp
+        <where>
+            <if test="vFaultId != null and vFaultId != ''">
+                and v_fault_id = #{vFaultId}
+            </if>
+            <if test="vElevatorCode != null and vElevatorCode != ''">
+                and v_elevator_code = #{vElevatorCode}
+            </if>
+            <if test="vAddress != null and vAddress != ''">
+                and v_address = #{vAddress}
+            </if>
+            <if test="dtReportTime != null">
+                and dt_report_time = #{dtReportTime}
+            </if>
+            <if test="dtEndTime != null">
+                and dt_end_time = #{dtEndTime}
+            </if>
+            <if test="iFaultType != null">
+                and i_fault_type = #{iFaultType}
+            </if>
+            <if test="vFaultName != null and vFaultName != ''">
+                and v_fault_name = #{vFaultName}
+            </if>
+            <if test="iLevel != null">
+                and i_level = #{iLevel}
+            </if>
+            <if test="iLevelName != null and iLevelName != ''">
+                and i_level_name = #{iLevelName}
+            </if>
+            <if test="iFaultMessage != null and iFaultMessage != ''">
+                and i_fault_message = #{iFaultMessage}
+            </if>
+            <if test="iFaultNum != null">
+                and i_fault_num = #{iFaultNum}
+            </if>
+            <if test="iUncivilizedBehaviorFlag != null">
+                and i_uncivilized_behavior_flag = #{iUncivilizedBehaviorFlag}
+            </if>
+            <if test="iModeStatus != null">
+                and i_mode_status = #{iModeStatus}
+            </if>
+            <if test="iStatus != null">
+                and i_status = #{iStatus}
+            </if>
+            <if test="iConfirmStatus != null">
+                and i_confirm_status = #{iConfirmStatus}
+            </if>
+            <if test="iManualClear != null">
+                and i_manual_clear = #{iManualClear}
+            </if>
+            <if test="dtCreateTime != null">
+                and dt_create_time = #{dtCreateTime}
+            </if>
+            <if test="dtModifyTime != null">
+                and dt_modify_time = #{dtModifyTime}
+            </if>
+            <if test="vModifyUserId != null and vModifyUserId != ''">
+                and v_modify_user_id = #{vModifyUserId}
+            </if>
+            <if test="iDelFlag != null">
+                and i_del_flag = #{iDelFlag}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="vFaultId" useGeneratedKeys="true">
+        insert into tbl_fault_temp(v_fault_id, v_elevator_id, v_elevator_code, v_address, v_floor, dt_report_time,
+                                   dt_end_time, i_fault_type, v_fault_name, i_level, i_level_name, i_fault_message,
+                                   i_fault_num, i_uncivilized_behavior_flag, i_mode_status, i_status, i_confirm_status,
+                                   i_manual_clear, dt_create_time, dt_modify_time, v_modify_user_id, i_del_flag)
+        values (#{vFaultId}, #{vElevatorId}, #{vElevatorCode}, #{vAddress}, #{floor}, #{dtReportTime}, #{dtEndTime},
+                #{iFaultType}, #{vFaultName}, #{iLevel}, #{iLevelName}, #{iFaultMessage}, #{iFaultNum},
+                #{iUncivilizedBehaviorFlag}, #{iModeStatus}, #{iStatus}, #{iConfirmStatus}, #{iManualClear},
+                #{dtCreateTime}, #{dtModifyTime}, #{vModifyUserId}, 0)
+    </insert>
+
+    <!--新增电动车乘梯待确认-->
+    <insert id="insertUncivilizedBehavior37">
+        insert into tbl_fault_uncivilized_behavior37(v_fault_id, v_elevator_id, v_elevator_code, v_address, v_floor,
+                                                     dt_report_time, dt_end_time, i_fault_type, v_fault_name, i_level,
+                                                     i_level_name, i_fault_message, i_fault_num,
+                                                     i_uncivilized_behavior_flag, i_mode_status, i_status,
+                                                     i_confirm_status, i_manual_clear, dt_create_time, dt_modify_time,
+                                                     v_modify_user_id, i_del_flag)
+        values (#{vFaultId}, #{vElevatorId}, #{vElevatorCode}, #{vAddress}, #{floor}, #{dtReportTime}, #{dtEndTime},
+                #{iFaultType}, #{vFaultName}, #{iLevel}, #{iLevelName}, #{iFaultMessage}, #{iFaultNum},
+                #{iUncivilizedBehaviorFlag}, #{iModeStatus}, #{iStatus}, #{iConfirmStatus}, #{iManualClear},
+                #{dtCreateTime}, #{dtModifyTime}, #{vModifyUserId}, 0)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update tbl_fault_temp
+        <set>
+            <if test="vElevatorCode != null and vElevatorCode != ''">
+                v_elevator_code = #{vElevatorCode},
+            </if>
+            <if test="vAddress != null and vAddress != ''">
+                v_address = #{vAddress},
+            </if>
+            <if test="dtReportTime != null">
+                dt_report_time = #{dtReportTime},
+            </if>
+            <if test="dtEndTime != null">
+                dt_end_time = #{dtEndTime},
+            </if>
+            <if test="iFaultType != null">
+                i_fault_type = #{iFaultType},
+            </if>
+            <if test="vFaultName != null and vFaultName != ''">
+                v_fault_name = #{vFaultName},
+            </if>
+            <if test="iLevel != null">
+                i_level = #{iLevel},
+            </if>
+            <if test="iLevelName != null and iLevelName != ''">
+                i_level_name = #{iLevelName},
+            </if>
+            <if test="iFaultMessage != null and iFaultMessage != ''">
+                i_fault_message = #{iFaultMessage},
+            </if>
+            <if test="iFaultNum != null">
+                i_fault_num = #{iFaultNum},
+            </if>
+            <if test="iUncivilizedBehaviorFlag != null">
+                i_uncivilized_behavior_flag = #{iUncivilizedBehaviorFlag},
+            </if>
+            <if test="iModeStatus != null">
+                i_mode_status = #{iModeStatus},
+            </if>
+            <if test="iStatus != null">
+                i_status = #{iStatus},
+            </if>
+            <if test="iConfirmStatus != null">
+                i_confirm_status = #{iConfirmStatus},
+            </if>
+            <if test="iManualClear != null">
+                i_manual_clear = #{iManualClear},
+            </if>
+            <if test="dtCreateTime != null">
+                dt_create_time = #{dtCreateTime},
+            </if>
+            <if test="dtModifyTime != null">
+                dt_modify_time = #{dtModifyTime},
+            </if>
+            <if test="vModifyUserId != null and vModifyUserId != ''">
+                v_modify_user_id = #{vModifyUserId},
+            </if>
+            <if test="iDelFlag != null">
+                i_del_flag = #{iDelFlag},
+            </if>
+        </set>
+        where v_fault_id = #{vFaultId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete
+        from tbl_fault_temp
+        where v_fault_id = #{vFaultId}
+    </delete>
+
+</mapper>

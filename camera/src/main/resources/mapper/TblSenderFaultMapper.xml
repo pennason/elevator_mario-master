@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.camera.dao.TblSenderFaultMapper">
+    <sql id="TABLE_NAME">
+        tbl_sender_fault
+    </sql>
+    <!-- 查询 -->
+
+    <!-- 根据故障ID获取需要需要推送的故障信息 -->
+
+    <select id="getByFaultId" resultType="com.shmashine.common.entity.TblSenderFaultEntity">
+        SELECT *
+        FROM
+        <include refid="TABLE_NAME"/>
+        WHERE fault_id = #{faultId}
+    </select>
+
+    <!-- 更新字段 -->
+    <update id="update" parameterType="com.shmashine.common.entity.TblSenderFaultEntity">
+        UPDATE
+        <include refid="TABLE_NAME"/>
+        <set>
+            <if test="entity.needPhoto != null">
+                need_photo = #{entity.needPhoto},
+            </if>
+            <if test="entity.needVideo != null">
+                need_video = #{entity.needVideo},
+            </if>
+            <if test="entity.urlPhoto != null and entity.urlPhoto != ''">
+                url_photo = #{entity.urlPhoto},
+            </if>
+            <if test="entity.urlVideo != null and entity.urlVideo != ''">
+                url_video = #{entity.urlVideo},
+            </if>
+            <if test="entity.finished != null">
+                finished = #{entity.finished},
+            </if>
+        </set>
+        <where>
+            <if test="entity.id != null">
+                and id = #{entity.id}
+            </if>
+            <if test="entity.faultId != null and entity.faultId != ''">
+                and fault_id = #{entity.faultId}
+            </if>
+        </where>
+    </update>
+
+    <!-- 插入字段 -->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true"
+            parameterType="com.shmashine.common.entity.TblSenderFaultEntity">
+        INSERT IGNORE INTO
+        <include refid="TABLE_NAME"/>
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="entity.faultId != null and entity.faultId != ''">
+                fault_id,
+            </if>
+            <if test="entity.elevatorCode != null and entity.elevatorCode != ''">
+                elevator_code,
+            </if>
+            <if test="entity.pushGovern != null and entity.pushGovern != ''">
+                push_govern,
+            </if>
+            <if test="entity.entrap != null">
+                entrap,
+            </if>
+            <if test="entity.faultMessage != null and entity.faultMessage != ''">
+                fault_message,
+            </if>
+            <if test="entity.needPhoto != null">
+                need_photo,
+            </if>
+            <if test="entity.needVideo != null">
+                need_video,
+            </if>
+            <if test="entity.urlPhoto != null and entity.urlPhoto != ''">
+                url_photo,
+            </if>
+            <if test="entity.urlVideo != null and entity.urlVideo != ''">
+                url_video,
+            </if>
+            <if test="entity.finished != null">
+                finished,
+            </if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="entity.faultId != null and entity.faultId != ''">
+                #{entity.faultId},
+            </if>
+            <if test="entity.elevatorCode != null and entity.elevatorCode != ''">
+                #{entity.elevatorCode},
+            </if>
+            <if test="entity.pushGovern != null and entity.pushGovern != ''">
+                #{entity.pushGovern},
+            </if>
+            <if test="entity.entrap != null">
+                #{entity.entrap},
+            </if>
+            <if test="entity.faultMessage != null and entity.faultMessage != ''">
+                #{entity.faultMessage},
+            </if>
+            <if test="entity.needPhoto != null">
+                #{entity.needPhoto},
+            </if>
+            <if test="entity.needVideo != null">
+                #{entity.needVideo},
+            </if>
+            <if test="entity.urlPhoto != null and entity.urlPhoto != ''">
+                #{entity.urlPhoto},
+            </if>
+            <if test="entity.urlVideo != null and entity.urlVideo != ''">
+                #{entity.urlVideo},
+            </if>
+            <if test="entity.finished != null">
+                #{entity.finished},
+            </if>
+        </trim>
+    </insert>
+</mapper>

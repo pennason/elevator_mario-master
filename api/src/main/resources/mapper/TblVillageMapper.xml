@@ -1,0 +1,921 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.api.dao.TblVillageDao">
+
+    <resultMap type="com.shmashine.common.entity.TblVillage" id="TblVillageResultMap">
+        <result property="vVillageId" column="v_village_id" jdbcType="VARCHAR"/>
+        <result property="vVillageName" column="v_village_name" jdbcType="VARCHAR"/>
+        <result property="vAddress" column="v_address" jdbcType="VARCHAR"/>
+        <result property="vProjectId" column="v_project_id" jdbcType="VARCHAR"/>
+        <result property="vLongitude" column="v_longitude" jdbcType="VARCHAR"/>
+        <result property="vLatitude" column="v_latitude" jdbcType="VARCHAR"/>
+        <result property="vRemarks" column="v_remarks" jdbcType="VARCHAR"/>
+
+        <result property="vContactsId" column="v_contacts_id" jdbcType="VARCHAR"/>
+        <result property="vContactsName" column="v_contacts_name" jdbcType="VARCHAR"/>
+        <result property="vContactsPhone" column="v_contacts_phone" jdbcType="VARCHAR"/>
+        <result property="vInvestigatorId" column="v_investigator_id" jdbcType="VARCHAR"/>
+        <result property="dInvestigateDate" column="d_investigate_date" jdbcType="TIMESTAMP"/>
+        <result property="vInstallerId" column="v_installer_id" jdbcType="VARCHAR"/>
+        <result property="dInstallDate" column="d_install_date" jdbcType="TIMESTAMP"/>
+        <result property="iElevatorCount" column="i_elevator_count" jdbcType="INTEGER"/>
+        <result property="iStatus" column="i_status" jdbcType="INTEGER"/>
+
+        <result property="dtCreateTime" column="dt_create_time" jdbcType="TIMESTAMP"/>
+        <result property="dtModifyTime" column="dt_modify_time" jdbcType="TIMESTAMP"/>
+        <result property="vCreateUserId" column="v_create_user_id" jdbcType="VARCHAR"/>
+        <result property="vModifyUserId" column="v_modify_user_id" jdbcType="VARCHAR"/>
+        <result property="iDelFlag" column="i_del_flag" jdbcType="INTEGER"/>
+
+        <result property="groupLeasingStatus" column="group_leasing_status" jdbcType="INTEGER"/>
+        <result property="groupLeasingTimeCoefficient" column="group_leasing_time_coefficient" jdbcType="VARCHAR"/>
+        <result property="groupLeasingStepRange" column="group_leasing_step_range" jdbcType="VARCHAR"/>
+        <result property="groupLeasingStartDate" column="group_leasing_start_date" jdbcType="DATE"/>
+        <result property="groupLeasingEndDate" column="group_leasing_end_date" jdbcType="DATE"/>
+        <result property="groupLeasingStartTime" column="group_leasing_start_time" jdbcType="TIME"/>
+        <result property="groupLeasingEndTime" column="group_leasing_end_time" jdbcType="TIME"/>
+        <result property="groupLeasingResult" column="group_leasing_result" jdbcType="INTEGER"/>
+
+        <result property="street" column="street" jdbcType="VARCHAR"/>
+        <result property="neighborhood" column="neighborhood" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="ALL_COLUMN">
+        v_village_id
+        , v_village_name, v_address, v_project_id, v_longitude, v_latitude, v_remarks, v_contacts_id,
+          v_contacts_name, v_contacts_phone, v_investigator_id, d_investigate_date, v_installer_id, d_install_date,
+          i_elevator_count, i_status, dt_create_time,
+          dt_modify_time, v_create_user_id, v_modify_user_id, i_del_flag,
+          group_leasing_status, group_leasing_time_coefficient, group_leasing_step_range, group_leasing_start_date,
+          group_leasing_end_date, group_leasing_start_time, group_leasing_end_time, group_leasing_result, street, neighborhood
+    </sql>
+
+    <sql id="TABLE_NAME">
+        tbl_village
+    </sql>
+
+    <!--通过Id查询单个-->
+    <select id="getById" resultMap="TblVillageResultMap" parameterType="java.lang.String">
+        select
+        <include refid="ALL_COLUMN"/>
+        from
+        <include refid="TABLE_NAME"/>
+        where v_village_id = #{vVillageId,jdbcType=VARCHAR}
+    </select>
+
+    <select id="getVillageByProjectIdAndVillageName" resultMap="TblVillageResultMap">
+        SELECT
+        <include refid="ALL_COLUMN"/>
+        FROM
+        <include refid="TABLE_NAME"/>
+        WHERE v_project_id = #{projectId} AND v_village_name = #{villageName} AND i_del_flag = 0
+    </select>
+
+
+    <!--通过实体不为空的属性作为筛选条件查询列表-->
+    <select id="listByEntity" resultMap="TblVillageResultMap" parameterType="com.shmashine.common.entity.TblVillage">
+        select
+        <include refid="ALL_COLUMN"/>
+        from
+        <include refid="TABLE_NAME"/>
+        <where>
+            <if test="vVillageId != null">
+                and v_village_id = #{vVillageId,jdbcType=VARCHAR}
+            </if>
+            <if test="vVillageName != null">
+                and v_village_name = #{vVillageName,jdbcType=VARCHAR}
+            </if>
+            <if test="vAddress != null">
+                and v_address = #{vAddress,jdbcType=VARCHAR}
+            </if>
+            <if test="vProjectId != null">
+                and v_project_id = #{vProjectId,jdbcType=VARCHAR}
+            </if>
+            <if test="vLongitude != null">
+                and v_longitude = #{vLongitude,jdbcType=VARCHAR}
+            </if>
+            <if test="vLatitude != null">
+                and v_latitude = #{vLatitude,jdbcType=VARCHAR}
+            </if>
+            <if test="vRemarks != null">
+                and v_remarks = #{vRemarks,jdbcType=VARCHAR}
+            </if>
+            <if test="dtCreateTime != null">
+                and dt_create_time = #{dtCreateTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="dtModifyTime != null">
+                and dt_modify_time = #{dtModifyTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="vCreateUserId != null">
+                and v_create_user_id = #{vCreateUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="vModifyUserId != null">
+                and v_modify_user_id = #{vModifyUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="iDelFlag != null">
+                and i_del_flag = #{iDelFlag,jdbcType=INTEGER}
+            </if>
+
+            <if test="groupLeasingStatus != null">
+                and group_leasing_status = #{groupLeasingStatus,jdbcType=INTEGER}
+            </if>
+            <if test="groupLeasingResult != null">
+                and group_leasing_result = #{groupLeasingResult,jdbcType=INTEGER}
+            </if>
+        </where>
+    </select>
+
+    <!--通过实体不为空的属性作为筛选条件查询单个-->
+    <select id="getByEntity" resultMap="TblVillageResultMap" parameterType="com.shmashine.common.entity.TblVillage">
+        select
+        <include refid="ALL_COLUMN"/>
+        from
+        <include refid="TABLE_NAME"/>
+        <where>
+            <if test="vVillageId != null">
+                and v_village_id = #{vVillageId,jdbcType=VARCHAR}
+            </if>
+            <if test="vVillageName != null">
+                and v_village_name = #{vVillageName,jdbcType=VARCHAR}
+            </if>
+            <if test="vAddress != null">
+                and v_address = #{vAddress,jdbcType=VARCHAR}
+            </if>
+            <if test="vProjectId != null">
+                and v_project_id = #{vProjectId,jdbcType=VARCHAR}
+            </if>
+            <if test="vLongitude != null">
+                and v_longitude = #{vLongitude,jdbcType=VARCHAR}
+            </if>
+            <if test="vLatitude != null">
+                and v_latitude = #{vLatitude,jdbcType=VARCHAR}
+            </if>
+            <if test="vRemarks != null">
+                and v_remarks = #{vRemarks,jdbcType=VARCHAR}
+            </if>
+            <if test="dtCreateTime != null">
+                and dt_create_time = #{dtCreateTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="dtModifyTime != null">
+                and dt_modify_time = #{dtModifyTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="vCreateUserId != null">
+                and v_create_user_id = #{vCreateUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="vModifyUserId != null">
+                and v_modify_user_id = #{vModifyUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="iDelFlag != null">
+                and i_del_flag = #{iDelFlag,jdbcType=INTEGER}
+            </if>
+            <if test="groupLeasingStatus != null">
+                and group_leasing_status = #{groupLeasingStatus,jdbcType=INTEGER}
+            </if>
+            <if test="groupLeasingResult != null">
+                and group_leasing_result = #{groupLeasingResult,jdbcType=INTEGER}
+            </if>
+        </where>
+    </select>
+
+    <!--通过Id列表作为筛选条件查询列表，列表长度不为0-->
+    <select id="listByIds" resultMap="TblVillageResultMap" parameterType="list">
+        select
+        <include refid="ALL_COLUMN"/>
+        from
+        <include refid="TABLE_NAME"/>
+        where v_village_id in
+        <foreach item="item" collection="list" separator="," open="(" close=")" index="index">
+            #{item}
+        </foreach>
+    </select>
+
+    <!--新增实体属性不为null的列-->
+    <insert id="insert" keyProperty="vVillageId" useGeneratedKeys="true"
+            parameterType="com.shmashine.common.entity.TblVillage">
+        insert into
+        <include refid="TABLE_NAME"/>
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="vVillageId != null">
+                v_village_id,
+            </if>
+            <if test="vVillageName != null">
+                v_village_name,
+            </if>
+            <if test="vAddress != null">
+                v_address,
+            </if>
+            <if test="vProjectId != null">
+                v_project_id,
+            </if>
+            <if test="vLongitude != null">
+                v_longitude,
+            </if>
+            <if test="vLatitude != null">
+                v_latitude,
+            </if>
+            <if test="vRemarks != null">
+                v_remarks,
+            </if>
+            <if test="vContactsId != null">
+                v_contacts_id,
+            </if>
+            <if test="vContactsName != null">
+                v_contacts_name,
+            </if>
+            <if test="vContactsPhone != null">
+                v_contacts_phone,
+            </if>
+            <if test="vInvestigatorId != null">
+                v_investigator_id,
+            </if>
+            <if test="dInvestigateDate != null">
+                d_investigate_date,
+            </if>
+            <if test="vInstallerId != null">
+                v_installer_id,
+            </if>
+            <if test="dInstallDate != null">
+                d_install_date,
+            </if>
+            <if test="iElevatorCount != null">
+                i_elevator_count,
+            </if>
+            <if test="iStatus != null">
+                i_status,
+            </if>
+            <if test="dtCreateTime != null">
+                dt_create_time,
+            </if>
+            <if test="dtModifyTime != null">
+                dt_modify_time,
+            </if>
+            <if test="vCreateUserId != null">
+                v_create_user_id,
+            </if>
+            <if test="vModifyUserId != null">
+                v_modify_user_id,
+            </if>
+            <if test="iDelFlag != null">
+                i_del_flag,
+            </if>
+
+            <if test="groupLeasingStatus != null">
+                group_leasing_status,
+            </if>
+            <if test="groupLeasingTimeCoefficient != null and groupLeasingTimeCoefficient != ''">
+                group_leasing_time_coefficient,
+            </if>
+            <if test="groupLeasingStepRange != null and groupLeasingStepRange != ''">
+                group_leasing_step_range,
+            </if>
+            <if test="groupLeasingStartDate != null">
+                group_leasing_start_date,
+            </if>
+            <if test="groupLeasingEndDate != null">
+                group_leasing_end_date,
+            </if>
+            <if test="groupLeasingStartTime != null">
+                group_leasing_start_time,
+            </if>
+            <if test="groupLeasingEndTime != null">
+                group_leasing_end_time,
+            </if>
+            <if test="groupLeasingResult != null">
+                group_leasing_result,
+            </if>
+            <if test="street != null">
+                street,
+            </if>
+            <if test="neighborhood != null">
+                neighborhood,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="vVillageId != null">
+                #{vVillageId,jdbcType=VARCHAR},
+            </if>
+            <if test="vVillageName != null">
+                #{vVillageName,jdbcType=VARCHAR},
+            </if>
+            <if test="vAddress != null">
+                #{vAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="vProjectId != null">
+                #{vProjectId,jdbcType=VARCHAR},
+            </if>
+            <if test="vLongitude != null">
+                #{vLongitude,jdbcType=VARCHAR},
+            </if>
+            <if test="vLatitude != null">
+                #{vLatitude,jdbcType=VARCHAR},
+            </if>
+            <if test="vRemarks != null">
+                #{vRemarks,jdbcType=VARCHAR},
+            </if>
+            <if test="vContactsId != null">
+                #{vContactsId,jdbcType=VARCHAR},
+            </if>
+            <if test="vContactsName != null">
+                #{vContactsName,jdbcType=VARCHAR},
+            </if>
+            <if test="vContactsPhone != null">
+                #{vContactsPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="vInvestigatorId != null">
+                #{vInvestigatorId,jdbcType=VARCHAR},
+            </if>
+            <if test="dInvestigateDate != null">
+                #{dInvestigateDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="vInstallerId != null">
+                #{vInstallerId,jdbcType=VARCHAR},
+            </if>
+            <if test="dInstallDate != null">
+                #{dInstallDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="iElevatorCount != null">
+                #{iElevatorCount,jdbcType=INTEGER},
+            </if>
+            <if test="iStatus != null">
+                #{iStatus,jdbcType=INTEGER},
+            </if>
+            <if test="dtCreateTime != null">
+                #{dtCreateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="dtModifyTime != null">
+                #{dtModifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="vCreateUserId != null">
+                #{vCreateUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="vModifyUserId != null">
+                #{vModifyUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="iDelFlag != null">
+                #{iDelFlag,jdbcType=INTEGER},
+            </if>
+
+            <if test="groupLeasingStatus != null">
+                #{groupLeasingStatus,jdbcType=INTEGER},
+            </if>
+            <if test="groupLeasingTimeCoefficient != null and groupLeasingTimeCoefficient != ''">
+                #{groupLeasingTimeCoefficient,jdbcType=VARCHAR},
+            </if>
+            <if test="groupLeasingStepRange != null and groupLeasingStepRange != ''">
+                #{groupLeasingStepRange,jdbcType=VARCHAR},
+            </if>
+            <if test="groupLeasingStartDate != null">
+                #{groupLeasingStartDate,jdbcType=DATE},
+            </if>
+            <if test="groupLeasingEndDate != null">
+                #{groupLeasingEndDate,jdbcType=DATE},
+            </if>
+            <if test="groupLeasingStartTime != null">
+                #{groupLeasingStartTime,jdbcType=TIME},
+            </if>
+            <if test="groupLeasingEndTime != null">
+                #{groupLeasingEndTime,jdbcType=TIME},
+            </if>
+            <if test="groupLeasingResult != null">
+                #{groupLeasingResult,jdbcType=INTEGER},
+            </if>
+            <if test="street != null">
+                #{street},
+            </if>
+            <if test="neighborhood != null">
+                #{neighborhood},
+            </if>
+        </trim>
+    </insert>
+
+    <!--批量新增所有列，列表长度不能为0-->
+    <insert id="insertBatch" keyProperty="vVillageId" useGeneratedKeys="true" parameterType="list">
+        insert into
+        <include refid="TABLE_NAME"/>
+        ( v_village_id ,v_village_name, v_address, v_project_id, v_longitude, v_latitude, v_remarks, v_contacts_id,
+        v_contacts_name, v_contacts_phone, v_investigateor_id, d_investigate_date, v_installer_id, d_install_date,
+        i_elevator_count, i_status, dt_create_time, dt_modify_time, v_create_user_id, v_modify_user_id, i_del_flag,
+        group_leasing_status, group_leasing_time_coefficient, group_leasing_step_range, group_leasing_start_date,
+        group_leasing_end_date, group_leasing_start_time, group_leasing_end_time, group_leasing_result, street,
+        neighborhood
+        )
+        values
+        <foreach item="item" collection="list" separator="," open="" close="" index="index">
+            (#{item.vVillageId,jdbcType=VARCHAR},#{item.vVillageName,jdbcType=VARCHAR},
+            #{item.vAddress,jdbcType=VARCHAR},
+            #{item.vProjectId,jdbcType=VARCHAR}, #{item.vLongitude,jdbcType=VARCHAR},
+            #{item.vLatitude,jdbcType=VARCHAR},
+            #{item.vRemarks,jdbcType=VARCHAR}, #{item.vContactsId,jdbcType=VARCHAR},
+            #{item.vContactsName,jdbcType=VARCHAR},
+            #{item.vContactsPhone,jdbcType=VARCHAR}, #{item.vInvestigatorId,jdbcType=VARCHAR},
+            #{item.dInvestigateDate,jdbcType=TIMESTAMP}, #{item.vInstallerId,jdbcType=VARCHAR},
+            #{item.dInstallDate,jdbcType=TIMESTAMP}, #{item.iElevatorCount,jdbcType=INTEGER},
+            #{item.iStatus,jdbcType=INTEGER}, #{item.dtCreateTime,jdbcType=TIMESTAMP},
+            #{item.dtModifyTime,jdbcType=TIMESTAMP}, #{item.vCreateUserId,jdbcType=VARCHAR},
+            #{item.vModifyUserId,jdbcType=VARCHAR}, #{item.iDelFlag,jdbcType=INTEGER},
+            #{item.groupLeasingStatus,jdbcType=INTEGER}, #{item.groupLeasingTimeCoefficient,jdbcType=VARCHAR},
+            #{item.groupLeasingStepRange,jdbcType=VARCHAR}, #{item.groupLeasingStartDate,jdbcType=DATE},
+            #{item.groupLeasingEndDate,jdbcType=DATE}, #{item.groupLeasingStartTime,jdbcType=TIME},
+            #{item.groupLeasingEndTime,jdbcType=TIME}, #{item.groupLeasingResult,jdbcType=INTEGER},
+            #{item.street}, #{item.neighborhood}
+            )
+        </foreach>
+    </insert>
+
+    <!--通过主键修改实体属性不为null的列-->
+    <update id="update" parameterType="com.shmashine.common.entity.TblVillage">
+        update
+        <include refid="TABLE_NAME"/>
+        <set>
+            <if test="vVillageName != null and vVillageName != ''">
+                v_village_name = #{vVillageName,jdbcType=VARCHAR},
+            </if>
+            <if test="vAddress != null and vAddress != ''">
+                v_address = #{vAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="vProjectId != null and vProjectId != ''">
+                v_project_id = #{vProjectId,jdbcType=VARCHAR},
+            </if>
+            <if test="vLongitude != null and vLongitude != ''">
+                v_longitude = #{vLongitude,jdbcType=VARCHAR},
+            </if>
+            <if test="vLatitude != null and vLatitude != ''">
+                v_latitude = #{vLatitude,jdbcType=VARCHAR},
+            </if>
+            <if test="vRemarks != null and vRemarks != ''">
+                v_remarks = #{vRemarks,jdbcType=VARCHAR},
+            </if>
+            <if test="vContactsId != null and vContactsId != ''">
+                v_contacts_id = #{vContactsId,jdbcType=VARCHAR},
+            </if>
+            <if test="vContactsName != null and vContactsName != ''">
+                v_contacts_name = #{vContactsName,jdbcType=VARCHAR},
+            </if>
+            <if test="vContactsPhone != null and vContactsPhone != ''">
+                v_contacts_phone = #{vContactsPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="vInvestigatorId != null and vInvestigatorId != ''">
+                v_investigator_id = #{vInvestigatorId,jdbcType=VARCHAR},
+            </if>
+            <if test="dInvestigateDate != null">
+                d_investigate_date = #{dInvestigateDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="vInstallerId != null and vInstallerId != ''">
+                v_installer_id = #{vInstallerId,jdbcType=VARCHAR},
+            </if>
+            <if test="dInstallDate != null">
+                d_install_date = #{dInstallDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="iElevatorCount != null and iElevatorCount != ''">
+                i_elevator_count = #{iElevatorCount,jdbcType=INTEGER},
+            </if>
+            <if test="iStatus != null and iStatus != ''">
+                i_status = #{iStatus,jdbcType=INTEGER},
+            </if>
+            <if test="dtCreateTime != null">
+                dt_create_time = #{dtCreateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="dtModifyTime != null">
+                dt_modify_time = #{dtModifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="vCreateUserId != null and vCreateUserId != ''">
+                v_create_user_id = #{vCreateUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="vModifyUserId != null and vModifyUserId != ''">
+                v_modify_user_id = #{vModifyUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="iDelFlag != null">
+                i_del_flag = #{iDelFlag,jdbcType=INTEGER},
+            </if>
+            <if test="iElevatorCount != null">
+                i_elevator_count = #{iElevatorCount,jdbcType=INTEGER},
+            </if>
+
+            <if test="groupLeasingStatus != null">
+                group_leasing_status = #{groupLeasingStatus,jdbcType=INTEGER},
+            </if>
+            <if test="groupLeasingTimeCoefficient != null and groupLeasingTimeCoefficient != ''">
+                group_leasing_time_coefficient = #{groupLeasingTimeCoefficient,jdbcType=VARCHAR},
+            </if>
+            <if test="groupLeasingStepRange != null and groupLeasingStepRange != ''">
+                group_leasing_step_range = #{groupLeasingStepRange,jdbcType=VARCHAR},
+            </if>
+            <if test="groupLeasingStartDate != null">
+                group_leasing_start_date = #{groupLeasingStartDate,jdbcType=DATE},
+            </if>
+            <if test="groupLeasingEndDate != null">
+                group_leasing_end_date = #{groupLeasingEndDate,jdbcType=DATE},
+            </if>
+            <if test="groupLeasingStartTime != null">
+                group_leasing_start_time = #{groupLeasingStartTime,jdbcType=TIME},
+            </if>
+            <if test="groupLeasingEndTime != null">
+                group_leasing_end_time = #{groupLeasingEndTime,jdbcType=TIME},
+            </if>
+            <if test="groupLeasingResult != null">
+                group_leasing_result = #{groupLeasingResult,jdbcType=INTEGER},
+            </if>
+            <if test="street != null">
+                street = #{street,jdbcType=VARCHAR},
+            </if>
+            <if test="neighborhood != null">
+                neighborhood = #{neighborhood,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where v_village_id = #{vVillageId,jdbcType=VARCHAR}
+    </update>
+
+    <!--通过表字段修改实体属性不为null的列-->
+    <update id="updateByField">
+        update
+        <include refid="TABLE_NAME"/>
+        <set>
+            <if test="where.vVillageName == null and set.vVillageName != null and set.vVillageName != ''">
+                v_village_name = #{set.vVillageName,jdbcType=VARCHAR},
+            </if>
+            <if test="where.vAddress == null and set.vAddress != null and set.vAddress != ''">
+                v_address = #{set.vAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="where.vProjectId == null and set.vProjectId != null and set.vProjectId != ''">
+                v_project_id = #{set.vProjectId,jdbcType=VARCHAR},
+            </if>
+            <if test="where.vLongitude == null and set.vLongitude != null and set.vLongitude != ''">
+                v_longitude = #{set.vLongitude,jdbcType=VARCHAR},
+            </if>
+            <if test="where.vLatitude == null and set.vLatitude != null and set.vLatitude != ''">
+                v_latitude = #{set.vLatitude,jdbcType=VARCHAR},
+            </if>
+            <if test="where.vRemarks == null and set.vRemarks != null and set.vRemarks != ''">
+                v_remarks = #{set.vRemarks,jdbcType=VARCHAR},
+            </if>
+            <if test="vContactsId != null and vContactsId != ''">
+                v_contacts_id = #{vContactsId,jdbcType=VARCHAR},
+            </if>
+            <if test="vContactsName != null and vContactsName != ''">
+                v_contacts_name = #{vContactsName,jdbcType=VARCHAR},
+            </if>
+            <if test="vContactsPhone != null and vContactsPhone != ''">
+                v_contacts_phone = #{vContactsPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="vInvestigatorId != null and vInvestigatorId != ''">
+                v_investigator_id = #{vInvestigatorId,jdbcType=VARCHAR},
+            </if>
+            <if test="dInvestigateDate != null">
+                d_investigate_date = #{dInvestigateDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="vInstallerId != null and vInstallerId != ''">
+                v_installer_id = #{vInstallerId,jdbcType=VARCHAR},
+            </if>
+            <if test="dInstallDate != null">
+                d_install_date = #{dInstallDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="iElevatorCount != null and iElevatorCount != ''">
+                i_elevator_count = #{iElevatorCount,jdbcType=INTEGER},
+            </if>
+            <if test="iStatus != null and iStatus != ''">
+                i_status = #{iStatus,jdbcType=INTEGER},
+            </if>
+            <if test="where.dtCreateTime == null and set.dtCreateTime != null">
+                dt_create_time = #{set.dtCreateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="where.dtModifyTime == null and set.dtModifyTime != null">
+                dt_modify_time = #{set.dtModifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="where.vCreateUserId == null and set.vCreateUserId != null and set.vCreateUserId != ''">
+                v_create_user_id = #{set.vCreateUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="where.vModifyUserId == null and set.vModifyUserId != null and set.vModifyUserId != ''">
+                v_modify_user_id = #{set.vModifyUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="where.iDelFlag == null and set.iDelFlag != null">
+                i_del_flag = #{set.iDelFlag,jdbcType=INTEGER},
+            </if>
+
+            <if test="where.groupLeasingStatus == null and set.groupLeasingStatus != null">
+                group_leasing_status = #{set.groupLeasingStatus,jdbcType=INTEGER},
+            </if>
+            <if test="(where.groupLeasingTimeCoefficient == null or where.groupLeasingTimeCoefficient == '') and set.groupLeasingTimeCoefficient != null">
+                group_leasing_time_coefficient = #{set.groupLeasingTimeCoefficient,jdbcType=VARCHAR},
+            </if>
+            <if test="where.groupLeasingStepRange == null and where.groupLeasingStepRange != '' and set.groupLeasingStepRange != null">
+                group_leasing_step_range = #{set.groupLeasingStepRange,jdbcType=VARCHAR},
+            </if>
+            <if test="where.groupLeasingStartDate == null and set.groupLeasingStartDate != null">
+                group_leasing_start_date = #{set.groupLeasingStartDate,jdbcType=DATE},
+            </if>
+            <if test="where.groupLeasingEndDate == null and set.groupLeasingEndDate != null">
+                group_leasing_end_date = #{set.groupLeasingEndDate,jdbcType=DATE},
+            </if>
+            <if test="where.groupLeasingStartTime == null and set.groupLeasingStartTime != null">
+                group_leasing_start_time = #{set.groupLeasingStartTime,jdbcType=TIME},
+            </if>
+            <if test="where.groupLeasingEndTime == null and set.groupLeasingEndTime != null">
+                group_leasing_end_time = #{set.groupLeasingEndTime,jdbcType=TIME},
+            </if>
+            <if test="where.groupLeasingResult == null and set.groupLeasingResult != null">
+                group_leasing_result = #{groupLeasingResult,jdbcType=INTEGER},
+            </if>
+        </set>
+        <where>
+            <if test="where.vVillageId != null">
+                and v_village_id = #{where.vVillageId,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vVillageName != null">
+                and v_village_name = #{where.vVillageName,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vAddress != null">
+                and v_address = #{where.vAddress,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vProjectId != null">
+                and v_project_id = #{where.vProjectId,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vLongitude != null">
+                and v_longitude = #{where.vLongitude,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vLatitude != null">
+                and v_latitude = #{where.vLatitude,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vRemarks != null">
+                and v_remarks = #{where.vRemarks,jdbcType=VARCHAR}
+            </if>
+            <if test="where.dtCreateTime != null">
+                and dt_create_time = #{where.dtCreateTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="where.dtModifyTime != null">
+                and dt_modify_time = #{where.dtModifyTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="where.vCreateUserId != null">
+                and v_create_user_id = #{where.vCreateUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vModifyUserId != null">
+                and v_modify_user_id = #{where.vModifyUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="where.iDelFlag != null">
+                and i_del_flag = #{where.iDelFlag,jdbcType=INTEGER}
+            </if>
+
+            <if test="where.groupLeasingStatus != null">
+                and group_leasing_status = #{where.groupLeasingStatus,jdbcType=INTEGER}
+            </if>
+            <if test="where.groupLeasingTimeCoefficient != null and where.groupLeasingTimeCoefficient != ''">
+                and group_leasing_time_coefficient = #{where.groupLeasingTimeCoefficient,jdbcType=VARCHAR}
+            </if>
+            <if test="where.groupLeasingStepRange != null and where.groupLeasingStepRange != ''">
+                and group_leasing_step_range = #{where.groupLeasingStepRange,jdbcType=VARCHAR}
+            </if>
+            <if test="where.groupLeasingStartDate != null">
+                and group_leasing_start_date = #{where.groupLeasingStartDate,jdbcType=DATE}
+            </if>
+            <if test="where.groupLeasingEndDate != null">
+                and group_leasing_end_date = #{where.groupLeasingEndDate,jdbcType=DATE}
+            </if>
+            <if test="where.groupLeasingStartTime != null">
+                and group_leasing_start_time = #{where.groupLeasingStartTime,jdbcType=TIME}
+            </if>
+            <if test="where.groupLeasingEndTime != null">
+                and group_leasing_end_time = #{where.groupLeasingEndTime,jdbcType=TIME}
+            </if>
+            <if test="where.groupLeasingResult != null">
+                and group_leasing_result = #{where.groupLeasingResult,jdbcType=INTEGER}
+            </if>
+        </where>
+    </update>
+
+    <!--通过主键修改实体列表，列表长度不能为0，注意：当实体属性为null时，对应的列也会别更新为null-->
+    <update id="updateBatch" parameterType="list">
+        update
+        <include refid="TABLE_NAME"/>
+        <trim prefix="set" suffixOverrides=",">
+            <trim prefix="v_village_name = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_village_id = #{item.vVillageId} then #{item.vVillageName}
+                </foreach>
+            </trim>
+            <trim prefix="v_address = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_village_id = #{item.vVillageId} then #{item.vAddress}
+                </foreach>
+            </trim>
+            <trim prefix="v_project_id = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_village_id = #{item.vVillageId} then #{item.vProjectId}
+                </foreach>
+            </trim>
+            <trim prefix="v_longitude = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_village_id = #{item.vVillageId} then #{item.vLongitude}
+                </foreach>
+            </trim>
+            <trim prefix="v_latitude = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_village_id = #{item.vVillageId} then #{item.vLatitude}
+                </foreach>
+            </trim>
+            <trim prefix="v_remarks = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_village_id = #{item.vVillageId} then #{item.vRemarks}
+                </foreach>
+            </trim>
+            <trim prefix="dt_create_time = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_village_id = #{item.vVillageId} then #{item.dtCreateTime}
+                </foreach>
+            </trim>
+            <trim prefix="dt_modify_time = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_village_id = #{item.vVillageId} then #{item.dtModifyTime}
+                </foreach>
+            </trim>
+            <trim prefix="v_create_user_id = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_village_id = #{item.vVillageId} then #{item.vCreateUserId}
+                </foreach>
+            </trim>
+            <trim prefix="v_modify_user_id = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_village_id = #{item.vVillageId} then #{item.vModifyUserId}
+                </foreach>
+            </trim>
+            <trim prefix="i_del_flag = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_village_id = #{item.vVillageId} then #{item.iDelFlag}
+                </foreach>
+            </trim>
+
+            <trim prefix="group_leasing_status = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_village_id = #{item.vVillageId} then #{item.groupLeasingStatus}
+                </foreach>
+            </trim>
+            <trim prefix="group_leasing_time_coefficient = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_village_id = #{item.vVillageId} then #{item.groupLeasingTimeCoefficient}
+                </foreach>
+            </trim>
+            <trim prefix="group_leasing_step_range = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_village_id = #{item.vVillageId} then #{item.groupLeasingStepRange}
+                </foreach>
+            </trim>
+            <trim prefix="group_leasing_start_date = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_village_id = #{item.vVillageId} then #{item.groupLeasingStartDate}
+                </foreach>
+            </trim>
+            <trim prefix="group_leasing_end_date = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_village_id = #{item.vVillageId} then #{item.groupLeasingEndDate}
+                </foreach>
+            </trim>
+            <trim prefix="group_leasing_start_time = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_village_id = #{item.vVillageId} then #{item.groupLeasingStartTime}
+                </foreach>
+            </trim>
+            <trim prefix="group_leasing_end_time = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_village_id = #{item.vVillageId} then #{item.groupLeasingEndTime}
+                </foreach>
+            </trim>
+            <trim prefix="group_leasing_result = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_village_id = #{item.vVillageId} then #{item.groupLeasingResult}
+                </foreach>
+            </trim>
+        </trim>
+        where v_village_id in
+        <foreach collection="list" index="index" item="item" separator="," open="(" close=")">
+            #{item.vVillageId,jdbcType=VARCHAR}
+        </foreach>
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById" parameterType="java.lang.String">
+        delete from
+        <include refid="TABLE_NAME"/>
+        where v_village_id = #{vVillageId,jdbcType=VARCHAR}
+    </delete>
+
+    <!--通过实体非空属性删除-->
+    <delete id="deleteByEntity" parameterType="com.shmashine.common.entity.TblVillage">
+        delete from
+        <include refid="TABLE_NAME"/>
+        <where>
+            <if test="vVillageName != null">
+                and v_village_name = #{vVillageName,jdbcType=VARCHAR}
+            </if>
+            <if test="vAddress != null">
+                and v_address = #{vAddress,jdbcType=VARCHAR}
+            </if>
+            <if test="vProjectId != null">
+                and v_project_id = #{vProjectId,jdbcType=VARCHAR}
+            </if>
+            <if test="vLongitude != null">
+                and v_longitude = #{vLongitude,jdbcType=VARCHAR}
+            </if>
+            <if test="vLatitude != null">
+                and v_latitude = #{vLatitude,jdbcType=VARCHAR}
+            </if>
+            <if test="vRemarks != null">
+                and v_remarks = #{vRemarks,jdbcType=VARCHAR}
+            </if>
+            <if test="dtCreateTime != null">
+                and dt_create_time = #{dtCreateTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="dtModifyTime != null">
+                and dt_modify_time = #{dtModifyTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="vCreateUserId != null">
+                and v_create_user_id = #{vCreateUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="vModifyUserId != null">
+                and v_modify_user_id = #{vModifyUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="iDelFlag != null">
+                and i_del_flag = #{iDelFlag,jdbcType=INTEGER}
+            </if>
+        </where>
+    </delete>
+
+    <!--通过主键列表删除，列表长度不能为0-->
+    <delete id="deleteByIds" parameterType="list">
+        delete from
+        <include refid="TABLE_NAME"/>
+        where v_village_id in
+        <foreach item="item" collection="list" separator="," open="(" close=")" index="index">
+            #{item}
+        </foreach>
+    </delete>
+
+    <select id="countAll" resultType="int">
+        select count(v_village_id) from
+        <include refid="TABLE_NAME"/>
+    </select>
+
+    <select id="countByEntity" parameterType="com.shmashine.common.entity.TblVillage" resultType="int">
+        select count(v_village_id) from tbl_village
+        <where>
+            <if test="vVillageId != null">
+                and v_village_id = #{vVillageId,jdbcType=VARCHAR}
+            </if>
+            <if test="vVillageName != null">
+                and v_village_name = #{vVillageName,jdbcType=VARCHAR}
+            </if>
+            <if test="vAddress != null">
+                and v_address = #{vAddress,jdbcType=VARCHAR}
+            </if>
+            <if test="vProjectId != null">
+                and v_project_id = #{vProjectId,jdbcType=VARCHAR}
+            </if>
+            <if test="vLongitude != null">
+                and v_longitude = #{vLongitude,jdbcType=VARCHAR}
+            </if>
+            <if test="vLatitude != null">
+                and v_latitude = #{vLatitude,jdbcType=VARCHAR}
+            </if>
+            <if test="vRemarks != null">
+                and v_remarks = #{vRemarks,jdbcType=VARCHAR}
+            </if>
+            <if test="dtCreateTime != null">
+                and dt_create_time = #{dtCreateTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="dtModifyTime != null">
+                and dt_modify_time = #{dtModifyTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="vCreateUserId != null">
+                and v_create_user_id = #{vCreateUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="vModifyUserId != null">
+                and v_modify_user_id = #{vModifyUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="iDelFlag != null">
+                and i_del_flag = #{iDelFlag,jdbcType=INTEGER}
+            </if>
+            <if test="groupLeasingStatus != null">
+                and group_leasing_status = #{groupLeasingStatus,jdbcType=INTEGER}
+            </if>
+        </where>
+    </select>
+
+    <select id="existsByName" resultType="int">
+        select
+        ifnull(sum(1), 0)
+        from
+        <include refid="TABLE_NAME"/>
+        tbl
+        where
+        tbl.v_village_name = #{vVillageName}
+        and
+        v_project_id = #{vProjectId}
+        and
+        i_del_flag = 0
+    </select>
+
+
+    <select id="getVillageIdsByProjectId" resultType="java.lang.String">
+        SELECT v_village_id
+        FROM
+        <include refid="TABLE_NAME"/>
+        WHERE i_del_flag = 0 AND v_project_id = #{projectId}
+    </select>
+</mapper>

@@ -1,0 +1,2 @@
+GET http://47.105.214.0:8003/api/kpi/project-iot/export/export-by-month
+user_id: shmashine666

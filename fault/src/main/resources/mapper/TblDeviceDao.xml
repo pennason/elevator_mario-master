@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.fault.dal.dao.TblDeviceDao">
+
+
+    <!--根据电梯id和设备类型获取设备-->
+    <select id="getByElevatorIdAndSensorType" resultType="com.shmashine.common.entity.TblDevice">
+        SELECT *
+        FROM tbl_device
+        WHERE v_elevator_id = #{elevatorId}
+          AND v_sensor_type = #{sensorType}
+    </select>
+
+</mapper>

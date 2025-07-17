@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.sender.dao.TblSysFileMapper">
+    <sql id="TABLE_NAME">
+        tbl_sys_file
+    </sql>
+    <!-- 查询 -->
+
+    <!-- 根据业务ID和业务类型查询文件列表, 只获取故障的 i_business_type 业务类型 1：工单，2：故障，3：电梯详情图片, 4:部门Log -->
+
+    <select id="getFileListByFaultId" resultType="com.shmashine.common.entity.TblSysFile">
+        SELECT v_file_id AS vFileId,
+        v_file_type AS vFileType,
+        v_file_name AS vFileName,
+        v_business_id AS vBusinessId,
+        i_business_type AS iBusinessType,
+        v_url AS vUrl,
+        v_remark AS vRemark,
+        dt_create_time AS dtCreateTime,
+        dt_modify_time AS dtModifyTime,
+        v_create_user_id AS vCreateUserId,
+        v_modify_user_id AS vModifyUserId
+        FROM
+        <include refid="TABLE_NAME"/>
+        WHERE v_business_id = #{faultId} AND i_business_type = 2
+    </select>
+</mapper>

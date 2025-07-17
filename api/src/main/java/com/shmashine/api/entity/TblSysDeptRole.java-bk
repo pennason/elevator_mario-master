@@ -1,0 +1,82 @@
+package com.shmashine.api.entity;
+
+import java.util.Date;
+import java.io.Serializable;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+/**
+ * 部门角色表(TblSysDeptRole)实体类
+ *
+ * @author liulifu
+ * @since 2020-05-21 14:40:40
+ */
+public class TblSysDeptRole implements Serializable {
+    private static final long serialVersionUID = -19160361983402316L;
+    /**部门编号*/
+    private String vDeptId;
+    /**角色id*/
+    private String vRoleId;
+    /**创建时间*/
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss.SSS")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss.SSS")
+    private Date dtCreatetime;
+    /**修改时间*/
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss.SSS")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss.SSS")
+    private Date dtModifytime;
+    /**创建人*/
+    private String vCreateid;
+    /**修改人*/
+    private String vModifyid;
+
+    @JsonProperty("vDeptId")
+    public String getVDeptId() {
+        return vDeptId;
+    }
+
+    public void setVDeptId(String vDeptId) {
+        this.vDeptId = vDeptId;
+    }
+    @JsonProperty("vRoleId")
+    public String getVRoleId() {
+        return vRoleId;
+    }
+
+    public void setVRoleId(String vRoleId) {
+        this.vRoleId = vRoleId;
+    }
+    @JsonProperty("dtCreatetime")
+    public Date getDtCreatetime() {
+        return dtCreatetime;
+    }
+
+    public void setDtCreatetime(Date dtCreatetime) {
+        this.dtCreatetime = dtCreatetime;
+    }
+    @JsonProperty("dtModifytime")
+    public Date getDtModifytime() {
+        return dtModifytime;
+    }
+
+    public void setDtModifytime(Date dtModifytime) {
+        this.dtModifytime = dtModifytime;
+    }
+    @JsonProperty("vCreateid")
+    public String getVCreateid() {
+        return vCreateid;
+    }
+
+    public void setVCreateid(String vCreateid) {
+        this.vCreateid = vCreateid;
+    }
+    @JsonProperty("vModifyid")
+    public String getVModifyid() {
+        return vModifyid;
+    }
+
+    public void setVModifyid(String vModifyid) {
+        this.vModifyid = vModifyid;
+    }
+
+}

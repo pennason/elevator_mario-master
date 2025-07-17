@@ -1,0 +1,37 @@
+eureka:
+  client:
+    service-url:
+      defaultZone: http://10.0.0.129:8008/eureka/
+    instance:
+      instance-id: ${spring.cloud.client.ip-address}:${server.port}
+      prefer-ip-address: true
+
+spring:
+  redis:
+    database: 2
+    host: 106.14.192.66
+    port: 6379
+    password: fb8GDavR
+    timeout: 5000
+
+  boot:
+    admin:
+      client:
+        url: http://10.0.0.129:9999/
+        username: shmashine
+        password: shmashine
+        instance:
+          prefer-ip: true
+          service-url: http://10.0.0.129:8012/applets
+
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://rm-bp1n9d80pc03n1ag4qo.mysql.rds.aliyuncs.com:3306/elevator_master?useSSL=false&useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&autoReconnect=true&failOverReadOnly=false&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+    username: wuyanjie
+    password: Maixin480
+
+endpoint:
+  shmashine-api: http://10.0.0.129:8003
+
+

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.cameratysl.dao.TblElevatorMapper">
+
+    <sql id="TABLE_NAME">
+        tbl_elevator
+    </sql>
+
+    <!--电梯安装状态-->
+    <select id="checkCanDownMedia" resultType="java.lang.Boolean">
+        SELECT i_install_status
+        FROM
+        <include refid="TABLE_NAME"/>
+        WHERE
+        v_elevator_code = #{elevatorCode}
+    </select>
+
+
+    <update id="updateImageMattingConfig">
+        update
+            image_recognition_matting_config
+        set real_coordinates = #{realCoordinates}
+        where id = #{id}
+    </update>
+
+    <!--根据故障类型获取图片抠图配置-->
+    <select id="getImageMattingConfigByFaultType"
+            resultType="com.shmashine.common.entity.ImageRecognitionMattingConfigEntity">
+        SELECT *
+        FROM image_recognition_matting_config
+        WHERE elevator_code = #{elevatorCode}
+          AND fault_types LIKE concat('%', #{faultType}, '%') limit 1
+    </select>
+
+</mapper>

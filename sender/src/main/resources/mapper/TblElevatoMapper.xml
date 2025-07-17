@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.sender.dao.TblElevatorDao">
+
+    <resultMap type="com.shmashine.common.entity.TblElevator" id="TblElevatorMap">
+        <result property="vElevatorId" column="v_elevator_id" jdbcType="VARCHAR"/>
+        <result property="vElevatorCode" column="v_elevator_code" jdbcType="VARCHAR"/>
+        <result property="vElevatorName" column="v_elevator_name" jdbcType="VARCHAR"/>
+        <result property="iProvinceId" column="i_province_id" jdbcType="INTEGER"/>
+        <result property="iCityId" column="i_city_id" jdbcType="INTEGER"/>
+        <result property="iAreaId" column="i_area_id" jdbcType="INTEGER"/>
+        <result property="vAddress" column="v_address" jdbcType="VARCHAR"/>
+        <result property="vProjectId" column="v_project_id" jdbcType="VARCHAR"/>
+        <result property="iElevatorType" column="i_elevator_type" jdbcType="INTEGER"/>
+        <result property="iElevatorUseType" column="i_elevator_use_type" jdbcType="INTEGER"/>
+        <result property="iElevatorPlaceType" column="i_elevator_place_type" jdbcType="INTEGER"/>
+        <result property="vElevatorBrandId" column="v_elevator_brand_id" jdbcType="VARCHAR"/>
+        <result property="iMaintainDays" column="i_maintain_days" jdbcType="INTEGER"/>
+        <result property="dLastMaintainDate" column="d_last_maintain_date" jdbcType="OTHER"/>
+        <result property="dNextMaintainDate" column="d_next_maintain_date" jdbcType="OTHER"/>
+        <result property="dLastInspectDate" column="d_last_inspect_date" jdbcType="OTHER"/>
+        <result property="dNextInspectDate" column="d_next_inspect_date" jdbcType="OTHER"/>
+        <result property="vMaintainCompanyId" column="v_maintain_company_id" jdbcType="VARCHAR"/>
+        <result property="vPropertyCompanyId" column="v_property_company_id" jdbcType="VARCHAR"/>
+        <result property="iGovernmentId" column="i_government_id" jdbcType="VARCHAR"/>
+        <result property="vMaintainPersonName" column="v_maintain_person_name" jdbcType="VARCHAR"/>
+        <result property="vMaintainPersonTel" column="v_maintain_person_tel" jdbcType="VARCHAR"/>
+        <result property="vEmergencyPersonName" column="v_emergency_person_name" jdbcType="VARCHAR"/>
+        <result property="vEmergencyPersonTel" column="v_emergency_person_tel" jdbcType="VARCHAR"/>
+        <result property="vHttpPtCodes" column="v_http_pt_codes" jdbcType="VARCHAR"/>
+        <result property="vLongitude" column="v_longitude" jdbcType="VARCHAR"/>
+        <result property="vLatitude" column="v_latitude" jdbcType="VARCHAR"/>
+        <result property="iCoordinateType" column="i_coordinate_type" jdbcType="INTEGER"/>
+        <result property="vProjectId" column="v_project_id" jdbcType="VARCHAR"/>
+        <result property="vVillageId" column="v_village_id" jdbcType="VARCHAR"/>
+        <result property="vBuildingId" column="v_building_id" jdbcType="VARCHAR"/>
+        <result property="buildingType" column="building_type" jdbcType="INTEGER"/>
+        <result property="doorType" column="v_door_type" jdbcType="INTEGER"/>
+        <result property="iInstallStatus" column="i_install_status" jdbcType="INTEGER"/>
+        <result property="dtInstallTime" column="dt_install_time" jdbcType="OTHER"/>
+        <result property="iOnLine" column="i_on_line" jdbcType="INTEGER"/>
+        <result property="iModeStatus" column="i_mode_status" jdbcType="INTEGER"/>
+        <result property="iFaultStatus" column="i_fault_status" jdbcType="INTEGER"/>
+        <result property="iMaxFloor" column="i_max_floor" jdbcType="INTEGER"/>
+        <result property="iMinFloor" column="i_min_floor" jdbcType="INTEGER"/>
+        <result property="floorCount" column="floor_count" jdbcType="INTEGER"/>
+        <result property="stationCount" column="station_count" jdbcType="INTEGER"/>
+        <result property="baseStation" column="base_station" jdbcType="VARCHAR"/>
+        <result property="vFloorDetail" column="v_floor_detail" jdbcType="VARCHAR"/>
+        <result property="vFloorSettingStatus" column="v_floor_setting_status" jdbcType="VARCHAR"/>
+        <result property="dcSpeed" column="dc_speed" jdbcType="NUMERIC"/>
+        <result property="nominalSpeedUp" column="nominal_speed_up" jdbcType="NUMERIC"/>
+        <result property="nominalSpeedDown" column="nominal_speed_down" jdbcType="NUMERIC"/>
+        <result property="nominalLoadCapacity" column="nominal_load_capacity" jdbcType="VARCHAR"/>
+        <result property="biRunTime" column="bi_run_time" jdbcType="INTEGER"/>
+        <result property="biRunCount" column="bi_run_count" jdbcType="INTEGER"/>
+        <result property="biDoorCount" column="bi_door_count" jdbcType="INTEGER"/>
+        <result property="biBendCount" column="bi_bend_count" jdbcType="INTEGER"/>
+        <result property="biLevelTriggerCount" column="bi_level_trigger_count" jdbcType="INTEGER"/>
+        <result property="biRunDistanceCount" column="bi_run_distance_count" jdbcType="INTEGER"/>
+        <result property="backAndForthCount" column="back_and_forth_count" jdbcType="INTEGER"/>
+        <result property="iDt" column="i_dt" jdbcType="INTEGER"/>
+        <result property="iDt1" column="i_dt1" jdbcType="INTEGER"/>
+        <result property="iDt2" column="i_dt2" jdbcType="INTEGER"/>
+        <result property="iNps" column="i_nps" jdbcType="INTEGER"/>
+        <result property="iNpr" column="i_npr" jdbcType="INTEGER"/>
+        <result property="dcNdaj" column="dc_ndaj" jdbcType="NUMERIC"/>
+        <result property="iAngle" column="i_angle" jdbcType="INTEGER"/>
+        <result property="iAngleType" column="i_angle_type" jdbcType="INTEGER"/>
+        <result property="vSglnCode" column="v_sgln_code" jdbcType="VARCHAR"/>
+        <result property="vUnitCode" column="v_unit_code" jdbcType="VARCHAR"/>
+        <result property="vLeaveFactoryNumber" column="v_leave_factory_number" jdbcType="VARCHAR"/>
+        <result property="vManufacturerCode" column="v_manufacturer_code" jdbcType="VARCHAR"/>
+        <result property="vEquipmentCode" column="v_equipment_code" jdbcType="VARCHAR"/>
+        <result property="equCode" column="equ_code" jdbcType="VARCHAR"/>
+        <result property="identificationNumber" column="identification_number" jdbcType="VARCHAR"/>
+        <result property="vRegistrationAuthority" column="v_registration_authority" jdbcType="VARCHAR"/>
+        <result property="vRegistrationMechanism" column="v_registration_mechanism" jdbcType="VARCHAR"/>
+        <result property="platformType" column="platform_type" jdbcType="INTEGER"/>
+        <result property="vRegistrationCertificateNo" column="v_registration_certificate_no" jdbcType="VARCHAR"/>
+        <result property="dtCreateTime" column="dt_create_time" jdbcType="TIMESTAMP"/>
+        <result property="dtModifyTime" column="dt_modify_time" jdbcType="TIMESTAMP"/>
+        <result property="vCreateUserId" column="v_create_user_id" jdbcType="VARCHAR"/>
+        <result property="vModifyUserId" column="v_modify_user_id" jdbcType="VARCHAR"/>
+        <result property="iDelFlag" column="i_del_flag" jdbcType="INTEGER"/>
+        <result property="filterFlag" column="i_filter_flag" jdbcType="INTEGER"/>
+        <result property="iPmStatus" column="i_pm_status" javaType="INTEGER"/>
+        <result property="pmStatus" column="i_pm_status" jdbcType="INTEGER"/>
+
+        <result property="nightWatchStatus" column="night_watch_status" jdbcType="INTEGER"/>
+        <result property="nightWatchStartTime" column="night_watch_start_time" jdbcType="TIME"/>
+        <result property="nightWatchEndTime" column="night_watch_end_time" jdbcType="TIME"/>
+
+        <result property="propertySafeMan" column="property_safe_man" jdbcType="VARCHAR"/>
+        <result property="propertySafePhone" column="property_safe_phone" jdbcType="VARCHAR"/>
+        <result property="maintainPrincipalPerson" column="maintain_principal_person" jdbcType="VARCHAR"/>
+        <result property="maintainPrincipalPhone" column="maintain_principal_phone" jdbcType="VARCHAR"/>
+        <result property="maintainSubordinatePerson" column="maintain_subordinate_person" jdbcType="VARCHAR"/>
+        <result property="maintainSubordinatePhone" column="maintain_subordinate_phone" jdbcType="VARCHAR"/>
+        <result property="maintainEquInsuranceInfo" column="maintain_equ_insurance_info" jdbcType="VARCHAR"/>
+        <result property="maintainEmergencyPhone" column="maintain_emergency_phone" jdbcType="VARCHAR"/>
+        <result property="gcj02Longitude" column="gcj02_longitude" jdbcType="VARCHAR"/>
+        <result property="gcj02Latitude" column="gcj02_latitude" jdbcType="VARCHAR"/>
+
+        <result property="liftGate" column="lift_gate" jdbcType="VARCHAR"/>
+        <result property="showFloor" column="show_floor" jdbcType="VARCHAR"/>
+        <result property="traction" column="traction" jdbcType="VARCHAR"/>
+        <result property="hasInsurance" column="has_insurance" jdbcType="INTEGER"/>
+        <result property="haveHouse" column="have_house" jdbcType="INTEGER"/>
+        <result property="examineDate" column="examine_date" jdbcType="OTHER"/>
+
+        <result property="lon" column="lon" jdbcType="VARCHAR"/>
+        <result property="lat" column="lat" jdbcType="VARCHAR"/>
+        <result property="factoryNumber" column="factory_number" jdbcType="VARCHAR"/>
+        <result property="registrationCode" column="registration_code" jdbcType="VARCHAR"/>
+        <result property="code96333" column="code_96333" jdbcType="VARCHAR"/>
+        <result property="category" column="category" jdbcType="VARCHAR"/>
+        <result property="equipmentNumber" column="equipment_number" jdbcType="VARCHAR"/>
+        <result property="useUnitName" column="use_unit_name" jdbcType="VARCHAR"/>
+        <result property="addr" column="addr" jdbcType="VARCHAR"/>
+        <result property="insideNumber" column="inside_number" jdbcType="VARCHAR"/>
+        <result property="suitablePlace" column="suitable_place" jdbcType="VARCHAR"/>
+        <result property="manufacturer" column="manufacturer" jdbcType="VARCHAR"/>
+        <result property="productionDate" column="production_date" jdbcType="OTHER"/>
+        <result property="reformingUnit" column="reforming_unit" jdbcType="VARCHAR"/>
+        <result property="reformingDate" column="reforming_date" jdbcType="OTHER"/>
+
+        <result property="installationDate" column="installation_date" jdbcType="OTHER"/>
+        <result property="modelName" column="model_name" jdbcType="VARCHAR"/>
+        <result property="examineEntities" column="examine_entities" jdbcType="VARCHAR"/>
+        <result property="maintenanceParticipateInDate" column="maintenance_participate_in_date" jdbcType="OTHER"/>
+        <result property="useUnitPhone" column="use_unit_phone" jdbcType="VARCHAR"/>
+        <result property="nextInspectionDate" column="next_inspection_date" jdbcType="OTHER"/>
+        <result property="floorNumber" column="floor_number" jdbcType="INTEGER"/>
+        <result property="stopsNumber" column="stops_number" jdbcType="INTEGER"/>
+        <result property="speed" column="speed" jdbcType="OTHER"/>
+        <result property="loadCapacity" column="load_capacity" jdbcType="OTHER"/>
+
+        <result property="inspectionUnit" column="inspection_unit" jdbcType="VARCHAR"/>
+        <result property="insuranceStatus" column="insurance_status" jdbcType="VARCHAR"/>
+        <result property="insuranceType" column="insurance_type" jdbcType="VARCHAR"/>
+        <result property="contractor" column="contractor" jdbcType="VARCHAR"/>
+        <result property="contractorStart" column="contractor_start" jdbcType="OTHER"/>
+        <result property="contractorEnd" column="contractor_end" jdbcType="OTHER"/>
+        <result property="controlMode" column="control_mode" jdbcType="VARCHAR"/>
+        <result property="normalRiseHeight" column="normal_rise_height" jdbcType="VARCHAR"/>
+        <result property="normalAngle" column="normal_angle" jdbcType="VARCHAR"/>
+        <result property="normalWidth" column="normal_width" jdbcType="VARCHAR"/>
+        <result property="normalLength" column="normal_length" jdbcType="VARCHAR"/>
+
+        <result property="emergencyPhone" column="emergency_phone" jdbcType="VARCHAR"/>
+        <result property="innerCode" column="inner_code" jdbcType="VARCHAR"/>
+        <result property="safetyManager" column="safety_manager" jdbcType="VARCHAR"/>
+        <result property="safetyManagerPhone" column="safety_manager_phone" jdbcType="VARCHAR"/>
+        <result property="supervisorName" column="supervisor_name" jdbcType="VARCHAR"/>
+        <result property="supervisorPhone" column="supervisor_phone" jdbcType="VARCHAR"/>
+        <result property="maintenanceUnit" column="maintenance_unit" jdbcType="VARCHAR"/>
+        <result property="isMaintenaince" column="is_maintenaince" jdbcType="INTEGER"/>
+        <result property="usePhone" column="use_phone" jdbcType="VARCHAR"/>
+        <result property="maintenancePhone" column="maintenance_phone" jdbcType="VARCHAR"/>
+        <result property="maintenanceCycle" column="maintenance_cycle" jdbcType="VARCHAR"/>
+        <result property="nextInspection" column="next_inspection" jdbcType="OTHER"/>
+
+    </resultMap>
+
+    <!-- 根据电梯编号获取电梯 -->
+    <select id="getByElevatorCode" resultMap="TblElevatorMap">
+        SELECT te.*, tv.v_village_name
+        FROM tbl_elevator te
+                 LEFT JOIN tbl_village tv ON te.v_village_id = tv.v_village_id
+        where te.v_elevator_code = #{elevatorCode}
+           OR te.v_equipment_code = #{elevatorCode}
+    </select>
+
+    <select id="listOfAll" resultMap="TblElevatorMap">
+        select *
+        from tbl_elevator
+        where i_del_flag = 0
+    </select>
+
+    <!-- 根据推送的平台编号获取有注册码的电梯 -->
+    <select id="getByPtCode" resultMap="TblElevatorMap">
+        select *
+        from tbl_elevator
+        where v_equipment_code is not null
+          and v_http_pt_codes like CONCAT('%', #{ptCode}, '%');
+    </select>
+
+    <!--获取电梯注册码-->
+    <select id="getRegNumberByProjectId" resultType="java.lang.String">
+        select v_equipment_code
+        from tbl_elevator
+        where v_project_id = #{projectId}
+          and v_equipment_code IS NOT null
+        GROUP BY v_equipment_code
+    </select>
+    <select id="getByPtCodeAndProjectId" resultType="com.shmashine.common.entity.TblElevator">
+        select *
+        from tbl_elevator
+        where v_http_pt_codes like CONCAT('%',#{ptCode},'%')
+        <if test="projectId != null and projectId != ''">
+            and v_project_id = #{projectId}
+        </if>
+    </select>
+
+    <!--查找更新推送用户缓存-->
+    <select id="taskReloadSendToUser" resultType="com.shmashine.sender.entity.SendToUser">
+        SELECT tu.v_elevator_code        as elevatorCode,
+               tu.user_name              as userName,
+               te.v_equipment_code       as registrtionCode,
+               te.v_manufacturer_code    as manufacturerCode,
+               te.v_leave_factory_number as leaveFactoryNumber
+        from tbl_message_send_to_user tu
+                 inner join tbl_elevator te on te.v_elevator_code = tu.v_elevator_code
+        WHERE del_flag = 0
+    </select>
+
+    <select id="getLiftInfoCache" resultType="com.shmashine.sender.entity.TblHaierLiftInfo">
+        select *
+        from tbl_haier_liftinfo
+        where registrationCode = #{equipmentCode}
+    </select>
+
+    <update id="updateMaintainDateByRegisterNumber">
+        update
+            tbl_elevator
+        set d_last_maintain_date = #{completeTime,jdbcType=TIMESTAMP},
+            d_next_maintain_date = DATE_SUB(#{completeTime,jdbcType=TIMESTAMP}, INTERVAL - 15 DAY )
+        where v_equipment_code = #{registerNumber}
+          and (d_last_maintain_date is null or
+            <![CDATA[ d_last_maintain_date < #{completeTime,jdbcType=TIMESTAMP} ]]>)
+    </update>
+
+    <update id="updateInspectDateByRegisterNumber">
+        update
+            tbl_elevator
+        set d_last_inspect_date = #{lastDate},
+            d_next_inspect_date = #{nextDate}
+        where v_equipment_code = #{registerNumber}
+    </update>
+
+    <select id="getElevatorRegisterNumerIsNotNull" resultType="java.lang.String">
+        select v_equipment_code
+        from tbl_elevator
+        where v_equipment_code is not null
+          and v_equipment_code != ''
+    </select>
+
+
+</mapper>

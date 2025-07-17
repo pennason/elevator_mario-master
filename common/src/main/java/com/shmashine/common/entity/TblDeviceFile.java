@@ -1,0 +1,92 @@
+package com.shmashine.common.entity;
+
+import java.io.Serial;
+import java.io.Serializable;
+import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import lombok.Data;
+
+/**
+ * 设备升级文件表(TblDeviceFile)实体类
+ *
+ * @author little.li
+ * @since 2020-09-15 15:09:38
+ */
+@Data
+public class TblDeviceFile implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 647843210001294622L;
+
+    /**
+     * ID
+     */
+    private String deviceFileId;
+    /**
+     * 文件名
+     */
+    private String fileName;
+    /**
+     * 版本
+     */
+    private String version;
+    /**
+     * 文件路径
+     */
+    private String fileUrl;
+    /**
+     * 请求文件接口路径
+     */
+    private String requestFileUrl;
+    /**
+     * 标签
+     */
+    private String label;
+    /**
+     * 签名
+     */
+    private String signature;
+    /**
+     * crc数值
+     */
+    private String crc;
+    /**
+     * 创建时间
+     */
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
+    private Date createTime;
+    /**
+     * 修改时间
+     */
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
+    private Date modifyTime;
+
+    /**
+     * 硬件版本
+     */
+    private String hWVersion;
+
+    /**
+     * 创建记录用户
+     */
+    private String createUserId;
+    /**
+     * 修改记录用户
+     */
+    private String modifyUserId;
+    /**
+     * 删除标识 0-未删除，1-已删除
+     */
+    private Integer delFlag;
+    /**
+     * 设备型号
+     */
+    private String eType;
+
+}

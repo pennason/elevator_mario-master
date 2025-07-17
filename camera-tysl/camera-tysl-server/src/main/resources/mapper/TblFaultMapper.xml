@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.cameratysl.dao.TblFaultMapper">
+
+    <sql id="TABLE_NAME">
+        tbl_fault
+    </sql>
+
+    <!--电梯安装状态-->
+    <select id="getById" resultType="com.shmashine.common.entity.TblFault">
+        SELECT *, i_floor AS floor
+        FROM
+        <include refid="TABLE_NAME"/>
+        WHERE
+        v_fault_id = #{faultId}
+    </select>
+
+    <!--电梯安装状态-->
+    <select id="getByIdFromBehavior37" resultType="com.shmashine.common.entity.TblFault">
+        SELECT *, v_floor AS floor
+        FROM tbl_fault_uncivilized_behavior37
+        WHERE v_fault_id = #{faultId}
+    </select>
+</mapper>

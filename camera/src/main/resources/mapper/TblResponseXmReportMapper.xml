@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.camera.dao.TblResponseXmReportDao">
+
+    <resultMap type="com.shmashine.common.entity.TblResponseXmReport" id="TblSysFileReportResultMap">
+        <result property="id" column="id" jdbcType="VARCHAR"/>
+        <result property="url" column="url" jdbcType="VARCHAR"/>
+        <result property="fileType" column="file_type" jdbcType="VARCHAR"/>
+        <result property="actionType" column="action_type" jdbcType="VARCHAR"/>
+        <result property="fileStatus" column="file_status" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="modifyTime" column="modify_time" jdbcType="TIMESTAMP"/>
+
+        <!--针对历史视屏下载-->
+        <result property="returnCode" column="return_code" jdbcType="INTEGER"/>
+        <result property="elevatorCode" column="elevator_code" jdbcType="VARCHAR"/>
+        <result property="faultId" column="fault_id" jdbcType="VARCHAR"/>
+        <result property="uncivilizedBehaviorFlag" column="uncivilized_behavior_flag" jdbcType="INTEGER"/>
+        <result property="serialNumber" column="serial_number" jdbcType="VARCHAR"/>
+        <result property="startTime" column="start_time" jdbcType="TIMESTAMP"/>
+        <result property="endTime" column="end_time" jdbcType="TIMESTAMP"/>
+        <result property="delFlag" column="del_flag" jdbcType="INTEGER"/>
+        <result property="uploadFailedNum" column="upload_failed_num" jdbcType="INTEGER"/>
+        <result property="requestFailedNum" column="request_failed_num" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="table_field">
+        id
+        , url,action_type,file_type,file_status,create_time,modify_time,return_code,elevator_code,fault_id,uncivilized_behavior_flag,serial_number
+      ,start_time,end_time,del_flag,upload_failed_num,request_failed_num
+    </sql>
+
+
+    <select id="findResponeXmReportByFaultId" resultType="com.shmashine.common.entity.TblResponseXmReport">
+        select
+        <include refid="table_field"/>
+        from
+        tbl_response_xm_report
+        where
+        fault_id = #{faultId}
+    </select>
+
+
+    <select id="findResponeXmReportByStatus" resultMap="TblSysFileReportResultMap">
+        select
+        <include refid="table_field"/>
+        from
+        tbl_response_xm_report
+        where
+        action_type = #{actionType}
+        and
+        (file_status = '0' or file_status = '3')
+
+    </select>
+
+    <select id="findNeedDownloadVedioList" resultMap="TblSysFileReportResultMap">
+        SELECT
+        <include refid="table_field"/>
+        FROM
+        tbl_response_xm_report
+        WHERE
+        action_type = 1
+        AND <![CDATA[ request_failed_num < 3 AND end_time < NOW( ) ]]>
+        AND (
+        file_status = '0'
+        OR file_status = '3'
+        OR ( file_status = '2' AND <![CDATA[ modify_time < DATE_SUB( NOW( ), INTERVAL 10 MINUTE ) ]]> )
+        ) group by serial_number
+    </select>
+
+    <select id="findNeedUploadOSSVedioList" resultMap="TblSysFileReportResultMap">
+        SELECT
+        <include refid="table_field"/>
+        FROM
+        tbl_response_xm_report
+        WHERE
+        action_type = 2
+        AND url is not null
+        AND <![CDATA[ upload_failed_num < 3 AND end_time < NOW( ) ]]>
+        AND (
+        file_status = '0'
+        OR file_status = '3'
+        OR ( file_status = '2' AND <![CDATA[ modify_time < DATE_SUB( NOW( ), INTERVAL 10 MINUTE ) ]]> )
+        )
+    </select>
+
+    <select id="findResponeXmReportByFileStatus" resultMap="TblSysFileReportResultMap">
+        select
+        <include refid="table_field"/>
+        from
+        tbl_response_xm_report
+        where
+        action_type = #{actionType}
+        and
+        file_status != #{fileStatus}
+        and
+        url is not null;
+    </select>
+
+    <!--将载时间超过一天的视频置为下载失败-->
+    <update id="autoClearnDownloadingVideo">
+        update tbl_response_xm_report
+        set file_status        = '3',
+            request_failed_num = 3
+        where file_status = '2'
+          AND <![CDATA[ start_time < DATE_SUB(NOW(), INTERVAL 1 DAY )
+        ]]>
+    </update>
+
+
+    <select id="findResponeXmReportByUrl" resultType="com.shmashine.common.entity.TblResponseXmReport">
+        select
+        <include refid="table_field"/>
+        from
+        tbl_response_xm_report
+        where
+        url = #{url}
+    </select>
+
+    <!--新增实体属性不为null的列-->
+    <insert id="insertResponeXmReport" keyProperty="id" useGeneratedKeys="true"
+            parameterType="com.shmashine.common.entity.TblResponseXmReport">
+
+        insert into tbl_response_xm_report
+
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null ">
+                id,
+            </if>
+
+            <if test="url != null">
+                url,
+            </if>
+
+            <if test="actionType != null">
+                action_type,
+            </if>
+
+            <if test="fileType != null">
+                file_type,
+            </if>
+            <if test="fileStatus != null">
+                file_status,
+            </if>
+
+
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="modifyTime != null">
+                modify_time,
+            </if>
+
+            <if test="returnCode != null">
+                return_code,
+            </if>
+
+            <if test="elevatorCode != null">
+                elevator_code,
+            </if>
+
+            <if test="faultId != null">
+                fault_id,
+            </if>
+
+            <if test="uncivilizedBehaviorFlag != null">
+                uncivilized_behavior_flag,
+            </if>
+
+            <if test="serialNumber != null">
+                serial_number,
+            </if>
+
+            <if test="startTime != null">
+                start_time,
+            </if>
+
+            <if test="endTime != null">
+                end_time,
+            </if>
+
+            <if test="uploadFailedNum != null">
+                upload_failed_num,
+            </if>
+
+            <if test="delFlag != null">
+                del_flag
+            </if>
+
+
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+
+            <if test="url != null">
+                #{url,jdbcType=VARCHAR},
+            </if>
+
+            <if test="actionType !=null">
+                #{actionType,jdbcType=VARCHAR},
+            </if>
+
+            <if test="fileType != null">
+                #{fileType,jdbcType=VARCHAR},
+            </if>
+
+            <if test="fileStatus != null">
+                #{fileStatus,jdbcType=VARCHAR},
+            </if>
+
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifyTime != null">
+                #{modifyTime,jdbcType=TIMESTAMP},
+            </if>
+
+            <if test="returnCode != null">
+                #{returnCode,jdbcType=INTEGER},
+            </if>
+
+            <if test="elevatorCode !=null">
+                #{elevatorCode,jdbcType=VARCHAR},
+            </if>
+
+            <if test="faultId != null">
+                #{faultId,jdbcType=VARCHAR},
+            </if>
+
+            <if test="uncivilizedBehaviorFlag != null">
+                #{uncivilizedBehaviorFlag,jdbcType=INTEGER},
+            </if>
+
+            <if test="serialNumber != null">
+                #{serialNumber,jdbcType=VARCHAR},
+            </if>
+
+            <if test="startTime != null">
+                #{startTime,jdbcType=TIMESTAMP},
+            </if>
+
+            <if test="endTime != null">
+                #{endTime,jdbcType=TIMESTAMP},
+            </if>
+
+            <if test="uploadFailedNum != null">
+                #{uploadFailedNum,jdbcType=INTEGER},
+            </if>
+
+            <if test="delFlag != null">
+                #{delFlag,jdbcType=INTEGER}
+            </if>
+
+        </trim>
+    </insert>
+
+
+    <!--通过主键修改实体属性不为null的列-->
+    <update id="updateResponeXmReport" parameterType="com.shmashine.common.entity.TblResponseXmReport">
+        update tbl_response_xm_report
+        <set>
+            <if test="id != null and id != ''">
+                id = #{id,jdbcType=VARCHAR},
+            </if>
+
+            <if test="url != null and url != ''">
+                url = #{url,jdbcType=VARCHAR},
+            </if>
+
+            <if test="actionType != null and actionType != ''">
+                action_type = #{actionType,jdbcType=VARCHAR},
+            </if>
+
+            <if test="fileType != null">
+                file_type = #{fileType,jdbcType=VARCHAR},
+            </if>
+
+            <if test="fileStatus != null and fileStatus != ''">
+                file_status = #{fileStatus,jdbcType=VARCHAR},
+            </if>
+
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+
+            <if test="modifyTime != null">
+                modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+            </if>
+
+            <if test="returnCode != null and returnCode != ''">
+                return_code = #{returnCode,jdbcType=INTEGER},
+            </if>
+
+            <if test="elevatorCode != null and elevatorCode != ''">
+                elevator_code = #{elevatorCode,jdbcType=VARCHAR},
+            </if>
+
+            <if test="faultId != null">
+                fault_id = #{faultId,jdbcType=VARCHAR},
+            </if>
+
+            <if test="uncivilizedBehaviorFlag != null and uncivilizedBehaviorFlag != ''">
+                uncivilized_behavior_flag = #{uncivilizedBehaviorFlag,jdbcType=INTEGER},
+            </if>
+
+            <if test="serialNumber != null and serialNumber != ''">
+                serial_number = #{serialNumber,jdbcType=VARCHAR},
+            </if>
+
+            <if test="startTime != null">
+                start_time = #{startTime,jdbcType=TIMESTAMP},
+            </if>
+
+            <if test="endTime != null">
+                end_time = #{endTime,jdbcType=TIMESTAMP},
+            </if>
+
+            <if test="uploadFailedNum != null and uploadFailedNum != ''">
+                upload_failed_num = #{uploadFailedNum,jdbcType=INTEGER},
+            </if>
+
+            <if test="requestFailedNum != null and requestFailedNum != ''">
+                request_failed_num = #{requestFailedNum,jdbcType=INTEGER},
+            </if>
+
+            <if test="delFlag != null and delFlag != ''">
+                del_flag = #{delFlag,jdbcType=INTEGER},
+            </if>
+
+            <if test="comment != null and comment != ''">
+                comment = #{comment,jdbcType=VARCHAR}
+            </if>
+
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+
+</mapper>

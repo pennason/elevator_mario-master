@@ -1,0 +1,539 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.api.dao.TblWorkOrderMaintenanceDetailDao">
+
+    <resultMap type="com.shmashine.common.entity.TblWorkOrderMaintenanceDetail"
+               id="TblWorkOrderMaintenanceDetailResultMap">
+        <result property="vWorkOrderMaintenanceDetailId" column="v_work_order_maintenance_detail_id"
+                jdbcType="VARCHAR"/>
+        <result property="vWorkOrderId" column="v_work_order_id" jdbcType="VARCHAR"/>
+        <result property="vWorkOrderDetailId" column="v_work_order_detail_id" jdbcType="VARCHAR"/>
+        <result property="vMaintenanceDefinitionId" column="v_maintenance_definition_id" jdbcType="VARCHAR"/>
+        <result property="iResult" column="i_result" jdbcType="INTEGER"/>
+        <result property="iHistoryDetailFlag" column="i_history_detail_flag" jdbcType="INTEGER"/>
+        <result property="dtCreateTime" column="dt_create_time" jdbcType="TIMESTAMP"/>
+        <result property="dtModifyTime" column="dt_modify_time" jdbcType="TIMESTAMP"/>
+        <result property="vCreateUserId" column="v_create_user_id" jdbcType="VARCHAR"/>
+        <result property="vModifyUserId" column="v_modify_user_id" jdbcType="VARCHAR"/>
+        <result property="iDelFlag" column="i_del_flag" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="table_field">
+        v_work_order_maintenance_detail_id
+        , v_work_order_id, v_work_order_detail_id, v_maintenance_definition_id, i_result, i_history_detail_flag, dt_create_time, dt_modify_time, v_create_user_id, v_modify_user_id, i_del_flag
+    </sql>
+
+    <!--通过Id查询单个-->
+    <select id="getById" resultMap="TblWorkOrderMaintenanceDetailResultMap" parameterType="java.lang.String">
+        select
+        <include refid="table_field"/>
+        from tbl_work_order_maintenance_detail
+        where v_work_order_maintenance_detail_id = #{vWorkOrderMaintenanceDetailId,jdbcType=VARCHAR}
+    </select>
+
+
+    <!--通过实体不为空的属性作为筛选条件查询列表-->
+    <select id="listByEntity" resultMap="TblWorkOrderMaintenanceDetailResultMap"
+            parameterType="com.shmashine.common.entity.TblWorkOrderMaintenanceDetail">
+        select
+        <include refid="table_field"/>
+        from tbl_work_order_maintenance_detail
+        <where>
+            <if test="vWorkOrderMaintenanceDetailId != null">
+                and v_work_order_maintenance_detail_id = #{vWorkOrderMaintenanceDetailId,jdbcType=VARCHAR}
+            </if>
+            <if test="vWorkOrderId != null">
+                and v_work_order_id = #{vWorkOrderId,jdbcType=VARCHAR}
+            </if>
+            <if test="vWorkOrderDetailId != null">
+                and v_work_order_detail_id = #{vWorkOrderDetailId,jdbcType=VARCHAR}
+            </if>
+            <if test="vMaintenanceDefinitionId != null">
+                and v_maintenance_definition_id = #{vMaintenanceDefinitionId,jdbcType=VARCHAR}
+            </if>
+            <if test="iResult != null">
+                and i_result = #{iResult,jdbcType=INTEGER}
+            </if>
+            <if test="iHistoryDetailFlag != null">
+                and i_history_detail_flag = #{iHistoryDetailFlag,jdbcType=INTEGER}
+            </if>
+            <if test="dtCreateTime != null">
+                and dt_create_time = #{dtCreateTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="dtModifyTime != null">
+                and dt_modify_time = #{dtModifyTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="vCreateUserId != null">
+                and v_create_user_id = #{vCreateUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="vModifyUserId != null">
+                and v_modify_user_id = #{vModifyUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="iDelFlag != null">
+                and i_del_flag = #{iDelFlag,jdbcType=INTEGER}
+            </if>
+        </where>
+    </select>
+
+    <!--通过实体不为空的属性作为筛选条件查询单个-->
+    <select id="getByEntity" resultMap="TblWorkOrderMaintenanceDetailResultMap"
+            parameterType="com.shmashine.common.entity.TblWorkOrderMaintenanceDetail">
+        select
+        <include refid="table_field"/>
+        from tbl_work_order_maintenance_detail
+        <where>
+            <if test="vWorkOrderMaintenanceDetailId != null">
+                and v_work_order_maintenance_detail_id = #{vWorkOrderMaintenanceDetailId,jdbcType=VARCHAR}
+            </if>
+            <if test="vWorkOrderId != null">
+                and v_work_order_id = #{vWorkOrderId,jdbcType=VARCHAR}
+            </if>
+            <if test="vWorkOrderDetailId != null">
+                and v_work_order_detail_id = #{vWorkOrderDetailId,jdbcType=VARCHAR}
+            </if>
+            <if test="vMaintenanceDefinitionId != null">
+                and v_maintenance_definition_id = #{vMaintenanceDefinitionId,jdbcType=VARCHAR}
+            </if>
+            <if test="iResult != null">
+                and i_result = #{iResult,jdbcType=INTEGER}
+            </if>
+            <if test="iHistoryDetailFlag != null">
+                and i_history_detail_flag = #{iHistoryDetailFlag,jdbcType=INTEGER}
+            </if>
+            <if test="dtCreateTime != null">
+                and dt_create_time = #{dtCreateTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="dtModifyTime != null">
+                and dt_modify_time = #{dtModifyTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="vCreateUserId != null">
+                and v_create_user_id = #{vCreateUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="vModifyUserId != null">
+                and v_modify_user_id = #{vModifyUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="iDelFlag != null">
+                and i_del_flag = #{iDelFlag,jdbcType=INTEGER}
+            </if>
+        </where>
+    </select>
+
+    <!--通过Id列表作为筛选条件查询列表，列表长度不为0-->
+    <select id="listByIds" resultMap="TblWorkOrderMaintenanceDetailResultMap" parameterType="list">
+        select
+        <include refid="table_field"/>
+        from tbl_work_order_maintenance_detail
+        where v_work_order_maintenance_detail_id in
+        <foreach item="item" collection="list" separator="," open="(" close=")" index="index">
+            #{item}
+        </foreach>
+    </select>
+
+    <!--新增实体属性不为null的列-->
+    <insert id="insert" keyProperty="vWorkOrderMaintenanceDetailId" useGeneratedKeys="true"
+            parameterType="com.shmashine.common.entity.TblWorkOrderMaintenanceDetail">
+        insert into tbl_work_order_maintenance_detail
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="vWorkOrderMaintenanceDetailId != null">
+                v_work_order_maintenance_detail_id,
+            </if>
+            <if test="vWorkOrderId != null">
+                v_work_order_id,
+            </if>
+            <if test="vWorkOrderDetailId != null">
+                v_work_order_detail_id,
+            </if>
+            <if test="vMaintenanceDefinitionId != null">
+                v_maintenance_definition_id,
+            </if>
+            <if test="iResult != null">
+                i_result,
+            </if>
+            <if test="iHistoryDetailFlag != null">
+                i_history_detail_flag,
+            </if>
+            <if test="dtCreateTime != null">
+                dt_create_time,
+            </if>
+            <if test="dtModifyTime != null">
+                dt_modify_time,
+            </if>
+            <if test="vCreateUserId != null">
+                v_create_user_id,
+            </if>
+            <if test="vModifyUserId != null">
+                v_modify_user_id,
+            </if>
+            <if test="iDelFlag != null">
+                i_del_flag,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="vWorkOrderMaintenanceDetailId != null">
+                #{vWorkOrderMaintenanceDetailId,jdbcType=VARCHAR},
+            </if>
+            <if test="vWorkOrderId != null">
+                #{vWorkOrderId,jdbcType=VARCHAR},
+            </if>
+            <if test="vWorkOrderDetailId != null">
+                #{vWorkOrderDetailId,jdbcType=VARCHAR},
+            </if>
+            <if test="vMaintenanceDefinitionId != null">
+                #{vMaintenanceDefinitionId,jdbcType=VARCHAR},
+            </if>
+            <if test="iResult != null">
+                #{iResult,jdbcType=INTEGER},
+            </if>
+            <if test="iHistoryDetailFlag != null">
+                #{iHistoryDetailFlag,jdbcType=INTEGER},
+            </if>
+            <if test="dtCreateTime != null">
+                #{dtCreateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="dtModifyTime != null">
+                #{dtModifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="vCreateUserId != null">
+                #{vCreateUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="vModifyUserId != null">
+                #{vModifyUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="iDelFlag != null">
+                #{iDelFlag,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+
+    <!--批量新增所有列，列表长度不能为0-->
+    <insert id="insertBatch" keyProperty="vWorkOrderMaintenanceDetailId" useGeneratedKeys="true" parameterType="list">
+        insert into tbl_work_order_maintenance_detail
+        (v_work_order_maintenance_detail_id,v_work_order_id, v_work_order_detail_id, v_maintenance_definition_id,
+        i_result, i_history_detail_flag, dt_create_time, dt_modify_time, v_create_user_id, v_modify_user_id, i_del_flag)
+        values
+        <foreach item="item" collection="list" separator="," open="" close="" index="index">
+            (#{vWorkOrderMaintenanceDetailId,jdbcType=VARCHAR},#{item.vWorkOrderId,jdbcType=VARCHAR},
+            #{item.vWorkOrderDetailId,jdbcType=VARCHAR}, #{item.vMaintenanceDefinitionId,jdbcType=VARCHAR},
+            #{item.iResult,jdbcType=INTEGER}, #{item.iHistoryDetailFlag,jdbcType=INTEGER},
+            #{item.dtCreateTime,jdbcType=TIMESTAMP}, #{item.dtModifyTime,jdbcType=TIMESTAMP},
+            #{item.vCreateUserId,jdbcType=VARCHAR}, #{item.vModifyUserId,jdbcType=VARCHAR},
+            #{item.iDelFlag,jdbcType=INTEGER})
+        </foreach>
+    </insert>
+
+    <!--通过主键修改实体属性不为null的列-->
+    <update id="update" parameterType="com.shmashine.common.entity.TblWorkOrderMaintenanceDetail">
+        update tbl_work_order_maintenance_detail
+        <set>
+            <if test="vWorkOrderId != null and vWorkOrderId != ''">
+                v_work_order_id = #{vWorkOrderId,jdbcType=VARCHAR},
+            </if>
+            <if test="vWorkOrderDetailId != null and vWorkOrderDetailId != ''">
+                v_work_order_detail_id = #{vWorkOrderDetailId,jdbcType=VARCHAR},
+            </if>
+            <if test="vMaintenanceDefinitionId != null and vMaintenanceDefinitionId != ''">
+                v_maintenance_definition_id = #{vMaintenanceDefinitionId,jdbcType=VARCHAR},
+            </if>
+            <if test="iResult != null">
+                i_result = #{iResult,jdbcType=INTEGER},
+            </if>
+            <if test="iHistoryDetailFlag != null">
+                i_history_detail_flag = #{iHistoryDetailFlag,jdbcType=INTEGER},
+            </if>
+            <if test="dtCreateTime != null">
+                dt_create_time = #{dtCreateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="dtModifyTime != null">
+                dt_modify_time = #{dtModifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="vCreateUserId != null and vCreateUserId != ''">
+                v_create_user_id = #{vCreateUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="vModifyUserId != null and vModifyUserId != ''">
+                v_modify_user_id = #{vModifyUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="iDelFlag != null">
+                i_del_flag = #{iDelFlag,jdbcType=INTEGER},
+            </if>
+        </set>
+        where v_work_order_maintenance_detail_id = #{vWorkOrderMaintenanceDetailId,jdbcType=VARCHAR}
+    </update>
+
+    <!--通过表字段修改实体属性不为null的列-->
+    <update id="updateByField">
+        update tbl_work_order_maintenance_detail
+        <set>
+            <if test="where.vWorkOrderId == null and set.vWorkOrderId != null and set.vWorkOrderId != ''">
+                v_work_order_id = #{set.vWorkOrderId,jdbcType=VARCHAR},
+            </if>
+            <if test="where.vWorkOrderDetailId == null and set.vWorkOrderDetailId != null and set.vWorkOrderDetailId != ''">
+                v_work_order_detail_id = #{set.vWorkOrderDetailId,jdbcType=VARCHAR},
+            </if>
+            <if test="where.vMaintenanceDefinitionId == null and set.vMaintenanceDefinitionId != null and set.vMaintenanceDefinitionId != ''">
+                v_maintenance_definition_id = #{set.vMaintenanceDefinitionId,jdbcType=VARCHAR},
+            </if>
+            <if test="where.iResult == null and set.iResult != null">
+                i_result = #{set.iResult,jdbcType=INTEGER},
+            </if>
+            <if test="where.iHistoryDetailFlag == null and set.iHistoryDetailFlag != null">
+                i_history_detail_flag = #{set.iHistoryDetailFlag,jdbcType=INTEGER},
+            </if>
+            <if test="where.dtCreateTime == null and set.dtCreateTime != null">
+                dt_create_time = #{set.dtCreateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="where.dtModifyTime == null and set.dtModifyTime != null">
+                dt_modify_time = #{set.dtModifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="where.vCreateUserId == null and set.vCreateUserId != null and set.vCreateUserId != ''">
+                v_create_user_id = #{set.vCreateUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="where.vModifyUserId == null and set.vModifyUserId != null and set.vModifyUserId != ''">
+                v_modify_user_id = #{set.vModifyUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="where.iDelFlag == null and set.iDelFlag != null">
+                i_del_flag = #{set.iDelFlag,jdbcType=INTEGER},
+            </if>
+        </set>
+        <where>
+            <if test="where.vWorkOrderMaintenanceDetailId != null">
+                and v_work_order_maintenance_detail_id = #{where.vWorkOrderMaintenanceDetailId,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vWorkOrderId != null">
+                and v_work_order_id = #{where.vWorkOrderId,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vWorkOrderDetailId != null">
+                and v_work_order_detail_id = #{where.vWorkOrderDetailId,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vMaintenanceDefinitionId != null">
+                and v_maintenance_definition_id = #{where.vMaintenanceDefinitionId,jdbcType=VARCHAR}
+            </if>
+            <if test="where.iResult != null">
+                and i_result = #{where.iResult,jdbcType=INTEGER}
+            </if>
+            <if test="where.iHistoryDetailFlag != null">
+                and i_history_detail_flag = #{where.iHistoryDetailFlag,jdbcType=INTEGER}
+            </if>
+            <if test="where.dtCreateTime != null">
+                and dt_create_time = #{where.dtCreateTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="where.dtModifyTime != null">
+                and dt_modify_time = #{where.dtModifyTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="where.vCreateUserId != null">
+                and v_create_user_id = #{where.vCreateUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vModifyUserId != null">
+                and v_modify_user_id = #{where.vModifyUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="where.iDelFlag != null">
+                and i_del_flag = #{where.iDelFlag,jdbcType=INTEGER}
+            </if>
+        </where>
+    </update>
+
+    <!--通过主键修改实体列表，列表长度不能为0，注意：当实体属性为null时，对应的列也会别更新为null-->
+    <update id="updateBatch" parameterType="list">
+        update tbl_work_order_maintenance_detail
+        <trim prefix="set" suffixOverrides=",">
+            <trim prefix="v_work_order_id = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_work_order_maintenance_detail_id = #{item.vWorkOrderMaintenanceDetailId} then
+                    #{item.vWorkOrderId}
+                </foreach>
+            </trim>
+            <trim prefix="v_work_order_detail_id = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_work_order_maintenance_detail_id = #{item.vWorkOrderMaintenanceDetailId} then
+                    #{item.vWorkOrderDetailId}
+                </foreach>
+            </trim>
+            <trim prefix="v_maintenance_definition_id = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_work_order_maintenance_detail_id = #{item.vWorkOrderMaintenanceDetailId} then
+                    #{item.vMaintenanceDefinitionId}
+                </foreach>
+            </trim>
+            <trim prefix="i_result = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_work_order_maintenance_detail_id = #{item.vWorkOrderMaintenanceDetailId} then #{item.iResult}
+                </foreach>
+            </trim>
+            <trim prefix="i_history_detail_flag = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_work_order_maintenance_detail_id = #{item.vWorkOrderMaintenanceDetailId} then
+                    #{item.iHistoryDetailFlag}
+                </foreach>
+            </trim>
+            <trim prefix="dt_create_time = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_work_order_maintenance_detail_id = #{item.vWorkOrderMaintenanceDetailId} then
+                    #{item.dtCreateTime}
+                </foreach>
+            </trim>
+            <trim prefix="dt_modify_time = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_work_order_maintenance_detail_id = #{item.vWorkOrderMaintenanceDetailId} then
+                    #{item.dtModifyTime}
+                </foreach>
+            </trim>
+            <trim prefix="v_create_user_id = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_work_order_maintenance_detail_id = #{item.vWorkOrderMaintenanceDetailId} then
+                    #{item.vCreateUserId}
+                </foreach>
+            </trim>
+            <trim prefix="v_modify_user_id = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_work_order_maintenance_detail_id = #{item.vWorkOrderMaintenanceDetailId} then
+                    #{item.vModifyUserId}
+                </foreach>
+            </trim>
+            <trim prefix="i_del_flag = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_work_order_maintenance_detail_id = #{item.vWorkOrderMaintenanceDetailId} then
+                    #{item.iDelFlag}
+                </foreach>
+            </trim>
+        </trim>
+        where v_work_order_maintenance_detail_id in
+        <foreach collection="list" index="index" item="item" separator="," open="(" close=")">
+            #{item.vWorkOrderMaintenanceDetailId,jdbcType=VARCHAR}
+        </foreach>
+    </update>
+
+
+    <update id="updateHistoryFlagByWorkOrderId">
+        update
+            tbl_work_order_maintenance_detail
+        set i_history_detail_flag = 1
+        where v_work_order_id = #{workOrderId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById" parameterType="java.lang.String">
+        delete
+        from tbl_work_order_maintenance_detail
+        where v_work_order_maintenance_detail_id = #{vWorkOrderMaintenanceDetailId,jdbcType=VARCHAR}
+    </delete>
+
+    <!--通过实体非空属性删除-->
+    <delete id="deleteByEntity" parameterType="com.shmashine.common.entity.TblWorkOrderMaintenanceDetail">
+        delete from tbl_work_order_maintenance_detail
+        <where>
+            <if test="vWorkOrderId != null">
+                and v_work_order_id = #{vWorkOrderId,jdbcType=VARCHAR}
+            </if>
+            <if test="vWorkOrderDetailId != null">
+                and v_work_order_detail_id = #{vWorkOrderDetailId,jdbcType=VARCHAR}
+            </if>
+            <if test="vMaintenanceDefinitionId != null">
+                and v_maintenance_definition_id = #{vMaintenanceDefinitionId,jdbcType=VARCHAR}
+            </if>
+            <if test="iResult != null">
+                and i_result = #{iResult,jdbcType=INTEGER}
+            </if>
+            <if test="iHistoryDetailFlag != null">
+                and i_history_detail_flag = #{iHistoryDetailFlag,jdbcType=INTEGER}
+            </if>
+            <if test="dtCreateTime != null">
+                and dt_create_time = #{dtCreateTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="dtModifyTime != null">
+                and dt_modify_time = #{dtModifyTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="vCreateUserId != null">
+                and v_create_user_id = #{vCreateUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="vModifyUserId != null">
+                and v_modify_user_id = #{vModifyUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="iDelFlag != null">
+                and i_del_flag = #{iDelFlag,jdbcType=INTEGER}
+            </if>
+        </where>
+    </delete>
+
+    <!--通过主键列表删除，列表长度不能为0-->
+    <delete id="deleteByIds" parameterType="list">
+        delete from tbl_work_order_maintenance_detail where v_work_order_maintenance_detail_id in
+        <foreach item="item" collection="list" separator="," open="(" close=")" index="index">
+            #{item}
+        </foreach>
+    </delete>
+
+    <select id="countAll" resultType="int">
+        select count(v_work_order_maintenance_detail_id)
+        from tbl_work_order_maintenance_detail
+    </select>
+
+    <select id="countByEntity" parameterType="com.shmashine.common.entity.TblWorkOrderMaintenanceDetail"
+            resultType="int">
+        select count(v_work_order_maintenance_detail_id) from tbl_work_order_maintenance_detail
+        <where>
+            <if test="vWorkOrderMaintenanceDetailId != null">
+                and v_work_order_maintenance_detail_id = #{vWorkOrderMaintenanceDetailId,jdbcType=VARCHAR}
+            </if>
+            <if test="vWorkOrderId != null">
+                and v_work_order_id = #{vWorkOrderId,jdbcType=VARCHAR}
+            </if>
+            <if test="vWorkOrderDetailId != null">
+                and v_work_order_detail_id = #{vWorkOrderDetailId,jdbcType=VARCHAR}
+            </if>
+            <if test="vMaintenanceDefinitionId != null">
+                and v_maintenance_definition_id = #{vMaintenanceDefinitionId,jdbcType=VARCHAR}
+            </if>
+            <if test="iResult != null">
+                and i_result = #{iResult,jdbcType=INTEGER}
+            </if>
+            <if test="iHistoryDetailFlag != null">
+                and i_history_detail_flag = #{iHistoryDetailFlag,jdbcType=INTEGER}
+            </if>
+            <if test="dtCreateTime != null">
+                and dt_create_time = #{dtCreateTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="dtModifyTime != null">
+                and dt_modify_time = #{dtModifyTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="vCreateUserId != null">
+                and v_create_user_id = #{vCreateUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="vModifyUserId != null">
+                and v_modify_user_id = #{vModifyUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="iDelFlag != null">
+                and i_del_flag = #{iDelFlag,jdbcType=INTEGER}
+            </if>
+        </where>
+    </select>
+
+    <select id="listByWorkOrderDetailId"
+            resultType="com.shmashine.api.module.workOrder.ResponseMaintenanceDetailModule">
+        SELECT md.v_work_order_maintenance_detail_id AS workOrderMaintenanceDetailId,
+               m.v_maintenance_definition_id         AS maintenanceDetailId,
+               m.v_maintenance_name                  AS maintenanceName,
+               m.v_maintenance_claim                 AS maintenanceClaim,
+               md.i_result                           AS result
+        FROM tbl_work_order_maintenance_detail AS md
+                 LEFT JOIN
+             tbl_maintenance_definition AS m
+             ON
+                 md.v_maintenance_definition_id = m.v_maintenance_definition_id
+        WHERE v_work_order_detail_id = #{workOrderDetailId}
+    </select>
+
+    <select id="getMaintenanceDetail" resultType="com.shmashine.api.module.workOrder.ResponseMaintenanceDetailModule">
+        SELECT md.v_work_order_maintenance_detail_id AS workOrderMaintenanceDetailId,
+               m.v_maintenance_definition_id         AS maintenanceDetailId,
+               m.v_maintenance_name                  AS maintenanceName,
+               m.v_maintenance_claim                 AS maintenanceClaim,
+               md.i_result                           AS result
+        FROM tbl_work_order_maintenance_detail AS md
+                 LEFT JOIN
+             tbl_maintenance_definition AS m
+             ON
+                 md.v_maintenance_definition_id = m.v_maintenance_definition_id
+        WHERE v_work_order_id = #{workOrderId}
+          AND i_history_detail_flag = 0
+    </select>
+
+</mapper>

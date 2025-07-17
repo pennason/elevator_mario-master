@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.api.dao.TblSiteInvestigationDao">
+
+    <resultMap type="com.shmashine.common.entity.TblSiteInvestigation" id="TblSiteInvestigationResult">
+        <result property="vSiteInvestigationId" column="v_site_investigation_id" jdbcType="VARCHAR"/>
+        <result property="vProjectId" column="v_project_id" jdbcType="VARCHAR"/>
+        <result property="vElevatorId" column="v_elevator_id" jdbcType="VARCHAR"/>
+        <result property="vElevatorBrand" column="v_elevator_brand" jdbcType="VARCHAR"/>
+        <result property="vAddress" column="v_address" jdbcType="VARCHAR"/>
+        <result property="iFloor" column="i_floor" jdbcType="INTEGER"/>
+        <result property="vUsedUnit" column="v_used_unit" jdbcType="VARCHAR"/>
+        <result property="vUsedUnitTel" column="v_used_unit_tel" jdbcType="VARCHAR"/>
+        <result property="vMaintenanceUnit" column="v_maintenance_unit" jdbcType="VARCHAR"/>
+        <result property="vMainUnitContact" column="v_main_unit_contact" jdbcType="VARCHAR"/>
+        <result property="iCarroof220v" column="i_carroof_220V" jdbcType="INTEGER"/>
+        <result property="vFloorSwitchLoc" column="v_floor_switch_loc" jdbcType="INTEGER"/>
+        <result property="iInductPerson" column="i_induct_person" jdbcType="INTEGER"/>
+        <result property="iCameraLoc" column="i_camera_loc" jdbcType="INTEGER"/>
+        <result property="iWellWifi" column="i_well_wifi" jdbcType="INTEGER"/>
+        <result property="iMachRoom220v" column="i_mach_room_220V" jdbcType="INTEGER"/>
+        <result property="iNoloadLine" column="i_noLoad_line" jdbcType="INTEGER"/>
+        <result property="iMachRoomStrengthWifi" column="i_mach_room_strength_wifi" jdbcType="INTEGER"/>
+        <result property="iMachRoomEth" column="i_mach_room_eth" jdbcType="INTEGER"/>
+        <result property="iCheckSignLine" column="i_check_sign_line" jdbcType="INTEGER"/>
+        <result property="vOtherNote" column="v_other_note" jdbcType="VARCHAR"/>
+        <result property="vRemark" column="v_remark" jdbcType="VARCHAR"/>
+        <result property="vWorker" column="v_worker" jdbcType="VARCHAR"/>
+        <result property="dtDate" column="dt_date" jdbcType="OTHER"/>
+        <result property="dtCreateAt" column="dt_create_at" jdbcType="OTHER"/>
+        <result property="dtModifyAt" column="dt_modify_at" jdbcType="OTHER"/>
+        <result property="iStatus" column="i_status" jdbcType="INTEGER"/>
+        <result property="iDelFlag" column="i_del_flag" jdbcType="INTEGER"/>
+        <result property="vProjectName" column="v_project_name" jdbcType="VARCHAR"/>
+        <result property="vElevatorCode" column="v_elevator_code" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="selectTblSiteInvestigationVo">
+        select v_site_investigation_id,
+               v_project_id,
+               v_elevator_id,
+               v_elevator_brand,
+               i_status,
+               i_del_flag,
+               v_address,
+               i_floor,
+               v_used_unit,
+               v_used_unit_tel,
+               v_maintenance_unit,
+               v_main_unit_contact,
+               i_carroof_220V,
+               v_floor_switch_loc,
+               i_induct_person,
+               i_camera_loc,
+               i_well_wifi,
+               i_mach_room_220V,
+               i_noLoad_line,
+               i_mach_room_strength_wifi,
+               i_mach_room_eth,
+               i_check_sign_line,
+               v_other_note,
+               v_remark,
+               v_worker,
+               dt_date,
+               dt_create_at,
+               dt_modify_at
+        from tbl_site_investigation
+    </sql>
+
+
+    <select id="selectTblSiteInvestigationList" parameterType="com.shmashine.common.entity.TblSiteInvestigation"
+            resultMap="TblSiteInvestigationResult">
+        <include refid="selectTblSiteInvestigationVo"/>
+        <where>
+            <if test="vProjectId != null  and vProjectId != ''">and v_project_id = #{vProjectId}</if>
+            <if test="vElevatorId != null  and vElevatorId != ''">and v_elevator_id = #{vElevatorId}</if>
+            <if test="vElevatorBrand != null  and vElevatorBrand != ''">and v_elevator_brand = #{vElevatorBrand}</if>
+            <if test="vAddress != null  and vAddress != ''">and v_address = #{vAddress}</if>
+            <if test="iFloor != null ">and i_floor = #{iFloor}</if>
+            <if test="vUsedUnit != null  and vUsedUnit != ''">and v_used_unit = #{vUsedUnit}</if>
+            <if test="vUsedUnitTel != null  and vUsedUnitTel != ''">and v_used_unit_tel = #{vUsedUnitTel}</if>
+            <if test="vMaintenanceUnit != null  and vMaintenanceUnit != ''">and v_maintenance_unit =
+                #{vMaintenanceUnit}
+            </if>
+            <if test="vMainUnitContact != null  and vMainUnitContact != ''">and v_main_unit_contact =
+                #{vMainUnitContact}
+            </if>
+            <if test="iCarroof220v != null ">and i_carroof_220V = #{iCarroof220v}</if>
+            <if test="vFloorSwitchLoc != null  and vFloorSwitchLoc != ''">and v_floor_switch_loc = #{vFloorSwitchLoc}
+            </if>
+            <if test="iInductPerson != null ">and i_induct_person = #{iInductPerson}</if>
+            <if test="iCameraLoc != null ">and i_camera_loc = #{iCameraLoc}</if>
+            <if test="iWellWifi != null ">and i_well_wifi = #{iWellWifi}</if>
+            <if test="iMachRoom220v != null ">and i_mach_room_220V = #{iMachRoom220v}</if>
+            <if test="iNoloadLine != null ">and i_noLoad_line = #{iNoloadLine}</if>
+            <if test="iMachRoomStrengthWifi != null ">and i_mach_room_strength_wifi = #{iMachRoomStrengthWifi}</if>
+            <if test="iMachRoomEth != null ">and i_mach_room_eth = #{iMachRoomEth}</if>
+            <if test="iCheckSignLine != null ">and i_check_sign_line = #{iCheckSignLine}</if>
+            <if test="vOtherNote != null  and vOtherNote != ''">and v_other_note = #{vOtherNote}</if>
+            <if test="vRemark != null  and vRemark != ''">and v_remark = #{vRemark}</if>
+            <if test="vWorker != null  and vWorker != ''">and v_worker = #{vWorker}</if>
+            <if test="dtDate != null ">and dt_date = #{dtDate}</if>
+            <if test="dtCreateAt != null ">and dt_create_at = #{dtCreateAt}</if>
+            <if test="dtModifyAt != null ">and dt_modify_at = #{dtModifyAt}</if>
+        </where>
+    </select>
+
+    <select id="search" resultMap="TblSiteInvestigationResult"
+            parameterType="com.shmashine.api.module.siteInvestigation.SearchSiteInvestigationModule">
+        select tbl_site_investigation.v_site_investigation_id, tbl_site_investigation.v_project_id,
+        tbl_project.v_project_name, tbl_site_investigation.v_elevator_id, tbl_elevator.v_elevator_code,
+        tbl_site_investigation.v_elevator_brand, tbl_site_investigation.i_status, tbl_site_investigation.i_del_flag,
+        tbl_site_investigation.v_address, tbl_site_investigation.i_floor, tbl_site_investigation.v_used_unit,
+        tbl_site_investigation.v_used_unit_tel, tbl_site_investigation.v_maintenance_unit,
+        tbl_site_investigation.v_main_unit_contact, tbl_site_investigation.i_carroof_220V,
+        tbl_site_investigation.v_floor_switch_loc, tbl_site_investigation.i_induct_person,
+        tbl_site_investigation.i_camera_loc, tbl_site_investigation.i_well_wifi,
+        tbl_site_investigation.i_mach_room_220V, tbl_site_investigation.i_noLoad_line,
+        tbl_site_investigation.i_mach_room_strength_wifi, tbl_site_investigation.i_mach_room_eth,
+        tbl_site_investigation.i_check_sign_line, tbl_site_investigation.v_other_note, tbl_site_investigation.v_remark,
+        tbl_site_investigation.v_worker, tbl_site_investigation.dt_date, tbl_site_investigation.dt_create_at,
+        tbl_site_investigation.dt_modify_at
+        from tbl_site_investigation
+        left join tbl_project on tbl_site_investigation.v_project_id = tbl_project.v_project_id
+        left join tbl_elevator on tbl_elevator.v_elevator_id = tbl_site_investigation.v_elevator_id
+        <where>
+            <if test="searchSiteInvestigationModule.vProjectId != null and searchSiteInvestigationModule.vProjectId != ''">
+                and tbl_site_investigation.v_project_id = #{searchSiteInvestigationModule.vProjectId}
+            </if>
+
+            <if test="searchSiteInvestigationModule.vElevatorId != null and searchSiteInvestigationModule.vElevatorId != ''">
+                and tbl_site_investigation.v_elevator_id = #{searchSiteInvestigationModule.vElevatorId}
+            </if>
+
+            <if test="searchSiteInvestigationModule.vSiteInvestigationId != null and searchSiteInvestigationModule.vSiteInvestigationId != ''">
+                and tbl_site_investigation.v_site_investigation_id =
+                #{searchSiteInvestigationModule.vSiteInvestigationId}
+            </if>
+
+            <if test="!searchSiteInvestigationModule.isAdminFlag">
+                and tbl_project.v_dept_id in
+                <foreach collection="searchSiteInvestigationModule.permissionDeptIds" item="item" open="(" close=")"
+                         separator=",">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+        order by tbl_site_investigation.v_site_investigation_id desc
+    </select>
+
+    <select id="selectTblSiteInvestigationById" parameterType="String" resultMap="TblSiteInvestigationResult">
+        <include refid="selectTblSiteInvestigationVo"/>
+        where v_site_investigation_id = #{vSiteInvestigationId}
+    </select>
+
+
+    <insert id="insertTblSiteInvestigation" keyProperty="vSiteInvestigationId" useGeneratedKeys="true"
+            parameterType="com.shmashine.common.entity.TblSiteInvestigation">
+        insert into tbl_site_investigation
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="tblSiteInvestigation.vSiteInvestigationId != null and tblSiteInvestigation.vSiteInvestigationId != ''">
+                v_site_investigation_id,
+            </if>
+            <if test="tblSiteInvestigation.vProjectId != null and tblSiteInvestigation.vProjectId != ''">v_project_id,
+            </if>
+            <if test="tblSiteInvestigation.vElevatorId != null and tblSiteInvestigation.vElevatorId != ''">
+                v_elevator_id,
+            </if>
+            <if test="tblSiteInvestigation.vElevatorBrand != null">v_elevator_brand,</if>
+            <if test="tblSiteInvestigation.vAddress != null">v_address,</if>
+            <if test="tblSiteInvestigation.iFloor != null">i_floor,</if>
+            <if test="tblSiteInvestigation.vUsedUnit != null">v_used_unit,</if>
+            <if test="tblSiteInvestigation.vUsedUnitTel != null">v_used_unit_tel,</if>
+            <if test="tblSiteInvestigation.vMaintenanceUnit != null">v_maintenance_unit,</if>
+            <if test="tblSiteInvestigation.vMainUnitContact != null">v_main_unit_contact,</if>
+            <if test="tblSiteInvestigation.iCarroof220v != null">i_carroof_220V,</if>
+            <if test="tblSiteInvestigation.vFloorSwitchLoc != null">v_floor_switch_loc,</if>
+            <if test="tblSiteInvestigation.iInductPerson != null">i_induct_person,</if>
+            <if test="tblSiteInvestigation.iCameraLoc != null">i_camera_loc,</if>
+            <if test="tblSiteInvestigation.iWellWifi != null">i_well_wifi,</if>
+            <if test="tblSiteInvestigation.iMachRoom220v != null">i_mach_room_220V,</if>
+            <if test="tblSiteInvestigation.iNoloadLine != null">i_noLoad_line,</if>
+            <if test="tblSiteInvestigation.iMachRoomStrengthWifi != null">i_mach_room_strength_wifi,</if>
+            <if test="tblSiteInvestigation.iMachRoomEth != null">i_mach_room_eth,</if>
+            <if test="tblSiteInvestigation.iCheckSignLine != null">i_check_sign_line,</if>
+            <if test="tblSiteInvestigation.vOtherNote != null">v_other_note,</if>
+            <if test="tblSiteInvestigation.vRemark != null">v_remark,</if>
+            <if test="tblSiteInvestigation.vWorker != null">v_worker,</if>
+            <if test="tblSiteInvestigation.dtDate != null">dt_date,</if>
+            <if test="tblSiteInvestigation.dtCreateAt != null">dt_create_at,</if>
+            <if test="tblSiteInvestigation.dtModifyAt != null">dt_modify_at,</if>
+            <if test="tblSiteInvestigation.iStatus != null">i_status,</if>
+            <if test="tblSiteInvestigation.iDelFlag != null">i_del_flag,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="tblSiteInvestigation.vSiteInvestigationId != null and tblSiteInvestigation.vSiteInvestigationId != ''">
+                #{tblSiteInvestigation.vSiteInvestigationId, jdbcType=VARCHAR},
+            </if>
+            <if test="tblSiteInvestigation.vProjectId != null and tblSiteInvestigation.vProjectId != ''">
+                #{tblSiteInvestigation.vProjectId, jdbcType=VARCHAR},
+            </if>
+            <if test="tblSiteInvestigation.vElevatorId != null and tblSiteInvestigation.vElevatorId != ''">
+                #{tblSiteInvestigation.vElevatorId, jdbcType=VARCHAR},
+            </if>
+            <if test="tblSiteInvestigation.vElevatorBrand != null">
+                #{tblSiteInvestigation.vElevatorBrand, jdbcType=VARCHAR},
+            </if>
+            <if test="tblSiteInvestigation.vAddress != null">#{tblSiteInvestigation.vAddress, jdbcType=VARCHAR},</if>
+            <if test="tblSiteInvestigation.iFloor != null">#{tblSiteInvestigation.iFloor, jdbcType=INTEGER},</if>
+            <if test="tblSiteInvestigation.vUsedUnit != null">#{tblSiteInvestigation.vUsedUnit, jdbcType=VARCHAR},</if>
+            <if test="tblSiteInvestigation.vUsedUnitTel != null">
+                #{tblSiteInvestigation.vUsedUnitTel, jdbcType=VARCHAR},
+            </if>
+            <if test="tblSiteInvestigation.vMaintenanceUnit != null">
+                #{tblSiteInvestigation.vMaintenanceUnit, jdbcType=VARCHAR},
+            </if>
+            <if test="tblSiteInvestigation.vMainUnitContact != null">
+                #{tblSiteInvestigation.vMainUnitContact, jdbcType=VARCHAR},
+            </if>
+            <if test="tblSiteInvestigation.iCarroof220v != null">
+                #{tblSiteInvestigation.iCarroof220v, jdbcType=INTEGER},
+            </if>
+            <if test="tblSiteInvestigation.vFloorSwitchLoc != null">
+                #{tblSiteInvestigation.vFloorSwitchLoc, jdbcType=INTEGER},
+            </if>
+            <if test="tblSiteInvestigation.iInductPerson != null">
+                #{tblSiteInvestigation.iInductPerson, jdbcType=INTEGER},
+            </if>
+            <if test="tblSiteInvestigation.iCameraLoc != null">#{tblSiteInvestigation.iCameraLoc, jdbcType=INTEGER},
+            </if>
+            <if test="tblSiteInvestigation.iWellWifi != null">#{tblSiteInvestigation.iWellWifi, jdbcType=INTEGER},</if>
+            <if test="tblSiteInvestigation.iMachRoom220v != null">
+                #{tblSiteInvestigation.iMachRoom220v, jdbcType=INTEGER},
+            </if>
+            <if test="tblSiteInvestigation.iNoloadLine != null">#{tblSiteInvestigation.iNoloadLine, jdbcType=INTEGER},
+            </if>
+            <if test="tblSiteInvestigation.iMachRoomStrengthWifi != null">
+                #{tblSiteInvestigation.iMachRoomStrengthWifi, jdbcType=INTEGER},
+            </if>
+            <if test="tblSiteInvestigation.iMachRoomEth != null">
+                #{tblSiteInvestigation.iMachRoomEth, jdbcType=INTEGER},
+            </if>
+            <if test="tblSiteInvestigation.iCheckSignLine != null">
+                #{tblSiteInvestigation.iCheckSignLine, jdbcType=INTEGER},
+            </if>
+            <if test="tblSiteInvestigation.vOtherNote != null">#{tblSiteInvestigation.vOtherNote, jdbcType=VARCHAR},
+            </if>
+            <if test="tblSiteInvestigation.vRemark != null">#{tblSiteInvestigation.vRemark, jdbcType=VARCHAR},</if>
+            <if test="tblSiteInvestigation.vWorker != null">#{tblSiteInvestigation.vWorker, jdbcType=VARCHAR},</if>
+            <if test="tblSiteInvestigation.dtDate != null">#{tblSiteInvestigation.dtDate, jdbcType=OTHER},</if>
+            <if test="tblSiteInvestigation.dtCreateAt != null">#{tblSiteInvestigation.dtCreateAt, jdbcType=OTHER},</if>
+            <if test="tblSiteInvestigation.dtModifyAt != null">#{tblSiteInvestigation.dtModifyAt, jdbcType=OTHER},</if>
+            <if test="tblSiteInvestigation.iStatus != null">#{tblSiteInvestigation.iStatus, jdbcType=INTEGER},</if>
+            <if test="tblSiteInvestigation.iDelFlag != null">#{tblSiteInvestigation.iDelFlag, jdbcType=INTEGER},</if>
+        </trim>
+    </insert>
+
+    <update id="updateTblSiteInvestigation" parameterType="com.shmashine.common.entity.TblSiteInvestigation">
+        update tbl_site_investigation
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="tblSiteInvestigation.vProjectId != null and tblSiteInvestigation.vProjectId != ''">v_project_id =
+                #{tblSiteInvestigation.vProjectId},
+            </if>
+            <if test="tblSiteInvestigation.vElevatorId != null and tblSiteInvestigation.vElevatorId != ''">v_elevator_id
+                = #{tblSiteInvestigation.vElevatorId},
+            </if>
+            <if test="tblSiteInvestigation.vElevatorBrand != null">v_elevator_brand =
+                #{tblSiteInvestigation.vElevatorBrand},
+            </if>
+            <if test="tblSiteInvestigation.vAddress != null">v_address = #{tblSiteInvestigation.vAddress},</if>
+            <if test="tblSiteInvestigation.iFloor != null">i_floor = #{tblSiteInvestigation.iFloor},</if>
+            <if test="tblSiteInvestigation.vUsedUnit != null">v_used_unit = #{tblSiteInvestigation.vUsedUnit},</if>
+            <if test="tblSiteInvestigation.vUsedUnitTel != null">v_used_unit_tel =
+                #{tblSiteInvestigation.vUsedUnitTel},
+            </if>
+            <if test="tblSiteInvestigation.vMaintenanceUnit != null">v_maintenance_unit =
+                #{tblSiteInvestigation.vMaintenanceUnit},
+            </if>
+            <if test="tblSiteInvestigation.vMainUnitContact != null">v_main_unit_contact =
+                #{tblSiteInvestigation.vMainUnitContact},
+            </if>
+            <if test="tblSiteInvestigation.iCarroof220v != null">i_carroof_220V =
+                #{tblSiteInvestigation.iCarroof220v},
+            </if>
+            <if test="tblSiteInvestigation.vFloorSwitchLoc != null">v_floor_switch_loc =
+                #{tblSiteInvestigation.vFloorSwitchLoc},
+            </if>
+            <if test="tblSiteInvestigation.iInductPerson != null">i_induct_person =
+                #{tblSiteInvestigation.iInductPerson},
+            </if>
+            <if test="tblSiteInvestigation.iCameraLoc != null">i_camera_loc = #{tblSiteInvestigation.iCameraLoc},</if>
+            <if test="tblSiteInvestigation.iWellWifi != null">i_well_wifi = #{tblSiteInvestigation.iWellWifi},</if>
+            <if test="tblSiteInvestigation.iMachRoom220v != null">i_mach_room_220V =
+                #{tblSiteInvestigation.iMachRoom220v},
+            </if>
+            <if test="tblSiteInvestigation.iNoloadLine != null">i_noLoad_line = #{tblSiteInvestigation.iNoloadLine},
+            </if>
+            <if test="tblSiteInvestigation.iMachRoomStrengthWifi != null">i_mach_room_strength_wifi =
+                #{tblSiteInvestigation.iMachRoomStrengthWifi},
+            </if>
+            <if test="tblSiteInvestigation.iMachRoomEth != null">i_mach_room_eth =
+                #{tblSiteInvestigation.iMachRoomEth},
+            </if>
+            <if test="tblSiteInvestigation.iCheckSignLine != null">i_check_sign_line =
+                #{tblSiteInvestigation.iCheckSignLine},
+            </if>
+            <if test="tblSiteInvestigation.vOtherNote != null">v_other_note = #{tblSiteInvestigation.vOtherNote},</if>
+            <if test="tblSiteInvestigation.vRemark != null">v_remark = #{tblSiteInvestigation.vRemark},</if>
+            <if test="tblSiteInvestigation.vWorker != null">v_worker = #{tblSiteInvestigation.vWorker},</if>
+            <if test="tblSiteInvestigation.dtDate != null">dt_date = #{tblSiteInvestigation.dtDate},</if>
+            <if test="tblSiteInvestigation.dtCreateAt != null">dt_create_at = #{tblSiteInvestigation.dtCreateAt},</if>
+            <if test="tblSiteInvestigation.dtModifyAt != null">dt_modify_at = #{tblSiteInvestigation.dtModifyAt},</if>
+            <if test="tblSiteInvestigation.iStatus != null">i_status = #{tblSiteInvestigation.iStatus},</if>
+            <if test="tblSiteInvestigation.iDelFlag != null">i_del_flag = #{tblSiteInvestigation.iDelFlag},</if>
+        </trim>
+        where v_site_investigation_id = #{tblSiteInvestigation.vSiteInvestigationId}
+    </update>
+
+    <delete id="deleteTblSiteInvestigationById" parameterType="com.shmashine.common.entity.TblSiteInvestigation">
+        delete
+        from tbl_site_investigation
+        where v_site_investigation_id = #{tblSiteInvestigation.vSiteInvestigationId}
+    </delete>
+
+    <delete id="deleteTblSiteInvestigationByIds" parameterType="String">
+        delete from tbl_site_investigation where v_site_investigation_id in
+        <foreach item="vSiteInvestigationId" collection="array" open="(" separator="," close=")">
+            #{vSiteInvestigationId}
+        </foreach>
+    </delete>
+
+</mapper>

@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.api.dao.TblSendDataLogDao">
+
+    <insert id="insertSendDataLog" parameterType="com.shmashine.common.entity.TblSendDataLog">
+        <selectKey order="AFTER" keyProperty="id" resultType="Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into tbl_send_data_log (<include refid="insertCol"/>) values (<include refid="insertValue"/>)
+    </insert>
+
+    <sql id="insertCol">
+        <trim suffixOverrides=",">
+            <if test="productId!=null and productId!=''">product_id,</if>
+            <if test="identificationNumber!=null and identificationNumber!=''">identification_number,</if>
+            <if test="idNr!=null and idNr!=''">id_nr,</if>
+            <if test="dataType!=null and dataType!=''">data_type,</if>
+            <if test="sendTime!=null and sendTime!=''">send_time,</if>
+            <if test="sendData!=null and sendData!=''">send_data,</if>
+            <if test="responseData!=null and responseData!=''">response_data,</if>
+            <if test="isSuccess!=null and isSuccess!=''">is_success,</if>
+            <if test="areaCode!=null and areaCode!=''">area_code,</if>
+            <if test="vendor!=null and vendor!=''">vendor,</if>
+            <if test="city!=null and city!=''">city,</if>
+        </trim>
+    </sql>
+
+    <sql id="insertValue">
+        <trim suffixOverrides=",">
+            <if test="productId!=null and productId!=''">#{productId},</if>
+            <if test="identificationNumber!=null and identificationNumber!=''">#{identificationNumber},</if>
+            <if test="idNr!=null and idNr!=''">#{idNr},</if>
+            <if test="dataType!=null and dataType!=''">#{dataType},</if>
+            <if test="sendTime!=null and sendTime!=''">#{sendTime},</if>
+            <if test="sendData!=null and sendData!=''">#{sendData},</if>
+            <if test="responseData!=null and responseData!=''">#{responseData},</if>
+            <if test="isSuccess!=null and isSuccess!=''">#{isSuccess},</if>
+            <if test="areaCode!=null and areaCode!=''">#{areaCode},</if>
+            <if test="vendor!=null and vendor!=''">#{vendor},</if>
+            <if test="city!=null and city!=''">#{city},</if>
+        </trim>
+    </sql>
+
+    <select id="getSendDataLogByCondition" parameterType="com.shmashine.common.entity.TblSendDataLog"
+            resultMap="TblSendDataLogMap">
+        select
+        <include refid="getSendDataLogByConditionCol"/>
+        from tbl_send_data_log
+        <where>
+            <if test="id!=null and id!=''">id=#{id}</if>
+            <if test="areaCode!=null and areaCode!=''">and area_code=#{areaCode}</if>
+            <if test="productId!=null and productId!=''">and product_id=#{productId}</if>
+            <if test="city!=null and city!=''">and city like concat('%',#{city},'%')</if>
+            <if test="sendTime!=null and sendTime!=''">and send_time like '${sendTime}%'</if>
+            <if test="isSuccess!=null ">and is_success=#{isSuccess}</if>
+            <if test="dataType!=null and dataType!=''">and data_type=#{dataType}</if>
+        </where>
+    </select>
+
+    <sql id="getSendDataLogByConditionCol">
+        id
+        ,product_id,identification_number,id_nr,data_type,send_time,send_data,response_data,
+        is_success,area_code,vendor,city
+    </sql>
+
+    <resultMap id="TblSendDataLogMap" type="com.shmashine.common.entity.TblSendDataLog">
+        <id column="id" property="id"></id>
+        <result column="product_id" property="productId"></result>
+        <result column="identification_number" property="identificationNumber"></result>
+        <result column="id_nr" property="idNr"></result>
+        <result column="data_type" property="dataType"></result>
+        <result column="send_time" property="sendTime"></result>
+        <result column="send_data" property="sendData"></result>
+        <result column="response_data" property="responseData"></result>
+        <result column="is_success" property="isSuccess"></result>
+        <result column="area_code" property="areaCode"></result>
+        <result column="vendor" property="vendor"></result>
+        <result column="city" property="city"></result>
+    </resultMap>
+
+    <sql id="updateSendDataLogSet">
+        <set>
+            <if test="productId!=null and productId!=''">product_id=#{productId},</if>
+            <if test="identificationNumber!=null and identificationNumber!='' ">
+                identification_number=#{identificationNumber},
+            </if>
+            <if test="idNr!=null and idNr!='' ">id_nr=#{idNr},</if>
+            <if test="dataType!=null and dataType!='' ">data_type=#{dataType},</if>
+            <if test="sendTime!=null and sendTime!='' ">send_time=#{sendTime},</if>
+            <if test="sendData!=null and sendData!='' ">send_data=#{sendData},</if>
+            <if test="responseData!=null and responseData!='' ">response_data=#{responseData},</if>
+            <if test="isSuccess!=null and isSuccess!='' ">is_success=${isSuccess},</if>
+            <if test="areaCode!=null and areaCode!='' ">area_code=#{areaCode},</if>
+            <if test="vendor!=null and vendor!='' ">vendor=#{vendor},</if>
+            <if test="city!=null and city!='' ">city=#{city},</if>
+        </set>
+    </sql>
+
+    <update id="updateSendDataLog" parameterType="com.shmashine.common.entity.TblSendDataLog">
+        update tbl_send_data_log set
+        <if test="isSuccess !=null and isSuccess != '' ">
+            is_success=#{isSuccess}
+        </if>
+        where id=#{id}
+    </update>
+
+
+    <select id="getSendDataLogById" parameterType="String" resultMap="TblSendDataLogMap">
+        select *
+        from tbl_send_data_log
+        where id = #{value}
+    </select>
+
+</mapper>

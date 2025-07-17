@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shmashine.api.dao.MaiXinWuyeElevatorDao">
+    <!-- 基本电梯信息查询 大屏 -->
+    <select id="getElevatorInfo" resultType="java.util.Map">
+        SELECT ele.v_elevator_code,
+               ele.v_elevator_name,
+               ele.v_elevator_id,
+               ele.v_address,
+               ele.i_elevator_type,
+               ele.i_elevator_use_type,
+               ele.i_elevator_place_type,
+               ele.i_maintain_days,
+               ele.d_last_maintain_date,
+               ele.d_next_maintain_date,
+               ele.d_last_inspect_date,
+               ele.d_next_inspect_date,
+               ele.v_maintain_person_name,
+               ele.v_maintain_person_tel,
+               ele.v_emergency_person_name,
+               ele.v_emergency_person_tel,
+               ele.v_http_pt_codes,
+               ele.i_coordinate_type,
+               ele.v_building_id,
+               ele.building_type,
+               ele.v_door_type,
+               ele.i_install_status,
+               ele.dt_install_time,
+               ele.i_on_line,
+               ele.i_mode_status,
+               ele.i_fault_status,
+               ele.v_manufacturer_code,
+               ele.v_equipment_code,
+               ele.property_safe_man,
+               ele.property_safe_phone,
+               ele.maintain_principal_person,
+               ele.maintain_principal_phone,
+               ele.maintain_subordinate_person,
+               ele.maintain_subordinate_phone,
+               ele.maintain_equ_insurance_info,
+               ele.maintain_emergency_phone,
+               dept.v_dept_name                          AS maintain_company_name,
+               dept2.v_dept_name                         AS property_company_name,
+               dept3.v_dept_name                         AS government_name,
+               IFNULL(ele.v_address, '--')               AS v_address,
+               IFNULL(envent.occur_time, '无故障')       AS real_time_fault,
+               IFNULL(envent.occur_time, '暂无')         AS start_fault_time,
+               IFNULL(envent.event_desc, '无故障')       AS fault_name,
+               IFNULL(ele.v_equipment_code, '--')        AS v_equipment_code,
+               IFNULL(brand.v_elevator_brand_name, '--') AS v_elevator_brand_name,
+               IFNULL(sys.v_name_zh_cn, '--')            AS elevator_type_name,
+               IFNULL(sys2.v_name_zh_cn, '--')           AS fault_status,
+               IFNULL(ele.d_last_maintain_date, '--')    AS last_maintain_date,
+               IFNULL(ele.d_next_inspect_date, '--')     AS next_inspect_date,
+               ele.dt_install_time                       AS dt_install_time,
+               IFNULL(ele.bi_run_count, '--')            AS bi_run_count,
+               IFNULL(ele.bi_door_count, '--')           AS bi_door_count,
+               IFNULL(ele.bi_bend_count, '--')           AS bi_bend_count,
+               IFNULL(ele.bi_run_distance_count, '--')   AS bi_run_distance_count
+        FROM tbl_elevator ele
+                 LEFT JOIN tbl_mx_maintenance maintenance ON maintenance.register_number = ele.v_equipment_code
+                 LEFT JOIN tbl_mx_event envent
+                           on envent.register_number = ele.v_equipment_code and <![CDATA[ envent.current_status < 5 ]]>
+        LEFT JOIN tbl_elevator_brand brand on brand.v_elevator_brand_id = ele.v_elevator_brand_id
+                 LEFT JOIN tbl_sys_systeminfo sys on sys.v_sysid = '10002' and sys.v_syssubid != '0' and ele.i_elevator_type = sys.v_sysvalue5
+        LEFT JOIN tbl_sys_systeminfo sys2
+        on sys2.v_sysid = '10018' and sys2.v_syssubid != '0' and ele.i_fault_status = sys2.v_sysvalue5
+            LEFT JOIN tbl_sys_dept dept on dept.v_dept_id = ele.v_maintain_company_id and dept.i_dept_type_id = '1'
+            LEFT JOIN tbl_sys_dept dept2 on dept2.v_dept_id = ele.v_property_company_id and dept2.i_dept_type_id = '2'
+            LEFT JOIN tbl_sys_dept dept3 on dept3.v_dept_id = ele.i_government_id and dept3.i_dept_type_id = '3'
+        where
+            ele.v_equipment_code = #{register_number}
+        group by ele.v_elevator_code, ele.v_equipment_code
+    </select>
+
+    <select id="getElevatorHeatMapNew" resultType="java.util.Map">
+        select floor_number, ifnull(avg(count_stop), 0) as count_stop,count_date from tbl_elevator_heat_map
+        <where>
+            <if test="elevatorCode != null and elevatorCode != ''">
+                and elevator_code = #{elevatorCode}
+            </if>
+            and count_date >= DATE_SUB(CURDATE(), INTERVAL 7 day)
+            and count_date != '2023-02-01'
+        </where>
+        group by floor_number
+        order by floor_number
+    </select>
+
+    <!--获取用户电梯列表-->
+    <select id="getElevatorListByUser" resultType="com.shmashine.common.entity.TblElevator">
+        SELECT
+        ele.*
+        FROM tbl_elevator ele
+        <if test="!isAdmin">
+            INNER JOIN tbl_sys_user_resource resource on ele.v_elevator_id = resource.v_resource_id and v_user_id =
+            #{userId}
+        </if>
+    </select>
+
+    <!--根据小区id获取电梯列表-->
+    <select id="getElevatorListByVillage" resultType="com.shmashine.common.entity.TblElevator">
+        SELECT
+        ele.*
+        FROM tbl_elevator ele
+        <if test="!isAdmin">
+            INNER JOIN tbl_sys_user_resource resource on ele.v_elevator_id = resource.v_resource_id and v_user_id =
+            #{userId}
+        </if>
+        WHERE ele.v_village_id = #{villageId}
+        order by ele.v_elevator_name, ele.v_elevator_code
+    </select>
+
+    <!--根据电梯id获取电梯列表-->
+    <select id="searchByElevatorIds" resultType="com.shmashine.common.entity.TblElevator">
+        SELECT
+        ele.*
+        FROM tbl_elevator ele
+        <if test="!isAdmin">
+            INNER JOIN tbl_sys_user_resource resource on ele.v_elevator_id = resource.v_resource_id and v_user_id =
+            #{userId}
+        </if>
+        <if test="elevatorIds != null and elevatorIds.size() > 0">
+            WHERE ele.v_elevator_id in
+            <foreach collection="elevatorIds" item="elevatorId" open="(" separator="," close=")">
+                #{elevatorId}
+            </foreach>
+        </if>
+    </select>
+
+</mapper>

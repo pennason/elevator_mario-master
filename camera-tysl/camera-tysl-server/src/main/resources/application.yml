@@ -1,0 +1,64 @@
+server:
+  port: 8080
+
+# sa-token 配置
+sa-token:
+  # 配置 Sa-Token 单独使用的 Redis 连接
+  alone-redis:
+    database: 13  # 默认13
+    host: 10.0.0.113
+    port: 6379
+    password: shmashine@666
+    timeout: 5000
+
+spring:
+  application:
+    name: shmashine-camera-tysl
+  profiles:
+    active: dev
+
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://mysql.dev.shmashine.com:3306/elevator_master?useSSL=false&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+    username: root
+    password: shmashine@666
+    initialSize: 1
+    minIdle: 3
+    maxActive: 200
+    # 配置获取连接等待超时的时间
+    maxWait: 60000
+    # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+    timeBetweenEvictionRunsMillis: 60000
+    # 配置一个连接在池中最小生存的时间，单位是毫秒
+    minEvictableIdleTimeMillis: 30000
+
+ali-oss:
+  use-internal: false # 服务器和OSS都位于青岛，可以使用内部地址上传到OSS
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://shmashine-eureka:8080/eureka/
+  instance:
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+    # 优先使用IP地址方式进行注册服务
+    prefer-ip-address: true
+
+camera:
+  tysl:
+    #app-id: 1690970372574416896
+    #app-key: SiaDwWGZDA
+    app-secret: ~
+    app-id: 1691339368373030912
+    app-key: gKS2cxjz9B
+    callback-base-url: http://tysl.camera.shmashine.com:8005
+
+endpoint:
+  image-identify: http://47.104.141.206:10089
+  shmashine-api: http://shmashine-api:8003

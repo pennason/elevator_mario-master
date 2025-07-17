@@ -1,0 +1,156 @@
+package com.shmashine.common.entity;
+
+import com.shmashine.common.entity.base.PageListParams;
+
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+/**
+ * 富士达梯
+ *
+ * @author chenx
+ */
+
+@Data
+@EqualsAndHashCode(callSuper = true)
+public class TblElevatorFujitec extends PageListParams {
+    /**
+     * 主键（自增长）
+     */
+    private int id;
+
+    /**
+     * 设备出厂编号
+     */
+    private String productId;
+
+    /**
+     * 电梯识别码
+     */
+    private String identificationNumber;
+
+    /**
+     * 设备注册代码
+     */
+    private String idNr;
+
+    /**
+     * 设备品种
+     */
+    private String productVariety;
+
+    /**
+     * 设备型号
+     */
+    private String productName;
+
+    /**
+     * 设备安装地址
+     */
+    private String instAddr;
+
+    /**
+     * 设备内部编号
+     */
+    private String unitId;
+
+    /**
+     * 设备制造商
+     */
+    private String vendor;
+
+    /**
+     * 进口设备代理商
+     */
+    private String importDealer;
+
+    /**
+     * 设备出厂日期
+     */
+    private String productionDate;
+
+    /**
+     * 设备改造单位
+     */
+    private String modCompany;
+
+    /**
+     * 设备改造日期
+     */
+    private String modDate;
+
+    /**
+     * 设备安装单位
+     */
+    private String instCompany;
+
+    /**
+     * 设备安装日期
+     */
+    private String instDate;
+
+    /**
+     * 维护保养单位名称
+     */
+    private String maintCompany;
+
+    /**
+     * 应急救援电话
+     */
+    private String emergencyTel;
+
+    /**
+     * 使用单位名称
+     */
+    private String user;
+
+    /**
+     * 层站数
+     */
+    private String liftFloorNr;
+
+    /**
+     * 额定速度
+     */
+    private String liftRatedSpeed;
+
+    /**
+     * 额定载重量
+     */
+    private String liftRatedLoad;
+
+    /**
+     * 城市区号
+     */
+    private String areaCode;
+
+    /**
+     * 制造许可证编号
+     */
+    private String manufactureLicense;
+
+    /**
+     * 终端制造企业编号（由监管平台统一分配）
+     */
+    private String iotManufactorCode;
+
+    /**
+     * 监测终端类型
+     */
+    private String iotEquipmentType;
+
+    /**
+     * 监测终端编号
+     */
+    private String iotEquipmentNumber;
+
+    /**
+     * 制造单位统一社会信用代码
+     */
+    private String manufacturerCode;
+
+    /**
+     * 城市名称
+     */
+    private String city;
+}

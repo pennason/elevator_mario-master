@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.hkcamerabyys.dao.TblFaultMapper">
+
+    <sql id="TABLE_NAME">
+        tbl_fault
+    </sql>
+
+    <!--新增电动车入梯故障记录临时表-->
+    <insert id="insertUncivilizedBehavior37Fault">
+        INSERT INTO tbl_fault_uncivilized_behavior37
+        (v_fault_id, v_elevator_id, v_elevator_code, i_fault_type, dt_report_time, i_fault_message,v_address,v_fault_name)
+        VALUES (#{faultId}, #{elevatorId}, #{elevatorCode}, #{faultType}, #{reportTime}, #{faultMessage}, #{vAddress}, #{vFaultName})
+    </insert>
+
+    <!--电梯安装状态-->
+    <select id="getById" resultType="com.shmashine.common.entity.TblFault">
+        SELECT *
+        FROM
+        <include refid="TABLE_NAME"/>
+        WHERE
+        v_fault_id = #{faultId}
+    </select>
+    <select id="getElevatorAddress" resultType="java.lang.String">
+        SELECT v_address
+        FROM
+            tbl_elevator
+        WHERE
+            v_elevator_code = #{elevatorCode} limit 1
+    </select>
+</mapper>

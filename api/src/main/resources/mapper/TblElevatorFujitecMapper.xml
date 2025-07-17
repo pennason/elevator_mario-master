@@ -1,0 +1,456 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.api.dao.TblElevatorFujitecDao">
+
+    <resultMap type="com.shmashine.common.entity.TblElevatorFujitec" id="tblElevatorFujitecMap">
+        <id column="id" property="id"/>
+        <result column="product_id" property="productId"/>
+        <result column="identification_number" property="identificationNumber"/>
+        <result column="id_nr" property="idNr"/>
+        <result column="product_variety" property="productVariety"/>
+        <result column="product_name" property="productName"/>
+        <result column="inst_addr" property="instAddr"/>
+        <result column="unit_id" property="unitId"/>
+        <result column="vendor" property="vendor"/>
+        <result column="import_dealer" property="importDealer"/>
+        <result column="production_date" property="productionDate"/>
+        <result column="mod_company" property="modCompany"/>
+        <result column="mod_date" property="modDate"/>
+        <result column="inst_company" property="instCompany"/>
+        <result column="inst_date" property="instDate"/>
+        <result column="maint_company" property="maintCompany"/>
+        <result column="emergency_tel" property="emergencyTel"/>
+        <result column="user" property="user"/>
+        <result column="lift_floor_nr" property="liftFloorNr"/>
+        <result column="lift_rated_speed" property="liftRatedSpeed"/>
+        <result column="lift_rated_load" property="liftRatedLoad"/>
+        <result column="area_code" property="areaCode"/>
+        <result column="manufacture_license" property="manufactureLicense"/>
+        <result column="iot_manufactor_code" property="iotManufactorCode"/>
+        <result column="iot_equipment_type" property="iotEquipmentType"/>
+        <result column="iot_equipment_number" property="iotEquipmentNumber"/>
+        <result column="manufacturer_code" property="manufacturerCode"/>
+        <result column="city" property="city"/>
+    </resultMap>
+
+    <sql id="tblElevatorFujitecCol">
+        id
+        ,product_id,identification_number,id_nr,product_variety,
+        product_name,inst_addr,unit_id,vendor,import_dealer,
+        production_date,mod_company,mod_date,inst_company,
+        inst_date,maint_company,emergency_tel,user,lift_floor_nr,
+        lift_rated_speed,lift_rated_load,area_code,manufacture_license,
+        iot_manufactor_code,iot_equipment_type,iot_equipment_number,
+        manufacturer_code,city
+    </sql>
+
+    <select id="getElevatorByCondition" parameterType="com.shmashine.common.entity.TblElevatorFujitec"
+            resultMap="tblElevatorFujitecMap">
+        select
+        <include refid="tblElevatorFujitecCol"/>
+        from tbl_elevator_fujitec
+        <where>
+            <if test="productId!=null and productId!=''">product_id=#{productId}</if>
+            <if test="city!=null and city!=''">and city like concat('%',#{city},'%')</if>
+            <if test="instDate!=null and instDate!=''">and inst_date=#{instDate}</if>
+            <if test="instAddr!=null and instAddr!=''">and inst_addr like concat('%',#{instAddr},'%')</if>
+            <if test="instCompany!=null and instCompany!=''">and inst_company like concat('%',#{instCompany},'%')</if>
+            <if test="user!=null and user!=''">and user like concat('%',#{user},'%')</if>
+            <if test="maintCompany!=null and maintCompany!=''">and maint_company like concat('%',#{maintCompany},'%')
+            </if>
+        </where>
+    </select>
+
+    <select id="getAllElevator" parameterType="com.shmashine.common.entity.TblElevatorFujitec"
+            resultMap="tblElevatorFujitecMap">
+        select
+        <include refid="tblElevatorFujitecCol"/>
+        from tbl_elevator_fujitec
+    </select>
+
+    <select id="getElevatorByProductId" parameterType="com.shmashine.common.entity.TblElevatorFujitec"
+            resultMap="tblElevatorFujitecMap">
+        select
+        <include refid="tblElevatorFujitecCol"/>
+        from tbl_elevator_fujitec
+        where product_id=#{productId}
+    </select>
+
+    <delete id="deleteElevatorById" parameterType="String">
+        delete
+        from tbl_elevator_fujitec
+        where id = #{value}
+    </delete>
+
+
+    <update id="updateElevatorFujitecInfo" parameterType="com.shmashine.common.entity.TblElevatorFujitec">
+        update tbl_elevator_fujitec
+        <include refid="updateElevatorFujitecInfoContent"/>
+
+        <where>
+            <choose>
+                <when test="id!=null and id!=''">
+                    id=#{id}
+                </when>
+                <otherwise>
+                    <if test="productId!=null and productId!=''">product_id = #{productId}</if>
+                </otherwise>
+            </choose>
+        </where>
+    </update>
+
+    <sql id="updateElevatorFujitecInfoContent">
+        <set>
+            <if test="productId!=null and productId!=''">
+                product_id = #{productId},
+            </if>
+
+            <if test="identificationNumber!=null and identificationNumber!=''">
+                identification_number = #{identificationNumber},
+            </if>
+
+            <if test="idNr!=null and idNr!=''">
+                id_nr = #{idNr},
+            </if>
+
+            <if test="productVariety!=null and productVariety!=''">
+                product_variety = #{productVariety},
+            </if>
+
+            <if test="productName!=null and productName!=''">
+                product_name = #{productName},
+            </if>
+
+            <if test="instAddr!=null and instAddr!=''">
+                inst_addr = #{instAddr},
+            </if>
+
+            <if test="unitId!=null and unitId!=''">
+                unit_id = #{unitId},
+            </if>
+
+            <if test="vendor!=null and vendor!=''">
+                vendor = #{vendor},
+            </if>
+
+            <if test="importDealer!=null and importDealer!=''">
+                import_dealer = #{importDealer},
+            </if>
+
+            <if test="productionDate!=null and productionDate!=''">
+                production_date = #{productionDate},
+            </if>
+
+            <if test="modCompany!=null and modCompany!=''">
+                mod_company = #{modCompany},
+            </if>
+
+            <if test="modDate!=null and modDate!=''">
+                mod_date = #{modDate},
+            </if>
+
+            <if test="instCompany!=null and instCompany!=''">
+                inst_company = #{instCompany},
+            </if>
+
+            <if test="instDate!=null and instDate!=''">
+                inst_date = #{instDate},
+            </if>
+
+            <if test="maintCompany!=null and maintCompany!=''">
+                maint_company = #{maintCompany},
+            </if>
+
+            <if test="emergencyTel!=null and emergencyTel!=''">
+                emergency_tel = #{emergencyTel},
+            </if>
+
+            <if test="user!=null and user!=''">
+                user = #{user},
+            </if>
+
+            <if test="liftFloorNr!=null and liftFloorNr!=''">
+                lift_floor_nr = #{liftFloorNr},
+            </if>
+
+            <if test="liftRatedSpeed!=null and liftRatedSpeed!=''">
+                lift_rated_speed = #{liftRatedSpeed},
+            </if>
+
+            <if test="liftRatedLoad!=null and liftRatedLoad!=''">
+                lift_rated_load = #{liftRatedLoad},
+            </if>
+
+            <if test="areaCode!=null and areaCode!=''">
+                area_code = #{areaCode},
+            </if>
+
+            <if test="manufactureLicense!=null and manufactureLicense!=''">
+                manufacture_license = #{manufactureLicense},
+            </if>
+
+            <if test="iotManufactorCode!=null and iotManufactorCode!=''">
+                iot_manufactor_code = #{iotManufactorCode},
+            </if>
+
+            <if test="iotEquipmentType!=null and iotEquipmentType!=''">
+                iot_equipment_type = #{iotEquipmentType},
+            </if>
+
+            <if test="iotEquipmentNumber!=null and iotEquipmentNumber!=''">
+                iot_equipment_number = #{iotEquipmentNumber},
+            </if>
+
+            <if test="manufacturerCode!=null and manufacturerCode!=''">
+                manufacturer_code = #{manufacturerCode},
+            </if>
+
+            <if test="city!=null and city!=''">
+                city = #{city},
+            </if>
+        </set>
+    </sql>
+
+    <insert id="insertElevatorFujitecInfo" parameterType="com.shmashine.common.entity.TblElevatorFujitec">
+        insert into tbl_elevator_fujitec
+        (<include refid="keys"/>)
+        values
+        (<include refid="values"/>)
+    </insert>
+
+    <sql id="keys">
+        <trim suffixOverrides=",">
+
+            <if test="id!=null and id!=''">
+                id,
+            </if>
+
+            <if test="productId!=null and productId!=''">
+                product_id,
+            </if>
+
+            <if test="identificationNumber!=null and identificationNumber!=''">
+                identification_number,
+            </if>
+
+            <if test="idNr!=null and idNr!=''">
+                id_nr,
+            </if>
+
+            <if test="productVariety!=null and productVariety!=''">
+                product_variety,
+            </if>
+
+            <if test="productName!=null and productName!=''">
+                product_name,
+            </if>
+
+            <if test="instAddr!=null and instAddr!=''">
+                inst_addr,
+            </if>
+
+            <if test="unitId!=null and unitId!=''">
+                unit_id,
+            </if>
+
+            <if test="vendor!=null and vendor!=''">
+                vendor,
+            </if>
+
+            <if test="importDealer!=null and importDealer!=''">
+                import_dealer,
+            </if>
+
+            <if test="productionDate!=null and productionDate!=''">
+                production_date,
+            </if>
+
+            <if test="modCompany!=null and modCompany!=''">
+                mod_company,
+            </if>
+
+            <if test="modDate!=null and modDate!=''">
+                mod_date,
+            </if>
+
+            <if test="instCompany!=null and instCompany!=''">
+                inst_company,
+            </if>
+
+            <if test="instDate!=null and instDate!=''">
+                inst_date,
+            </if>
+
+            <if test="maintCompany!=null and maintCompany!=''">
+                maint_company,
+            </if>
+
+            <if test="emergencyTel!=null and emergencyTel!=''">
+                emergency_tel,
+            </if>
+
+            <if test="user!=null and user!=''">
+                user,
+            </if>
+
+            <if test="liftFloorNr!=null and liftFloorNr!=''">
+                lift_floor_nr,
+            </if>
+
+            <if test="liftRatedSpeed!=null and liftRatedSpeed!=''">
+                lift_rated_speed,
+            </if>
+
+            <if test="liftRatedLoad!=null and liftRatedLoad!=''">
+                lift_rated_load,
+            </if>
+
+            <if test="areaCode!=null and areaCode!=''">
+                area_code,
+            </if>
+
+            <if test="manufactureLicense!=null and manufactureLicense!=''">
+                manufacture_license,
+            </if>
+
+            <if test="iotManufactorCode!=null and iotManufactorCode!=''">
+                iot_manufactor_code,
+            </if>
+
+            <if test="iotEquipmentType!=null and iotEquipmentType!=''">
+                iot_equipment_type,
+            </if>
+
+            <if test="iotEquipmentNumber!=null and iotEquipmentNumber!=''">
+                iot_equipment_number,
+            </if>
+
+            <if test="manufacturerCode!=null and manufacturerCode!=''">
+                manufacturer_code,
+            </if>
+
+            <if test="city!=null and city!=''">
+                city,
+            </if>
+
+        </trim>
+    </sql>
+
+    <sql id="values">
+        <trim suffixOverrides=",">
+
+            <if test="id!=null and id!=''">
+                #{id},
+            </if>
+
+            <if test="productId!=null and productId!=''">
+                #{productId},
+            </if>
+
+            <if test="identificationNumber!=null and identificationNumber!=''">
+                #{identificationNumber},
+            </if>
+
+            <if test="idNr!=null and idNr!=''">
+                #{idNr},
+            </if>
+
+            <if test="productVariety!=null and productVariety!=''">
+                #{productVariety},
+            </if>
+
+            <if test="productName!=null and productName!=''">
+                #{productName},
+            </if>
+
+            <if test="instAddr!=null and instAddr!=''">
+                #{instAddr},
+            </if>
+
+            <if test="unitId!=null and unitId!=''">
+                #{unitId},
+            </if>
+
+            <if test="vendor!=null and vendor!=''">
+                #{vendor},
+            </if>
+
+            <if test="importDealer!=null and importDealer!=''">
+                #{importDealer},
+            </if>
+
+            <if test="productionDate!=null and productionDate!=''">
+                #{productionDate},
+            </if>
+
+            <if test="modCompany!=null and modCompany!=''">
+                #{modCompany},
+            </if>
+
+            <if test="modDate!=null and modDate!=''">
+                #{modDate},
+            </if>
+
+            <if test="instCompany!=null and instCompany!=''">
+                #{instCompany},
+            </if>
+
+            <if test="instDate!=null and instDate!=''">
+                #{instDate},
+            </if>
+
+            <if test="maintCompany!=null and maintCompany!=''">
+                #{maintCompany},
+            </if>
+
+            <if test="emergencyTel!=null and emergencyTel!=''">
+                #{emergencyTel},
+            </if>
+
+            <if test="user!=null and user!=''">
+                #{user},
+            </if>
+
+            <if test="liftFloorNr!=null and liftFloorNr!=''">
+                #{liftFloorNr},
+            </if>
+
+            <if test="liftRatedSpeed!=null and liftRatedSpeed!=''">
+                #{liftRatedSpeed},
+            </if>
+
+            <if test="liftRatedLoad!=null and liftRatedLoad!=''">
+                #{liftRatedLoad},
+            </if>
+
+            <if test="areaCode!=null and areaCode!=''">
+                #{areaCode},
+            </if>
+
+            <if test="manufactureLicense!=null and manufactureLicense!=''">
+                #{manufactureLicense},
+            </if>
+
+            <if test="iotManufactorCode!=null and iotManufactorCode!=''">
+                #{iotManufactorCode},
+            </if>
+
+            <if test="iotEquipmentType!=null and iotEquipmentType!=''">
+                #{iotEquipmentType},
+            </if>
+
+            <if test="iotEquipmentNumber!=null and iotEquipmentNumber!=''">
+                #{iotEquipmentNumber},
+            </if>
+
+            <if test="manufacturerCode!=null and manufacturerCode!=''">
+                #{manufacturerCode},
+            </if>
+
+            <if test="city!=null and city!=''">
+                #{city},
+            </if>
+        </trim>
+    </sql>
+
+</mapper>

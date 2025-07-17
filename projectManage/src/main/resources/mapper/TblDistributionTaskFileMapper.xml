@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.pm.api.dao.TblDistributionTaskFileDao">
+    <resultMap type="com.shmashine.pm.api.entity.TblDistributionTaskFile" id="TblDistributionTaskFileResultMap">
+        <result property="vDistributionTaskFileId" column="v_distribution_task_file_id" jdbcType="VARCHAR"/>
+        <result property="vDistributionTaskId" column="v_distribution_task_id" jdbcType="VARCHAR"/>
+        <result property="vFileUrl" column="v_file_url" jdbcType="VARCHAR"/>
+        <result property="dtCreateTime" column="dt_create_time" jdbcType="TIMESTAMP"/>
+        <result property="dtModifyTime" column="dt_modify_time" jdbcType="TIMESTAMP"/>
+        <result property="vCreateUserId" column="v_create_user_id" jdbcType="VARCHAR"/>
+        <result property="vModifyUserId" column="v_modify_user_id" jdbcType="VARCHAR"/>
+        <result property="iDelFlag" column="i_del_flag" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="table_field">
+        v_distribution_task_file_id
+        , v_distribution_task_id, v_file_url, dt_create_time, dt_modify_time, v_create_user_id, v_modify_user_id, i_del_flag
+    </sql>
+
+    <!--通过Id查询单个-->
+    <select id="getById" resultMap="TblDistributionTaskFileResultMap" parameterType="java.lang.String">
+        select
+        <include refid="table_field"/>
+        from tbl_distribution_task_file
+        where v_distribution_task_file_id = #{vDistributionTaskFileId,jdbcType=VARCHAR}
+    </select>
+
+    <!--通过实体不为空的属性作为筛选条件查询单个-->
+    <select id="getByEntity" resultMap="TblDistributionTaskFileResultMap"
+            parameterType="com.shmashine.pm.api.entity.TblDistributionTaskFile">
+        select
+        <include refid="table_field"/>
+        from tbl_distribution_task_file
+        <where>
+            <if test="vDistributionTaskFileId != null and vDistributionTaskFileId != ''">
+                and v_distribution_task_file_Id = #{vDistributionTaskFileId, jdbcType=VARCHAR}
+            </if>
+            <if test="vDistributionTaskId != null and vDistributionTaskId != ''">
+                and v_distribution_task_Id = #{vDistributionTaskId, jdbcType=VARCHAR}
+            </if>
+            <if test="dtCreateTime != null">
+                and dt_create_time = #{dtCreateTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="dtModifyTime != null">
+                and dt_modify_time = #{dtModifyTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="vCreateUserId != null">
+                and v_create_user_id = #{vCreateUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="vModifyUserId != null">
+                and v_modify_user_id = #{vModifyUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="iDelFlag != null">
+                and i_del_flag = #{iDelFlag,jdbcType=INTEGER}
+            </if>
+        </where>
+        limit 0, 1
+    </select>
+
+    <insert id="insert" parameterType="com.shmashine.pm.api.entity.TblDistributionTaskFile">
+        insert into tbl_distribution_task_file
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="vDistributionTaskFileId != null and vDistributionTaskFileId != ''">
+                v_distribution_task_file_id,
+            </if>
+            <if test="vDistributionTaskId != null and vDistributionTaskId != ''">
+                v_distribution_task_id,
+            </if>
+            <if test="vFileUrl != null and vFileUrl != ''">
+                v_file_url,
+            </if>
+            <if test="dtCreateTime != null">
+                dt_create_time,
+            </if>
+            <if test="dtModifyTime != null">
+                dt_modify_time,
+            </if>
+            <if test="vCreateUserId != null">
+                v_create_user_id,
+            </if>
+            <if test="vModifyUserId != null">
+                v_modify_user_id,
+            </if>
+            <if test="iDelFlag != null">
+                i_del_flag,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="vDistributionTaskFileId != null and vDistributionTaskFileId != ''">
+                #{vDistributionTaskFileId,jdbcType=VARCHAR},
+            </if>
+            <if test="vDistributionTaskId != null and vDistributionTaskId != ''">
+                #{vDistributionTaskId,jdbcType=VARCHAR},
+            </if>
+            <if test="vFileUrl != null and vFileUrl != ''">
+                #{vFileUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="dtCreateTime != null">
+                #{dtCreateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="dtModifyTime != null">
+                #{dtModifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="vCreateUserId != null">
+                #{vCreateUserId,jdbcType=VARCHAR},,
+            </if>
+            <if test="vModifyUserId != null">
+                #{vModifyUserId,jdbcType=VARCHAR},,
+            </if>
+            <if test="iDelFlag != null">
+                #{iDelFlag,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="com.shmashine.pm.api.entity.TblDistributionTaskFile">
+        update tbl_distribution_task_file
+        <set>
+            <if test="vDistributionTaskFileId != null and vDistributionTaskFileId !=''">
+                v_distribution_task_file_id = #{vDistributionTaskFileId,jdbcType=VARCHAR},
+            </if>
+            <if test="vDistributionTaskId != null and vDistributionTaskId !=''">
+                v_distribution_task_id = #{vDistributionTaskId,jdbcType=VARCHAR},
+            </if>
+            <if test="vFileUrl != null and vFileUrl != ''">
+                v_file_url = #{vFileUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="dtCreateTime != null">
+                dt_create_time = #{dtCreateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="dtModifyTime != null">
+                dt_modify_time = #{dtModifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="vCreateUserId != null and vCreateUserId != ''">
+                v_create_user_id = #{vCreateUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="vModifyUserId != null and vModifyUserId != ''">
+                v_modify_user_id = #{vModifyUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="iDelFlag != null">
+                i_del_flag = #{iDelFlag,jdbcType=INTEGER},
+            </if>
+        </set>
+        where v_distribution_task_file_id = #{vDistributionTaskFileId,jdbcType=VARCHAR}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById" parameterType="java.lang.String">
+        delete
+        from tbl_distribution_task_file
+        where tbl_distribution_task_file_id = #{vDistributionTaskFileId,jdbcType=VARCHAR}
+    </delete>
+
+</mapper>

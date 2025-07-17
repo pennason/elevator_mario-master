@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.cameratysl.dao.TblSysFileMapper">
+
+    <sql id="TABLE_NAME">
+        tbl_sys_file
+    </sql>
+
+    <!--电梯安装状态-->
+    <select id="getById" resultType="com.shmashine.common.entity.TblSysFile">
+        SELECT *
+        FROM
+        <include refid="TABLE_NAME"/>
+        WHERE v_file_id = #{fileId}
+    </select>
+
+
+    <!-- 添加 -->
+    <insert id="insertOrUpdate" keyProperty="vFileId" parameterType="com.shmashine.common.entity.TblSysFile">
+        INSERT INTO
+        <include refid="TABLE_NAME"/>
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="entity.vFileId != null and entity.vFileId != ''">v_file_id,</if>
+            <if test="entity.vFileType != null and entity.vFileType != ''">v_file_type,</if>
+            <if test="entity.vFileName != null and entity.vFileName != ''">v_file_name,</if>
+            <if test="entity.vBusinessId != null and entity.vBusinessId != ''">v_business_id,</if>
+            <if test="entity.iBusinessType != null">i_business_type,</if>
+            <if test="entity.vUrl != null and entity.vUrl != ''">v_url,</if>
+            <if test="entity.vRemark != null and entity.vRemark != ''">v_remark,</if>
+            <if test="entity.dtCreateTime != null and entity.dtCreateTime != ''">dt_create_time,</if>
+            <if test="entity.dtModifyTime != null and entity.dtModifyTime != ''">dt_modify_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="entity.vFileId != null and entity.vFileId != ''">#{entity.vFileId},</if>
+            <if test="entity.vFileType != null and entity.vFileType != ''">#{entity.vFileType},</if>
+            <if test="entity.vFileName != null and entity.vFileName != ''">#{entity.vFileName},</if>
+            <if test="entity.vBusinessId != null and entity.vBusinessId != ''">#{entity.vBusinessId},</if>
+            <if test="entity.iBusinessType != null">#{entity.iBusinessType},</if>
+            <if test="entity.vUrl != null and entity.vUrl != ''">#{entity.vUrl},</if>
+            <if test="entity.vRemark != null and entity.vRemark != ''">#{entity.vRemark},</if>
+            <if test="entity.dtCreateTime != null and entity.dtCreateTime != ''">#{entity.dtCreateTime},</if>
+            <if test="entity.dtModifyTime != null and entity.dtModifyTime != ''">#{entity.dtModifyTime},</if>
+        </trim>
+        ON DUPLICATE KEY UPDATE
+        <trim suffixOverrides=",">
+            <if test="entity.vUrl != null and entity.vUrl != ''">
+                v_url = #{entity.vUrl},
+            </if>
+            dt_modify_time = now()
+        </trim>
+    </insert>
+
+
+    <!--新增实体属性不为null的列-->
+    <insert id="insert" keyProperty="vFileId" useGeneratedKeys="true"
+            parameterType="com.shmashine.common.entity.TblSysFile">
+        insert into tbl_sys_file
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="vFileId != null">
+                v_file_id,
+            </if>
+            <if test="vFileType != null">
+                v_file_type,
+            </if>
+            <if test="vFileName != null">
+                v_file_name,
+            </if>
+            <if test="vBusinessId != null">
+                v_business_id,
+            </if>
+            <if test="iBusinessType != null">
+                i_business_type,
+            </if>
+            <if test="vUrl != null">
+                v_url,
+            </if>
+            <if test="vRemark != null">
+                v_remark,
+            </if>
+            <if test="dtCreateTime != null">
+                dt_create_time,
+            </if>
+            <if test="dtModifyTime != null">
+                dt_modify_time,
+            </if>
+            <if test="vCreateUserId != null">
+                v_create_user_id,
+            </if>
+            <if test="vModifyUserId != null">
+                v_modify_user_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="vFileId != null">
+                #{vFileId,jdbcType=VARCHAR},
+            </if>
+            <if test="vFileType != null">
+                #{vFileType,jdbcType=VARCHAR},
+            </if>
+            <if test="vFileName != null">
+                #{vFileName,jdbcType=VARCHAR},
+            </if>
+            <if test="vBusinessId != null">
+                #{vBusinessId,jdbcType=VARCHAR},
+            </if>
+            <if test="iBusinessType != null">
+                #{iBusinessType,jdbcType=INTEGER},
+            </if>
+            <if test="vUrl != null">
+                #{vUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="vRemark != null">
+                #{vRemark,jdbcType=VARCHAR},
+            </if>
+            <if test="dtCreateTime != null">
+                #{dtCreateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="dtModifyTime != null">
+                #{dtModifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="vCreateUserId != null">
+                #{vCreateUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="vModifyUserId != null">
+                #{vModifyUserId,jdbcType=VARCHAR},
+            </if>
+        </trim>
+        ON DUPLICATE KEY UPDATE
+        <trim suffixOverrides=",">
+            <if test="vUrl != null and vUrl != ''">
+                v_url = #{vUrl},
+            </if>
+            dt_modify_time = now()
+        </trim>
+    </insert>
+</mapper>

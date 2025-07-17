@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.hkCameraByYS.dao.TblCameraImageIdentifyMapper">
+    <sql id="TABLE_NAME">
+        tbl_camera_image_identify
+    </sql>
+    <sql id="BASE_COLUMNS">
+        task_custom_id
+        , elevator_id, elevator_code, collect_time, floor, `status`
+    </sql>
+    <sql id="ALL_COLUMNS">
+        <include refid="BASE_COLUMNS"/>,
+        id, oss_url, identify_type, identify_status, identify_result, create_time, modify_time
+    </sql>
+    <sql id="SET_COLUMNS">
+        <if test="entity.elevatorId != null and entity.elevatorId != ''">elevator_id = #{entity.elevatorId},</if>
+        <if test="entity.elevatorCode != null and entity.elevatorCode != ''">elevator_code = #{entity.elevatorCode},
+        </if>
+        <if test="entity.collectTime != null and entity.collectTime != ''">collect_time = #{entity.collectTime},</if>
+        <if test="entity.floor != null and entity.floor != ''">floor = #{entity.floor},</if>
+        <if test="entity.ossUrl != null and entity.ossUrl != ''">oss_url = #{entity.ossUrl},</if>
+        <if test="entity.status != null">`status` = #{entity.status},</if>
+        <if test="entity.identifyType != null">identify_type = #{entity.identifyType},</if>
+        <if test="entity.identifyStatus != null">identify_status = #{entity.identifyStatus},</if>
+        <if test="entity.identifyResult != null and entity.identifyResult != ''">identify_result =
+            #{entity.identifyResult},
+        </if>
+    </sql>
+
+
+    <update id="update" parameterType="com.shmashine.common.entity.TblCameraImageIdentifyEntity">
+        UPDATE
+        <include refid="TABLE_NAME"/>
+        <set>
+            <include refid="SET_COLUMNS"/>
+        </set>
+        <where>
+            <if test="entity.id != null">
+                AND id = #{entity.id}
+            </if>
+            <if test="entity.taskCustomId != null and entity.taskCustomId != ''">
+                AND task_custom_id = #{entity.taskCustomId}
+            </if>
+        </where>
+    </update>
+
+</mapper>

@@ -1,0 +1,67 @@
+server:
+  #  port: 8001
+  port: 8080
+eureka:
+  client:
+    service-url:
+      defaultZone: http://shmashine-eureka:8080/eureka/
+  instance:
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+    # 优先使用IP地址方式进行注册服务
+    prefer-ip-address: true
+
+hystrix:
+  command:
+    default:
+      execution.isolation.thread.timeoutInMilliseconds: 10000 # 熔断超时时长：10000ms
+ribbon:
+  ConnectTimeout: 5000 # ribbon链接超时时长
+  ReadTimeout: 6000 # ribbon读取超时时长
+
+spring:
+  profiles:
+    active: dev
+  application:
+    name: shmashine-gateway
+  redis:
+    database: 2
+    host: 10.0.0.113
+    port: 6379
+    password: shmashine@666
+    timeout: 5000
+  main:
+    allow-bean-definition-overriding: true
+    web-application-type: reactive
+  boot:
+    admin:
+      client:
+        url: http://spring-boot-admin:8080 #配置admin-server地址
+        username: shmashine
+        password: shmashine
+        instance:
+          prefer-ip: true
+          service-url: http://shmashine-gateway:8080
+
+# 监控信息
+management:
+  endpoints:
+    web:
+      exposure:
+        #        include: "health,prometheus,httptrace"
+        include: "*"
+  endpoint:
+    health:
+      show-details: ALWAYS
+      probes:
+        enabled: true
+      group:
+        readiness:
+          include: db
+    prometheus:
+      enabled: true
+  metrics:
+    tags:
+      application: ${spring.application.name}
+#logging:
+#  file:
+#    name: gateway-server.log

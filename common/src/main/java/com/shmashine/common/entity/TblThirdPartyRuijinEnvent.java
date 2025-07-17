@@ -1,0 +1,278 @@
+package com.shmashine.common.entity;
+
+import java.io.Serial;
+import java.io.Serializable;
+import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import lombok.Data;
+import lombok.ToString;
+
+/**
+ * 瑞景医院项目对接表 电梯故障报修表(TblThirdPartyRuijinEnvent)实体类
+ *
+ * @author makejava
+ * @since 2020-07-22 14:07:05
+ */
+@Data
+@ToString
+public class TblThirdPartyRuijinEnvent implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 339210117429819513L;
+    /**
+     * 唯一标识
+     */
+    private String eventId;
+    /**
+     * 事件编号
+     */
+    private String eventNumber;
+    /**
+     * 事件来源
+     */
+    private String eventChannel;
+    /**
+     * 注册代码
+     */
+    private String registerNumber;
+    /**
+     * 报警时间
+     */
+    private Object occurTime;
+    /**
+     * 当前状态
+     */
+    private Integer currentStatus;
+    /**
+     * 事件分类
+     */
+    private Integer eventType;
+    /**
+     * 故障类型代码
+     */
+    private String failureCode;
+    /**
+     * 事件内容
+     */
+    private String eventDesc;
+    /**
+     * 报警人
+     */
+    private String reporter;
+    /**
+     * 报警人电话
+     */
+    private String reporterTel;
+    /**
+     * 救援人数
+     */
+    private Integer rescueNum;
+    /**
+     * 处理人
+     */
+    private String handler;
+    /**
+     * 处理人电话
+     */
+    private String handlerTel;
+    /**
+     * 救援单位名称
+     */
+    private String rescueCompanyName;
+    /**
+     * 创建时间
+     */
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
+    private Date dtCreateTime;
+    /**
+     * 修改时间
+     */
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
+    private Date dtModifyTime;
+    /**
+     * 创建记录用户
+     */
+    private String vCreateUserId;
+    /**
+     * 修改记录用户
+     */
+    private String vModifyUserId;
+
+    @JsonProperty("eventId")
+    public String getEventId() {
+        return eventId;
+    }
+
+    public void setEventId(String eventId) {
+        this.eventId = eventId;
+    }
+
+    @JsonProperty("eventNumber")
+    public String getEventNumber() {
+        return eventNumber;
+    }
+
+    public void setEventNumber(String eventNumber) {
+        this.eventNumber = eventNumber;
+    }
+
+    @JsonProperty("eventChannel")
+    public String getEventChannel() {
+        return eventChannel;
+    }
+
+    public void setEventChannel(String eventChannel) {
+        this.eventChannel = eventChannel;
+    }
+
+    @JsonProperty("registerNumber")
+    public String getRegisterNumber() {
+        return registerNumber;
+    }
+
+    public void setRegisterNumber(String registerNumber) {
+        this.registerNumber = registerNumber;
+    }
+
+    @JsonProperty("occurTime")
+    public Object getOccurTime() {
+        return occurTime;
+    }
+
+    public void setOccurTime(Object occurTime) {
+        this.occurTime = occurTime;
+    }
+
+    @JsonProperty("currentStatus")
+    public Integer getCurrentStatus() {
+        return currentStatus;
+    }
+
+    public void setCurrentStatus(Integer currentStatus) {
+        this.currentStatus = currentStatus;
+    }
+
+    @JsonProperty("eventType")
+    public Integer getEventType() {
+        return eventType;
+    }
+
+    public void setEventType(Integer eventType) {
+        this.eventType = eventType;
+    }
+
+    @JsonProperty("failureCode")
+    public String getFailureCode() {
+        return failureCode;
+    }
+
+    public void setFailureCode(String failureCode) {
+        this.failureCode = failureCode;
+    }
+
+    @JsonProperty("eventDesc")
+    public String getEventDesc() {
+        return eventDesc;
+    }
+
+    public void setEventDesc(String eventDesc) {
+        this.eventDesc = eventDesc;
+    }
+
+    @JsonProperty("reporter")
+    public String getReporter() {
+        return reporter;
+    }
+
+    public void setReporter(String reporter) {
+        this.reporter = reporter;
+    }
+
+    @JsonProperty("reporterTel")
+    public String getReporterTel() {
+        return reporterTel;
+    }
+
+    public void setReporterTel(String reporterTel) {
+        this.reporterTel = reporterTel;
+    }
+
+    @JsonProperty("rescueNum")
+    public Integer getRescueNum() {
+        return rescueNum;
+    }
+
+    public void setRescueNum(Integer rescueNum) {
+        this.rescueNum = rescueNum;
+    }
+
+    @JsonProperty("handler")
+    public String getHandler() {
+        return handler;
+    }
+
+    public void setHandler(String handler) {
+        this.handler = handler;
+    }
+
+    @JsonProperty("handlerTel")
+    public String getHandlerTel() {
+        return handlerTel;
+    }
+
+    public void setHandlerTel(String handlerTel) {
+        this.handlerTel = handlerTel;
+    }
+
+    @JsonProperty("rescueCompanyName")
+    public String getRescueCompanyName() {
+        return rescueCompanyName;
+    }
+
+    public void setRescueCompanyName(String rescueCompanyName) {
+        this.rescueCompanyName = rescueCompanyName;
+    }
+
+    @JsonProperty("dtCreateTime")
+    public Date getDtCreateTime() {
+        return dtCreateTime;
+    }
+
+    public void setDtCreateTime(Date dtCreateTime) {
+        this.dtCreateTime = dtCreateTime;
+    }
+
+    @JsonProperty("dtModifyTime")
+    public Date getDtModifyTime() {
+        return dtModifyTime;
+    }
+
+    public void setDtModifyTime(Date dtModifyTime) {
+        this.dtModifyTime = dtModifyTime;
+    }
+
+    @JsonProperty("vCreateUserId")
+    public String getVCreateUserId() {
+        return vCreateUserId;
+    }
+
+    public void setVCreateUserId(String vCreateUserId) {
+        this.vCreateUserId = vCreateUserId;
+    }
+
+    @JsonProperty("vModifyUserId")
+    public String getVModifyUserId() {
+        return vModifyUserId;
+    }
+
+    public void setVModifyUserId(String vModifyUserId) {
+        this.vModifyUserId = vModifyUserId;
+    }
+
+}

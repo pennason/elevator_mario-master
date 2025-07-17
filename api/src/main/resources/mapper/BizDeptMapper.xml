@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shmashine.api.dao.BizDeptDao">
+
+    <!-- 通过 部门编号查找其子部门  -->
+    <select id="searchDept" resultType="com.shmashine.common.entity.TblSysDept"
+            parameterType="com.shmashine.api.module.dept.input.SearchDetpListModule">
+        SELECT
+        sysDept.v_dept_id,
+        sysDept.v_parent_id,
+        sysDept.v_dept_name,
+        sysDept.i_dept_type_id,
+        sysDept.dt_modifyTime,
+        sysDept.i_status,
+        sysinfo.v_name_zh_cn AS typeName
+        FROM
+        tbl_sys_dept sysDept
+        left join tbl_sys_systeminfo sysinfo on sysinfo.v_sysvalue5 = sysDept.i_dept_type_id and sysinfo.v_sysid =
+        '10001'
+        WHERE
+        v_dept_id = #{searchDetpListModule.vParentId} and i_status = 0
+        <if test="searchDetpListModule.vDeptId != null and searchDetpListModule.vDeptId != ''">
+            and v_dept_id like CONCAT('%',#{searchDetpListModule.vDeptId},'%')
+        </if>
+        <if test="searchDetpListModule.vDeptName != null and searchDetpListModule.vDeptName != ''">
+            and v_dept_name like CONCAT('%',#{searchDetpListModule.vDeptName},'%')
+        </if>
+        order by sysDept.dt_modifyTime desc
+    </select>
+
+    <!-- 通过 部门编号查找其子部门  -->
+    <select id="searchDeptParent" resultType="com.shmashine.common.entity.TblSysDept"
+            parameterType="com.shmashine.api.module.dept.input.SearchDetpListModule">
+        SELECT
+        sysDept.v_dept_id,
+        sysDept.v_parent_id,
+        sysDept.v_dept_name,
+        sysDept.i_dept_type_id,
+        sysDept.dt_modifyTime,
+        sysDept.i_status,
+        sysDept.v_remarks,
+        sysDept.v_tell,
+        sysDept.v_address,
+        sysDept.v_contacts,
+        sysinfo.v_name_zh_cn AS typeName
+        FROM
+        tbl_sys_dept sysDept
+        left join tbl_sys_systeminfo sysinfo on sysinfo.v_sysvalue5 = sysDept.i_dept_type_id and sysinfo.v_sysid =
+        '10001'
+        <where>
+            v_parent_id = #{searchDetpListModule.vParentId}
+            <if test="searchDetpListModule.vDeptName != null and searchDetpListModule.vDeptName != ''">
+                and v_dept_name like CONCAT('%',#{searchDetpListModule.vDeptName},'%')
+            </if>
+            <if test="searchDetpListModule.iOutService != null">
+                and sysDept.i_out_service = #{searchDetpListModule.iOutService}
+            </if>
+            <if test="searchDetpListModule.vAddress != null and searchDetpListModule.vAddress != ''">
+                and v_address like CONCAT('%',#{searchDetpListModule.vAddress},'%')
+            </if>
+            <if test="searchDetpListModule.iDeptTypeId != null ">
+                and i_dept_type_id = #{searchDetpListModule.iDeptTypeId}
+            </if>
+            <if test="!searchDetpListModule.isAdminFlag">
+                and sysDept.v_dept_id
+                <foreach collection="searchDetpListModule.permissionDeptIds" item="item" open="IN(" separator=","
+                         close=")">
+                    #{item}
+                </foreach>
+            </if>
+
+            and i_status = 0
+        </where>
+        ORDER BY CONVERT(sysDept.v_dept_name USING gbk) ASC
+    </select>
+
+    <!-- 获取部门详情 -->
+    <select id="getDeptDetail" resultType="java.util.HashMap">
+        SELECT sysDept.v_dept_id                    AS vDeptId,
+               sysDept.v_tell                       AS vTell,
+               sysDept.v_fax                        AS vFax,
+               sysDept.v_address                    AS vAddress,
+               sysDept.v_remarks                    AS vRemarks,
+               case
+                   when sysDept.v_parent_id = null then
+                       '系统'
+                   else
+                       sysDept2.v_dept_name
+                   end                              AS vParentName,
+               sysDept.v_parent_id                  AS vParentId,
+               sysDept.v_dept_name                  AS vDeptName,
+               cast(sysDept.i_dept_type_id as char) AS iDeptTypeId,
+               sysDept.dt_modifyTime                AS dtModifyTime,
+               sysDept.i_status                     AS iStatus,
+               sysDept.i_dept_type_id               AS iDeptTypeId,
+               sysinfo.v_name_zh_cn                 AS iDeptTypeTypeName
+        FROM tbl_sys_dept sysDept
+                 left join tbl_sys_dept sysDept2 on sysDept2.v_dept_id = sysDept.v_parent_id
+                 left join tbl_sys_systeminfo sysinfo
+                           on sysinfo.v_sysvalue5 = sysDept.i_dept_type_id and sysinfo.v_sysid = '10001'
+        WHERE sysDept.v_dept_id = #{deptId}
+    </select>
+
+    <!-- 获取部门详情 -->
+    <select id="getDeptInfo" resultType="java.util.Map">
+        SELECT sysDept.*
+        FROM tbl_sys_dept sysDept
+        WHERE sysDept.v_dept_id = #{deptId}
+    </select>
+
+    <!-- 查询部门下级部门编码 -->
+    <select id="getDeptIdsByParentDeptId" resultType="java.lang.String">
+        select v_dept_id
+        from tbl_sys_dept
+        where v_parent_id = #{parentDeptId}
+    </select>
+
+    <!--获取所有本门-->
+    <select id="getAll" resultType="com.shmashine.common.entity.TblSysDept"
+            parameterType="com.shmashine.api.module.dept.input.SearchDetpListModule">
+        SELECT
+        sysDept.v_dept_id,
+        sysDept.v_parent_id,
+        sysDept.v_dept_name,
+        sysDept.i_dept_type_id,
+        sysDept.dt_modifyTime,
+        sysDept.v_tell,
+        sysDept.v_address,
+        sysDept.v_contacts,
+        sysDept.i_status
+        FROM
+        tbl_sys_dept sysDept
+        <where>
+            <if test="searchDetpListModule.vDeptName != null and searchDetpListModule.vDeptName != ''">
+                and v_dept_name like CONCAT('%',#{searchDetpListModule.vDeptName},'%')
+            </if>
+            <if test="searchDetpListModule.iOutService != null">
+                and sysDept.i_out_service = #{searchDetpListModule.iOutService}
+            </if>
+            <if test="searchDetpListModule.vAddress != null and searchDetpListModule.vAddress != ''">
+                and v_address like CONCAT('%',#{searchDetpListModule.vAddress},'%')
+            </if>
+            <if test="searchDetpListModule.iDeptTypeId != null ">
+                and i_dept_type_id = #{searchDetpListModule.iDeptTypeId}
+            </if>
+            AND i_status = 0
+        </where>
+        ORDER BY CONVERT(sysDept.v_dept_name USING gbk) ASC
+    </select>
+
+</mapper>

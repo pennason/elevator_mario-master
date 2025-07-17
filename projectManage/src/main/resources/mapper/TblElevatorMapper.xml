@@ -1,0 +1,3014 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.pm.api.dao.TblElevatorDao">
+
+    <resultMap type="com.shmashine.common.entity.TblElevator" id="TblElevatorResultMap">
+        <result property="vElevatorId" column="v_elevator_id" jdbcType="VARCHAR"/>
+        <result property="vElevatorCode" column="v_elevator_code" jdbcType="VARCHAR"/>
+        <result property="vElevatorName" column="v_elevator_name" jdbcType="VARCHAR"/>
+        <result property="iProvinceId" column="i_province_id" jdbcType="INTEGER"/>
+        <result property="iCityId" column="i_city_id" jdbcType="INTEGER"/>
+        <result property="iAreaId" column="i_area_id" jdbcType="INTEGER"/>
+        <result property="vAddress" column="v_address" jdbcType="VARCHAR"/>
+        <result property="iElevatorType" column="i_elevator_type" jdbcType="INTEGER"/>
+        <result property="iElevatorUseType" column="i_elevator_use_type" jdbcType="INTEGER"/>
+        <result property="iElevatorPlaceType" column="i_elevator_place_type" jdbcType="INTEGER"/>
+        <result property="vElevatorBrandId" column="v_elevator_brand_id" jdbcType="VARCHAR"/>
+        <result property="iMaintainDays" column="i_maintain_days" jdbcType="INTEGER"/>
+        <result property="dLastMaintainDate" column="d_last_maintain_date" jdbcType="OTHER"/>
+        <result property="dNextMaintainDate" column="d_next_maintain_date" jdbcType="OTHER"/>
+        <result property="dLastInspectDate" column="d_last_inspect_date" jdbcType="OTHER"/>
+        <result property="dNextInspectDate" column="d_next_inspect_date" jdbcType="OTHER"/>
+        <result property="vMaintainCompanyId" column="v_maintain_company_id" jdbcType="VARCHAR"/>
+        <result property="vPropertyCompanyId" column="v_property_company_id" jdbcType="VARCHAR"/>
+        <result property="iGovernmentId" column="i_government_id" jdbcType="VARCHAR"/>
+        <result property="vMaintainPersonName" column="v_maintain_person_name" jdbcType="VARCHAR"/>
+        <result property="vMaintainPersonTel" column="v_maintain_person_tel" jdbcType="VARCHAR"/>
+        <result property="vEmergencyPersonName" column="v_emergency_person_name" jdbcType="VARCHAR"/>
+        <result property="vEmergencyPersonTel" column="v_emergency_person_tel" jdbcType="VARCHAR"/>
+        <result property="vHttpPtCodes" column="v_http_pt_codes" jdbcType="VARCHAR"/>
+        <result property="vLongitude" column="v_longitude" jdbcType="VARCHAR"/>
+        <result property="vLatitude" column="v_latitude" jdbcType="VARCHAR"/>
+        <result property="iCoordinateType" column="i_coordinate_type" jdbcType="INTEGER"/>
+        <result property="vProjectId" column="v_project_id" jdbcType="VARCHAR"/>
+        <result property="vVillageId" column="v_village_id" jdbcType="VARCHAR"/>
+        <result property="iInstallStatus" column="i_install_status" jdbcType="INTEGER"/>
+        <result property="dtInstallTime" column="dt_install_time" jdbcType="OTHER"/>
+        <result property="iOnLine" column="i_on_line" jdbcType="INTEGER"/>
+        <result property="iModeStatus" column="i_mode_status" jdbcType="INTEGER"/>
+        <result property="iFaultStatus" column="i_fault_status" jdbcType="INTEGER"/>
+        <result property="iMaxFloor" column="i_max_floor" jdbcType="INTEGER"/>
+        <result property="iMinFloor" column="i_min_floor" jdbcType="INTEGER"/>
+        <result property="vFloorDetail" column="v_floor_detail" jdbcType="VARCHAR"/>
+        <result property="vFloorSettingStatus" column="v_floor_setting_status" jdbcType="VARCHAR"/>
+        <result property="dcSpeed" column="dc_speed" jdbcType="NUMERIC"/>
+        <result property="biRunCount" column="bi_run_count" jdbcType="INTEGER"/>
+        <result property="biDoorCount" column="bi_door_count" jdbcType="INTEGER"/>
+        <result property="biBendCount" column="bi_bend_count" jdbcType="INTEGER"/>
+        <result property="biLevelTriggerCount" column="bi_level_trigger_count" jdbcType="INTEGER"/>
+        <result property="biRunDistanceCount" column="bi_run_distance_count" jdbcType="INTEGER"/>
+        <result property="iDt" column="i_dt" jdbcType="INTEGER"/>
+        <result property="iDt1" column="i_dt1" jdbcType="INTEGER"/>
+        <result property="iDt2" column="i_dt2" jdbcType="INTEGER"/>
+        <result property="iNps" column="i_nps" jdbcType="INTEGER"/>
+        <result property="iNpr" column="i_npr" jdbcType="INTEGER"/>
+        <result property="dcNdaj" column="dc_ndaj" jdbcType="NUMERIC"/>
+        <result property="iAngle" column="i_angle" jdbcType="INTEGER"/>
+        <result property="iAngleType" column="i_angle_type" jdbcType="INTEGER"/>
+        <result property="vSglnCode" column="v_sgln_code" jdbcType="VARCHAR"/>
+        <result property="vUnitCode" column="v_unit_code" jdbcType="VARCHAR"/>
+        <result property="vLeaveFactoryNumber" column="v_leave_factory_number" jdbcType="VARCHAR"/>
+        <result property="vManufacturerCode" column="v_manufacturer_code" jdbcType="VARCHAR"/>
+        <result property="vEquipmentCode" column="v_equipment_code" jdbcType="VARCHAR"/>
+        <result property="vRegistrationAuthority" column="v_registration_authority" jdbcType="VARCHAR"/>
+        <result property="vRegistrationMechanism" column="v_registration_mechanism" jdbcType="VARCHAR"/>
+        <result property="vRegistrationCertificateNo" column="v_registration_certificate_no" jdbcType="VARCHAR"/>
+        <result property="dtCreateTime" column="dt_create_time" jdbcType="TIMESTAMP"/>
+        <result property="dtModifyTime" column="dt_modify_time" jdbcType="TIMESTAMP"/>
+        <result property="vCreateUserId" column="v_create_user_id" jdbcType="VARCHAR"/>
+        <result property="vModifyUserId" column="v_modify_user_id" jdbcType="VARCHAR"/>
+        <result property="iDelFlag" column="i_del_flag" jdbcType="INTEGER"/>
+        <result property="iPmStatus" column="i_pm_status" javaType="INTEGER"/>
+
+        <result property="nightWatchStatus" column="night_watch_status" jdbcType="INTEGER"/>
+        <result property="nightWatchStartTime" column="night_watch_start_time" jdbcType="TIME"/>
+        <result property="nightWatchEndTime" column="night_watch_end_time" jdbcType="TIME"/>
+
+        <result property="propertySafeMan" column="property_safe_man" jdbcType="VARCHAR"/>
+        <result property="propertySafePhone" column="property_safe_phone" jdbcType="VARCHAR"/>
+        <result property="maintainPrincipalPerson" column="maintain_principal_person" jdbcType="VARCHAR"/>
+        <result property="maintainPrincipalPhone" column="maintain_principal_phone" jdbcType="VARCHAR"/>
+        <result property="maintainSubordinatePerson" column="maintain_subordinate_person" jdbcType="VARCHAR"/>
+        <result property="maintainSubordinatePhone" column="maintain_subordinate_phone" jdbcType="VARCHAR"/>
+        <result property="maintainEquInsuranceInfo" column="maintain_equ_insurance_info" jdbcType="VARCHAR"/>
+        <result property="maintainEmergencyPhone" column="maintain_emergency_phone" jdbcType="VARCHAR"/>
+        <result property="gcj02Longitude" column="gcj02_longitude" jdbcType="VARCHAR"/>
+        <result property="gcj02Latitude" column="gcj02_latitude" jdbcType="VARCHAR"/>
+
+        <result property="liftGate" column="lift_gate" jdbcType="VARCHAR"/>
+        <result property="showFloor" column="show_floor" jdbcType="VARCHAR"/>
+        <result property="traction" column="traction" jdbcType="VARCHAR"/>
+        <result property="hasInsurance" column="has_insurance" jdbcType="INTEGER"/>
+        <result property="haveHouse" column="have_house" jdbcType="INTEGER"/>
+        <result property="examineDate" column="examine_date" jdbcType="OTHER"/>
+        <result property="installationDate" column="installation_date" jdbcType="OTHER"/>
+        <result property="modelName" column="model_name" jdbcType="VARCHAR"/>
+        <result property="examineEntities" column="examine_entities" jdbcType="VARCHAR"/>
+        <result property="maintenanceParticipateInDate" column="maintenance_participate_in_date" jdbcType="OTHER"/>
+        <result property="useUnitPhone" column="use_unit_phone" jdbcType="VARCHAR"/>
+        <result property="nextInspectionDate" column="next_inspection_date" jdbcType="OTHER"/>
+        <result property="inspectionUnit" column="inspection_unit" jdbcType="VARCHAR"/>
+        <result property="insuranceStatus" column="insurance_status" jdbcType="VARCHAR"/>
+        <result property="insuranceType" column="insurance_type" jdbcType="VARCHAR"/>
+        <result property="contractor" column="contractor" jdbcType="VARCHAR"/>
+        <result property="contractorStart" column="contractor_start" jdbcType="OTHER"/>
+        <result property="contractorEnd" column="contractor_end" jdbcType="OTHER"/>
+        <result property="controlMode" column="control_mode" jdbcType="VARCHAR"/>
+        <result property="normalRiseHeight" column="normal_rise_height" jdbcType="VARCHAR"/>
+        <result property="normalAngle" column="normal_angle" jdbcType="VARCHAR"/>
+        <result property="normalWidth" column="normal_width" jdbcType="VARCHAR"/>
+        <result property="normalLength" column="normal_length" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="table_field">
+        v_elevator_id
+        , v_elevator_code, v_elevator_name, i_province_id, i_city_id, i_area_id, v_address, i_elevator_type,
+          i_elevator_use_type, i_elevator_place_type, v_elevator_brand_id, i_maintain_days, d_last_maintain_date,
+          d_next_maintain_date, d_last_inspect_date, d_next_inspect_date, v_maintain_company_id, v_property_company_id,
+          i_government_id, v_maintain_person_name, v_maintain_person_tel, v_emergency_person_name,
+          v_emergency_person_tel, v_http_pt_codes, v_longitude, v_latitude, i_coordinate_type, v_project_id,
+          v_village_id, i_install_status, dt_install_time, i_on_line, i_mode_status, i_fault_status, i_max_floor,
+          i_min_floor, v_floor_detail, v_floor_setting_status, dc_speed, bi_run_count, bi_door_count, bi_bend_count,
+          bi_level_trigger_count, bi_run_distance_count, i_dt, i_dt1, i_dt2, i_nps, i_npr, dc_ndaj, i_angle,
+          i_angle_type, v_sgln_code, v_unit_code, v_leave_factory_number, v_manufacturer_code, v_equipment_code,
+          v_registration_authority, v_registration_mechanism, v_registration_certificate_no, dt_create_time,
+          dt_modify_time, v_create_user_id, v_modify_user_id, i_del_flag, i_pm_status,
+          night_watch_status, night_watch_start_time, night_watch_end_time
+        , property_safe_man
+        , property_safe_phone
+        , maintain_principal_person
+        , maintain_principal_phone
+        , maintain_subordinate_person
+        , maintain_subordinate_phone
+        , maintain_equ_insurance_info
+        , maintain_emergency_phone
+        , gcj02_longitude
+        , gcj02_latitude
+        , lift_gate
+        , show_floor
+        , traction
+        , has_insurance
+        , have_house
+        , examine_date
+        , installation_date
+        , model_name
+        , examine_entities
+        , maintenance_participate_in_date
+        , use_unit_phone
+        , next_inspection_date
+        , inspection_unit
+        , insurance_status
+        , insurance_type
+        , contractor
+        , contractor_start
+        , contractor_end
+        , control_mode
+        , normal_rise_height
+        , normal_angle
+        , normal_width
+        , normal_length
+    </sql>
+
+    <!--通过Id查询单个-->
+    <select id="getById" resultMap="TblElevatorResultMap" parameterType="java.lang.String">
+        select
+        <include refid="table_field"/>
+        from tbl_elevator
+        where v_elevator_id = #{vElevatorId,jdbcType=VARCHAR}
+    </select>
+
+    <!--通过code询单个-->
+    <select id="getByElevatorCode" resultMap="TblElevatorResultMap" parameterType="java.lang.String">
+        select
+        <include refid="table_field"/>
+        from tbl_elevator
+        where v_elevator_code = #{vElevatorCode,jdbcType=VARCHAR} order by dt_modify_time desc limit 0,1
+    </select>
+
+
+    <!--通过实体不为空的属性作为筛选条件查询列表-->
+    <select id="listByEntity" resultMap="TblElevatorResultMap" parameterType="com.shmashine.common.entity.TblElevator">
+        select
+        <include refid="table_field"/>
+        from tbl_elevator
+        <where>
+            <if test="vElevatorId != null">
+                and v_elevator_id = #{vElevatorId,jdbcType=VARCHAR}
+            </if>
+            <if test="vElevatorCode != null">
+                and v_elevator_code = #{vElevatorCode,jdbcType=VARCHAR}
+            </if>
+            <if test="vElevatorName != null and vElevatorName != ''">
+                and v_elevator_name = #{vElevatorName,jdbcType=VARCHAR}
+            </if>
+            <if test="iProvinceId != null">
+                and i_province_id = #{iProvinceId,jdbcType=INTEGER}
+            </if>
+            <if test="iCityId != null">
+                and i_city_id = #{iCityId,jdbcType=INTEGER}
+            </if>
+            <if test="iAreaId != null">
+                and i_area_id = #{iAreaId,jdbcType=INTEGER}
+            </if>
+            <if test="vAddress != null">
+                and v_address = #{vAddress,jdbcType=VARCHAR}
+            </if>
+            <if test="iElevatorType != null">
+                and i_elevator_type = #{iElevatorType,jdbcType=INTEGER}
+            </if>
+            <if test="iElevatorUseType != null">
+                and i_elevator_use_type = #{iElevatorUseType,jdbcType=INTEGER}
+            </if>
+            <if test="iElevatorPlaceType != null">
+                and i_elevator_place_type = #{iElevatorPlaceType,jdbcType=INTEGER}
+            </if>
+            <if test="vElevatorBrandId != null">
+                and v_elevator_brand_id = #{vElevatorBrandId,jdbcType=VARCHAR}
+            </if>
+            <if test="iMaintainDays != null">
+                and i_maintain_days = #{iMaintainDays,jdbcType=INTEGER}
+            </if>
+            <if test="dLastMaintainDate != null">
+                and d_last_maintain_date = #{dLastMaintainDate,jdbcType=OTHER}
+            </if>
+            <if test="dNextMaintainDate != null">
+                and d_next_maintain_date = #{dNextMaintainDate,jdbcType=OTHER}
+            </if>
+            <if test="dLastInspectDate != null">
+                and d_last_inspect_date = #{dLastInspectDate,jdbcType=OTHER}
+            </if>
+            <if test="dNextInspectDate != null">
+                and d_next_inspect_date = #{dNextInspectDate,jdbcType=OTHER}
+            </if>
+            <if test="vMaintainCompanyId != null">
+                and v_maintain_company_id = #{vMaintainCompanyId,jdbcType=VARCHAR}
+            </if>
+            <if test="vPropertyCompanyId != null">
+                and v_property_company_id = #{vPropertyCompanyId,jdbcType=VARCHAR}
+            </if>
+            <if test="iGovernmentId != null">
+                and i_government_id = #{iGovernmentId,jdbcType=VARCHAR}
+            </if>
+            <if test="vMaintainPersonName != null">
+                and v_maintain_person_name = #{vMaintainPersonName,jdbcType=VARCHAR}
+            </if>
+            <if test="vMaintainPersonTel != null">
+                and v_maintain_person_tel = #{vMaintainPersonTel,jdbcType=VARCHAR}
+            </if>
+            <if test="vEmergencyPersonName != null">
+                and v_emergency_person_name = #{vEmergencyPersonName,jdbcType=VARCHAR}
+            </if>
+            <if test="vEmergencyPersonTel != null">
+                and v_emergency_person_tel = #{vEmergencyPersonTel,jdbcType=VARCHAR}
+            </if>
+            <if test="vHttpPtCodes != null">
+                and v_http_pt_codes = #{vHttpPtCodes,jdbcType=VARCHAR}
+            </if>
+            <if test="vLongitude != null">
+                and v_longitude = #{vLongitude,jdbcType=VARCHAR}
+            </if>
+            <if test="vLatitude != null">
+                and v_latitude = #{vLatitude,jdbcType=VARCHAR}
+            </if>
+            <if test="iCoordinateType != null">
+                and i_coordinate_type = #{iCoordinateType,jdbcType=INTEGER}
+            </if>
+            <if test="vProjectId != null">
+                and v_project_id = #{vProjectId,jdbcType=VARCHAR}
+            </if>
+            <if test="vVillageId != null">
+                and v_village_id = #{vVillageId,jdbcType=VARCHAR}
+            </if>
+            <if test="iInstallStatus != null">
+                and i_install_status = #{iInstallStatus,jdbcType=INTEGER}
+            </if>
+            <if test="dtInstallTime != null">
+                and dt_install_time = #{dtInstallTime,jdbcType=OTHER}
+            </if>
+            <if test="iOnLine != null">
+                and i_on_line = #{iOnLine,jdbcType=INTEGER}
+            </if>
+            <if test="iModeStatus != null">
+                and i_mode_status = #{iModeStatus,jdbcType=INTEGER}
+            </if>
+            <if test="iFaultStatus != null">
+                and i_fault_status = #{iFaultStatus,jdbcType=INTEGER}
+            </if>
+            <if test="iMaxFloor != null">
+                and i_max_floor = #{iMaxFloor,jdbcType=INTEGER}
+            </if>
+            <if test="iMinFloor != null">
+                and i_min_floor = #{iMinFloor,jdbcType=INTEGER}
+            </if>
+            <if test="vFloorDetail != null">
+                and v_floor_detail = #{vFloorDetail,jdbcType=VARCHAR}
+            </if>
+            <if test="vFloorSettingStatus != null">
+                and v_floor_setting_status = #{vFloorSettingStatus,jdbcType=VARCHAR}
+            </if>
+            <if test="dcSpeed != null">
+                and dc_speed = #{dcSpeed,jdbcType=NUMERIC}
+            </if>
+            <if test="biRunCount != null">
+                and bi_run_count = #{biRunCount,jdbcType=INTEGER}
+            </if>
+            <if test="biDoorCount != null">
+                and bi_door_count = #{biDoorCount,jdbcType=INTEGER}
+            </if>
+            <if test="biBendCount != null">
+                and bi_bend_count = #{biBendCount,jdbcType=INTEGER}
+            </if>
+            <if test="biLevelTriggerCount != null">
+                and bi_level_trigger_count = #{biLevelTriggerCount,jdbcType=INTEGER}
+            </if>
+            <if test="biRunDistanceCount != null">
+                and bi_run_distance_count = #{biRunDistanceCount,jdbcType=INTEGER}
+            </if>
+            <if test="iDt != null">
+                and i_dt = #{iDt,jdbcType=INTEGER}
+            </if>
+            <if test="iDt1 != null">
+                and i_dt1 = #{iDt1,jdbcType=INTEGER}
+            </if>
+            <if test="iDt2 != null">
+                and i_dt2 = #{iDt2,jdbcType=INTEGER}
+            </if>
+            <if test="iNps != null">
+                and i_nps = #{iNps,jdbcType=INTEGER}
+            </if>
+            <if test="iNpr != null">
+                and i_npr = #{iNpr,jdbcType=INTEGER}
+            </if>
+            <if test="dcNdaj != null">
+                and dc_ndaj = #{dcNdaj,jdbcType=NUMERIC}
+            </if>
+            <if test="iAngle != null">
+                and i_angle = #{iAngle,jdbcType=INTEGER}
+            </if>
+            <if test="iAngleType != null">
+                and i_angle_type = #{iAngleType,jdbcType=INTEGER}
+            </if>
+            <if test="vSglnCode != null">
+                and v_sgln_code = #{vSglnCode,jdbcType=VARCHAR}
+            </if>
+            <if test="vUnitCode != null">
+                and v_unit_code = #{vUnitCode,jdbcType=VARCHAR}
+            </if>
+            <if test="vLeaveFactoryNumber != null">
+                and v_leave_factory_number = #{vLeaveFactoryNumber,jdbcType=VARCHAR}
+            </if>
+            <if test="vManufacturerCode != null">
+                and v_manufacturer_code = #{vManufacturerCode,jdbcType=VARCHAR}
+            </if>
+            <if test="vEquipmentCode != null">
+                and v_equipment_code = #{vEquipmentCode,jdbcType=VARCHAR}
+            </if>
+            <if test="vRegistrationAuthority != null">
+                and v_registration_authority = #{vRegistrationAuthority,jdbcType=VARCHAR}
+            </if>
+            <if test="vRegistrationMechanism != null">
+                and v_registration_mechanism = #{vRegistrationMechanism,jdbcType=VARCHAR}
+            </if>
+            <if test="vRegistrationCertificateNo != null">
+                and v_registration_certificate_no = #{vRegistrationCertificateNo,jdbcType=VARCHAR}
+            </if>
+            <if test="dtCreateTime != null">
+                and dt_create_time = #{dtCreateTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="dtModifyTime != null">
+                and dt_modify_time = #{dtModifyTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="vCreateUserId != null">
+                and v_create_user_id = #{vCreateUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="vModifyUserId != null">
+                and v_modify_user_id = #{vModifyUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="iDelFlag != null">
+                and i_del_flag = #{iDelFlag, jdbcType=INTEGER}
+            </if>
+            <if test="iPmStatus != null">
+                and i_pm_status = #{iPmStatus, jdbcType=INTEGER}
+            </if>
+            <if test="nightWatchStatus != null">
+                and night_watch_status = #{nightWatchStatus,jdbcType=INTEGER}
+            </if>
+        </where>
+    </select>
+
+    <!--通过实体不为空的属性作为筛选条件查询单个-->
+    <select id="getByEntity" resultMap="TblElevatorResultMap" parameterType="com.shmashine.common.entity.TblElevator">
+        select
+        <include refid="table_field"/>
+        from tbl_elevator
+        <where>
+            <if test="vElevatorId != null">
+                and v_elevator_id = #{vElevatorId,jdbcType=VARCHAR}
+            </if>
+            <if test="vElevatorCode != null">
+                and v_elevator_code = #{vElevatorCode,jdbcType=VARCHAR}
+            </if>
+            <if test="iProvinceId != null">
+                and i_province_id = #{iProvinceId,jdbcType=INTEGER}
+            </if>
+            <if test="iCityId != null">
+                and i_city_id = #{iCityId,jdbcType=INTEGER}
+            </if>
+            <if test="iAreaId != null">
+                and i_area_id = #{iAreaId,jdbcType=INTEGER}
+            </if>
+            <if test="vAddress != null">
+                and v_address = #{vAddress,jdbcType=VARCHAR}
+            </if>
+            <if test="iElevatorType != null">
+                and i_elevator_type = #{iElevatorType,jdbcType=INTEGER}
+            </if>
+            <if test="iElevatorUseType != null">
+                and i_elevator_use_type = #{iElevatorUseType,jdbcType=INTEGER}
+            </if>
+            <if test="iElevatorPlaceType != null">
+                and i_elevator_place_type = #{iElevatorPlaceType,jdbcType=INTEGER}
+            </if>
+            <if test="vElevatorBrandId != null">
+                and v_elevator_brand_id = #{vElevatorBrandId,jdbcType=VARCHAR}
+            </if>
+            <if test="iMaintainDays != null">
+                and i_maintain_days = #{iMaintainDays,jdbcType=INTEGER}
+            </if>
+            <if test="dLastMaintainDate != null">
+                and d_last_maintain_date = #{dLastMaintainDate,jdbcType=OTHER}
+            </if>
+            <if test="dNextMaintainDate != null">
+                and d_next_maintain_date = #{dNextMaintainDate,jdbcType=OTHER}
+            </if>
+            <if test="dLastInspectDate != null">
+                and d_last_inspect_date = #{dLastInspectDate,jdbcType=OTHER}
+            </if>
+            <if test="dNextInspectDate != null">
+                and d_next_inspect_date = #{dNextInspectDate,jdbcType=OTHER}
+            </if>
+            <if test="vMaintainCompanyId != null">
+                and v_maintain_company_id = #{vMaintainCompanyId,jdbcType=VARCHAR}
+            </if>
+            <if test="vPropertyCompanyId != null">
+                and v_property_company_id = #{vPropertyCompanyId,jdbcType=VARCHAR}
+            </if>
+            <if test="iGovernmentId != null">
+                and i_government_id = #{iGovernmentId,jdbcType=VARCHAR}
+            </if>
+            <if test="vMaintainPersonName != null">
+                and v_maintain_person_name = #{vMaintainPersonName,jdbcType=VARCHAR}
+            </if>
+            <if test="vMaintainPersonTel != null">
+                and v_maintain_person_tel = #{vMaintainPersonTel,jdbcType=VARCHAR}
+            </if>
+            <if test="vEmergencyPersonName != null">
+                and v_emergency_person_name = #{vEmergencyPersonName,jdbcType=VARCHAR}
+            </if>
+            <if test="vEmergencyPersonTel != null">
+                and v_emergency_person_tel = #{vEmergencyPersonTel,jdbcType=VARCHAR}
+            </if>
+            <if test="vHttpPtCodes != null">
+                and v_http_pt_codes = #{vHttpPtCodes,jdbcType=VARCHAR}
+            </if>
+            <if test="vLongitude != null">
+                and v_longitude = #{vLongitude,jdbcType=VARCHAR}
+            </if>
+            <if test="vLatitude != null">
+                and v_latitude = #{vLatitude,jdbcType=VARCHAR}
+            </if>
+            <if test="iCoordinateType != null">
+                and i_coordinate_type = #{iCoordinateType,jdbcType=INTEGER}
+            </if>
+            <if test="vProjectId != null">
+                and v_project_id = #{vProjectId,jdbcType=VARCHAR}
+            </if>
+            <if test="vVillageId != null">
+                and v_village_id = #{vVillageId,jdbcType=VARCHAR}
+            </if>
+            <if test="iInstallStatus != null">
+                and i_install_status = #{iInstallStatus,jdbcType=INTEGER}
+            </if>
+            <if test="dtInstallTime != null">
+                and dt_install_time = #{dtInstallTime,jdbcType=OTHER}
+            </if>
+            <if test="iOnLine != null">
+                and i_on_line = #{iOnLine,jdbcType=INTEGER}
+            </if>
+            <if test="iModeStatus != null">
+                and i_mode_status = #{iModeStatus,jdbcType=INTEGER}
+            </if>
+            <if test="iFaultStatus != null">
+                and i_fault_status = #{iFaultStatus,jdbcType=INTEGER}
+            </if>
+            <if test="iMaxFloor != null">
+                and i_max_floor = #{iMaxFloor,jdbcType=INTEGER}
+            </if>
+            <if test="iMinFloor != null">
+                and i_min_floor = #{iMinFloor,jdbcType=INTEGER}
+            </if>
+            <if test="vFloorDetail != null">
+                and v_floor_detail = #{vFloorDetail,jdbcType=VARCHAR}
+            </if>
+            <if test="vFloorSettingStatus != null">
+                and v_floor_setting_status = #{vFloorSettingStatus,jdbcType=VARCHAR}
+            </if>
+            <if test="dcSpeed != null">
+                and dc_speed = #{dcSpeed,jdbcType=NUMERIC}
+            </if>
+            <if test="biRunCount != null">
+                and bi_run_count = #{biRunCount,jdbcType=INTEGER}
+            </if>
+            <if test="biDoorCount != null">
+                and bi_door_count = #{biDoorCount,jdbcType=INTEGER}
+            </if>
+            <if test="biBendCount != null">
+                and bi_bend_count = #{biBendCount,jdbcType=INTEGER}
+            </if>
+            <if test="biLevelTriggerCount != null">
+                and bi_level_trigger_count = #{biLevelTriggerCount,jdbcType=INTEGER}
+            </if>
+            <if test="biRunDistanceCount != null">
+                and bi_run_distance_count = #{biRunDistanceCount,jdbcType=INTEGER}
+            </if>
+            <if test="iDt != null">
+                and i_dt = #{iDt,jdbcType=INTEGER}
+            </if>
+            <if test="iDt1 != null">
+                and i_dt1 = #{iDt1,jdbcType=INTEGER}
+            </if>
+            <if test="iDt2 != null">
+                and i_dt2 = #{iDt2,jdbcType=INTEGER}
+            </if>
+            <if test="iNps != null">
+                and i_nps = #{iNps,jdbcType=INTEGER}
+            </if>
+            <if test="iNpr != null">
+                and i_npr = #{iNpr,jdbcType=INTEGER}
+            </if>
+            <if test="dcNdaj != null">
+                and dc_ndaj = #{dcNdaj,jdbcType=NUMERIC}
+            </if>
+            <if test="iAngle != null">
+                and i_angle = #{iAngle,jdbcType=INTEGER}
+            </if>
+            <if test="iAngleType != null">
+                and i_angle_type = #{iAngleType,jdbcType=INTEGER}
+            </if>
+            <if test="vSglnCode != null">
+                and v_sgln_code = #{vSglnCode,jdbcType=VARCHAR}
+            </if>
+            <if test="vUnitCode != null">
+                and v_unit_code = #{vUnitCode,jdbcType=VARCHAR}
+            </if>
+            <if test="vLeaveFactoryNumber != null">
+                and v_leave_factory_number = #{vLeaveFactoryNumber,jdbcType=VARCHAR}
+            </if>
+            <if test="vManufacturerCode != null">
+                and v_manufacturer_code = #{vManufacturerCode,jdbcType=VARCHAR}
+            </if>
+            <if test="vEquipmentCode != null">
+                and v_equipment_code = #{vEquipmentCode,jdbcType=VARCHAR}
+            </if>
+            <if test="vRegistrationAuthority != null">
+                and v_registration_authority = #{vRegistrationAuthority,jdbcType=VARCHAR}
+            </if>
+            <if test="vRegistrationMechanism != null">
+                and v_registration_mechanism = #{vRegistrationMechanism,jdbcType=VARCHAR}
+            </if>
+            <if test="vRegistrationCertificateNo != null">
+                and v_registration_certificate_no = #{vRegistrationCertificateNo,jdbcType=VARCHAR}
+            </if>
+            <if test="dtCreateTime != null">
+                and dt_create_time = #{dtCreateTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="dtModifyTime != null">
+                and dt_modify_time = #{dtModifyTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="vCreateUserId != null">
+                and v_create_user_id = #{vCreateUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="vModifyUserId != null">
+                and v_modify_user_id = #{vModifyUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="iDelFlag != null">
+                and i_del_flag = #{iDelFlag,jdbcType=INTEGER}
+            </if>
+            <if test="iPmStatus != null">
+                and i_pm_status = #{iPmStatus, jdbcType=INTEGER}
+            </if>
+            <if test="nightWatchStatus != null">
+                and night_watch_status = #{nightWatchStatus,jdbcType=INTEGER}
+            </if>
+        </where>
+    </select>
+
+    <!--通过Id列表作为筛选条件查询列表，列表长度不为0-->
+    <select id="listByIds" resultMap="TblElevatorResultMap" parameterType="list">
+        select
+        <include refid="table_field"/>
+        from tbl_elevator
+        where v_elevator_id in
+        <foreach item="item" collection="list" separator="," open="(" close=")" index="index">
+            #{item}
+        </foreach>
+    </select>
+
+    <!--通过Id列表作为筛选条件查询列表，列表长度不为0-->
+    <select id="listByCodes" resultMap="TblElevatorResultMap" parameterType="list">
+        select
+        <include refid="table_field"/>
+        from tbl_elevator
+        where v_elevator_code in
+        <foreach item="item" collection="list" separator="," open="(" close=")" index="index">
+            #{item}
+        </foreach>
+    </select>
+
+    <!--新增实体属性不为null的列-->
+    <insert id="insert" keyProperty="vElevatorId" useGeneratedKeys="true"
+            parameterType="com.shmashine.common.entity.TblElevator">
+        insert into tbl_elevator
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="vElevatorId != null">
+                v_elevator_id,
+            </if>
+            <if test="vElevatorCode != null">
+                v_elevator_code,
+            </if>
+            <if test="vElevatorName != null and vElevatorName != ''">
+                v_elevator_name,
+            </if>
+            <if test="iProvinceId != null">
+                i_province_id,
+            </if>
+            <if test="iCityId != null">
+                i_city_id,
+            </if>
+            <if test="iAreaId != null">
+                i_area_id,
+            </if>
+            <if test="vAddress != null">
+                v_address,
+            </if>
+            <if test="iElevatorType != null">
+                i_elevator_type,
+            </if>
+            <if test="iElevatorUseType != null">
+                i_elevator_use_type,
+            </if>
+            <if test="iElevatorPlaceType != null">
+                i_elevator_place_type,
+            </if>
+            <if test="vElevatorBrandId != null">
+                v_elevator_brand_id,
+            </if>
+            <if test="iMaintainDays != null">
+                i_maintain_days,
+            </if>
+            <if test="dLastMaintainDate != null">
+                d_last_maintain_date,
+            </if>
+            <if test="dNextMaintainDate != null">
+                d_next_maintain_date,
+            </if>
+            <if test="dLastInspectDate != null">
+                d_last_inspect_date,
+            </if>
+            <if test="dNextInspectDate != null">
+                d_next_inspect_date,
+            </if>
+            <if test="vMaintainCompanyId != null">
+                v_maintain_company_id,
+            </if>
+            <if test="vPropertyCompanyId != null">
+                v_property_company_id,
+            </if>
+            <if test="iGovernmentId != null">
+                i_government_id,
+            </if>
+            <if test="vMaintainPersonName != null">
+                v_maintain_person_name,
+            </if>
+            <if test="vMaintainPersonTel != null">
+                v_maintain_person_tel,
+            </if>
+            <if test="vEmergencyPersonName != null">
+                v_emergency_person_name,
+            </if>
+            <if test="vEmergencyPersonTel != null">
+                v_emergency_person_tel,
+            </if>
+            <if test="vHttpPtCodes != null">
+                v_http_pt_codes,
+            </if>
+            <if test="vLongitude != null">
+                v_longitude,
+            </if>
+            <if test="vLatitude != null">
+                v_latitude,
+            </if>
+            <if test="iCoordinateType != null">
+                i_coordinate_type,
+            </if>
+            <if test="vProjectId != null">
+                v_project_id,
+            </if>
+            <if test="vVillageId != null">
+                v_village_id,
+            </if>
+            <if test="iInstallStatus != null">
+                i_install_status,
+            </if>
+            <if test="dtInstallTime != null">
+                dt_install_time,
+            </if>
+            <if test="iOnLine != null">
+                i_on_line,
+            </if>
+            <if test="iModeStatus != null">
+                i_mode_status,
+            </if>
+            <if test="iFaultStatus != null">
+                i_fault_status,
+            </if>
+            <if test="iMaxFloor != null">
+                i_max_floor,
+            </if>
+            <if test="iMinFloor != null">
+                i_min_floor,
+            </if>
+            <if test="vFloorDetail != null">
+                v_floor_detail,
+            </if>
+            <if test="vFloorSettingStatus != null">
+                v_floor_setting_status,
+            </if>
+            <if test="dcSpeed != null">
+                dc_speed,
+            </if>
+            <if test="biRunCount != null">
+                bi_run_count,
+            </if>
+            <if test="biDoorCount != null">
+                bi_door_count,
+            </if>
+            <if test="biBendCount != null">
+                bi_bend_count,
+            </if>
+            <if test="biLevelTriggerCount != null">
+                bi_level_trigger_count,
+            </if>
+            <if test="biRunDistanceCount != null">
+                bi_run_distance_count,
+            </if>
+            <if test="iDt != null">
+                i_dt,
+            </if>
+            <if test="iDt1 != null">
+                i_dt1,
+            </if>
+            <if test="iDt2 != null">
+                i_dt2,
+            </if>
+            <if test="iNps != null">
+                i_nps,
+            </if>
+            <if test="iNpr != null">
+                i_npr,
+            </if>
+            <if test="dcNdaj != null">
+                dc_ndaj,
+            </if>
+            <if test="iAngle != null">
+                i_angle,
+            </if>
+            <if test="iAngleType != null">
+                i_angle_type,
+            </if>
+            <if test="vSglnCode != null">
+                v_sgln_code,
+            </if>
+            <if test="vUnitCode != null">
+                v_unit_code,
+            </if>
+            <if test="vLeaveFactoryNumber != null">
+                v_leave_factory_number,
+            </if>
+            <if test="vManufacturerCode != null">
+                v_manufacturer_code,
+            </if>
+            <if test="vEquipmentCode != null">
+                v_equipment_code,
+            </if>
+            <if test="vRegistrationAuthority != null">
+                v_registration_authority,
+            </if>
+            <if test="vRegistrationMechanism != null">
+                v_registration_mechanism,
+            </if>
+            <if test="vRegistrationCertificateNo != null">
+                v_registration_certificate_no,
+            </if>
+            <if test="dtCreateTime != null">
+                dt_create_time,
+            </if>
+            <if test="dtModifyTime != null">
+                dt_modify_time,
+            </if>
+            <if test="vCreateUserId != null">
+                v_create_user_id,
+            </if>
+            <if test="vModifyUserId != null">
+                v_modify_user_id,
+            </if>
+            <if test="iDelFlag != null">
+                i_del_flag,
+            </if>
+            <if test="iPmStatus != null">
+                i_pm_status,
+            </if>
+
+            <if test="nightWatchStatus != null">
+                night_watch_status,
+            </if>
+            <if test="nightWatchStartTime != null">
+                night_watch_start_time,
+            </if>
+            <if test="nightWatchEndTime != null">
+                night_watch_end_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="vElevatorId != null">
+                #{vElevatorId,jdbcType=VARCHAR},
+            </if>
+            <if test="vElevatorCode != null">
+                #{vElevatorCode,jdbcType=VARCHAR},
+            </if>
+            <if test="vElevatorName != null and vElevatorName != ''">
+                #{vElevatorName, jdbcType=VARCHAR},
+            </if>
+            <if test="iProvinceId != null">
+                #{iProvinceId,jdbcType=INTEGER},
+            </if>
+            <if test="iCityId != null">
+                #{iCityId,jdbcType=INTEGER},
+            </if>
+            <if test="iAreaId != null">
+                #{iAreaId,jdbcType=INTEGER},
+            </if>
+            <if test="vAddress != null">
+                #{vAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="iElevatorType != null">
+                #{iElevatorType,jdbcType=INTEGER},
+            </if>
+            <if test="iElevatorUseType != null">
+                #{iElevatorUseType,jdbcType=INTEGER},
+            </if>
+            <if test="iElevatorPlaceType != null">
+                #{iElevatorPlaceType,jdbcType=INTEGER},
+            </if>
+            <if test="vElevatorBrandId != null">
+                #{vElevatorBrandId,jdbcType=VARCHAR},
+            </if>
+            <if test="iMaintainDays != null">
+                #{iMaintainDays,jdbcType=INTEGER},
+            </if>
+            <if test="dLastMaintainDate != null">
+                #{dLastMaintainDate,jdbcType=OTHER},
+            </if>
+            <if test="dNextMaintainDate != null">
+                #{dNextMaintainDate,jdbcType=OTHER},
+            </if>
+            <if test="dLastInspectDate != null">
+                #{dLastInspectDate,jdbcType=OTHER},
+            </if>
+            <if test="dNextInspectDate != null">
+                #{dNextInspectDate,jdbcType=OTHER},
+            </if>
+            <if test="vMaintainCompanyId != null">
+                #{vMaintainCompanyId,jdbcType=VARCHAR},
+            </if>
+            <if test="vPropertyCompanyId != null">
+                #{vPropertyCompanyId,jdbcType=VARCHAR},
+            </if>
+            <if test="iGovernmentId != null">
+                #{iGovernmentId,jdbcType=VARCHAR},
+            </if>
+            <if test="vMaintainPersonName != null">
+                #{vMaintainPersonName,jdbcType=VARCHAR},
+            </if>
+            <if test="vMaintainPersonTel != null">
+                #{vMaintainPersonTel,jdbcType=VARCHAR},
+            </if>
+            <if test="vEmergencyPersonName != null">
+                #{vEmergencyPersonName,jdbcType=VARCHAR},
+            </if>
+            <if test="vEmergencyPersonTel != null">
+                #{vEmergencyPersonTel,jdbcType=VARCHAR},
+            </if>
+            <if test="vHttpPtCodes != null">
+                #{vHttpPtCodes,jdbcType=VARCHAR},
+            </if>
+            <if test="vLongitude != null">
+                #{vLongitude,jdbcType=VARCHAR},
+            </if>
+            <if test="vLatitude != null">
+                #{vLatitude,jdbcType=VARCHAR},
+            </if>
+            <if test="iCoordinateType != null">
+                #{iCoordinateType,jdbcType=INTEGER},
+            </if>
+            <if test="vProjectId != null">
+                #{vProjectId,jdbcType=VARCHAR},
+            </if>
+            <if test="vVillageId != null">
+                #{vVillageId,jdbcType=VARCHAR},
+            </if>
+            <if test="iInstallStatus != null">
+                #{iInstallStatus,jdbcType=INTEGER},
+            </if>
+            <if test="dtInstallTime != null">
+                #{dtInstallTime,jdbcType=OTHER},
+            </if>
+            <if test="iOnLine != null">
+                #{iOnLine,jdbcType=INTEGER},
+            </if>
+            <if test="iModeStatus != null">
+                #{iModeStatus,jdbcType=INTEGER},
+            </if>
+            <if test="iFaultStatus != null">
+                #{iFaultStatus,jdbcType=INTEGER},
+            </if>
+            <if test="iMaxFloor != null">
+                #{iMaxFloor,jdbcType=INTEGER},
+            </if>
+            <if test="iMinFloor != null">
+                #{iMinFloor,jdbcType=INTEGER},
+            </if>
+            <if test="vFloorDetail != null">
+                #{vFloorDetail,jdbcType=VARCHAR},
+            </if>
+            <if test="vFloorSettingStatus != null">
+                #{vFloorSettingStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="dcSpeed != null">
+                #{dcSpeed,jdbcType=NUMERIC},
+            </if>
+            <if test="biRunCount != null">
+                #{biRunCount,jdbcType=INTEGER},
+            </if>
+            <if test="biDoorCount != null">
+                #{biDoorCount,jdbcType=INTEGER},
+            </if>
+            <if test="biBendCount != null">
+                #{biBendCount,jdbcType=INTEGER},
+            </if>
+            <if test="biLevelTriggerCount != null">
+                #{biLevelTriggerCount,jdbcType=INTEGER},
+            </if>
+            <if test="biRunDistanceCount != null">
+                #{biRunDistanceCount,jdbcType=INTEGER},
+            </if>
+            <if test="iDt != null">
+                #{iDt,jdbcType=INTEGER},
+            </if>
+            <if test="iDt1 != null">
+                #{iDt1,jdbcType=INTEGER},
+            </if>
+            <if test="iDt2 != null">
+                #{iDt2,jdbcType=INTEGER},
+            </if>
+            <if test="iNps != null">
+                #{iNps,jdbcType=INTEGER},
+            </if>
+            <if test="iNpr != null">
+                #{iNpr,jdbcType=INTEGER},
+            </if>
+            <if test="dcNdaj != null">
+                #{dcNdaj,jdbcType=NUMERIC},
+            </if>
+            <if test="iAngle != null">
+                #{iAngle,jdbcType=INTEGER},
+            </if>
+            <if test="iAngleType != null">
+                #{iAngleType,jdbcType=INTEGER},
+            </if>
+            <if test="vSglnCode != null">
+                #{vSglnCode,jdbcType=VARCHAR},
+            </if>
+            <if test="vUnitCode != null">
+                #{vUnitCode,jdbcType=VARCHAR},
+            </if>
+            <if test="vLeaveFactoryNumber != null">
+                #{vLeaveFactoryNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="vManufacturerCode != null">
+                #{vManufacturerCode,jdbcType=VARCHAR},
+            </if>
+            <if test="vEquipmentCode != null">
+                #{vEquipmentCode,jdbcType=VARCHAR},
+            </if>
+            <if test="vRegistrationAuthority != null">
+                #{vRegistrationAuthority,jdbcType=VARCHAR},
+            </if>
+            <if test="vRegistrationMechanism != null">
+                #{vRegistrationMechanism,jdbcType=VARCHAR},
+            </if>
+            <if test="vRegistrationCertificateNo != null">
+                #{vRegistrationCertificateNo,jdbcType=VARCHAR},
+            </if>
+            <if test="dtCreateTime != null">
+                #{dtCreateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="dtModifyTime != null">
+                #{dtModifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="vCreateUserId != null">
+                #{vCreateUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="vModifyUserId != null">
+                #{vModifyUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="iDelFlag != null">
+                #{iDelFlag,jdbcType=INTEGER},
+            </if>
+            <if test="iPmStatus != null">
+                #{iPmStatus, jdbcType=INTEGER}
+            </if>
+
+            <if test="nightWatchStatus != null">
+                #{nightWatchStatus,jdbcType=INTEGER},
+            </if>
+            <if test="nightWatchStartTime != null">
+                #{nightWatchStartTime},
+            </if>
+            <if test="nightWatchEndTime != null">
+                #{nightWatchEndTime},
+            </if>
+        </trim>
+    </insert>
+
+    <!--新增实体属性不为null的列且不为空字符串-->
+    <insert id="insertIsNotEmpty" keyProperty="vElevatorId" useGeneratedKeys="true"
+            parameterType="com.shmashine.common.entity.TblElevator">
+        insert into tbl_elevator
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="vElevatorId != null and vElevatorId != ''">
+                v_elevator_id,
+            </if>
+            <if test="vElevatorCode != null and vElevatorCode != ''">
+                v_elevator_code,
+            </if>
+            <if test="vElevatorName != null and vElevatorName != ''">
+                v_elevator_name,
+            </if>
+            <if test="iProvinceId != null and iProvinceId != ''">
+                i_province_id,
+            </if>
+            <if test="iCityId != null and iCityId != ''">
+                i_city_id,
+            </if>
+            <if test="iAreaId != null and iAreaId != ''">
+                i_area_id,
+            </if>
+            <if test="vAddress != null and vAddress != ''">
+                v_address,
+            </if>
+            <if test="iElevatorType != null and iElevatorType != ''">
+                i_elevator_type,
+            </if>
+            <if test="iElevatorUseType != null and iElevatorUseType != ''">
+                i_elevator_use_type,
+            </if>
+            <if test="iElevatorPlaceType != null and iElevatorPlaceType != ''">
+                i_elevator_place_type,
+            </if>
+            <if test="vElevatorBrandId != null and vElevatorBrandId != ''">
+                v_elevator_brand_id,
+            </if>
+            <if test="iMaintainDays != null and iMaintainDays != ''">
+                i_maintain_days,
+            </if>
+            <if test="dLastMaintainDate != null and dLastMaintainDate != ''">
+                d_last_maintain_date,
+            </if>
+            <if test="dNextMaintainDate != null and dNextMaintainDate != ''">
+                d_next_maintain_date,
+            </if>
+            <if test="dLastInspectDate != null and dLastInspectDate != ''">
+                d_last_inspect_date,
+            </if>
+            <if test="dNextInspectDate != null and dNextInspectDate != ''">
+                d_next_inspect_date,
+            </if>
+            <if test="vMaintainCompanyId != null and vMaintainCompanyId != ''">
+                v_maintain_company_id,
+            </if>
+            <if test="vPropertyCompanyId != null and vPropertyCompanyId != ''">
+                v_property_company_id,
+            </if>
+            <if test="iGovernmentId != null and iGovernmentId != ''">
+                i_government_id,
+            </if>
+            <if test="vMaintainPersonName != null and vMaintainPersonName != ''">
+                v_maintain_person_name,
+            </if>
+            <if test="vMaintainPersonTel != null and vMaintainPersonTel != ''">
+                v_maintain_person_tel,
+            </if>
+            <if test="vEmergencyPersonName != null and vEmergencyPersonName != ''">
+                v_emergency_person_name,
+            </if>
+            <if test="vEmergencyPersonTel != null and vEmergencyPersonTel != ''">
+                v_emergency_person_tel,
+            </if>
+            <if test="vHttpPtCodes != null and vHttpPtCodes != ''">
+                v_http_pt_codes,
+            </if>
+            <if test="vLongitude != null and vLongitude != ''">
+                v_longitude,
+            </if>
+            <if test="vLatitude != null and vLatitude != ''">
+                v_latitude,
+            </if>
+            <if test="iCoordinateType != null and iCoordinateType != ''">
+                i_coordinate_type,
+            </if>
+            <if test="vProjectId != null and vProjectId != ''">
+                v_project_id,
+            </if>
+            <if test="vVillageId != null and vVillageId != ''">
+                v_village_id,
+            </if>
+            <if test="iInstallStatus != null and iInstallStatus != ''">
+                i_install_status,
+            </if>
+            <if test="dtInstallTime != null">
+                dt_install_time,
+            </if>
+            <if test="iOnLine != null and iOnLine != ''">
+                i_on_line,
+            </if>
+            <if test="iModeStatus != null and iModeStatus != ''">
+                i_mode_status,
+            </if>
+            <if test="iFaultStatus != null and iFaultStatus != ''">
+                i_fault_status,
+            </if>
+            <if test="iMaxFloor != null and iMaxFloor != ''">
+                i_max_floor,
+            </if>
+            <if test="iMinFloor != null and iMinFloor != ''">
+                i_min_floor,
+            </if>
+            <if test="vFloorDetail != null and vFloorDetail != ''">
+                v_floor_detail,
+            </if>
+            <if test="vFloorSettingStatus != null and vFloorSettingStatus != ''">
+                v_floor_setting_status,
+            </if>
+            <if test="dcSpeed != null and dcSpeed != ''">
+                dc_speed,
+            </if>
+            <if test="biRunCount != null and biRunCount != ''">
+                bi_run_count,
+            </if>
+            <if test="biDoorCount != null and biDoorCount != ''">
+                bi_door_count,
+            </if>
+            <if test="biBendCount != null and biBendCount != ''">
+                bi_bend_count,
+            </if>
+            <if test="biLevelTriggerCount != null and biLevelTriggerCount != ''">
+                bi_level_trigger_count,
+            </if>
+            <if test="biRunDistanceCount != null and biRunDistanceCount != ''">
+                bi_run_distance_count,
+            </if>
+            <if test="iDt != null and iDt != ''">
+                i_dt,
+            </if>
+            <if test="iDt1 != null and iDt1 != ''">
+                i_dt1,
+            </if>
+            <if test="iDt2 != null and iDt2 != ''">
+                i_dt2,
+            </if>
+            <if test="iNps != null and iNps != ''">
+                i_nps,
+            </if>
+            <if test="iNpr != null and iNpr != ''">
+                i_npr,
+            </if>
+            <if test="dcNdaj != null and dcNdaj != ''">
+                dc_ndaj,
+            </if>
+            <if test="iAngle != null and iAngle != ''">
+                i_angle,
+            </if>
+            <if test="iAngleType != null and iAngleType != ''">
+                i_angle_type,
+            </if>
+            <if test="vSglnCode != null and vSglnCode != ''">
+                v_sgln_code,
+            </if>
+            <if test="vUnitCode != null and vUnitCode != ''">
+                v_unit_code,
+            </if>
+            <if test="vLeaveFactoryNumber != null and vLeaveFactoryNumber != ''">
+                v_leave_factory_number,
+            </if>
+            <if test="vManufacturerCode != null and vManufacturerCode != ''">
+                v_manufacturer_code,
+            </if>
+            <if test="vEquipmentCode != null and vEquipmentCode != ''">
+                v_equipment_code,
+            </if>
+            <if test="vRegistrationAuthority != null and vRegistrationAuthority != ''">
+                v_registration_authority,
+            </if>
+            <if test="vRegistrationMechanism != null and vRegistrationMechanism != ''">
+                v_registration_mechanism,
+            </if>
+            <if test="vRegistrationCertificateNo != null and vRegistrationCertificateNo != ''">
+                v_registration_certificate_no,
+            </if>
+            <if test="dtCreateTime != null ">
+                dt_create_time,
+            </if>
+            <if test="dtModifyTime != null ">
+                dt_modify_time,
+            </if>
+            <if test="vCreateUserId != null and vCreateUserId != ''">
+                v_create_user_id,
+            </if>
+            <if test="vModifyUserId != null and vModifyUserId != ''">
+                v_modify_user_id,
+            </if>
+            <if test="iDelFlag != null and iDelFlag != ''">
+                i_del_flag,
+            </if>
+            <if test="iPmStatus != null">
+                i_pm_status,
+            </if>
+
+            <if test="nightWatchStatus != null">
+                night_watch_status,
+            </if>
+            <if test="nightWatchStartTime != null">
+                night_watch_start_time,
+            </if>
+            <if test="nightWatchEndTime != null">
+                night_watch_end_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="vElevatorId != null and vElevatorId != ''">
+                #{vElevatorId,jdbcType=VARCHAR},
+            </if>
+            <if test="vElevatorCode != null and  vElevatorCode != ''">
+                #{vElevatorCode,jdbcType=VARCHAR},
+            </if>
+            <if test="vElevatorName != null and  vElevatorName != ''">
+                #{vElevatorName,jdbcType=VARCHAR},
+            </if>
+            <if test="iProvinceId != null and  iProvinceId != ''">
+                #{iProvinceId,jdbcType=INTEGER},
+            </if>
+            <if test="iCityId != null and  iCityId != ''">
+                #{iCityId,jdbcType=INTEGER},
+            </if>
+            <if test="iAreaId != null and  iAreaId != ''">
+                #{iAreaId,jdbcType=INTEGER},
+            </if>
+            <if test="vAddress != null and  vAddress != ''">
+                #{vAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="iElevatorType != null and  iElevatorType != ''">
+                #{iElevatorType,jdbcType=INTEGER},
+            </if>
+            <if test="iElevatorUseType != null and  iElevatorUseType != ''">
+                #{iElevatorUseType,jdbcType=INTEGER},
+            </if>
+            <if test="iElevatorPlaceType != null and  iElevatorPlaceType != ''">
+                #{iElevatorPlaceType,jdbcType=INTEGER},
+            </if>
+            <if test="vElevatorBrandId != null and  vElevatorBrandId != ''">
+                #{vElevatorBrandId,jdbcType=VARCHAR},
+            </if>
+            <if test="iMaintainDays != null and  iMaintainDays != ''">
+                #{iMaintainDays,jdbcType=INTEGER},
+            </if>
+            <if test="dLastMaintainDate != null and  dLastMaintainDate != ''">
+                #{dLastMaintainDate,jdbcType=OTHER},
+            </if>
+            <if test="dNextMaintainDate != null and  dNextMaintainDate != ''">
+                #{dNextMaintainDate,jdbcType=OTHER},
+            </if>
+            <if test="dLastInspectDate != null and  dLastInspectDate != ''">
+                #{dLastInspectDate,jdbcType=OTHER},
+            </if>
+            <if test="dNextInspectDate != null and  dNextInspectDate != ''">
+                #{dNextInspectDate,jdbcType=OTHER},
+            </if>
+            <if test="vMaintainCompanyId != null and  vMaintainCompanyId != ''">
+                #{vMaintainCompanyId,jdbcType=VARCHAR},
+            </if>
+            <if test="vPropertyCompanyId != null and  vPropertyCompanyId != ''">
+                #{vPropertyCompanyId,jdbcType=VARCHAR},
+            </if>
+            <if test="iGovernmentId != null and  iGovernmentId != ''">
+                #{iGovernmentId,jdbcType=VARCHAR},
+            </if>
+            <if test="vMaintainPersonName != null and  vMaintainPersonName != ''">
+                #{vMaintainPersonName,jdbcType=VARCHAR},
+            </if>
+            <if test="vMaintainPersonTel != null and  vMaintainPersonTel != ''">
+                #{vMaintainPersonTel,jdbcType=VARCHAR},
+            </if>
+            <if test="vEmergencyPersonName != null and  vEmergencyPersonName != ''">
+                #{vEmergencyPersonName,jdbcType=VARCHAR},
+            </if>
+            <if test="vEmergencyPersonTel != null and  vEmergencyPersonTel != ''">
+                #{vEmergencyPersonTel,jdbcType=VARCHAR},
+            </if>
+            <if test="vHttpPtCodes != null and  vHttpPtCodes != ''">
+                #{vHttpPtCodes,jdbcType=VARCHAR},
+            </if>
+            <if test="vLongitude != null and  vLongitude != ''">
+                #{vLongitude,jdbcType=VARCHAR},
+            </if>
+            <if test="vLatitude != null and  vLatitude != ''">
+                #{vLatitude,jdbcType=VARCHAR},
+            </if>
+            <if test="iCoordinateType != null and  iCoordinateType != ''">
+                #{iCoordinateType,jdbcType=INTEGER},
+            </if>
+            <if test="vProjectId != null and  vProjectId != ''">
+                #{vProjectId,jdbcType=VARCHAR},
+            </if>
+            <if test="vVillageId != null and  vVillageId != ''">
+                #{vVillageId,jdbcType=VARCHAR},
+            </if>
+            <if test="iInstallStatus != null and  iInstallStatus != ''">
+                #{iInstallStatus,jdbcType=INTEGER},
+            </if>
+            <if test="dtInstallTime != null">
+                #{dtInstallTime,jdbcType=OTHER},
+            </if>
+            <if test="iOnLine != null and  iOnLine != ''">
+                #{iOnLine,jdbcType=INTEGER},
+            </if>
+            <if test="iModeStatus != null and  iModeStatus != ''">
+                #{iModeStatus,jdbcType=INTEGER},
+            </if>
+            <if test="iFaultStatus != null and  iFaultStatus != ''">
+                #{iFaultStatus,jdbcType=INTEGER},
+            </if>
+            <if test="iMaxFloor != null and  iMaxFloor != ''">
+                #{iMaxFloor,jdbcType=INTEGER},
+            </if>
+            <if test="iMinFloor != null and  iMinFloor != ''">
+                #{iMinFloor,jdbcType=INTEGER},
+            </if>
+            <if test="vFloorDetail != null and  vFloorDetail != ''">
+                #{vFloorDetail,jdbcType=VARCHAR},
+            </if>
+            <if test="vFloorSettingStatus != null and  vFloorSettingStatus != ''">
+                #{vFloorSettingStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="dcSpeed != null and  dcSpeed != ''">
+                #{dcSpeed,jdbcType=NUMERIC},
+            </if>
+            <if test="biRunCount != null and  biRunCount != ''">
+                #{biRunCount,jdbcType=INTEGER},
+            </if>
+            <if test="biDoorCount != null and  biDoorCount != ''">
+                #{biDoorCount,jdbcType=INTEGER},
+            </if>
+            <if test="biBendCount != null and  biBendCount != ''">
+                #{biBendCount,jdbcType=INTEGER},
+            </if>
+            <if test="biLevelTriggerCount != null and  biLevelTriggerCount != ''">
+                #{biLevelTriggerCount,jdbcType=INTEGER},
+            </if>
+            <if test="biRunDistanceCount != null and  biRunDistanceCount != ''">
+                #{biRunDistanceCount,jdbcType=INTEGER},
+            </if>
+            <if test="iDt != null and  iDt != ''">
+                #{iDt,jdbcType=INTEGER},
+            </if>
+            <if test="iDt1 != null and  iDt1 != ''">
+                #{iDt1,jdbcType=INTEGER},
+            </if>
+            <if test="iDt2 != null and  iDt2 != ''">
+                #{iDt2,jdbcType=INTEGER},
+            </if>
+            <if test="iNps != null and  iNps != ''">
+                #{iNps,jdbcType=INTEGER},
+            </if>
+            <if test="iNpr != null and  iNpr != ''">
+                #{iNpr,jdbcType=INTEGER},
+            </if>
+            <if test="dcNdaj != null and  dcNdaj != ''">
+                #{dcNdaj,jdbcType=NUMERIC},
+            </if>
+            <if test="iAngle != null and  iAngle != ''">
+                #{iAngle,jdbcType=INTEGER},
+            </if>
+            <if test="iAngleType != null and  iAngleType != ''">
+                #{iAngleType,jdbcType=INTEGER},
+            </if>
+            <if test="vSglnCode != null and  vSglnCode != ''">
+                #{vSglnCode,jdbcType=VARCHAR},
+            </if>
+            <if test="vUnitCode != null and  vUnitCode != ''">
+                #{vUnitCode,jdbcType=VARCHAR},
+            </if>
+            <if test="vLeaveFactoryNumber != null and  vLeaveFactoryNumber != ''">
+                #{vLeaveFactoryNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="vManufacturerCode != null and  vManufacturerCode != ''">
+                #{vManufacturerCode,jdbcType=VARCHAR},
+            </if>
+            <if test="vEquipmentCode != null and  vEquipmentCode != ''">
+                #{vEquipmentCode,jdbcType=VARCHAR},
+            </if>
+            <if test="vRegistrationAuthority != null and  vRegistrationAuthority != ''">
+                #{vRegistrationAuthority,jdbcType=VARCHAR},
+            </if>
+            <if test="vRegistrationMechanism != null and  vRegistrationMechanism != ''">
+                #{vRegistrationMechanism,jdbcType=VARCHAR},
+            </if>
+            <if test="vRegistrationCertificateNo != null and  vRegistrationCertificateNo != ''">
+                #{vRegistrationCertificateNo,jdbcType=VARCHAR},
+            </if>
+            <if test="dtCreateTime != null">
+                #{dtCreateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="dtModifyTime != null">
+                #{dtModifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="vCreateUserId != null and  vCreateUserId != ''">
+                #{vCreateUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="vModifyUserId != null and  vModifyUserId != ''">
+                #{vModifyUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="iDelFlag != null and  iDelFlag != ''">
+                #{iDelFlag,jdbcType=INTEGER},
+            </if>
+            <if test="iPmStatus != null">
+                #{iPmStatus, jdbcType=INTEGER}
+            </if>
+
+            <if test="nightWatchStatus != null">
+                #{nightWatchStatus,jdbcType=INTEGER},
+            </if>
+            <if test="nightWatchStartTime != null">
+                #{nightWatchStartTime},
+            </if>
+            <if test="nightWatchEndTime != null">
+                #{nightWatchEndTime},
+            </if>
+        </trim>
+    </insert>
+
+    <!--批量新增所有列，列表长度不能为0-->
+    <insert id="insertBatch" keyProperty="vElevatorId" useGeneratedKeys="true" parameterType="list">
+        insert into tbl_elevator
+        ( v_elevator_id ,v_elevator_code, i_province_id, i_city_id, i_area_id, v_address, i_elevator_type,
+        i_elevator_use_type, i_elevator_place_type, v_elevator_brand_id, i_maintain_days, d_last_maintain_date,
+        d_next_maintain_date, d_last_inspect_date, d_next_inspect_date, v_maintain_company_id, v_property_company_id,
+        i_government_id, v_maintain_person_name, v_maintain_person_tel, v_emergency_person_name,
+        v_emergency_person_tel, v_http_pt_codes, v_longitude, v_latitude, i_coordinate_type, v_project_id,
+        v_village_id, i_install_status, dt_install_time, i_on_line, i_mode_status, i_fault_status, i_max_floor,
+        i_min_floor, v_floor_detail, v_floor_setting_status, dc_speed, bi_run_count, bi_door_count, bi_bend_count,
+        bi_level_trigger_count, bi_run_distance_count, i_dt, i_dt1, i_dt2, i_nps, i_npr, dc_ndaj, i_angle,
+        i_angle_type, v_sgln_code, v_unit_code, v_leave_factory_number, v_manufacturer_code, v_equipment_code,
+        v_registration_authority, v_registration_mechanism, v_registration_certificate_no, dt_create_time,
+        dt_modify_time, v_create_user_id, v_modify_user_id, i_del_flag, i_pm_status,
+        night_watch_status, night_watch_start_time, night_watch_end_time)
+        values
+        <foreach item="item" collection="list" separator="," open="" close="" index="index">
+            (#{item.vElevatorId,jdbcType=VARCHAR},#{item.vElevatorCode,jdbcType=VARCHAR},
+            #{item.iProvinceId,jdbcType=INTEGER}, #{item.iCityId,jdbcType=INTEGER}, #{item.iAreaId,jdbcType=INTEGER},
+            #{item.vAddress,jdbcType=VARCHAR}, #{item.iElevatorType,jdbcType=INTEGER},
+            #{item.iElevatorUseType,jdbcType=INTEGER}, #{item.iElevatorPlaceType,jdbcType=INTEGER},
+            #{item.vElevatorBrandId,jdbcType=VARCHAR}, #{item.iMaintainDays,jdbcType=INTEGER},
+            #{item.dLastMaintainDate,jdbcType=OTHER}, #{item.dNextMaintainDate,jdbcType=OTHER},
+            #{item.dLastInspectDate,jdbcType=OTHER}, #{item.dNextInspectDate,jdbcType=OTHER},
+            #{item.vMaintainCompanyId,jdbcType=VARCHAR}, #{item.vPropertyCompanyId,jdbcType=VARCHAR},
+            #{item.iGovernmentId,jdbcType=VARCHAR}, #{item.vMaintainPersonName,jdbcType=VARCHAR},
+            #{item.vMaintainPersonTel,jdbcType=VARCHAR}, #{item.vEmergencyPersonName,jdbcType=VARCHAR},
+            #{item.vEmergencyPersonTel,jdbcType=VARCHAR}, #{item.vHttpPtCodes,jdbcType=VARCHAR},
+            #{item.vLongitude,jdbcType=VARCHAR}, #{item.vLatitude,jdbcType=VARCHAR},
+            #{item.iCoordinateType,jdbcType=INTEGER}, #{item.vProjectId,jdbcType=VARCHAR},
+            #{item.vVillageId,jdbcType=VARCHAR}, #{item.iInstallStatus,jdbcType=INTEGER},
+            #{item.dtInstallTime,jdbcType=OTHER}, #{item.iOnLine,jdbcType=INTEGER},
+            #{item.iModeStatus,jdbcType=INTEGER}, #{item.iFaultStatus,jdbcType=INTEGER},
+            #{item.iMaxFloor,jdbcType=INTEGER}, #{item.iMinFloor,jdbcType=INTEGER},
+            #{item.vFloorDetail,jdbcType=VARCHAR}, #{item.vFloorSettingStatus,jdbcType=VARCHAR},
+            #{item.dcSpeed,jdbcType=NUMERIC}, #{item.biRunCount,jdbcType=INTEGER},
+            #{item.biDoorCount,jdbcType=INTEGER}, #{item.biBendCount,jdbcType=INTEGER},
+            #{item.biLevelTriggerCount,jdbcType=INTEGER}, #{item.biRunDistanceCount,jdbcType=INTEGER},
+            #{item.iDt,jdbcType=INTEGER}, #{item.iDt1,jdbcType=INTEGER}, #{item.iDt2,jdbcType=INTEGER},
+            #{item.iNps,jdbcType=INTEGER}, #{item.iNpr,jdbcType=INTEGER}, #{item.dcNdaj,jdbcType=NUMERIC},
+            #{item.iAngle,jdbcType=INTEGER}, #{item.iAngleType,jdbcType=INTEGER}, #{item.vSglnCode,jdbcType=VARCHAR},
+            #{item.vUnitCode,jdbcType=VARCHAR}, #{item.vLeaveFactoryNumber,jdbcType=VARCHAR},
+            #{item.vManufacturerCode,jdbcType=VARCHAR}, #{item.vEquipmentCode,jdbcType=VARCHAR},
+            #{item.vRegistrationAuthority,jdbcType=VARCHAR}, #{item.vRegistrationMechanism,jdbcType=VARCHAR},
+            #{item.vRegistrationCertificateNo,jdbcType=VARCHAR}, #{item.dtCreateTime,jdbcType=TIMESTAMP},
+            #{item.dtModifyTime,jdbcType=TIMESTAMP}, #{item.vCreateUserId,jdbcType=VARCHAR},
+            #{item.vModifyUserId,jdbcType=VARCHAR}, #{item.iDelFlag,jdbcType=INTEGER},
+            #{item.iPmStatus,jdbcType=INTEGER},
+
+            #{item.nightWatchStatus,jdbcType=INTEGER}, #{item.nightWatchStartTime}, #{item.nightWatchEndTime}
+            )
+        </foreach>
+    </insert>
+
+
+    <!--批量新增所有列，列表长度不能为0-->
+    <insert id="insertBatchParty" keyProperty="vElevatorId" useGeneratedKeys="true" parameterType="list">
+        insert into tbl_elevator
+        (v_elevator_id ,v_elevator_code, v_elevator_name, v_project_id, v_village_id, v_address, v_equipment_code,
+        dt_create_time, dt_modify_time, v_create_user_id, v_modify_user_id, i_del_flag)
+        values
+        <foreach item="item" collection="list" separator="," open="" close="" index="index">
+            (#{item.vElevatorId,jdbcType=VARCHAR}, #{item.vElevatorCode,jdbcType=VARCHAR},
+            #{item.vElevatorName,jdbcType=VARCHAR}, #{item.vProjectId, jdbcType=VARCHAR},
+            #{item.vVillageId, jdbcType=VARCHAR}, #{item.vAddress, jdbcType=VARCHAR},
+            #{item.vEquipmentCode, jdbcType=VARCHAR}, #{item.dtCreateTime,jdbcType=TIMESTAMP},
+            #{item.dtModifyTime,jdbcType=TIMESTAMP}, #{item.vCreateUserId,jdbcType=VARCHAR},
+            #{item.vModifyUserId,jdbcType=VARCHAR}, #{item.iDelFlag,jdbcType=INTEGER})
+        </foreach>
+    </insert>
+
+    <!--通过主键修改实体属性不为null的列-->
+    <update id="update" parameterType="com.shmashine.common.entity.TblElevator">
+        update tbl_elevator
+        <set>
+            <if test="vElevatorCode != null and vElevatorCode != ''">
+                v_elevator_code = #{vElevatorCode,jdbcType=VARCHAR},
+            </if>
+            <if test="vElevatorName != null and vElevatorName != ''">
+                v_elevator_name = #{vElevatorName,jdbcType=VARCHAR},
+            </if>
+            <if test="iProvinceId != null">
+                i_province_id = #{iProvinceId,jdbcType=INTEGER},
+            </if>
+            <if test="iCityId != null">
+                i_city_id = #{iCityId,jdbcType=INTEGER},
+            </if>
+            <if test="iAreaId != null">
+                i_area_id = #{iAreaId,jdbcType=INTEGER},
+            </if>
+            <if test="vAddress != null and vAddress != ''">
+                v_address = #{vAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="iElevatorType != null">
+                i_elevator_type = #{iElevatorType,jdbcType=INTEGER},
+            </if>
+            <if test="iElevatorUseType != null">
+                i_elevator_use_type = #{iElevatorUseType,jdbcType=INTEGER},
+            </if>
+            <if test="iElevatorPlaceType != null">
+                i_elevator_place_type = #{iElevatorPlaceType,jdbcType=INTEGER},
+            </if>
+            <if test="vElevatorBrandId != null and vElevatorBrandId != ''">
+                v_elevator_brand_id = #{vElevatorBrandId,jdbcType=VARCHAR},
+            </if>
+            <if test="iMaintainDays != null">
+                i_maintain_days = #{iMaintainDays,jdbcType=INTEGER},
+            </if>
+            <if test="dLastMaintainDate != null">
+                d_last_maintain_date = #{dLastMaintainDate,jdbcType=OTHER},
+            </if>
+            <if test="dNextMaintainDate != null">
+                d_next_maintain_date = #{dNextMaintainDate,jdbcType=OTHER},
+            </if>
+            <if test="dLastInspectDate != null">
+                d_last_inspect_date = #{dLastInspectDate,jdbcType=OTHER},
+            </if>
+            <if test="dNextInspectDate != null">
+                d_next_inspect_date = #{dNextInspectDate,jdbcType=OTHER},
+            </if>
+            <if test="vMaintainCompanyId != null and vMaintainCompanyId != ''">
+                v_maintain_company_id = #{vMaintainCompanyId,jdbcType=VARCHAR},
+            </if>
+            <if test="vPropertyCompanyId != null and vPropertyCompanyId != ''">
+                v_property_company_id = #{vPropertyCompanyId,jdbcType=VARCHAR},
+            </if>
+            <if test="iGovernmentId != null and iGovernmentId != ''">
+                i_government_id = #{iGovernmentId,jdbcType=VARCHAR},
+            </if>
+            <if test="vMaintainPersonName != null and vMaintainPersonName != ''">
+                v_maintain_person_name = #{vMaintainPersonName,jdbcType=VARCHAR},
+            </if>
+            <if test="vMaintainPersonTel != null and vMaintainPersonTel != ''">
+                v_maintain_person_tel = #{vMaintainPersonTel,jdbcType=VARCHAR},
+            </if>
+            <if test="vEmergencyPersonName != null and vEmergencyPersonName != ''">
+                v_emergency_person_name = #{vEmergencyPersonName,jdbcType=VARCHAR},
+            </if>
+            <if test="vEmergencyPersonTel != null and vEmergencyPersonTel != ''">
+                v_emergency_person_tel = #{vEmergencyPersonTel,jdbcType=VARCHAR},
+            </if>
+            <if test="vHttpPtCodes != null and vHttpPtCodes != ''">
+                v_http_pt_codes = #{vHttpPtCodes,jdbcType=VARCHAR},
+            </if>
+            <if test="vLongitude != null and vLongitude != ''">
+                v_longitude = #{vLongitude,jdbcType=VARCHAR},
+            </if>
+            <if test="vLatitude != null and vLatitude != ''">
+                v_latitude = #{vLatitude,jdbcType=VARCHAR},
+            </if>
+            <if test="iCoordinateType != null">
+                i_coordinate_type = #{iCoordinateType,jdbcType=INTEGER},
+            </if>
+            <if test="vProjectId != null and vProjectId != ''">
+                v_project_id = #{vProjectId,jdbcType=VARCHAR},
+            </if>
+            <if test="vVillageId != null and vVillageId != ''">
+                v_village_id = #{vVillageId,jdbcType=VARCHAR},
+            </if>
+            <if test="iInstallStatus != null">
+                i_install_status = #{iInstallStatus,jdbcType=INTEGER},
+            </if>
+            <if test="dtInstallTime != null">
+                dt_install_time = #{dtInstallTime,jdbcType=OTHER},
+            </if>
+            <if test="iOnLine != null">
+                i_on_line = #{iOnLine,jdbcType=INTEGER},
+            </if>
+            <if test="iModeStatus != null">
+                i_mode_status = #{iModeStatus,jdbcType=INTEGER},
+            </if>
+            <if test="iFaultStatus != null">
+                i_fault_status = #{iFaultStatus,jdbcType=INTEGER},
+            </if>
+            <if test="iMaxFloor != null">
+                i_max_floor = #{iMaxFloor,jdbcType=INTEGER},
+            </if>
+            <if test="iMinFloor != null">
+                i_min_floor = #{iMinFloor,jdbcType=INTEGER},
+            </if>
+            <if test="vFloorDetail != null and vFloorDetail != ''">
+                v_floor_detail = #{vFloorDetail,jdbcType=VARCHAR},
+            </if>
+            <if test="vFloorSettingStatus != null and vFloorSettingStatus != ''">
+                v_floor_setting_status = #{vFloorSettingStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="dcSpeed != null">
+                dc_speed = #{dcSpeed,jdbcType=NUMERIC},
+            </if>
+            <if test="biRunCount != null">
+                bi_run_count = #{biRunCount,jdbcType=INTEGER},
+            </if>
+            <if test="biDoorCount != null">
+                bi_door_count = #{biDoorCount,jdbcType=INTEGER},
+            </if>
+            <if test="biBendCount != null">
+                bi_bend_count = #{biBendCount,jdbcType=INTEGER},
+            </if>
+            <if test="biLevelTriggerCount != null">
+                bi_level_trigger_count = #{biLevelTriggerCount,jdbcType=INTEGER},
+            </if>
+            <if test="biRunDistanceCount != null">
+                bi_run_distance_count = #{biRunDistanceCount,jdbcType=INTEGER},
+            </if>
+            <if test="iDt != null">
+                i_dt = #{iDt,jdbcType=INTEGER},
+            </if>
+            <if test="iDt1 != null">
+                i_dt1 = #{iDt1,jdbcType=INTEGER},
+            </if>
+            <if test="iDt2 != null">
+                i_dt2 = #{iDt2,jdbcType=INTEGER},
+            </if>
+            <if test="iNps != null">
+                i_nps = #{iNps,jdbcType=INTEGER},
+            </if>
+            <if test="iNpr != null">
+                i_npr = #{iNpr,jdbcType=INTEGER},
+            </if>
+            <if test="dcNdaj != null">
+                dc_ndaj = #{dcNdaj,jdbcType=NUMERIC},
+            </if>
+            <if test="iAngle != null">
+                i_angle = #{iAngle,jdbcType=INTEGER},
+            </if>
+            <if test="iAngleType != null">
+                i_angle_type = #{iAngleType,jdbcType=INTEGER},
+            </if>
+            <if test="vSglnCode != null and vSglnCode != ''">
+                v_sgln_code = #{vSglnCode,jdbcType=VARCHAR},
+            </if>
+            <if test="vUnitCode != null and vUnitCode != ''">
+                v_unit_code = #{vUnitCode,jdbcType=VARCHAR},
+            </if>
+            <if test="vLeaveFactoryNumber != null and vLeaveFactoryNumber != ''">
+                v_leave_factory_number = #{vLeaveFactoryNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="vManufacturerCode != null and vManufacturerCode != ''">
+                v_manufacturer_code = #{vManufacturerCode,jdbcType=VARCHAR},
+            </if>
+            <if test="vEquipmentCode != null and vEquipmentCode != ''">
+                v_equipment_code = #{vEquipmentCode,jdbcType=VARCHAR},
+            </if>
+            <if test="vRegistrationAuthority != null and vRegistrationAuthority != ''">
+                v_registration_authority = #{vRegistrationAuthority,jdbcType=VARCHAR},
+            </if>
+            <if test="vRegistrationMechanism != null and vRegistrationMechanism != ''">
+                v_registration_mechanism = #{vRegistrationMechanism,jdbcType=VARCHAR},
+            </if>
+            <if test="vRegistrationCertificateNo != null and vRegistrationCertificateNo != ''">
+                v_registration_certificate_no = #{vRegistrationCertificateNo,jdbcType=VARCHAR},
+            </if>
+            <if test="dtCreateTime != null">
+                dt_create_time = #{dtCreateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="dtModifyTime != null">
+                dt_modify_time = #{dtModifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="vCreateUserId != null and vCreateUserId != ''">
+                v_create_user_id = #{vCreateUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="vModifyUserId != null and vModifyUserId != ''">
+                v_modify_user_id = #{vModifyUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="iDelFlag != null">
+                i_del_flag = #{iDelFlag,jdbcType=INTEGER},
+            </if>
+            <if test="doorType != null">
+                v_door_type = #{doorType,jdbcType=INTEGER},
+            </if>
+            <if test="iPmStatus != null">
+                i_pm_status = #{iPmStatus,jdbcType=INTEGER},
+            </if>
+
+
+            <if test="nightWatchStatus != null">
+                night_watch_status = #{nightWatchStatus,jdbcType=INTEGER},
+            </if>
+            <if test="nightWatchStartTime != null">
+                night_watch_start_time = #{nightWatchStartTime},
+            </if>
+            <if test="nightWatchEndTime != null">
+                night_watch_end_time = #{nightWatchEndTime},
+            </if>
+        </set>
+        where v_elevator_id = #{vElevatorId,jdbcType=VARCHAR}
+    </update>
+
+    <!--通过表字段修改实体属性不为null的列-->
+    <update id="updateByField">
+        update tbl_elevator
+        <set>
+            <if test="where.vElevatorCode == null and set.vElevatorCode != null and set.vElevatorCode != ''">
+                v_elevator_code = #{set.vElevatorCode,jdbcType=VARCHAR},
+            </if>
+            <if test="where.vElevatorName == null and set.vElevatorName != null and set.vElevatorName != ''">
+                v_elevator_name = #{set.vElevatorName,jdbcType=VARCHAR},
+            </if>
+            <if test="where.iProvinceId == null and set.iProvinceId != null">
+                i_province_id = #{set.iProvinceId,jdbcType=INTEGER},
+            </if>
+            <if test="where.iCityId == null and set.iCityId != null">
+                i_city_id = #{set.iCityId,jdbcType=INTEGER},
+            </if>
+            <if test="where.iAreaId == null and set.iAreaId != null">
+                i_area_id = #{set.iAreaId,jdbcType=INTEGER},
+            </if>
+            <if test="where.vAddress == null and set.vAddress != null and set.vAddress != ''">
+                v_address = #{set.vAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="where.iElevatorType == null and set.iElevatorType != null">
+                i_elevator_type = #{set.iElevatorType,jdbcType=INTEGER},
+            </if>
+            <if test="where.iElevatorUseType == null and set.iElevatorUseType != null">
+                i_elevator_use_type = #{set.iElevatorUseType,jdbcType=INTEGER},
+            </if>
+            <if test="where.iElevatorPlaceType == null and set.iElevatorPlaceType != null">
+                i_elevator_place_type = #{set.iElevatorPlaceType,jdbcType=INTEGER},
+            </if>
+            <if test="where.vElevatorBrandId == null and set.vElevatorBrandId != null and set.vElevatorBrandId != ''">
+                v_elevator_brand_id = #{set.vElevatorBrandId,jdbcType=VARCHAR},
+            </if>
+            <if test="where.iMaintainDays == null and set.iMaintainDays != null">
+                i_maintain_days = #{set.iMaintainDays,jdbcType=INTEGER},
+            </if>
+            <if test="where.dLastMaintainDate == null and set.dLastMaintainDate != null">
+                d_last_maintain_date = #{set.dLastMaintainDate,jdbcType=OTHER},
+            </if>
+            <if test="where.dNextMaintainDate == null and set.dNextMaintainDate != null">
+                d_next_maintain_date = #{set.dNextMaintainDate,jdbcType=OTHER},
+            </if>
+            <if test="where.dLastInspectDate == null and set.dLastInspectDate != null">
+                d_last_inspect_date = #{set.dLastInspectDate,jdbcType=OTHER},
+            </if>
+            <if test="where.dNextInspectDate == null and set.dNextInspectDate != null">
+                d_next_inspect_date = #{set.dNextInspectDate,jdbcType=OTHER},
+            </if>
+            <if test="where.vMaintainCompanyId == null and set.vMaintainCompanyId != null and set.vMaintainCompanyId != ''">
+                v_maintain_company_id = #{set.vMaintainCompanyId,jdbcType=VARCHAR},
+            </if>
+            <if test="where.vPropertyCompanyId == null and set.vPropertyCompanyId != null and set.vPropertyCompanyId != ''">
+                v_property_company_id = #{set.vPropertyCompanyId,jdbcType=VARCHAR},
+            </if>
+            <if test="where.iGovernmentId == null and set.iGovernmentId != null and set.iGovernmentId != ''">
+                i_government_id = #{set.iGovernmentId,jdbcType=VARCHAR},
+            </if>
+            <if test="where.vMaintainPersonName == null and set.vMaintainPersonName != null and set.vMaintainPersonName != ''">
+                v_maintain_person_name = #{set.vMaintainPersonName,jdbcType=VARCHAR},
+            </if>
+            <if test="where.vMaintainPersonTel == null and set.vMaintainPersonTel != null and set.vMaintainPersonTel != ''">
+                v_maintain_person_tel = #{set.vMaintainPersonTel,jdbcType=VARCHAR},
+            </if>
+            <if test="where.vEmergencyPersonName == null and set.vEmergencyPersonName != null and set.vEmergencyPersonName != ''">
+                v_emergency_person_name = #{set.vEmergencyPersonName,jdbcType=VARCHAR},
+            </if>
+            <if test="where.vEmergencyPersonTel == null and set.vEmergencyPersonTel != null and set.vEmergencyPersonTel != ''">
+                v_emergency_person_tel = #{set.vEmergencyPersonTel,jdbcType=VARCHAR},
+            </if>
+            <if test="where.vHttpPtCodes == null and set.vHttpPtCodes != null and set.vHttpPtCodes != ''">
+                v_http_pt_codes = #{set.vHttpPtCodes,jdbcType=VARCHAR},
+            </if>
+            <if test="where.vLongitude == null and set.vLongitude != null and set.vLongitude != ''">
+                v_longitude = #{set.vLongitude,jdbcType=VARCHAR},
+            </if>
+            <if test="where.vLatitude == null and set.vLatitude != null and set.vLatitude != ''">
+                v_latitude = #{set.vLatitude,jdbcType=VARCHAR},
+            </if>
+            <if test="where.iCoordinateType == null and set.iCoordinateType != null">
+                i_coordinate_type = #{set.iCoordinateType,jdbcType=INTEGER},
+            </if>
+            <if test="where.vProjectId == null and set.vProjectId != null and set.vProjectId != ''">
+                v_project_id = #{set.vProjectId,jdbcType=VARCHAR},
+            </if>
+            <if test="where.vVillageId == null and set.vVillageId != null and set.vVillageId != ''">
+                v_village_id = #{set.vVillageId,jdbcType=VARCHAR},
+            </if>
+            <if test="where.iInstallStatus == null and set.iInstallStatus != null">
+                i_install_status = #{set.iInstallStatus,jdbcType=INTEGER},
+            </if>
+            <if test="where.dtInstallTime == null and set.dtInstallTime != null">
+                dt_install_time = #{set.dtInstallTime,jdbcType=OTHER},
+            </if>
+            <if test="where.iOnLine == null and set.iOnLine != null">
+                i_on_line = #{set.iOnLine,jdbcType=INTEGER},
+            </if>
+            <if test="where.iModeStatus == null and set.iModeStatus != null">
+                i_mode_status = #{set.iModeStatus,jdbcType=INTEGER},
+            </if>
+            <if test="where.iFaultStatus == null and set.iFaultStatus != null">
+                i_fault_status = #{set.iFaultStatus,jdbcType=INTEGER},
+            </if>
+            <if test="where.iMaxFloor == null and set.iMaxFloor != null">
+                i_max_floor = #{set.iMaxFloor,jdbcType=INTEGER},
+            </if>
+            <if test="where.iMinFloor == null and set.iMinFloor != null">
+                i_min_floor = #{set.iMinFloor,jdbcType=INTEGER},
+            </if>
+            <if test="where.vFloorDetail == null and set.vFloorDetail != null and set.vFloorDetail != ''">
+                v_floor_detail = #{set.vFloorDetail,jdbcType=VARCHAR},
+            </if>
+            <if test="where.vFloorSettingStatus == null and set.vFloorSettingStatus != null and set.vFloorSettingStatus != ''">
+                v_floor_setting_status = #{set.vFloorSettingStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="where.dcSpeed == null and set.dcSpeed != null">
+                dc_speed = #{set.dcSpeed,jdbcType=NUMERIC},
+            </if>
+            <if test="where.biRunCount == null and set.biRunCount != null">
+                bi_run_count = #{set.biRunCount,jdbcType=INTEGER},
+            </if>
+            <if test="where.biDoorCount == null and set.biDoorCount != null">
+                bi_door_count = #{set.biDoorCount,jdbcType=INTEGER},
+            </if>
+            <if test="where.biBendCount == null and set.biBendCount != null">
+                bi_bend_count = #{set.biBendCount,jdbcType=INTEGER},
+            </if>
+            <if test="where.biLevelTriggerCount == null and set.biLevelTriggerCount != null">
+                bi_level_trigger_count = #{set.biLevelTriggerCount,jdbcType=INTEGER},
+            </if>
+            <if test="where.biRunDistanceCount == null and set.biRunDistanceCount != null">
+                bi_run_distance_count = #{set.biRunDistanceCount,jdbcType=INTEGER},
+            </if>
+            <if test="where.iDt == null and set.iDt != null">
+                i_dt = #{set.iDt,jdbcType=INTEGER},
+            </if>
+            <if test="where.iDt1 == null and set.iDt1 != null">
+                i_dt1 = #{set.iDt1,jdbcType=INTEGER},
+            </if>
+            <if test="where.iDt2 == null and set.iDt2 != null">
+                i_dt2 = #{set.iDt2,jdbcType=INTEGER},
+            </if>
+            <if test="where.iNps == null and set.iNps != null">
+                i_nps = #{set.iNps,jdbcType=INTEGER},
+            </if>
+            <if test="where.iNpr == null and set.iNpr != null">
+                i_npr = #{set.iNpr,jdbcType=INTEGER},
+            </if>
+            <if test="where.dcNdaj == null and set.dcNdaj != null">
+                dc_ndaj = #{set.dcNdaj,jdbcType=NUMERIC},
+            </if>
+            <if test="where.iAngle == null and set.iAngle != null">
+                i_angle = #{set.iAngle,jdbcType=INTEGER},
+            </if>
+            <if test="where.iAngleType == null and set.iAngleType != null">
+                i_angle_type = #{set.iAngleType,jdbcType=INTEGER},
+            </if>
+            <if test="where.vSglnCode == null and set.vSglnCode != null and set.vSglnCode != ''">
+                v_sgln_code = #{set.vSglnCode,jdbcType=VARCHAR},
+            </if>
+            <if test="where.vUnitCode == null and set.vUnitCode != null and set.vUnitCode != ''">
+                v_unit_code = #{set.vUnitCode,jdbcType=VARCHAR},
+            </if>
+            <if test="where.vLeaveFactoryNumber == null and set.vLeaveFactoryNumber != null and set.vLeaveFactoryNumber != ''">
+                v_leave_factory_number = #{set.vLeaveFactoryNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="where.vManufacturerCode == null and set.vManufacturerCode != null and set.vManufacturerCode != ''">
+                v_manufacturer_code = #{set.vManufacturerCode,jdbcType=VARCHAR},
+            </if>
+            <if test="where.vEquipmentCode == null and set.vEquipmentCode != null and set.vEquipmentCode != ''">
+                v_equipment_code = #{set.vEquipmentCode,jdbcType=VARCHAR},
+            </if>
+            <if test="where.vRegistrationAuthority == null and set.vRegistrationAuthority != null and set.vRegistrationAuthority != ''">
+                v_registration_authority = #{set.vRegistrationAuthority,jdbcType=VARCHAR},
+            </if>
+            <if test="where.vRegistrationMechanism == null and set.vRegistrationMechanism != null and set.vRegistrationMechanism != ''">
+                v_registration_mechanism = #{set.vRegistrationMechanism,jdbcType=VARCHAR},
+            </if>
+            <if test="where.vRegistrationCertificateNo == null and set.vRegistrationCertificateNo != null and set.vRegistrationCertificateNo != ''">
+                v_registration_certificate_no = #{set.vRegistrationCertificateNo,jdbcType=VARCHAR},
+            </if>
+            <if test="where.dtCreateTime == null and set.dtCreateTime != null">
+                dt_create_time = #{set.dtCreateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="where.dtModifyTime == null and set.dtModifyTime != null">
+                dt_modify_time = #{set.dtModifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="where.vCreateUserId == null and set.vCreateUserId != null and set.vCreateUserId != ''">
+                v_create_user_id = #{set.vCreateUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="where.vModifyUserId == null and set.vModifyUserId != null and set.vModifyUserId != ''">
+                v_modify_user_id = #{set.vModifyUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="where.iDelFlag == null and set.iDelFlag != null">
+                i_del_flag = #{set.iDelFlag,jdbcType=INTEGER},
+            </if>
+
+
+            <if test="where.nightWatchStatus == null and set.nightWatchStatus != null">
+                night_watch_status = #{set.nightWatchStatus,jdbcType=INTEGER},
+            </if>
+            <if test="where.nightWatchStartTime == null and set.nightWatchStartTime != null">
+                night_watch_start_time = #{set.nightWatchStartTime},
+            </if>
+            <if test="where.nightWatchEndTime == null and set.nightWatchEndTime != null">
+                night_watch_end_time = #{set.nightWatchEndTime},
+            </if>
+        </set>
+        <where>
+            <if test="where.vElevatorId != null">
+                and v_elevator_id = #{where.vElevatorId,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vElevatorCode != null">
+                and v_elevator_code = #{where.vElevatorCode,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vElevatorName != null">
+                and v_elevator_name = #{where.vElevatorName,jdbcType=VARCHAR}
+            </if>
+            <if test="where.iProvinceId != null">
+                and i_province_id = #{where.iProvinceId,jdbcType=INTEGER}
+            </if>
+            <if test="where.iCityId != null">
+                and i_city_id = #{where.iCityId,jdbcType=INTEGER}
+            </if>
+            <if test="where.iAreaId != null">
+                and i_area_id = #{where.iAreaId,jdbcType=INTEGER}
+            </if>
+            <if test="where.vAddress != null">
+                and v_address = #{where.vAddress,jdbcType=VARCHAR}
+            </if>
+            <if test="where.iElevatorType != null">
+                and i_elevator_type = #{where.iElevatorType,jdbcType=INTEGER}
+            </if>
+            <if test="where.iElevatorUseType != null">
+                and i_elevator_use_type = #{where.iElevatorUseType,jdbcType=INTEGER}
+            </if>
+            <if test="where.iElevatorPlaceType != null">
+                and i_elevator_place_type = #{where.iElevatorPlaceType,jdbcType=INTEGER}
+            </if>
+            <if test="where.vElevatorBrandId != null">
+                and v_elevator_brand_id = #{where.vElevatorBrandId,jdbcType=VARCHAR}
+            </if>
+            <if test="where.iMaintainDays != null">
+                and i_maintain_days = #{where.iMaintainDays,jdbcType=INTEGER}
+            </if>
+            <if test="where.dLastMaintainDate != null">
+                and d_last_maintain_date = #{where.dLastMaintainDate,jdbcType=OTHER}
+            </if>
+            <if test="where.dNextMaintainDate != null">
+                and d_next_maintain_date = #{where.dNextMaintainDate,jdbcType=OTHER}
+            </if>
+            <if test="where.dLastInspectDate != null">
+                and d_last_inspect_date = #{where.dLastInspectDate,jdbcType=OTHER}
+            </if>
+            <if test="where.dNextInspectDate != null">
+                and d_next_inspect_date = #{where.dNextInspectDate,jdbcType=OTHER}
+            </if>
+            <if test="where.vMaintainCompanyId != null">
+                and v_maintain_company_id = #{where.vMaintainCompanyId,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vPropertyCompanyId != null">
+                and v_property_company_id = #{where.vPropertyCompanyId,jdbcType=VARCHAR}
+            </if>
+            <if test="where.iGovernmentId != null">
+                and i_government_id = #{where.iGovernmentId,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vMaintainPersonName != null">
+                and v_maintain_person_name = #{where.vMaintainPersonName,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vMaintainPersonTel != null">
+                and v_maintain_person_tel = #{where.vMaintainPersonTel,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vEmergencyPersonName != null">
+                and v_emergency_person_name = #{where.vEmergencyPersonName,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vEmergencyPersonTel != null">
+                and v_emergency_person_tel = #{where.vEmergencyPersonTel,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vHttpPtCodes != null">
+                and v_http_pt_codes = #{where.vHttpPtCodes,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vLongitude != null">
+                and v_longitude = #{where.vLongitude,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vLatitude != null">
+                and v_latitude = #{where.vLatitude,jdbcType=VARCHAR}
+            </if>
+            <if test="where.iCoordinateType != null">
+                and i_coordinate_type = #{where.iCoordinateType,jdbcType=INTEGER}
+            </if>
+            <if test="where.vProjectId != null">
+                and v_project_id = #{where.vProjectId,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vVillageId != null">
+                and v_village_id = #{where.vVillageId,jdbcType=VARCHAR}
+            </if>
+            <if test="where.iInstallStatus != null">
+                and i_install_status = #{where.iInstallStatus,jdbcType=INTEGER}
+            </if>
+            <if test="where.dtInstallTime != null">
+                and dt_install_time = #{where.dtInstallTime,jdbcType=OTHER}
+            </if>
+            <if test="where.iOnLine != null">
+                and i_on_line = #{where.iOnLine,jdbcType=INTEGER}
+            </if>
+            <if test="where.iModeStatus != null">
+                and i_mode_status = #{where.iModeStatus,jdbcType=INTEGER}
+            </if>
+            <if test="where.iFaultStatus != null">
+                and i_fault_status = #{where.iFaultStatus,jdbcType=INTEGER}
+            </if>
+            <if test="where.iMaxFloor != null">
+                and i_max_floor = #{where.iMaxFloor,jdbcType=INTEGER}
+            </if>
+            <if test="where.iMinFloor != null">
+                and i_min_floor = #{where.iMinFloor,jdbcType=INTEGER}
+            </if>
+            <if test="where.vFloorDetail != null">
+                and v_floor_detail = #{where.vFloorDetail,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vFloorSettingStatus != null">
+                and v_floor_setting_status = #{where.vFloorSettingStatus,jdbcType=VARCHAR}
+            </if>
+            <if test="where.dcSpeed != null">
+                and dc_speed = #{where.dcSpeed,jdbcType=NUMERIC}
+            </if>
+            <if test="where.biRunCount != null">
+                and bi_run_count = #{where.biRunCount,jdbcType=INTEGER}
+            </if>
+            <if test="where.biDoorCount != null">
+                and bi_door_count = #{where.biDoorCount,jdbcType=INTEGER}
+            </if>
+            <if test="where.biBendCount != null">
+                and bi_bend_count = #{where.biBendCount,jdbcType=INTEGER}
+            </if>
+            <if test="where.biLevelTriggerCount != null">
+                and bi_level_trigger_count = #{where.biLevelTriggerCount,jdbcType=INTEGER}
+            </if>
+            <if test="where.biRunDistanceCount != null">
+                and bi_run_distance_count = #{where.biRunDistanceCount,jdbcType=INTEGER}
+            </if>
+            <if test="where.iDt != null">
+                and i_dt = #{where.iDt,jdbcType=INTEGER}
+            </if>
+            <if test="where.iDt1 != null">
+                and i_dt1 = #{where.iDt1,jdbcType=INTEGER}
+            </if>
+            <if test="where.iDt2 != null">
+                and i_dt2 = #{where.iDt2,jdbcType=INTEGER}
+            </if>
+            <if test="where.iNps != null">
+                and i_nps = #{where.iNps,jdbcType=INTEGER}
+            </if>
+            <if test="where.iNpr != null">
+                and i_npr = #{where.iNpr,jdbcType=INTEGER}
+            </if>
+            <if test="where.dcNdaj != null">
+                and dc_ndaj = #{where.dcNdaj,jdbcType=NUMERIC}
+            </if>
+            <if test="where.iAngle != null">
+                and i_angle = #{where.iAngle,jdbcType=INTEGER}
+            </if>
+            <if test="where.iAngleType != null">
+                and i_angle_type = #{where.iAngleType,jdbcType=INTEGER}
+            </if>
+            <if test="where.vSglnCode != null">
+                and v_sgln_code = #{where.vSglnCode,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vUnitCode != null">
+                and v_unit_code = #{where.vUnitCode,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vLeaveFactoryNumber != null">
+                and v_leave_factory_number = #{where.vLeaveFactoryNumber,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vManufacturerCode != null">
+                and v_manufacturer_code = #{where.vManufacturerCode,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vEquipmentCode != null">
+                and v_equipment_code = #{where.vEquipmentCode,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vRegistrationAuthority != null">
+                and v_registration_authority = #{where.vRegistrationAuthority,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vRegistrationMechanism != null">
+                and v_registration_mechanism = #{where.vRegistrationMechanism,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vRegistrationCertificateNo != null">
+                and v_registration_certificate_no = #{where.vRegistrationCertificateNo,jdbcType=VARCHAR}
+            </if>
+            <if test="where.dtCreateTime != null">
+                and dt_create_time = #{where.dtCreateTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="where.dtModifyTime != null">
+                and dt_modify_time = #{where.dtModifyTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="where.vCreateUserId != null">
+                and v_create_user_id = #{where.vCreateUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vModifyUserId != null">
+                and v_modify_user_id = #{where.vModifyUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="where.iDelFlag != null">
+                and i_del_flag = #{where.iDelFlag,jdbcType=INTEGER}
+            </if>
+
+            <if test="where.nightWatchStatus != null">
+                and night_watch_status = #{where.nightWatchStatus,jdbcType=INTEGER},
+            </if>
+            <if test="where.nightWatchStartTime != null">
+                and night_watch_start_time = #{where.nightWatchStartTime},
+            </if>
+            <if test="where.nightWatchEndTime != null">
+                and night_watch_end_time = #{where.nightWatchEndTime},
+            </if>
+        </where>
+    </update>
+
+    <!--通过主键修改实体列表，列表长度不能为0，注意：当实体属性为null时，对应的列也会别更新为null-->
+    <update id="updateBatch" parameterType="list">
+        update tbl_elevator
+        <trim prefix="set" suffixOverrides=",">
+            <trim prefix="v_elevator_code = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_elevator_id = #{item.vElevatorId} then #{item.vElevatorCode}
+                </foreach>
+            </trim>
+            <trim prefix="v_elevator_name = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_elevator_id = #{item.vElevatorId} then #{item.vElevatorName}
+                </foreach>
+            </trim>
+            <trim prefix="i_province_id = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_elevator_id = #{item.vElevatorId} then #{item.iProvinceId}
+                </foreach>
+            </trim>
+            <trim prefix="i_city_id = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_elevator_id = #{item.vElevatorId} then #{item.iCityId}
+                </foreach>
+            </trim>
+            <trim prefix="i_area_id = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_elevator_id = #{item.vElevatorId} then #{item.iAreaId}
+                </foreach>
+            </trim>
+            <trim prefix="v_address = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_elevator_id = #{item.vElevatorId} then #{item.vAddress}
+                </foreach>
+            </trim>
+            <trim prefix="i_elevator_type = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_elevator_id = #{item.vElevatorId} then #{item.iElevatorType}
+                </foreach>
+            </trim>
+            <trim prefix="i_elevator_use_type = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_elevator_id = #{item.vElevatorId} then #{item.iElevatorUseType}
+                </foreach>
+            </trim>
+            <trim prefix="i_elevator_place_type = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_elevator_id = #{item.vElevatorId} then #{item.iElevatorPlaceType}
+                </foreach>
+            </trim>
+            <trim prefix="v_elevator_brand_id = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_elevator_id = #{item.vElevatorId} then #{item.vElevatorBrandId}
+                </foreach>
+            </trim>
+            <trim prefix="i_maintain_days = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_elevator_id = #{item.vElevatorId} then #{item.iMaintainDays}
+                </foreach>
+            </trim>
+            <trim prefix="d_last_maintain_date = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_elevator_id = #{item.vElevatorId} then #{item.dLastMaintainDate}
+                </foreach>
+            </trim>
+            <trim prefix="d_next_maintain_date = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_elevator_id = #{item.vElevatorId} then #{item.dNextMaintainDate}
+                </foreach>
+            </trim>
+            <trim prefix="d_last_inspect_date = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_elevator_id = #{item.vElevatorId} then #{item.dLastInspectDate}
+                </foreach>
+            </trim>
+            <trim prefix="d_next_inspect_date = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_elevator_id = #{item.vElevatorId} then #{item.dNextInspectDate}
+                </foreach>
+            </trim>
+            <trim prefix="v_maintain_company_id = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_elevator_id = #{item.vElevatorId} then #{item.vMaintainCompanyId}
+                </foreach>
+            </trim>
+            <trim prefix="v_property_company_id = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_elevator_id = #{item.vElevatorId} then #{item.vPropertyCompanyId}
+                </foreach>
+            </trim>
+            <trim prefix="i_government_id = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_elevator_id = #{item.vElevatorId} then #{item.iGovernmentId}
+                </foreach>
+            </trim>
+            <trim prefix="v_maintain_person_name = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_elevator_id = #{item.vElevatorId} then #{item.vMaintainPersonName}
+                </foreach>
+            </trim>
+            <trim prefix="v_maintain_person_tel = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_elevator_id = #{item.vElevatorId} then #{item.vMaintainPersonTel}
+                </foreach>
+            </trim>
+            <trim prefix="v_emergency_person_name = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_elevator_id = #{item.vElevatorId} then #{item.vEmergencyPersonName}
+                </foreach>
+            </trim>
+            <trim prefix="v_emergency_person_tel = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_elevator_id = #{item.vElevatorId} then #{item.vEmergencyPersonTel}
+                </foreach>
+            </trim>
+            <trim prefix="v_http_pt_codes = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_elevator_id = #{item.vElevatorId} then #{item.vHttpPtCodes}
+                </foreach>
+            </trim>
+            <trim prefix="v_longitude = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_elevator_id = #{item.vElevatorId} then #{item.vLongitude}
+                </foreach>
+            </trim>
+            <trim prefix="v_latitude = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_elevator_id = #{item.vElevatorId} then #{item.vLatitude}
+                </foreach>
+            </trim>
+            <trim prefix="i_coordinate_type = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_elevator_id = #{item.vElevatorId} then #{item.iCoordinateType}
+                </foreach>
+            </trim>
+            <trim prefix="v_project_id = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_elevator_id = #{item.vElevatorId} then #{item.vProjectId}
+                </foreach>
+            </trim>
+            <trim prefix="v_village_id = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_elevator_id = #{item.vElevatorId} then #{item.vVillageId}
+                </foreach>
+            </trim>
+            <trim prefix="i_install_status = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_elevator_id = #{item.vElevatorId} then #{item.iInstallStatus}
+                </foreach>
+            </trim>
+            <trim prefix="dt_install_time = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_elevator_id = #{item.vElevatorId} then #{item.dtInstallTime}
+                </foreach>
+            </trim>
+            <trim prefix="i_on_line = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_elevator_id = #{item.vElevatorId} then #{item.iOnLine}
+                </foreach>
+            </trim>
+            <trim prefix="i_mode_status = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_elevator_id = #{item.vElevatorId} then #{item.iModeStatus}
+                </foreach>
+            </trim>
+            <trim prefix="i_fault_status = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_elevator_id = #{item.vElevatorId} then #{item.iFaultStatus}
+                </foreach>
+            </trim>
+            <trim prefix="i_max_floor = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_elevator_id = #{item.vElevatorId} then #{item.iMaxFloor}
+                </foreach>
+            </trim>
+            <trim prefix="i_min_floor = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_elevator_id = #{item.vElevatorId} then #{item.iMinFloor}
+                </foreach>
+            </trim>
+            <trim prefix="v_floor_detail = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_elevator_id = #{item.vElevatorId} then #{item.vFloorDetail}
+                </foreach>
+            </trim>
+            <trim prefix="v_floor_setting_status = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_elevator_id = #{item.vElevatorId} then #{item.vFloorSettingStatus}
+                </foreach>
+            </trim>
+            <trim prefix="dc_speed = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_elevator_id = #{item.vElevatorId} then #{item.dcSpeed}
+                </foreach>
+            </trim>
+            <trim prefix="bi_run_count = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_elevator_id = #{item.vElevatorId} then #{item.biRunCount}
+                </foreach>
+            </trim>
+            <trim prefix="bi_door_count = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_elevator_id = #{item.vElevatorId} then #{item.biDoorCount}
+                </foreach>
+            </trim>
+            <trim prefix="bi_bend_count = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_elevator_id = #{item.vElevatorId} then #{item.biBendCount}
+                </foreach>
+            </trim>
+            <trim prefix="bi_level_trigger_count = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_elevator_id = #{item.vElevatorId} then #{item.biLevelTriggerCount}
+                </foreach>
+            </trim>
+            <trim prefix="bi_run_distance_count = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_elevator_id = #{item.vElevatorId} then #{item.biRunDistanceCount}
+                </foreach>
+            </trim>
+            <trim prefix="i_dt = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_elevator_id = #{item.vElevatorId} then #{item.iDt}
+                </foreach>
+            </trim>
+            <trim prefix="i_dt1 = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_elevator_id = #{item.vElevatorId} then #{item.iDt1}
+                </foreach>
+            </trim>
+            <trim prefix="i_dt2 = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_elevator_id = #{item.vElevatorId} then #{item.iDt2}
+                </foreach>
+            </trim>
+            <trim prefix="i_nps = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_elevator_id = #{item.vElevatorId} then #{item.iNps}
+                </foreach>
+            </trim>
+            <trim prefix="i_npr = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_elevator_id = #{item.vElevatorId} then #{item.iNpr}
+                </foreach>
+            </trim>
+            <trim prefix="dc_ndaj = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_elevator_id = #{item.vElevatorId} then #{item.dcNdaj}
+                </foreach>
+            </trim>
+            <trim prefix="i_angle = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_elevator_id = #{item.vElevatorId} then #{item.iAngle}
+                </foreach>
+            </trim>
+            <trim prefix="i_angle_type = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_elevator_id = #{item.vElevatorId} then #{item.iAngleType}
+                </foreach>
+            </trim>
+            <trim prefix="v_sgln_code = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_elevator_id = #{item.vElevatorId} then #{item.vSglnCode}
+                </foreach>
+            </trim>
+            <trim prefix="v_unit_code = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_elevator_id = #{item.vElevatorId} then #{item.vUnitCode}
+                </foreach>
+            </trim>
+            <trim prefix="v_leave_factory_number = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_elevator_id = #{item.vElevatorId} then #{item.vLeaveFactoryNumber}
+                </foreach>
+            </trim>
+            <trim prefix="v_manufacturer_code = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_elevator_id = #{item.vElevatorId} then #{item.vManufacturerCode}
+                </foreach>
+            </trim>
+            <trim prefix="v_equipment_code = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_elevator_id = #{item.vElevatorId} then #{item.vEquipmentCode}
+                </foreach>
+            </trim>
+            <trim prefix="v_registration_authority = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_elevator_id = #{item.vElevatorId} then #{item.vRegistrationAuthority}
+                </foreach>
+            </trim>
+            <trim prefix="v_registration_mechanism = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_elevator_id = #{item.vElevatorId} then #{item.vRegistrationMechanism}
+                </foreach>
+            </trim>
+            <trim prefix="v_registration_certificate_no = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_elevator_id = #{item.vElevatorId} then #{item.vRegistrationCertificateNo}
+                </foreach>
+            </trim>
+            <trim prefix="dt_create_time = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_elevator_id = #{item.vElevatorId} then #{item.dtCreateTime}
+                </foreach>
+            </trim>
+            <trim prefix="dt_modify_time = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_elevator_id = #{item.vElevatorId} then #{item.dtModifyTime}
+                </foreach>
+            </trim>
+            <trim prefix="v_create_user_id = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_elevator_id = #{item.vElevatorId} then #{item.vCreateUserId}
+                </foreach>
+            </trim>
+            <trim prefix="v_modify_user_id = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_elevator_id = #{item.vElevatorId} then #{item.vModifyUserId}
+                </foreach>
+            </trim>
+            <trim prefix="i_del_flag = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_elevator_id = #{item.vElevatorId} then #{item.iDelFlag}
+                </foreach>
+            </trim>
+
+            <trim prefix="night_watch_status = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_elevator_id = #{item.vElevatorId} then #{item.nightWatchStatus}
+                </foreach>
+            </trim>
+            <trim prefix="night_watch_start_time = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_elevator_id = #{item.vElevatorId} then #{item.nightWatchStartTime}
+                </foreach>
+            </trim>
+            <trim prefix="night_watch_end_time = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_elevator_id = #{item.vElevatorId} then #{item.nightWatchEndTime}
+                </foreach>
+            </trim>
+        </trim>
+        where v_elevator_id in
+        <foreach collection="list" index="index" item="item" separator="," open="(" close=")">
+            #{item.vElevatorId,jdbcType=VARCHAR}
+        </foreach>
+    </update>
+
+
+    <!--通过主键修改实体列表，列表长度不能为0，注意：当实体属性为null时，对应的列也会别更新为null-->
+    <update id="updateElevatorCodeBatch" parameterType="list">
+        update tbl_elevator
+        <trim prefix="set" suffixOverrides=",">
+            <trim prefix="v_elevator_code = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_equipment_code = #{item.vEquipmentCode} then #{item.vElevatorCode}
+                </foreach>
+            </trim>
+        </trim>
+        where v_equipment_code in
+        <foreach collection="list" index="index" item="item" separator="," open="(" close=")">
+            #{item.vEquipmentCode,jdbcType=VARCHAR}
+        </foreach>
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById" parameterType="java.lang.String">
+        delete
+        from tbl_elevator
+        where v_elevator_id = #{vElevatorId,jdbcType=VARCHAR}     </delete>
+
+    <!--通过实体非空属性删除-->
+    <delete id="deleteByEntity" parameterType="com.shmashine.common.entity.TblElevator">
+        delete from tbl_elevator
+        <where>
+            <if test="vElevatorCode != null">
+                and v_elevator_code = #{vElevatorCode,jdbcType=VARCHAR}
+            </if>
+            <if test="iProvinceId != null">
+                and i_province_id = #{iProvinceId,jdbcType=INTEGER}
+            </if>
+            <if test="iCityId != null">
+                and i_city_id = #{iCityId,jdbcType=INTEGER}
+            </if>
+            <if test="iAreaId != null">
+                and i_area_id = #{iAreaId,jdbcType=INTEGER}
+            </if>
+            <if test="vAddress != null">
+                and v_address = #{vAddress,jdbcType=VARCHAR}
+            </if>
+            <if test="iElevatorType != null">
+                and i_elevator_type = #{iElevatorType,jdbcType=INTEGER}
+            </if>
+            <if test="iElevatorUseType != null">
+                and i_elevator_use_type = #{iElevatorUseType,jdbcType=INTEGER}
+            </if>
+            <if test="iElevatorPlaceType != null">
+                and i_elevator_place_type = #{iElevatorPlaceType,jdbcType=INTEGER}
+            </if>
+            <if test="vElevatorBrandId != null">
+                and v_elevator_brand_id = #{vElevatorBrandId,jdbcType=VARCHAR}
+            </if>
+            <if test="iMaintainDays != null">
+                and i_maintain_days = #{iMaintainDays,jdbcType=INTEGER}
+            </if>
+            <if test="dLastMaintainDate != null">
+                and d_last_maintain_date = #{dLastMaintainDate,jdbcType=OTHER}
+            </if>
+            <if test="dNextMaintainDate != null">
+                and d_next_maintain_date = #{dNextMaintainDate,jdbcType=OTHER}
+            </if>
+            <if test="dLastInspectDate != null">
+                and d_last_inspect_date = #{dLastInspectDate,jdbcType=OTHER}
+            </if>
+            <if test="dNextInspectDate != null">
+                and d_next_inspect_date = #{dNextInspectDate,jdbcType=OTHER}
+            </if>
+            <if test="vMaintainCompanyId != null">
+                and v_maintain_company_id = #{vMaintainCompanyId,jdbcType=VARCHAR}
+            </if>
+            <if test="vPropertyCompanyId != null">
+                and v_property_company_id = #{vPropertyCompanyId,jdbcType=VARCHAR}
+            </if>
+            <if test="iGovernmentId != null">
+                and i_government_id = #{iGovernmentId,jdbcType=VARCHAR}
+            </if>
+            <if test="vMaintainPersonName != null">
+                and v_maintain_person_name = #{vMaintainPersonName,jdbcType=VARCHAR}
+            </if>
+            <if test="vMaintainPersonTel != null">
+                and v_maintain_person_tel = #{vMaintainPersonTel,jdbcType=VARCHAR}
+            </if>
+            <if test="vEmergencyPersonName != null">
+                and v_emergency_person_name = #{vEmergencyPersonName,jdbcType=VARCHAR}
+            </if>
+            <if test="vEmergencyPersonTel != null">
+                and v_emergency_person_tel = #{vEmergencyPersonTel,jdbcType=VARCHAR}
+            </if>
+            <if test="vHttpPtCodes != null">
+                and v_http_pt_codes = #{vHttpPtCodes,jdbcType=VARCHAR}
+            </if>
+            <if test="vLongitude != null">
+                and v_longitude = #{vLongitude,jdbcType=VARCHAR}
+            </if>
+            <if test="vLatitude != null">
+                and v_latitude = #{vLatitude,jdbcType=VARCHAR}
+            </if>
+            <if test="iCoordinateType != null">
+                and i_coordinate_type = #{iCoordinateType,jdbcType=INTEGER}
+            </if>
+            <if test="vProjectId != null">
+                and v_project_id = #{vProjectId,jdbcType=VARCHAR}
+            </if>
+            <if test="vVillageId != null">
+                and v_village_id = #{vVillageId,jdbcType=VARCHAR}
+            </if>
+            <if test="iInstallStatus != null">
+                and i_install_status = #{iInstallStatus,jdbcType=INTEGER}
+            </if>
+            <if test="dtInstallTime != null">
+                and dt_install_time = #{dtInstallTime,jdbcType=OTHER}
+            </if>
+            <if test="iOnLine != null">
+                and i_on_line = #{iOnLine,jdbcType=INTEGER}
+            </if>
+            <if test="iModeStatus != null">
+                and i_mode_status = #{iModeStatus,jdbcType=INTEGER}
+            </if>
+            <if test="iFaultStatus != null">
+                and i_fault_status = #{iFaultStatus,jdbcType=INTEGER}
+            </if>
+            <if test="iMaxFloor != null">
+                and i_max_floor = #{iMaxFloor,jdbcType=INTEGER}
+            </if>
+            <if test="iMinFloor != null">
+                and i_min_floor = #{iMinFloor,jdbcType=INTEGER}
+            </if>
+            <if test="vFloorDetail != null">
+                and v_floor_detail = #{vFloorDetail,jdbcType=VARCHAR}
+            </if>
+            <if test="vFloorSettingStatus != null">
+                and v_floor_setting_status = #{vFloorSettingStatus,jdbcType=VARCHAR}
+            </if>
+            <if test="dcSpeed != null">
+                and dc_speed = #{dcSpeed,jdbcType=NUMERIC}
+            </if>
+            <if test="biRunCount != null">
+                and bi_run_count = #{biRunCount,jdbcType=INTEGER}
+            </if>
+            <if test="biDoorCount != null">
+                and bi_door_count = #{biDoorCount,jdbcType=INTEGER}
+            </if>
+            <if test="biBendCount != null">
+                and bi_bend_count = #{biBendCount,jdbcType=INTEGER}
+            </if>
+            <if test="biLevelTriggerCount != null">
+                and bi_level_trigger_count = #{biLevelTriggerCount,jdbcType=INTEGER}
+            </if>
+            <if test="biRunDistanceCount != null">
+                and bi_run_distance_count = #{biRunDistanceCount,jdbcType=INTEGER}
+            </if>
+            <if test="iDt != null">
+                and i_dt = #{iDt,jdbcType=INTEGER}
+            </if>
+            <if test="iDt1 != null">
+                and i_dt1 = #{iDt1,jdbcType=INTEGER}
+            </if>
+            <if test="iDt2 != null">
+                and i_dt2 = #{iDt2,jdbcType=INTEGER}
+            </if>
+            <if test="iNps != null">
+                and i_nps = #{iNps,jdbcType=INTEGER}
+            </if>
+            <if test="iNpr != null">
+                and i_npr = #{iNpr,jdbcType=INTEGER}
+            </if>
+            <if test="dcNdaj != null">
+                and dc_ndaj = #{dcNdaj,jdbcType=NUMERIC}
+            </if>
+            <if test="iAngle != null">
+                and i_angle = #{iAngle,jdbcType=INTEGER}
+            </if>
+            <if test="iAngleType != null">
+                and i_angle_type = #{iAngleType,jdbcType=INTEGER}
+            </if>
+            <if test="vSglnCode != null">
+                and v_sgln_code = #{vSglnCode,jdbcType=VARCHAR}
+            </if>
+            <if test="vUnitCode != null">
+                and v_unit_code = #{vUnitCode,jdbcType=VARCHAR}
+            </if>
+            <if test="vLeaveFactoryNumber != null">
+                and v_leave_factory_number = #{vLeaveFactoryNumber,jdbcType=VARCHAR}
+            </if>
+            <if test="vManufacturerCode != null">
+                and v_manufacturer_code = #{vManufacturerCode,jdbcType=VARCHAR}
+            </if>
+            <if test="vEquipmentCode != null">
+                and v_equipment_code = #{vEquipmentCode,jdbcType=VARCHAR}
+            </if>
+            <if test="vRegistrationAuthority != null">
+                and v_registration_authority = #{vRegistrationAuthority,jdbcType=VARCHAR}
+            </if>
+            <if test="vRegistrationMechanism != null">
+                and v_registration_mechanism = #{vRegistrationMechanism,jdbcType=VARCHAR}
+            </if>
+            <if test="vRegistrationCertificateNo != null">
+                and v_registration_certificate_no = #{vRegistrationCertificateNo,jdbcType=VARCHAR}
+            </if>
+            <if test="dtCreateTime != null">
+                and dt_create_time = #{dtCreateTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="dtModifyTime != null">
+                and dt_modify_time = #{dtModifyTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="vCreateUserId != null">
+                and v_create_user_id = #{vCreateUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="vModifyUserId != null">
+                and v_modify_user_id = #{vModifyUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="iDelFlag != null">
+                and i_del_flag = #{iDelFlag,jdbcType=INTEGER}
+            </if>
+        </where>
+    </delete>
+
+    <!--通过主键列表删除，列表长度不能为0-->
+    <delete id="deleteByIds" parameterType="list">
+        delete from tbl_elevator where v_elevator_id in
+        <foreach item="item" collection="list" separator="," open="(" close=")" index="index">
+            #{item}
+        </foreach>
+    </delete>
+
+    <select id="countAll" resultType="int">
+        select count(v_elevator_id)
+        from tbl_elevator
+    </select>
+
+    <select id="countByEntity" parameterType="com.shmashine.common.entity.TblElevator" resultType="int">
+        select count(v_elevator_id) from tbl_elevator
+        <where>
+            <if test="vElevatorId != null">
+                and v_elevator_id = #{vElevatorId,jdbcType=VARCHAR}
+            </if>
+            <if test="vElevatorCode != null">
+                and v_elevator_code = #{vElevatorCode,jdbcType=VARCHAR}
+            </if>
+            <if test="iProvinceId != null">
+                and i_province_id = #{iProvinceId,jdbcType=INTEGER}
+            </if>
+            <if test="iCityId != null">
+                and i_city_id = #{iCityId,jdbcType=INTEGER}
+            </if>
+            <if test="iAreaId != null">
+                and i_area_id = #{iAreaId,jdbcType=INTEGER}
+            </if>
+            <if test="vAddress != null">
+                and v_address = #{vAddress,jdbcType=VARCHAR}
+            </if>
+            <if test="iElevatorType != null">
+                and i_elevator_type = #{iElevatorType,jdbcType=INTEGER}
+            </if>
+            <if test="iElevatorUseType != null">
+                and i_elevator_use_type = #{iElevatorUseType,jdbcType=INTEGER}
+            </if>
+            <if test="iElevatorPlaceType != null">
+                and i_elevator_place_type = #{iElevatorPlaceType,jdbcType=INTEGER}
+            </if>
+            <if test="vElevatorBrandId != null">
+                and v_elevator_brand_id = #{vElevatorBrandId,jdbcType=VARCHAR}
+            </if>
+            <if test="iMaintainDays != null">
+                and i_maintain_days = #{iMaintainDays,jdbcType=INTEGER}
+            </if>
+            <if test="dLastMaintainDate != null">
+                and d_last_maintain_date = #{dLastMaintainDate,jdbcType=OTHER}
+            </if>
+            <if test="dNextMaintainDate != null">
+                and d_next_maintain_date = #{dNextMaintainDate,jdbcType=OTHER}
+            </if>
+            <if test="dLastInspectDate != null">
+                and d_last_inspect_date = #{dLastInspectDate,jdbcType=OTHER}
+            </if>
+            <if test="dNextInspectDate != null">
+                and d_next_inspect_date = #{dNextInspectDate,jdbcType=OTHER}
+            </if>
+            <if test="vMaintainCompanyId != null">
+                and v_maintain_company_id = #{vMaintainCompanyId,jdbcType=VARCHAR}
+            </if>
+            <if test="vPropertyCompanyId != null">
+                and v_property_company_id = #{vPropertyCompanyId,jdbcType=VARCHAR}
+            </if>
+            <if test="iGovernmentId != null">
+                and i_government_id = #{iGovernmentId,jdbcType=VARCHAR}
+            </if>
+            <if test="vMaintainPersonName != null">
+                and v_maintain_person_name = #{vMaintainPersonName,jdbcType=VARCHAR}
+            </if>
+            <if test="vMaintainPersonTel != null">
+                and v_maintain_person_tel = #{vMaintainPersonTel,jdbcType=VARCHAR}
+            </if>
+            <if test="vEmergencyPersonName != null">
+                and v_emergency_person_name = #{vEmergencyPersonName,jdbcType=VARCHAR}
+            </if>
+            <if test="vEmergencyPersonTel != null">
+                and v_emergency_person_tel = #{vEmergencyPersonTel,jdbcType=VARCHAR}
+            </if>
+            <if test="vHttpPtCodes != null">
+                and v_http_pt_codes = #{vHttpPtCodes,jdbcType=VARCHAR}
+            </if>
+            <if test="vLongitude != null">
+                and v_longitude = #{vLongitude,jdbcType=VARCHAR}
+            </if>
+            <if test="vLatitude != null">
+                and v_latitude = #{vLatitude,jdbcType=VARCHAR}
+            </if>
+            <if test="iCoordinateType != null">
+                and i_coordinate_type = #{iCoordinateType,jdbcType=INTEGER}
+            </if>
+            <if test="vProjectId != null">
+                and v_project_id = #{vProjectId,jdbcType=VARCHAR}
+            </if>
+            <if test="vVillageId != null">
+                and v_village_id = #{vVillageId,jdbcType=VARCHAR}
+            </if>
+            <if test="iInstallStatus != null">
+                and i_install_status = #{iInstallStatus,jdbcType=INTEGER}
+            </if>
+            <if test="dtInstallTime != null">
+                and dt_install_time = #{dtInstallTime,jdbcType=OTHER}
+            </if>
+            <if test="iOnLine != null">
+                and i_on_line = #{iOnLine,jdbcType=INTEGER}
+            </if>
+            <if test="iModeStatus != null">
+                and i_mode_status = #{iModeStatus,jdbcType=INTEGER}
+            </if>
+            <if test="iFaultStatus != null">
+                and i_fault_status = #{iFaultStatus,jdbcType=INTEGER}
+            </if>
+            <if test="iMaxFloor != null">
+                and i_max_floor = #{iMaxFloor,jdbcType=INTEGER}
+            </if>
+            <if test="iMinFloor != null">
+                and i_min_floor = #{iMinFloor,jdbcType=INTEGER}
+            </if>
+            <if test="vFloorDetail != null">
+                and v_floor_detail = #{vFloorDetail,jdbcType=VARCHAR}
+            </if>
+            <if test="vFloorSettingStatus != null">
+                and v_floor_setting_status = #{vFloorSettingStatus,jdbcType=VARCHAR}
+            </if>
+            <if test="dcSpeed != null">
+                and dc_speed = #{dcSpeed,jdbcType=NUMERIC}
+            </if>
+            <if test="biRunCount != null">
+                and bi_run_count = #{biRunCount,jdbcType=INTEGER}
+            </if>
+            <if test="biDoorCount != null">
+                and bi_door_count = #{biDoorCount,jdbcType=INTEGER}
+            </if>
+            <if test="biBendCount != null">
+                and bi_bend_count = #{biBendCount,jdbcType=INTEGER}
+            </if>
+            <if test="biLevelTriggerCount != null">
+                and bi_level_trigger_count = #{biLevelTriggerCount,jdbcType=INTEGER}
+            </if>
+            <if test="biRunDistanceCount != null">
+                and bi_run_distance_count = #{biRunDistanceCount,jdbcType=INTEGER}
+            </if>
+            <if test="iDt != null">
+                and i_dt = #{iDt,jdbcType=INTEGER}
+            </if>
+            <if test="iDt1 != null">
+                and i_dt1 = #{iDt1,jdbcType=INTEGER}
+            </if>
+            <if test="iDt2 != null">
+                and i_dt2 = #{iDt2,jdbcType=INTEGER}
+            </if>
+            <if test="iNps != null">
+                and i_nps = #{iNps,jdbcType=INTEGER}
+            </if>
+            <if test="iNpr != null">
+                and i_npr = #{iNpr,jdbcType=INTEGER}
+            </if>
+            <if test="dcNdaj != null">
+                and dc_ndaj = #{dcNdaj,jdbcType=NUMERIC}
+            </if>
+            <if test="iAngle != null">
+                and i_angle = #{iAngle,jdbcType=INTEGER}
+            </if>
+            <if test="iAngleType != null">
+                and i_angle_type = #{iAngleType,jdbcType=INTEGER}
+            </if>
+            <if test="vSglnCode != null">
+                and v_sgln_code = #{vSglnCode,jdbcType=VARCHAR}
+            </if>
+            <if test="vUnitCode != null">
+                and v_unit_code = #{vUnitCode,jdbcType=VARCHAR}
+            </if>
+            <if test="vLeaveFactoryNumber != null">
+                and v_leave_factory_number = #{vLeaveFactoryNumber,jdbcType=VARCHAR}
+            </if>
+            <if test="vManufacturerCode != null">
+                and v_manufacturer_code = #{vManufacturerCode,jdbcType=VARCHAR}
+            </if>
+            <if test="vEquipmentCode != null">
+                and v_equipment_code = #{vEquipmentCode,jdbcType=VARCHAR}
+            </if>
+            <if test="vRegistrationAuthority != null">
+                and v_registration_authority = #{vRegistrationAuthority,jdbcType=VARCHAR}
+            </if>
+            <if test="vRegistrationMechanism != null">
+                and v_registration_mechanism = #{vRegistrationMechanism,jdbcType=VARCHAR}
+            </if>
+            <if test="vRegistrationCertificateNo != null">
+                and v_registration_certificate_no = #{vRegistrationCertificateNo,jdbcType=VARCHAR}
+            </if>
+            <if test="dtCreateTime != null">
+                and dt_create_time = #{dtCreateTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="dtModifyTime != null">
+                and dt_modify_time = #{dtModifyTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="vCreateUserId != null">
+                and v_create_user_id = #{vCreateUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="vModifyUserId != null">
+                and v_modify_user_id = #{vModifyUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="iDelFlag != null">
+                and i_del_flag = #{iDelFlag,jdbcType=INTEGER}
+            </if>
+        </where>
+    </select>
+
+    <!-- 查询codes电梯是否存在 -->
+    <select id="checkExistsByCodes" resultType="java.lang.String" parameterType="list">
+        select v_elevator_code
+        from tbl_elevator
+        where v_elevator_code in
+        <foreach item="item" collection="list" separator="," open="(" close=")" index="index">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="countWithPmStatus" parameterType="String" resultType="Map">
+        select ifnull(count(1), 0) as count,
+        i_pm_status as pmStatus,
+        case
+        when i_pm_status = 1 then "待现勘"
+        when i_pm_status = 2 then "待配货"
+        when i_pm_status = 3 then "待安装"
+        when i_pm_status = 4 then "待调测"
+        when i_pm_status = 5 then "待验收"
+        when i_pm_status = 6 then "运行中"
+        when i_pm_status = 7 then "托管"
+        when i_pm_status = 11 then "现勘中"
+        when i_pm_status = 12 then "配货中"
+        when i_pm_status = 13 then "安装中"
+        when i_pm_status = 14 then "调测中"
+        when i_pm_status = 15 then "验收中"
+        else "待现勘"
+        end
+        as pmStatusName
+        from tbl_elevator
+        where
+          v_village_id =
+        #{vVillageId}
+        and
+        i_del_flag
+        =
+        0
+        group
+        by
+        pmStatus
+    </select>
+
+    <select id="getRelatedInfoById" resultType="Map">
+        select project.v_project_name      as vProjectName,
+               village.v_village_name      as vVillageName,
+               dept.v_dept_name            as vDeptName,
+               elevator.v_elevator_name    as vElevatorName,
+               elevator.v_address          as vAddress,
+               elevator.v_equipment_code   as vEquipmentCode,
+               brand.v_elevator_brand_name as vElevatorBrandName
+        from tbl_elevator as elevator
+                 left join
+             tbl_elevator_brand brand on brand.v_elevator_brand_id = elevator.v_elevator_brand_id
+                 left join
+             tbl_project as project on elevator.v_project_id = project.v_project_id
+                 left join
+             tbl_village as village on elevator.v_village_id = village.v_village_id
+                 left join
+             tbl_sys_dept as dept on project.v_dept_id = dept.v_dept_id
+        where elevator.v_elevator_id = #{elevatorId}
+          and elevator.i_del_flag = 0
+    </select>
+</mapper>

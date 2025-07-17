@@ -1,0 +1,31 @@
+server:
+  port: 8005
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8008/eureka/
+  instance:
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+    # \u4F18\u5148\u4F7F\u7528IP\u5730\u5740\u65B9\u5F0F\u8FDB\u884C\u6CE8\u518C\u670D\u52A1
+    prefer-ip-address: true
+
+endpoint:
+  shmashine-camera-tysl: http://localhost:8014
+
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    #driverClassName: net.sf.log4jdbc.DriverSpy
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://rm-bp1n9d80pc03n1ag4qo.mysql.rds.aliyuncs.com:3306/elevator_master?useSSL=false&useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&autoReconnect=true&failOverReadOnly=false&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+    username: wuyanjie
+    password: Maixin480
+  boot:
+    admin:
+      client:
+        url: http://localhost:9999
+        username: shmashine
+        password: shmashine
+        instance:
+          service-url: http://localhost:8005

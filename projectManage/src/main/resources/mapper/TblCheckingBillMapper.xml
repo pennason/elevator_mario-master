@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.pm.api.dao.TblCheckingBillDao">
+    <resultMap id="BaseResultMap" type="com.shmashine.pm.api.entity.TblCheckingBill">
+        <id column="v_checking_bill_id" jdbcType="VARCHAR" property="vCheckingBillId"/>
+        <result column="v_checking_task_id" jdbcType="VARCHAR" property="vCheckingTaskId"/>
+        <result column="v_project_id" jdbcType="VARCHAR" property="vProjectId"/>
+        <result column="v_village_id" jdbcType="VARCHAR" property="vVillageId"/>
+        <result column="v_elevator_code" jdbcType="VARCHAR" property="vElevatorCode"/>
+        <result column="i_status" jdbcType="INTEGER" property="iStatus"/>
+        <result column="v_remark" jdbcType="VARCHAR" property="vRemark"/>
+        <result column="dt_create_time" jdbcType="TIMESTAMP" property="dtCreateTime"/>
+        <result column="dt_modify_time" jdbcType="TIMESTAMP" property="dtModifyTime"/>
+        <result column="v_create_user_id" jdbcType="VARCHAR" property="vCreateUserId"/>
+        <result column="v_modify_user_id" jdbcType="VARCHAR" property="vModifyUserId"/>
+        <result column="i_del_flag" jdbcType="BIT" property="iDelFlag"/>
+        <result property="vDeviceType" column="v_device_type" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="fieldsTable">
+        `v_checking_bill_id`
+        , `v_checking_task_id`, `v_project_id`, `v_village_id`,
+        `v_elevator_code`, `i_status`, `v_remark`, `dt_create_time`, `dt_modify_time`, `v_create_user_id`,
+        `v_modify_user_id`, `i_del_flag`, `v_device_type`
+    </sql>
+
+    <select id="selectListByEntity" parameterType="com.shmashine.pm.api.entity.TblCheckingBill"
+            resultMap="BaseResultMap">
+        select
+        <include refid="fieldsTable"/>
+        from tbl_checking_bill
+        <where>
+            <if test="vCheckingTaskId != null and vCheckingTaskId != ''">
+                and v_checking_task_id = #{vCheckingTaskId, jdbcType=VARCHAR}
+            </if>
+            <if test="vProjectId != null and vProjectId != ''">
+                and v_project_id = #{vProjectId, jdbcType=VARCHAR}
+            </if>
+            <if test="vVillageId != null and vVillageId != ''">
+                and v_village_id = #{vVillageId, jdbcType=VARCHAR}
+            </if>
+            <if test="iStatus != null">
+                and i_status = #{iStatus, jdbcType=INTEGER}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectByCheckingTaskId" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="fieldsTable"/>
+        from
+        tbl_checking_bill
+        where
+        `v_checking_task_id` = #{vCheckingTaskId,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectByElevatorCode" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="fieldsTable"/>
+        from tbl_checking_bill
+        where `v_elevator_code` = #{vElevatorCode,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectByBillId" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="fieldsTable"/>
+        from
+        tbl_checking_bill
+        where
+        `v_checking_bill_id` = #{vCheckingBillId,jdbcType=VARCHAR}
+    </select>
+
+    <insert id="insert" parameterType="com.shmashine.pm.api.entity.TblCheckingBill">
+        insert into tbl_checking_bill
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="vCheckingBillId != null">
+                `v_checking_bill_id`,
+            </if>
+            <if test="vCheckingTaskId != null">
+                `v_checking_task_id`,
+            </if>
+            <if test="vProjectId != null">
+                `v_project_id`,
+            </if>
+            <if test="vVillageId != null">
+                `v_village_id`,
+            </if>
+            <if test="vElevatorCode != null">
+                `v_elevator_code`,
+            </if>
+            <if test="iStatus != null">
+                `i_status`,
+            </if>
+            <if test="vRemark != null">
+                `v_remark`,
+            </if>
+            <if test="dtCreateTime != null">
+                `dt_create_time`,
+            </if>
+            <if test="dtModifyTime != null">
+                `dt_modify_time`,
+            </if>
+            <if test="vCreateUserId != null">
+                `v_create_user_id`,
+            </if>
+            <if test="vModifyUserId != null">
+                `v_modify_user_id`,
+            </if>
+            <if test="iDelFlag != null">
+                `i_del_flag`,
+            </if>
+            <if test="vDeviceType != null and vDeviceType != ''">
+                `v_device_type`,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="vCheckingBillId != null">
+                #{vCheckingBillId,jdbcType=VARCHAR},
+            </if>
+            <if test="vCheckingTaskId != null">
+                #{vCheckingTaskId,jdbcType=VARCHAR},
+            </if>
+            <if test="vProjectId != null">
+                #{vProjectId,jdbcType=VARCHAR},
+            </if>
+            <if test="vVillageId != null">
+                #{vVillageId,jdbcType=VARCHAR},
+            </if>
+            <if test="vElevatorCode != null">
+                #{vElevatorCode,jdbcType=VARCHAR},
+            </if>
+            <if test="iStatus != null">
+                #{iStatus,jdbcType=INTEGER},
+            </if>
+            <if test="vRemark != null">
+                #{vRemark,jdbcType=VARCHAR},
+            </if>
+            <if test="dtCreateTime != null">
+                #{dtCreateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="dtModifyTime != null">
+                #{dtModifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="vCreateUserId != null">
+                #{vCreateUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="vModifyUserId != null">
+                #{vModifyUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="iDelFlag != null">
+                #{iDelFlag,jdbcType=BIT},
+            </if>
+            <if test="vDeviceType != null and vDeviceType != ''">
+                #{vDeviceType, jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <insert id="batchInsert" parameterType="List">
+        insert into tbl_checking_bill (`v_checking_bill_id`, `v_checking_task_id`,
+        `v_project_id`, `v_village_id`, `v_elevator_code`,
+        `i_status`, `v_remark`, `dt_create_time`,
+        `dt_modify_time`, `v_create_user_id`, `v_modify_user_id`,
+        `i_del_flag`, `v_device_type`)
+        values
+        <foreach collection="list" index="index" item="item" separator="," open="" close="">
+            (#{item.vCheckingBillId,jdbcType=VARCHAR},
+            #{item.vCheckingTaskId,jdbcType=VARCHAR},
+            #{item.vProjectId,jdbcType=VARCHAR},
+            #{item.vVillageId,jdbcType=VARCHAR},
+            #{item.vElevatorCode,jdbcType=VARCHAR},
+            #{item.iStatus,jdbcType=INTEGER},
+            #{item.vRemark,jdbcType=VARCHAR},
+            #{item.dtCreateTime,jdbcType=TIMESTAMP},
+            #{item.dtModifyTime,jdbcType=TIMESTAMP},
+            #{item.vCreateUserId,jdbcType=VARCHAR},
+            #{item.vModifyUserId,jdbcType=VARCHAR},
+            #{item.iDelFlag,jdbcType=BIT},
+            #{item.vDeviceType, jdbcType=VARCHAR}
+            )
+        </foreach>
+    </insert>
+
+    <update id="update" parameterType="com.shmashine.pm.api.entity.TblCheckingBill">
+        update tbl_checking_bill
+        <set>
+            <if test="vCheckingTaskId != null">
+                `v_checking_task_id` = #{vCheckingTaskId,jdbcType=VARCHAR},
+            </if>
+            <if test="vProjectId != null">
+                `v_project_id` = #{vProjectId,jdbcType=VARCHAR},
+            </if>
+            <if test="vVillageId != null">
+                `v_village_id` = #{vVillageId,jdbcType=VARCHAR},
+            </if>
+            <if test="vElevatorCode != null">
+                `v_elevator_code` = #{vElevatorCode,jdbcType=VARCHAR},
+            </if>
+            <if test="iStatus != null">
+                `i_status` = #{iStatus,jdbcType=INTEGER},
+            </if>
+            <if test="vRemark != null">
+                `v_remark` = #{vRemark,jdbcType=VARCHAR},
+            </if>
+            <if test="dtCreateTime != null">
+                `dt_create_time` = #{dtCreateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="dtModifyTime != null">
+                `dt_modify_time` = #{dtModifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="vCreateUserId != null">
+                `v_create_user_id` = #{vCreateUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="vModifyUserId != null">
+                `v_modify_user_id` = #{vModifyUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="iDelFlag != null">
+                `i_del_flag` = #{iDelFlag,jdbcType=BIT},
+            </if>
+            <if test="vDeviceType != null and vDeviceType != ''">
+                v_device_type = #{vDeviceType, jdbcType=VARCHAR},
+            </if>
+        </set>
+        where `v_checking_bill_id` = #{vCheckingBillId,jdbcType=VARCHAR}
+    </update>
+
+    <select id="getAllStatus" parameterType="String" resultType="Integer">
+        select
+        i_status
+        from
+        tbl_checking_bill
+        <where>
+            <if test="vCheckingTaskId != null and vCheckingTaskId != ''">
+                and v_checking_task_id = #{vCheckingTaskId, jdbcType=VARCHAR}
+            </if>
+            <if test="vVillageId != null and vVillageId != ''">
+                and v_village_id = #{vVillageId, jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectByBillModule" parameterType="com.shmashine.pm.api.module.testingBill.input.TestingBillModule"
+            resultType="Map">
+        select
+        bill.v_checking_bill_id,
+        bill.v_checking_task_id,
+        bill.v_elevator_code,
+        bill.v_device_type,
+        case
+        when bill.i_status = 1 then "验收中"
+        when bill.i_status = 2 then "已验收"
+        when bill.i_status = 11 then "需调整"
+        when bill.i_status = -1 then "已取消"
+        else "无"
+        end as v_status_name,
+        bill.i_status as iStatus,
+        elevator.v_elevator_name,
+        elevator.v_address,
+        elevator.v_equipment_code,
+        elevator.i_elevator_type,
+        elevator.v_elevator_id,
+        case
+        when elevator.i_elevator_type = 1 then "直梯"
+        when elevator.i_elevator_type = 2 then "扶梯"
+        else "直梯"
+        end as v_elevator_type_name
+        from
+        tbl_checking_bill as bill
+        inner join
+        tbl_elevator as elevator on bill.v_elevator_code = elevator.v_elevator_code
+        <where>
+            <if test="vElevatorCode != null and vElevatorCode !=''">
+                and bill.v_elevator_code = #{vElevatorCode}
+            </if>
+            <if test="vCheckingTaskId != null and vCheckingTaskId != ''">
+                and bill.v_checking_task_id = #{vCheckingTaskId}
+            </if>
+            <if test="vCheckingBillId != null and vCheckingBillId != ''">
+                and bill.v_checking_bill_id = #{vCheckingBillId}
+            </if>
+        </where>
+    </select>
+
+</mapper>

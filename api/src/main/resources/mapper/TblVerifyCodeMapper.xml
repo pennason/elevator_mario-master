@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.api.dao.TblVerifyCodeDao">
+    <resultMap id="VerifyCodeMap" type="com.shmashine.api.entity.TblVerifyCode">
+        <result property="iCid" column="i_cid"/>
+        <result property="vUserId" column="v_user_id"/>
+        <result property="vMobile" column="v_mobile"/>
+        <result property="iStatus" column="i_status"/>
+        <result property="iType" column="i_type"/>
+        <result property="dtExpiredTime" column="dt_expired_time"/>
+        <result property="dtCreateTime" column="dt_create_time"/>
+        <result property="dtModifyTime" column="dt_modify_time"/>
+        <result property="iDelFlag" column="i_del_flag"/>
+        <result property="vCode" column="v_code"/>
+    </resultMap>
+
+    <sql id="fields">
+        select i_cid,
+               v_user_id,
+               v_mobile,
+               i_status,
+               i_type,
+               dt_expired_time,
+               dt_create_time,
+               dt_modify_time,
+               i_del_flag,
+               v_code
+    </sql>
+
+    <select id="findRecord" resultMap="VerifyCodeMap">
+        <include refid="fields"/>
+        from
+        tbl_verify_code
+        where
+        v_mobile = #{mobileNum}
+        and
+        i_type = #{type}
+        order by dt_create_time desc
+        limit 0, 1
+    </select>
+
+    <insert id="insertRecord" keyProperty="iCid" useGeneratedKeys="true"
+            parameterType="com.shmashine.api.entity.TblVerifyCode">
+        insert into tbl_verify_code
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="iCid != null">
+                v_cid,
+            </if>
+            <if test="vUserId != null and vUserId != ''">
+                v_user_id,
+            </if>
+            <if test="vMobile != null and vMobile != ''">
+                v_mobile,
+            </if>
+            <if test="iStatus != null">
+                i_status,
+            </if>
+            <if test="iType != null">
+                i_type,
+            </if>
+            <if test="dtExpiredTime != null">
+                dt_expired_time,
+            </if>
+            <if test="dtCreateTime != null">
+                dt_create_time,
+            </if>
+            <if test="dtModifyTime != null">
+                dt_modify_time
+            </if>
+            <if test="iDelFlag != null">
+                i_del_flag
+            </if>
+            <if test="vCode != null and vCode != ''">
+                v_code
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="iCid != null">
+                #{iCid},
+            </if>
+            <if test="vUserId != null and vUserId != ''">
+                #{vUserId},
+            </if>
+            <if test="vMobile != null and vMobile != ''">
+                #{vMobile},
+            </if>
+            <if test="iStatus != null">
+                #{iStatus},
+            </if>
+            <if test="iType != null">
+                #{iType},
+            </if>
+            <if test="dtExpiredTime != null">
+                #{dtExpiredTime},
+            </if>
+            <if test="dtCreateTime != null">
+                #{dtCreateTime},
+            </if>
+            <if test="dtModifyTime != null">
+                #{dtModifyTime}
+            </if>
+            <if test="iDelFlag != null">
+                #{iDelFlag}
+            </if>
+            <if test="vCode != null and vCode != ''">
+                #{vCode}
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateRecord" parameterType="com.shmashine.api.entity.TblVerifyCode">
+        update tbl_verify_code
+        <set>
+            <if test="iStatus != null">
+                i_status = #{iStatus},
+            </if>
+            <if test="dtModifyTime != null">
+                dt_modify_time = #{dtModifyTime},
+            </if>
+            <if test="iDelFlag != null">
+                i_del_flag = #{iDelFlag},
+            </if>
+        </set>
+        where i_cid = #{iCid}
+    </update>
+
+    <delete id="deleteRecord" parameterType="Long">
+        delete
+        from tbl_verify_code
+        where i_cid = #{iCid}
+    </delete>
+</mapper>

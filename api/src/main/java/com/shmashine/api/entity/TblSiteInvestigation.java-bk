@@ -1,0 +1,470 @@
+package com.shmashine.api.entity;
+
+import cn.afterturn.easypoi.excel.annotation.Excel;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
+import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
+
+public class TblSiteInvestigation implements Serializable {
+
+    private static final long serialVersionUID = -8986139027135007116L;
+
+    /** 现勘表主键id */
+    private String vSiteInvestigationId;
+
+    /** 项目id */
+    @Excel(name = "项目id")
+    private String vProjectId;
+
+    /**电梯id*/
+    @Excel(name = "电梯id")
+    private String vElevatorId;
+
+    private String vElevatorCode;
+
+    private String vProjectName;
+
+    /** 电梯品牌 */
+    @Excel(name = "电梯品牌")
+    private String vElevatorBrand;
+
+    /** 现勘所在地址 */
+    @Excel(name = "现勘所在地址")
+    private String vAddress;
+
+    /** 现勘电梯楼层 */
+    @Excel(name = "现勘电梯楼层")
+    private Integer iFloor;
+
+    /** 电梯使用单位 */
+    @Excel(name = "电梯使用单位")
+    private String vUsedUnit;
+
+    /** 电梯使用单位电话 */
+    @Excel(name = "电梯使用单位电话")
+    private String vUsedUnitTel;
+
+    /** 电梯维保单位 */
+    @Excel(name = "电梯维保单位")
+    private String vMaintenanceUnit;
+
+    /** 电梯维保单位联系人 */
+    @Excel(name = "电梯维保单位联系人")
+    private String vMainUnitContact;
+
+    /** 电梯桥顶220v供电 */
+    @Excel(name = "电梯桥顶220v供电")
+    private Integer iCarroof220v;
+
+    /** 电梯平层开关安装位置 */
+    @Excel(name = "电梯平层开关安装位置")
+    private String vFloorSwitchLoc;
+
+    /** 电梯是否感应人 */
+    @Excel(name = "电梯是否感应人")
+    private Integer iInductPerson;
+
+    /** 电梯内是否有摄像头安装位置 */
+    @Excel(name = "电梯内是否有摄像头安装位置")
+    private Integer iCameraLoc;
+
+    /** 井道内是否有无线信号覆盖 */
+    @Excel(name = "井道内是否有无线信号覆盖")
+    private Integer iWellWifi;
+
+    /** 机房是否有220v供电 */
+    @Excel(name = "机房是否有220v供电")
+    private Integer iMachRoom220v;
+
+    /** 扁电缆是否是2根空载线 */
+    @Excel(name = "扁电缆是否是2根空载线")
+    private Integer iNoloadLine;
+
+    /** 机房是否无线信号强烈 */
+    @Excel(name = "机房是否无线信号强烈")
+    private Integer iMachRoomStrengthWifi;
+
+    /** 机房外是否有可以上网宽带 */
+    @Excel(name = "机房外是否有可以上网宽带")
+    private Integer iMachRoomEth;
+
+    /** 电梯是否有检修信号线 */
+    @Excel(name = "电梯是否有检修信号线")
+    private Integer iCheckSignLine;
+
+    /** 其他情况说明 */
+    @Excel(name = "其他情况说明")
+    private String vOtherNote;
+
+    /** 备注 */
+    @Excel(name = "备注")
+    private String vRemark;
+
+    /** 勘测人 */
+    @Excel(name = "勘测人")
+    private String vWorker;
+
+    /** 日期 */
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date dtDate;
+
+    /** 新建日期 */
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date dtCreateAt;
+
+    /** 修改日期 */
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date dtModifyAt;
+
+    @Excel(name = "状态")
+    private Integer iStatus;
+
+    private Integer iDelFlag;
+
+    private List<TblSysFile> images;
+
+    @JsonProperty("vElevatorCode")
+    public String getvElevatorCode() {
+        return vElevatorCode;
+    }
+
+    public void setvElevatorCode(String vElevatorCode) {
+        this.vElevatorCode = vElevatorCode;
+    }
+
+    @JsonProperty("vProjectName")
+    public String getvProjectName() {
+        return vProjectName;
+    }
+
+    public void setvProjectName(String vProjectName) {
+        this.vProjectName = vProjectName;
+    }
+
+    @JsonProperty("iStatus")
+    public Integer getiStatus() {
+        return iStatus;
+    }
+
+    public void setiStatus(Integer iStatus) {
+        this.iStatus = iStatus;
+    }
+
+    @JsonProperty("iDelFlag")
+    public Integer getiDelFlag() {
+        return iDelFlag;
+    }
+
+    public void setiDelFlag(Integer iDelFlag) {
+        this.iDelFlag = iDelFlag;
+    }
+
+    public void setvSiteInvestigationId(String vSiteInvestigationId)
+    {
+        this.vSiteInvestigationId = vSiteInvestigationId;
+    }
+
+    @JsonProperty("vSiteInvestigationId")
+    public String getvSiteInvestigationId()
+    {
+        return vSiteInvestigationId;
+    }
+    public void setvProjectId(String vProjectId)
+    {
+        this.vProjectId = vProjectId;
+    }
+
+    @JsonProperty("vProjectId")
+    public String getvProjectId()
+    {
+        return vProjectId;
+    }
+    public void setvElevatorBrand(String vElevatorBrand)
+    {
+        this.vElevatorBrand = vElevatorBrand;
+    }
+
+    @JsonProperty("vElevatorBrand")
+    public String getvElevatorBrand()
+    {
+        return vElevatorBrand;
+    }
+    public void setvAddress(String vAddress)
+    {
+        this.vAddress = vAddress;
+    }
+
+    @JsonProperty("vAddress")
+    public String getvAddress()
+    {
+        return vAddress;
+    }
+    public void setiFloor(Integer iFloor)
+    {
+        this.iFloor = iFloor;
+    }
+
+    @JsonProperty("iFloor")
+    public Integer getiFloor()
+    {
+        return iFloor;
+    }
+    public void setvUsedUnit(String vUsedUnit)
+    {
+        this.vUsedUnit = vUsedUnit;
+    }
+
+    @JsonProperty("vUsedUnit")
+    public String getvUsedUnit()
+    {
+        return vUsedUnit;
+    }
+    public void setvUsedUnitTel(String vUsedUnitTel)
+    {
+        this.vUsedUnitTel = vUsedUnitTel;
+    }
+
+    @JsonProperty("vUsedUnitTel")
+    public String getvUsedUnitTel()
+    {
+        return vUsedUnitTel;
+    }
+    public void setvMaintenanceUnit(String vMaintenanceUnit)
+    {
+        this.vMaintenanceUnit = vMaintenanceUnit;
+    }
+
+    @JsonProperty("vMaintenanceUnit")
+    public String getvMaintenanceUnit()
+    {
+        return vMaintenanceUnit;
+    }
+    public void setvMainUnitContact(String vMainUnitContact)
+    {
+        this.vMainUnitContact = vMainUnitContact;
+    }
+
+    @JsonProperty("vMainUnitContact")
+    public String getvMainUnitContact()
+    {
+        return vMainUnitContact;
+    }
+    public void setiCarroof220v(Integer iCarroof220v)
+    {
+        this.iCarroof220v = iCarroof220v;
+    }
+
+    @JsonProperty("iCarroof220v")
+    public Integer getiCarroof220v()
+    {
+        return iCarroof220v;
+    }
+    public void setvFloorSwitchLoc(String vFloorSwitchLoc)
+    {
+        this.vFloorSwitchLoc = vFloorSwitchLoc;
+    }
+
+    @JsonProperty("vFloorSwitchLoc")
+    public String getvFloorSwitchLoc()
+    {
+        return vFloorSwitchLoc;
+    }
+    public void setiInductPerson(Integer iInductPerson)
+    {
+        this.iInductPerson = iInductPerson;
+    }
+
+    @JsonProperty("iInductPerson")
+    public Integer getiInductPerson()
+    {
+        return iInductPerson;
+    }
+    public void setiCameraLoc(Integer iCameraLoc)
+    {
+        this.iCameraLoc = iCameraLoc;
+    }
+
+    @JsonProperty("iCameraLoc")
+    public Integer getiCameraLoc()
+    {
+        return iCameraLoc;
+    }
+    public void setiWellWifi(Integer iWellWifi)
+    {
+        this.iWellWifi = iWellWifi;
+    }
+
+    @JsonProperty("iWellWifi")
+    public Integer getiWellWifi()
+    {
+        return iWellWifi;
+    }
+    public void setiMachRoom220v(Integer iMachRoom220v)
+    {
+        this.iMachRoom220v = iMachRoom220v;
+    }
+
+    @JsonProperty("iMachRoom220v")
+    public Integer getiMachRoom220v()
+    {
+        return iMachRoom220v;
+    }
+    public void setiNoloadLine(Integer iNoloadLine)
+    {
+        this.iNoloadLine = iNoloadLine;
+    }
+
+    @JsonProperty("iNoloadLine")
+    public Integer getiNoloadLine()
+    {
+        return iNoloadLine;
+    }
+    public void setiMachRoomStrengthWifi(Integer iMachRoomStrengthWifi)
+    {
+        this.iMachRoomStrengthWifi = iMachRoomStrengthWifi;
+    }
+
+    @JsonProperty("iMachRoomStrengthWifi")
+    public Integer getiMachRoomStrengthWifi()
+    {
+        return iMachRoomStrengthWifi;
+    }
+    public void setiMachRoomEth(Integer iMachRoomEth)
+    {
+        this.iMachRoomEth = iMachRoomEth;
+    }
+
+    @JsonProperty("iMachRoomEth")
+    public Integer getiMachRoomEth()
+    {
+        return iMachRoomEth;
+    }
+    public void setiCheckSignLine(Integer iCheckSignLine)
+    {
+        this.iCheckSignLine = iCheckSignLine;
+    }
+
+    @JsonProperty("iCheckSignLine")
+    public Integer getiCheckSignLine()
+    {
+        return iCheckSignLine;
+    }
+    public void setvOtherNote(String vOtherNote)
+    {
+        this.vOtherNote = vOtherNote;
+    }
+
+    @JsonProperty("vOtherNote")
+    public String getvOtherNote()
+    {
+        return vOtherNote;
+    }
+    public void setvRemark(String vRemark)
+    {
+        this.vRemark = vRemark;
+    }
+
+    @JsonProperty("vRemark")
+    public String getvRemark()
+    {
+        return vRemark;
+    }
+    public void setvWorker(String vWorker)
+    {
+        this.vWorker = vWorker;
+    }
+
+    @JsonProperty("vWorker")
+    public String getvWorker()
+    {
+        return vWorker;
+    }
+    public void setDtDate(Date dtDate)
+    {
+        this.dtDate = dtDate;
+    }
+
+    @JsonProperty("dtDate")
+    public Date getDtDate()
+    {
+        return dtDate;
+    }
+    public void setDtCreateAt(Date dtCreateAt)
+    {
+        this.dtCreateAt = dtCreateAt;
+    }
+
+    @JsonProperty("dtCreateAt")
+    public Date getDtCreateAt()
+    {
+        return dtCreateAt;
+    }
+    public void setDtModifyAt(Date dtModifyAt)
+    {
+        this.dtModifyAt = dtModifyAt;
+    }
+
+    @JsonProperty("dtModifyAt")
+    public Date getDtModifyAt()
+    {
+        return dtModifyAt;
+    }
+
+    @JsonProperty("vElevatorId")
+    public String getvElevatorId() {
+        return vElevatorId;
+    }
+
+    public void setvElevatorId(String vElevatorId) {
+        this.vElevatorId = vElevatorId;
+    }
+
+    @JsonProperty("images")
+    public List<TblSysFile> getImages() {
+        return images;
+    }
+
+    public void setImages(List<TblSysFile> images) {
+        this.images = images;
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
+                .append("vSiteInvestigationId", getvSiteInvestigationId())
+                .append("vProjectId", getvProjectId())
+                .append("vElevatorId", getvElevatorId())
+                .append("vElevatorBrand", getvElevatorBrand())
+                .append("vAddress", getvAddress())
+                .append("iFloor", getiFloor())
+                .append("vUsedUnit", getvUsedUnit())
+                .append("vUsedUnitTel", getvUsedUnitTel())
+                .append("vMaintenanceUnit", getvMaintenanceUnit())
+                .append("vMainUnitContact", getvMainUnitContact())
+                .append("iCarroof220v", getiCarroof220v())
+                .append("vFloorSwitchLoc", getvFloorSwitchLoc())
+                .append("iInductPerson", getiInductPerson())
+                .append("iCameraLoc", getiCameraLoc())
+                .append("iWellWifi", getiWellWifi())
+                .append("iMachRoom220v", getiMachRoom220v())
+                .append("iNoloadLine", getiNoloadLine())
+                .append("iMachRoomStrengthWifi", getiMachRoomStrengthWifi())
+                .append("iMachRoomEth", getiMachRoomEth())
+                .append("iCheckSignLine", getiCheckSignLine())
+                .append("vOtherNote", getvOtherNote())
+                .append("vRemark", getvRemark())
+                .append("vWorker", getvWorker())
+                .append("dtDate", getDtDate())
+                .append("dtCreateAt", getDtCreateAt())
+                .append("dtModifyAt", getDtModifyAt())
+                .append("vProjectName", getvProjectName())
+                .append("vElevatorCode", getvElevatorCode())
+                .append("iStatus", getiStatus())
+                .toString();
+    }
+}

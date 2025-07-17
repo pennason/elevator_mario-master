@@ -1,0 +1,14 @@
+server:
+  port: 8100
+
+spring:
+  consumer:
+    bootstrap-servers: kafka.pro.internal.shmashine.com:9092
+    group-id: kafka-forward-prod
+
+  redis:
+    database: 2
+    host: redis.tech.shmashine.com
+    port: 6379
+    password: shmashine@666
+    timeout: 5000

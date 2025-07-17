@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.pm.api.dao.TblDeviceDao">
+
+    <resultMap type="com.shmashine.pm.api.entity.TblDevice" id="TblDeviceResultMap">
+        <result property="vDeviceId" column="v_device_id" jdbcType="VARCHAR"/>
+        <result property="vDeviceCode" column="v_device_code" jdbcType="VARCHAR"/>
+        <result property="vSensorType" column="v_sensor_type" jdbcType="VARCHAR"/>
+        <result property="vElevatorId" column="v_elevator_id" jdbcType="VARCHAR"/>
+        <result property="vElevatorCode" column="v_elevator_code" jdbcType="VARCHAR"/>
+        <result property="vElevatorAddress" column="v_elevator_address" jdbcType="VARCHAR"/>
+        <result property="iInstallStatus" column="i_install_status" jdbcType="INTEGER"/>
+        <result property="dtStartRunTime" column="dt_start_run_time" jdbcType="TIMESTAMP"/>
+        <result property="iOnlineStatus" column="i_online_status" jdbcType="INTEGER"/>
+        <result property="dtOnlineTime" column="dt_online_time" jdbcType="TIMESTAMP"/>
+        <result property="dtOfflineTime" column="dt_offline_time" jdbcType="TIMESTAMP"/>
+        <result property="dtRebootTime" column="dt_reboot_time" jdbcType="TIMESTAMP"/>
+        <result property="vServerIp" column="v_server_ip" jdbcType="VARCHAR"/>
+        <result property="iBattery" column="i_battery" jdbcType="INTEGER"/>
+        <result property="vHwVersion" column="v_hw_version" jdbcType="VARCHAR"/>
+        <result property="vSwVersion" column="v_sw_version" jdbcType="VARCHAR"/>
+        <result property="vFwVersion" column="v_fw_version" jdbcType="VARCHAR"/>
+        <result property="vMasterVersion" column="v_master_version" jdbcType="VARCHAR"/>
+        <result property="vSlaveVersion" column="v_slave_version" jdbcType="VARCHAR"/>
+        <result property="vUpdateMethod" column="v_update_method" jdbcType="VARCHAR"/>
+        <result property="vCcid" column="v_ccid" jdbcType="VARCHAR"/>
+        <result property="vImei" column="v_imei" jdbcType="VARCHAR"/>
+        <result property="iNetworkType" column="i_network_type" jdbcType="INTEGER"/>
+        <result property="vDeviceUsername" column="v_device_username" jdbcType="VARCHAR"/>
+        <result property="vDevicePassword" column="v_device_password" jdbcType="VARCHAR"/>
+        <result property="vAliiotKey" column="v_aliiot_key" jdbcType="VARCHAR"/>
+        <result property="vAliiotSecret" column="v_aliiot_secret" jdbcType="VARCHAR"/>
+        <result property="vAliiotTopic" column="v_aliiot_topic" jdbcType="VARCHAR"/>
+        <result property="vXhnbToUsr" column="v_xhnb_to_usr" jdbcType="VARCHAR"/>
+        <result property="vXhnbBrakeStartTime" column="v_xhnb_brake_start_time" jdbcType="VARCHAR"/>
+        <result property="vXhnbBrakeStopTime" column="v_xhnb_brake_stop_time" jdbcType="VARCHAR"/>
+        <result property="vXhnbBrakeDelayTime" column="v_xhnb_brake_delay_time" jdbcType="VARCHAR"/>
+        <result property="vXhnbBrakeContinueTime" column="v_xhnb_brake_continue_time" jdbcType="VARCHAR"/>
+        <result property="dtCreateTime" column="dt_create_time" jdbcType="TIMESTAMP"/>
+        <result property="dtModifyTime" column="dt_modify_time" jdbcType="TIMESTAMP"/>
+        <result property="vCreateUserId" column="v_create_user_id" jdbcType="VARCHAR"/>
+        <result property="vModifyUserId" column="v_modify_user_id" jdbcType="VARCHAR"/>
+        <result property="iDelFlag" column="i_del_flag" jdbcType="INTEGER"/>
+        <result property="eType" column="eType" jdbcType="VARCHAR"/>
+        <result property="protocalVersion" column="protocalVersion" jdbcType="VARCHAR"/>
+        <result property="vDevicePosition" column="v_device_position" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="table_field">
+        v_device_id
+        , v_device_code, v_sensor_type, v_elevator_id, v_elevator_code, v_elevator_address, i_install_status, dt_start_run_time, i_online_status, dt_online_time, dt_offline_time, dt_reboot_time, v_server_ip, i_battery, v_hw_version, v_sw_version, v_fw_version, v_master_version, v_slave_version, v_update_method, v_ccid, v_imei, i_network_type, v_device_username, v_device_password, v_aliiot_key, v_aliiot_secret, v_aliiot_topic, v_xhnb_to_usr, v_xhnb_brake_start_time, v_xhnb_brake_stop_time, v_xhnb_brake_delay_time, v_xhnb_brake_continue_time, dt_create_time, dt_modify_time, v_create_user_id, v_modify_user_id, i_del_flag, eType, protocalVersion, v_device_position
+    </sql>
+
+    <select id="selectByEntity" parameterType="com.shmashine.pm.api.entity.TblDevice" resultMap="TblDeviceResultMap">
+        select
+        <include refid="table_field"/>
+        from
+        tbl_device
+        <where>
+            <if test="vElevatorId != null and vElevatorId != ''">
+                v_elevator_id = #{vElevatorId, jdbcType=VARCHAR}
+            </if>
+            <if test="vElevatorCode != null and vElevatorCode != ''">
+                v_elevator_code = #{vElevatorCode, jdbcType=VARCHAR}
+            </if>
+            <if test="vDeviceId != null and vDeviceId != ''">
+                v_device_id = #{vDeviceId, jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectByDeviceId" parameterType="java.lang.String" resultMap="TblDeviceResultMap">
+        select
+        <include refid="table_field"/>
+        from
+        tbl_device
+        where
+        v_device_id = #{vDeviceId, jdbcType=VARCHAR}
+    </select>
+
+    <!--新增实体属性不为null的列-->
+    <insert id="insert" keyProperty="vDeviceId" useGeneratedKeys="true"
+            parameterType="com.shmashine.pm.api.entity.TblDevice">
+        insert into tbl_device
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="vDeviceId != null">
+                v_device_id,
+            </if>
+            <if test="vDeviceCode != null">
+                v_device_code,
+            </if>
+            <if test="vSensorType != null">
+                v_sensor_type,
+            </if>
+            <if test="vElevatorId != null">
+                v_elevator_id,
+            </if>
+            <if test="vElevatorCode != null">
+                v_elevator_code,
+            </if>
+            <if test="vElevatorAddress != null">
+                v_elevator_address,
+            </if>
+            <if test="iInstallStatus != null">
+                i_install_status,
+            </if>
+            <if test="dtStartRunTime != null">
+                dt_start_run_time,
+            </if>
+            <if test="iOnlineStatus != null">
+                i_online_status,
+            </if>
+            <if test="dtOnlineTime != null">
+                dt_online_time,
+            </if>
+            <if test="dtOfflineTime != null">
+                dt_offline_time,
+            </if>
+            <if test="dtRebootTime != null">
+                dt_reboot_time,
+            </if>
+            <if test="vServerIp != null">
+                v_server_ip,
+            </if>
+            <if test="iBattery != null">
+                i_battery,
+            </if>
+            <if test="vHwVersion != null">
+                v_hw_version,
+            </if>
+            <if test="vSwVersion != null">
+                v_sw_version,
+            </if>
+            <if test="vFwVersion != null">
+                v_fw_version,
+            </if>
+            <if test="vMasterVersion != null">
+                v_master_version,
+            </if>
+            <if test="vSlaveVersion != null">
+                v_slave_version,
+            </if>
+            <if test="vUpdateMethod != null">
+                v_update_method,
+            </if>
+            <if test="vCcid != null">
+                v_ccid,
+            </if>
+            <if test="vImei != null">
+                v_imei,
+            </if>
+            <if test="iNetworkType != null">
+                i_network_type,
+            </if>
+            <if test="vDeviceUsername != null">
+                v_device_username,
+            </if>
+            <if test="vDevicePassword != null">
+                v_device_password,
+            </if>
+            <if test="vAliiotKey != null">
+                v_aliiot_key,
+            </if>
+            <if test="vAliiotSecret != null">
+                v_aliiot_secret,
+            </if>
+            <if test="vAliiotTopic != null">
+                v_aliiot_topic,
+            </if>
+            <if test="vXhnbToUsr != null">
+                v_xhnb_to_usr,
+            </if>
+            <if test="vXhnbBrakeStartTime != null">
+                v_xhnb_brake_start_time,
+            </if>
+            <if test="vXhnbBrakeStopTime != null">
+                v_xhnb_brake_stop_time,
+            </if>
+            <if test="vXhnbBrakeDelayTime != null">
+                v_xhnb_brake_delay_time,
+            </if>
+            <if test="vXhnbBrakeContinueTime != null">
+                v_xhnb_brake_continue_time,
+            </if>
+            <if test="dtCreateTime != null">
+                dt_create_time,
+            </if>
+            <if test="dtModifyTime != null">
+                dt_modify_time,
+            </if>
+            <if test="vCreateUserId != null">
+                v_create_user_id,
+            </if>
+            <if test="vModifyUserId != null">
+                v_modify_user_id,
+            </if>
+            <if test="iDelFlag != null">
+                i_del_flag,
+            </if>
+            <if test="eType != null and eType != ''">
+                eType,
+            </if>
+            <if test="protocalVersion != null and protocalVersion != ''">
+                protocalVersion,
+            </if>
+            <if test="vDevicePosition != null and vDevicePosition != ''">
+                v_device_position,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="vDeviceId != null">
+                #{vDeviceId,jdbcType=VARCHAR},
+            </if>
+            <if test="vDeviceCode != null">
+                #{vDeviceCode,jdbcType=VARCHAR},
+            </if>
+            <if test="vSensorType != null">
+                #{vSensorType,jdbcType=VARCHAR},
+            </if>
+            <if test="vElevatorId != null">
+                #{vElevatorId,jdbcType=VARCHAR},
+            </if>
+            <if test="vElevatorCode != null">
+                #{vElevatorCode,jdbcType=VARCHAR},
+            </if>
+            <if test="vElevatorAddress != null">
+                #{vElevatorAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="iInstallStatus != null">
+                #{iInstallStatus,jdbcType=INTEGER},
+            </if>
+            <if test="dtStartRunTime != null">
+                #{dtStartRunTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="iOnlineStatus != null">
+                #{iOnlineStatus,jdbcType=INTEGER},
+            </if>
+            <if test="dtOnlineTime != null">
+                #{dtOnlineTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="dtOfflineTime != null">
+                #{dtOfflineTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="dtRebootTime != null">
+                #{dtRebootTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="vServerIp != null">
+                #{vServerIp,jdbcType=VARCHAR},
+            </if>
+            <if test="iBattery != null">
+                #{iBattery,jdbcType=INTEGER},
+            </if>
+            <if test="vHwVersion != null">
+                #{vHwVersion,jdbcType=VARCHAR},
+            </if>
+            <if test="vSwVersion != null">
+                #{vSwVersion,jdbcType=VARCHAR},
+            </if>
+            <if test="vFwVersion != null">
+                #{vFwVersion,jdbcType=VARCHAR},
+            </if>
+            <if test="vMasterVersion != null">
+                #{vMasterVersion,jdbcType=VARCHAR},
+            </if>
+            <if test="vSlaveVersion != null">
+                #{vSlaveVersion,jdbcType=VARCHAR},
+            </if>
+            <if test="vUpdateMethod != null">
+                #{vUpdateMethod,jdbcType=VARCHAR},
+            </if>
+            <if test="vCcid != null">
+                #{vCcid,jdbcType=VARCHAR},
+            </if>
+            <if test="vImei != null">
+                #{vImei,jdbcType=VARCHAR},
+            </if>
+            <if test="iNetworkType != null">
+                #{iNetworkType,jdbcType=INTEGER},
+            </if>
+            <if test="vDeviceUsername != null">
+                #{vDeviceUsername,jdbcType=VARCHAR},
+            </if>
+            <if test="vDevicePassword != null">
+                #{vDevicePassword,jdbcType=VARCHAR},
+            </if>
+            <if test="vAliiotKey != null">
+                #{vAliiotKey,jdbcType=VARCHAR},
+            </if>
+            <if test="vAliiotSecret != null">
+                #{vAliiotSecret,jdbcType=VARCHAR},
+            </if>
+            <if test="vAliiotTopic != null">
+                #{vAliiotTopic,jdbcType=VARCHAR},
+            </if>
+            <if test="vXhnbToUsr != null">
+                #{vXhnbToUsr,jdbcType=VARCHAR},
+            </if>
+            <if test="vXhnbBrakeStartTime != null">
+                #{vXhnbBrakeStartTime,jdbcType=VARCHAR},
+            </if>
+            <if test="vXhnbBrakeStopTime != null">
+                #{vXhnbBrakeStopTime,jdbcType=VARCHAR},
+            </if>
+            <if test="vXhnbBrakeDelayTime != null">
+                #{vXhnbBrakeDelayTime,jdbcType=VARCHAR},
+            </if>
+            <if test="vXhnbBrakeContinueTime != null">
+                #{vXhnbBrakeContinueTime,jdbcType=VARCHAR},
+            </if>
+            <if test="dtCreateTime != null">
+                #{dtCreateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="dtModifyTime != null">
+                #{dtModifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="vCreateUserId != null">
+                #{vCreateUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="vModifyUserId != null">
+                #{vModifyUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="iDelFlag != null">
+                #{iDelFlag,jdbcType=INTEGER},
+            </if>
+            <if test="eType != null and eType != ''">
+                #{eType,jdbcType=VARCHAR},
+            </if>
+            <if test="protocalVersion != null and protocalVersion != ''">
+                #{protocalVersion, jdbcType=VARCHAR},
+            </if>
+            <if test="vDevicePosition != null and vDevicePosition != ''">
+                #{vDevicePosition, jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+</mapper>

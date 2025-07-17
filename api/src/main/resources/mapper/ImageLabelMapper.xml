@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.api.dao.ImageLabelMapper">
+    <sql id="TABLE_NAME">
+        image_labels
+    </sql>
+    <sql id="BASE_COLUMNS">
+        `fault_id`
+        , `elevator_id`, `elevator_code`, `collect_time`, `file_id`, `file_oss_url`, `mark_type`, `mark_need`, `mark_content`
+    </sql>
+    <sql id="ALL_COLUMNS">
+        id,<include refid="BASE_COLUMNS"/>, create_time, modify_time
+    </sql>
+
+    <sql id="SET_COLUMNS">
+        <if test="entity.fileId != null and entity.fileId != ''">file_id = #{entity.fileId},</if>
+        <if test="entity.fileOssUrl != null and entity.fileOssUrl != ''">file_oss_url = #{entity.fileOssUrl},</if>
+        <if test="entity.markType != null">mark_type = #{entity.markType},</if>
+        <if test="entity.markNeed != null">mark_need = #{entity.markNeed},</if>
+        <if test="entity.markContent != null and entity.markContent != ''">mark_content = #{entity.markContent},</if>
+    </sql>
+
+    <!-- 查询 -->
+    <!-- 根据id获取标注信息 -->
+    <select id="getById" resultType="com.shmashine.common.entity.ImageLabelsEntity">
+        SELECT
+        <include refid="ALL_COLUMNS"/>
+        FROM
+        <include refid="TABLE_NAME"/>
+        WHERE id = #{id}
+    </select>
+    <!-- 根据故障id获取标注信息 -->
+    <select id="getByFaultId" resultType="com.shmashine.common.entity.ImageLabelsEntity">
+        SELECT
+        <include refid="ALL_COLUMNS"/>
+        FROM
+        <include refid="TABLE_NAME"/>
+        WHERE fault_id = #{faultId}
+    </select>
+
+
+    <!-- 新增 -->
+    <insert id="insertEntity" useGeneratedKeys="true" keyProperty="id"
+            parameterType="com.shmashine.common.entity.ImageLabelsEntity">
+        INSERT INTO
+        <include refid="TABLE_NAME"/>
+        (<include refid="BASE_COLUMNS"/>)
+        VALUES
+        (#{entity.faultId}, #{entity.elevatorId}, #{entity.elevatorCode}, #{entity.collectTime}, #{entity.fileId},
+        #{entity.fileOssUrl},
+        #{entity.markType}, #{entity.markNeed}, #{entity.markContent})
+        ON DUPLICATE KEY UPDATE
+        <trim suffixOverrides=",">
+            <include refid="SET_COLUMNS"/>
+        </trim>
+    </insert>
+
+    <!-- 更新 -->
+    <update id="updateEntity" parameterType="com.shmashine.common.entity.ImageLabelsEntity">
+        UPDATE
+        <include refid="TABLE_NAME"/>
+        <set>
+            <include refid="SET_COLUMNS"/>
+        </set>
+        WHERE id = #{entity.id}
+    </update>
+
+    <!-- 删除 -->
+
+
+    <!-- 获取助动车未标注的相关记录 -->
+    <select id="getNoLabelRoundImagesForElectricBike" resultType="com.shmashine.common.dto.ImageLabelNotMarkDTO">
+        SELECT u.v_fault_id      AS fault_id
+             , u.v_elevator_code AS elevator_code
+             , u.dt_report_time  AS collect_time
+             , f.v_url           AS file_oss_url
+             , 37                AS `mark_type`
+        FROM tbl_fault_uncivilized_behavior37 AS u
+                 INNER JOIN tbl_sys_file AS f ON u.v_fault_id = f.v_business_id
+        WHERE u.i_confirm_status != 0 AND u.has_mark_label = 0 AND f.v_file_type = 0 AND f.i_business_type = 2
+        ORDER BY u.dt_report_time DESC
+            LIMIT #{pageSize}
+    </select>
+
+    <!-- 从助动车故障表 tbl_fault_uncivilized_behavior37 与 tbl_sys_file 中 获取 故障信息明细 -->
+    <select id="getSourceByFaultId" resultType="com.shmashine.common.entity.ImageLabelsEntity">
+        SELECT u.v_fault_id      AS fault_id
+             , u.v_elevator_id   AS elevator_id
+             , u.v_elevator_code AS elevator_code
+             , u.dt_report_time  AS collect_time
+             , f.v_file_id       AS file_id
+             , f.v_url           AS file_oss_url
+             , 37                AS `mark_type`
+        FROM tbl_fault_uncivilized_behavior37 AS u
+                 INNER JOIN tbl_sys_file AS f
+                            ON u.v_fault_id = f.v_business_id and f.v_file_type = 0 and f.i_business_type = 2
+        WHERE u.v_fault_id = #{faultId}
+    </select>
+</mapper>

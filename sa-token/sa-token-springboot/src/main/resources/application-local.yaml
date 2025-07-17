@@ -1,0 +1,36 @@
+server:
+  port: 8081
+
+# sa-token 配置
+sa-token:
+  # 配置 Sa-Token 单独使用的 Redis 连接
+  alone-redis:
+    database: 13  # 默认13
+    host: 10.0.0.113
+    port: 6379
+    password: shmashine@666
+    timeout: 5000
+
+--- #################### 数据库相关配置 ####################
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driverClassName: com.mysql.cj.jdbc.Driver
+    name: elevator_master
+    url: jdbc:mysql://10.0.0.113:3306/${spring.datasource.name}?useSSL=false&allowPublicKeyRetrieval=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&nullCatalogMeansCurrent=true
+    username: root
+    password: shmashine@666
+  redis:
+    host: 10.0.0.113 # 地址
+    port: 6379 # 端口
+    database: 2 # 数据库索引
+    password: shmashine@666  # 密码，建议生产环境开启
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:8080/eureka/
+  instance:
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+    # 优先使用IP地址方式进行注册服务
+    prefer-ip-address: true

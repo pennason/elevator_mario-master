@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.pm.api.dao.TblDistributionTaskDao">
+    <resultMap type="com.shmashine.pm.api.entity.TblDistributionTask" id="TblDistributionTaskResultMap">
+        <result property="vDistributionTaskId" column="v_distribution_task_id" jdbcType="VARCHAR"/>
+        <result property="vProjectId" column="v_project_id" jdbcType="VARCHAR"/>
+        <result property="vVillageId" column="v_village_id" jdbcType="VARCHAR"/>
+        <result property="vPrincipalId" column="v_principal_id" jdbcType="VARCHAR"/>
+        <result property="iElevatorCount" column="i_elevator_count" jdbcType="INTEGER"/>
+        <result property="iStatus" column="i_status" jdbcType="INTEGER"/>
+        <result property="vTemplateFileUrl" column="v_template_file_url" jdbcType="VARCHAR"/>
+        <result property="vAddress" column="v_address" jdbcType="VARCHAR"/>
+        <result property="dtCreateTime" column="dt_create_time" jdbcType="TIMESTAMP"/>
+        <result property="dtModifyTime" column="dt_modify_time" jdbcType="TIMESTAMP"/>
+        <result property="vCreateUserId" column="v_create_user_id" jdbcType="VARCHAR"/>
+        <result property="vModifyUserId" column="v_modify_user_id" jdbcType="VARCHAR"/>
+        <result property="iDelFlag" column="i_del_flag" jdbcType="INTEGER"/>
+        <result property="iNextStep" column="i_next_step" jdbcType="INTEGER"/>
+        <result property="vInitElevatorCode" column="v_init_elevator_code" jdbcType="VARCHAR"/>
+        <result property="vInitVerifyCode" column="v_init_verify_code" jdbcType="VARCHAR"/>
+        <result property="iShortcut" column="i_shortcut" jdbcType="INTEGER"/>
+        <result property="iCubeCount" column="i_cube_count" jdbcType="INTEGER"/>
+        <result property="vDistributerName" column="v_distributer_name" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="table_field">
+        v_distribution_task_id
+        , v_project_id, v_village_id, v_principal_id, i_elevator_count, i_status, v_address, v_template_file_url, dt_create_time, dt_modify_time, v_create_user_id, v_modify_user_id, i_del_flag, i_next_step, v_init_elevator_code, v_init_verify_code, i_shortcut, i_cube_count, v_distributer_name
+    </sql>
+
+    <!--通过Id查询单个-->
+    <select id="getById" resultMap="TblDistributionTaskResultMap" parameterType="java.lang.String">
+        select
+        <include refid="table_field"/>
+        from tbl_distribution_task
+        where tbl_distribution_task.v_distribution_task_id = #{vDistributionTaskId, jdbcType=VARCHAR}
+    </select>
+
+    <!--通过实体不为空的属性作为筛选条件查询列表-->
+    <select id="listByEntity" resultMap="TblDistributionTaskResultMap"
+            parameterType="com.shmashine.pm.api.entity.TblDistributionTask">
+        select
+        <include refid="table_field"/>
+        from tbl_distribution_task
+        <where>
+            <if test="vDistributionTaskId != null and vDistributionTaskId != ''">
+                and tbl_distribution_task.v_distribution_task_id = #{vDistributionTaskId, jdbcType=VARCHAR}
+            </if>
+            <if test="vProjectId != null and vProjectId != ''">
+                and tbl_distribution_task.v_project_id = #{vProjectId, jdbcType=VARCHAR}
+            </if>
+            <if test="vVillageId != null and vVillageId != ''">
+                and tbl_distribution_task.v_village_id = #{vVillageId, jdbcType=VARCHAR}
+            </if>
+            <if test="vPrincipalId != null and vPrincipalId != ''">
+                and tbl_distribution_task.v_principal_id = #{vPrincipal_id, jdbcType=VARCHAR}
+            </if>
+            <if test="iElevatorCount != null">
+                and tbl_distribution_task.i_elevator_count = #{iElevatorCount,jdbcType=INTEGER}
+            </if>
+            <if test="iStatus != null">
+                and tbl_distribution_task.i_status = #{iStatus,jdbcType=INTEGER}
+            </if>
+            <if test="vTemplateFileUrl != null">
+                and tbl_distribution_task.v_template_file_url = #{vTemplateFileUrl,jdbcType=VARCHAR}
+            </if>
+            <if test="vAddress != null">
+                and tbl_distribution_task.v_address = #{vAddress,jdbcType=VARCHAR}
+            </if>
+            <if test="dtCreateTime != null">
+                and tbl_distribution_task.dt_create_time = #{dtCreateTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="dtModifyTime != null">
+                and tbl_distribution_task.dt_modify_time = #{dtModifyTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="vCreateUserId != null">
+                and tbl_distribution_task.v_create_user_id = #{vCreateUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="vModifyUserId != null">
+                and tbl_distribution_task.v_modify_user_id = #{vModifyUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="iDelFlag != null">
+                and tbl_distribution_task.i_del_flag = #{iDelFlag,jdbcType=INTEGER}
+            </if>
+            <if test="iNextStep != null">
+                and tbl_distribution_task.i_next_step = #{iNextStep,jdbcType=INTEGER}
+            </if>
+        </where>
+    </select>
+
+    <!--通过实体不为空的属性作为筛选条件查询单个-->
+    <select id="getByEntity" resultMap="TblDistributionTaskResultMap"
+            parameterType="com.shmashine.pm.api.entity.TblDistributionTask">
+        select
+        <include refid="table_field"/>
+        from tbl_distribution_task
+        <where>
+            <if test="vDistributionTaskId != null and vDistributionTaskId != ''">
+                and tbl_distribution_task.v_distribution_task_id = #{vDistributionTaskId, jdbcType=VARCHAR}
+            </if>
+            <if test="vProjectId != null and vProjectId != ''">
+                and tbl_distribution_task.v_project_id = #{vProjectId, jdbcType=VARCHAR}
+            </if>
+            <if test="vVillageId != null and vVillageId != ''">
+                and tbl_distribution_task.v_village_id = #{vVillageId, jdbcType=VARCHAR}
+            </if>
+            <if test="vPrincipalId != null and vPrincipalId != ''">
+                and tbl_distribution_task.v_principal_id = #{vPrincipalId, jdbcType=VARCHAR}
+            </if>
+            <if test="iElevatorCount != null">
+                and tbl_distribution_task.i_elevator_count = #{iElevatorCount,jdbcType=INTEGER}
+            </if>
+            <if test="iStatus != null">
+                and tbl_distribution_task.i_status = #{iStatus,jdbcType=INTEGER}
+            </if>
+            <if test="vTemplateFileUrl != null">
+                and tbl_distribution_task.v_template_file_url = #{vTemplateFileUrl,jdbcType=VARCHAR}
+            </if>
+            <if test="dtCreateTime != null">
+                and tbl_distribution_task.dt_create_time = #{dtCreateTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="dtModifyTime != null">
+                and tbl_distribution_task.dt_modify_time = #{dtModifyTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="vCreateUserId != null">
+                and tbl_distribution_task.v_create_user_id = #{vCreateUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="vModifyUserId != null">
+                and tbl_distribution_task.v_modify_user_id = #{vModifyUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="iDelFlag != null">
+                and tbl_distribution_task.i_del_flag = #{iDelFlag,jdbcType=INTEGER}
+            </if>
+        </where>
+        limit 0,1
+    </select>
+
+    <!--新增实体属性不为null的列-->
+    <insert id="insert" keyProperty="vDistributionTaskId" useGeneratedKeys="true"
+            parameterType="com.shmashine.pm.api.entity.TblDistributionTask">
+        insert into tbl_distribution_task
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="vDistributionTaskId != null and vDistributionTaskId != ''">
+                v_distribution_task_id,
+            </if>
+            <if test="vProjectId != null and vProjectId != ''">
+                v_project_id,
+            </if>
+            <if test="vVillageId != null and vVillageId != ''">
+                v_village_id,
+            </if>
+            <if test="vPrincipalId != null and vPrincipalId != ''">
+                v_principal_id,
+            </if>
+            <if test="iElevatorCount != null">
+                i_elevator_count,
+            </if>
+            <if test="iStatus != null">
+                i_status,
+            </if>
+            <if test="vTemplateFileUrl != null">
+                v_template_file_url,
+            </if>
+            <if test="vAddress != null">
+                v_address,
+            </if>
+            <if test="dtCreateTime != null">
+                dt_create_time,
+            </if>
+            <if test="dtModifyTime != null">
+                dt_modify_time,
+            </if>
+            <if test="vCreateUserId != null">
+                v_create_user_id,
+            </if>
+            <if test="vModifyUserId != null">
+                v_modify_user_id,
+            </if>
+            <if test="iDelFlag != null">
+                i_del_flag,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="vDistributionTaskId != null and vDistributionTaskId != ''">
+                #{vDistributionTaskId, jdbcType=VARCHAR},
+            </if>
+            <if test="vProjectId != null and vProjectId != ''">
+                #{vProjectId, jdbcType=VARCHAR},
+            </if>
+            <if test="vVillageId != null and vVillageId != ''">
+                #{vVillageId, jdbcType=VARCHAR},
+            </if>
+            <if test="vPrincipalId != null and vPrincipalId != ''">
+                #{vPrincipalId, jdbcType=VARCHAR},
+            </if>
+            <if test="iElevatorCount != null">
+                #{iElevatorCount, jdbcType=INTEGER},
+            </if>
+            <if test="iStatus != null">
+                #{iStatus, jdbcType=INTEGER},
+            </if>
+            <if test="vTemplateFileUrl != null">
+                #{vTemplateFileUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="vAddress != null">
+                #{vAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="dtCreateTime != null">
+                #{dtCreateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="dtModifyTime != null">
+                #{dtModifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="vCreateUserId != null">
+                #{vCreateUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="vModifyUserId != null">
+                #{vModifyUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="iDelFlag != null">
+                #{iDelFlag,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+
+    <!--通过主键修改实体属性不为null的列-->
+    <update id="update" parameterType="com.shmashine.pm.api.entity.TblProject">
+        update tbl_distribution_task
+        <set>
+            <if test="vDistributionTaskId != null and vDistributionTaskId != ''">
+                v_distribution_task_id = #{vDistributionTaskId, jdbcType=VARCHAR},
+            </if>
+            <if test="vProjectId != null and vProjectId != ''">
+                v_project_id = #{vProjectId, jdbcType=VARCHAR},
+            </if>
+            <if test="vVillageId != null and vVillageId != ''">
+                v_village_id = #{vVillageId, jdbcType=VARCHAR},
+            </if>
+            <if test="vPrincipalId != null and vPrincipalId != ''">
+                v_principal_id = #{vPrincipalId, jdbcType=VARCHAR},
+            </if>
+            <if test="iElevatorCount != null">
+                i_elevator_count = #{iElevatorCount, jdbcType=INTEGER},
+            </if>
+            <if test="iStatus != null">
+                i_status = #{iStatus, jdbcType=INTEGER},
+            </if>
+            <if test="vTemplateFileUrl != null">
+                v_template_file_url = #{vTemplateFileUrl, jdbcType=VARCHAR},
+            </if>
+            <if test="vAddress != null">
+                v_address = #{vAddress, jdbcType=VARCHAR},
+            </if>
+            <if test="dtCreateTime != null">
+                dt_create_time = #{dtCreateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="dtModifyTime != null">
+                dt_modify_time = #{dtModifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="vCreateUserId != null and vCreateUserId != ''">
+                v_create_user_id = #{vCreateUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="vModifyUserId != null and vModifyUserId != ''">
+                v_modify_user_id = #{vModifyUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="iDelFlag != null">
+                i_del_flag = #{iDelFlag,jdbcType=INTEGER},
+            </if>
+            <if test="iNextStep != null">
+                i_next_step = #{iNextStep,jdbcType=INTEGER},
+            </if>
+            <if test="vInitElevatorCode != null and vInitElevatorCode != ''">
+                v_init_elevator_code = #{vInitElevatorCode,jdbcType=VARCHAR},
+            </if>
+            <if test="vInitVerifyCode != null and vInitVerifyCode != ''">
+                v_init_verify_code = #{vInitVerifyCode,jdbcType=VARCHAR},
+            </if>
+            <if test="iShortcut != null">
+                i_shortcut = #{iShortcut,jdbcType=INTEGER},
+            </if>
+            <if test="iCubeCount != null">
+                i_cube_count = #{iCubeCount, jdbcType=INTEGER},
+            </if>
+            <if test="vDistributerName != null and vDistributerName != ''">
+                v_distributer_name = #{vDistributerName, jdbcType=VARCHAR},
+            </if>
+        </set>
+        where v_distribution_task_id = #{vDistributionTaskId,jdbcType=VARCHAR}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById" parameterType="java.lang.String">
+        delete
+        from tbl_distribution_task
+        where v_distribution_task_id = #{vDistributionTaskId,jdbcType=VARCHAR}
+    </delete>
+
+    <select id="countAll" resultType="int">
+        select count(v_distribution_task_id)
+        from tbl_distribution_task
+    </select>
+
+    <select id="countByStatus" resultType="Map">
+        select count(1) as count,
+        case
+        when i_status = 1 then '未完成'
+        when i_status = 2 then '配货中'
+        when i_status = 3 then '完成'
+        when i_status = -1 then '已取消'
+        end
+        as statusName
+        from tbl_distribution_task
+        where i_del_flag = 0
+        group by statusName
+    </select>
+</mapper>

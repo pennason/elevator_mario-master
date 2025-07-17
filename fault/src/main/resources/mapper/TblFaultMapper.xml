@@ -1,0 +1,1206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.fault.fault.dao.TblFaultDao">
+
+    <resultMap type="com.shmashine.fault.fault.entity.TblFault" id="TblFaultResultMap">
+        <result property="vFaultId" column="v_fault_id" jdbcType="VARCHAR"/>
+        <result property="vElevatorId" column="v_elevator_id" jdbcType="VARCHAR"/>
+        <result property="vElevatorCode" column="v_elevator_code" jdbcType="VARCHAR"/>
+        <result property="vAddress" column="v_address" jdbcType="VARCHAR"/>
+        <result property="dtReportTime" column="dt_report_time" jdbcType="TIMESTAMP"/>
+        <result property="dtEndTime" column="dt_end_time" jdbcType="TIMESTAMP"/>
+        <result property="iFaultType" column="i_fault_type" jdbcType="INTEGER"/>
+        <result property="vFaultName" column="v_fault_name" jdbcType="VARCHAR"/>
+        <result property="iLevel" column="i_level" jdbcType="INTEGER"/>
+        <result property="iLevelName" column="i_level_name" jdbcType="VARCHAR"/>
+        <result property="iFaultNum" column="i_fault_num" jdbcType="INTEGER"/>
+        <result property="iStatus" column="i_status" jdbcType="INTEGER"/>
+        <result property="iModeStatus" column="i_mode_status" jdbcType="INTEGER"/>
+        <result property="floor" column="i_floor" jdbcType="INTEGER"/>
+        <result property="iDurationTime" column="i_duration_time" jdbcType="INTEGER"/>
+        <result property="iManualClear" column="i_manual_clear" jdbcType="INTEGER"/>
+        <result property="iIsUserVisible" column="i_is_user_visible" jdbcType="INTEGER"/>
+        <result property="dtCreateTime" column="dt_create_time" jdbcType="TIMESTAMP"/>
+        <result property="dtModifyTime" column="dt_modify_time" jdbcType="TIMESTAMP"/>
+        <result property="vCreateUserId" column="v_create_user_id" jdbcType="VARCHAR"/>
+        <result property="vModifyUserId" column="v_modify_user_id" jdbcType="VARCHAR"/>
+        <result property="iDelFlag" column="i_del_flag" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="table_field">
+        v_fault_id
+        , v_elevator_id,i_uncivilized_behavior_flag,i_floor,v_elevator_code, v_address, dt_report_time, dt_end_time, i_fault_type, v_fault_name, i_level, i_level_name, i_fault_num, i_status, i_mode_status, i_duration_time, i_manual_clear, i_is_user_visible, dt_create_time, dt_modify_time, v_create_user_id, v_modify_user_id, i_del_flag
+    </sql>
+
+    <!--通过Id查询单个-->
+    <select id="getById" resultMap="TblFaultResultMap" parameterType="java.lang.String">
+        select
+        <include refid="table_field"/>
+        from tbl_fault
+        where v_fault_id = #{vFaultId,jdbcType=VARCHAR}
+    </select>
+
+    <!--通过Id查询传感器故障-->
+    <select id="getSenSorFaultById" resultType="com.shmashine.common.entity.TblSenSorFault"
+            parameterType="java.lang.String">
+        select
+        <include refid="table_field"/>
+        from tbl_sensor_fault
+        where v_fault_id = #{vFaultId,jdbcType=VARCHAR}
+    </select>
+
+
+    <!-- 通过电梯编号和故障类型，查找故障中的记录 -->
+    <select id="getInFaultByFaultTypeAndSecondType" resultType="com.shmashine.fault.fault.entity.TblFault">
+        select
+        <include refid="table_field"/>
+        from tbl_fault
+        where i_status = 0
+        and v_elevator_code = #{elevatorCode,jdbcType=VARCHAR}
+        and i_fault_type = #{faultType,jdbcType=VARCHAR}
+        and v_fault_second_type = #{faultSecondType,jdbcType=VARCHAR}
+    </select>
+
+    <!-- 通过电梯编号和故障类型，查找故障中的记录 -->
+    <select id="getInFaultByFaultType" resultType="com.shmashine.fault.fault.entity.TblFault">
+        select
+        <include refid="table_field"/>
+        from tbl_fault
+        where i_status = 0
+        and v_elevator_code = #{elevatorCode,jdbcType=VARCHAR}
+        and i_fault_type = #{faultType,jdbcType=VARCHAR}
+    </select>
+
+    <!-- 通过电梯编号和故障类型，查找故障中的记录 -->
+    <select id="getInSensorFaultByFaultType" resultType="com.shmashine.common.entity.TblSenSorFault">
+        select
+        <include refid="table_field"/>
+        from tbl_sensor_fault
+        where
+        dt_report_time &gt;= DATE_FORMAT(NOW(),'%Y-%m-%d')
+        and v_elevator_code = #{elevatorCode,jdbcType=VARCHAR}
+        and i_fault_type = #{faultType,jdbcType=VARCHAR}
+    </select>
+
+    <!-- 通过电梯编号，查找故障中的记录 -->
+    <select id="getInFault" resultType="com.shmashine.fault.fault.entity.TblFault">
+        select
+        <include refid="table_field"/>
+        from tbl_fault
+        where i_status = 0
+        and v_elevator_code = #{elevatorCode,jdbcType=VARCHAR}
+    </select>
+
+    <!-- 通过电梯编号，查找故障中的非平层停梯和非平层困人故障记录 -->
+    <select id="getInFaultByFault6" resultType="com.shmashine.fault.fault.entity.TblFault">
+        select
+        <include refid="table_field"/>
+        from tbl_fault
+        where i_status = 0
+        and v_elevator_code = #{elevatorCode,jdbcType=VARCHAR}
+        AND i_fault_type IN ('6','8')
+    </select>
+
+
+    <!--通过实体不为空的属性作为筛选条件查询列表-->
+    <select id="listByEntity" resultMap="TblFaultResultMap" parameterType="com.shmashine.fault.fault.entity.TblFault">
+        select
+        <include refid="table_field"/>
+        from tbl_fault
+        <where>
+            <if test="vFaultId != null">
+                and v_fault_id = #{vFaultId,jdbcType=VARCHAR}
+            </if>
+            <if test="vElevatorId != null">
+                and v_elevator_id = #{vElevatorId,jdbcType=VARCHAR}
+            </if>
+            <if test="vElevatorCode != null">
+                and v_elevator_code = #{vElevatorCode,jdbcType=VARCHAR}
+            </if>
+            <if test="vAddress != null">
+                and v_address = #{vAddress,jdbcType=VARCHAR}
+            </if>
+            <if test="dtReportTime != null">
+                and dt_report_time = #{dtReportTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="dtEndTime != null">
+                and dt_end_time = #{dtEndTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="iFaultType != null">
+                and i_fault_type = #{iFaultType,jdbcType=INTEGER}
+            </if>
+            <if test="vFaultName != null">
+                and v_fault_name = #{vFaultName,jdbcType=VARCHAR}
+            </if>
+            <if test="iLevel != null">
+                and i_level = #{iLevel,jdbcType=INTEGER}
+            </if>
+            <if test="iLevelName != null">
+                and i_level_name = #{iLevelName,jdbcType=VARCHAR}
+            </if>
+            <if test="iFaultNum != null">
+                and i_fault_num = #{iFaultNum,jdbcType=INTEGER}
+            </if>
+            <if test="iStatus != null">
+                and i_status = #{iStatus,jdbcType=INTEGER}
+            </if>
+            <if test="iModeStatus != null">
+                and i_mode_status = #{iModeStatus,jdbcType=INTEGER}
+            </if>
+            <if test="iDurationTime != null">
+                and i_duration_time = #{iDurationTime,jdbcType=INTEGER}
+            </if>
+            <if test="iManualClear != null">
+                and i_manual_clear = #{iManualClear,jdbcType=INTEGER}
+            </if>
+            <if test="iIsUserVisible != null">
+                and i_is_user_visible = #{iIsUserVisible,jdbcType=INTEGER}
+            </if>
+            <if test="dtCreateTime != null">
+                and dt_create_time = #{dtCreateTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="dtModifyTime != null">
+                and dt_modify_time = #{dtModifyTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="vCreateUserId != null">
+                and v_create_user_id = #{vCreateUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="vModifyUserId != null">
+                and v_modify_user_id = #{vModifyUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="iDelFlag != null">
+                and i_del_flag = #{iDelFlag,jdbcType=INTEGER}
+            </if>
+        </where>
+    </select>
+
+    <!--通过实体不为空的属性作为筛选条件查询单个-->
+    <select id="getByEntity" resultMap="TblFaultResultMap" parameterType="com.shmashine.fault.fault.entity.TblFault">
+        select
+        <include refid="table_field"/>
+        from tbl_fault
+        <where>
+            <if test="vFaultId != null">
+                and v_fault_id = #{vFaultId,jdbcType=VARCHAR}
+            </if>
+            <if test="vElevatorId != null">
+                and v_elevator_id = #{vElevatorId,jdbcType=VARCHAR}
+            </if>
+            <if test="vElevatorCode != null">
+                and v_elevator_code = #{vElevatorCode,jdbcType=VARCHAR}
+            </if>
+            <if test="vAddress != null">
+                and v_address = #{vAddress,jdbcType=VARCHAR}
+            </if>
+            <if test="dtReportTime != null">
+                and dt_report_time = #{dtReportTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="dtEndTime != null">
+                and dt_end_time = #{dtEndTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="iFaultType != null">
+                and i_fault_type = #{iFaultType,jdbcType=INTEGER}
+            </if>
+            <if test="vFaultName != null">
+                and v_fault_name = #{vFaultName,jdbcType=VARCHAR}
+            </if>
+            <if test="iLevel != null">
+                and i_level = #{iLevel,jdbcType=INTEGER}
+            </if>
+            <if test="iLevelName != null">
+                and i_level_name = #{iLevelName,jdbcType=VARCHAR}
+            </if>
+            <if test="iFaultNum != null">
+                and i_fault_num = #{iFaultNum,jdbcType=INTEGER}
+            </if>
+            <if test="iStatus != null">
+                and i_status = #{iStatus,jdbcType=INTEGER}
+            </if>
+            <if test="iModeStatus != null">
+                and i_mode_status = #{iModeStatus,jdbcType=INTEGER}
+            </if>
+            <if test="iDurationTime != null">
+                and i_duration_time = #{iDurationTime,jdbcType=INTEGER}
+            </if>
+            <if test="iManualClear != null">
+                and i_manual_clear = #{iManualClear,jdbcType=INTEGER}
+            </if>
+            <if test="iIsUserVisible != null">
+                and i_is_user_visible = #{iIsUserVisible,jdbcType=INTEGER}
+            </if>
+            <if test="dtCreateTime != null">
+                and dt_create_time = #{dtCreateTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="dtModifyTime != null">
+                and dt_modify_time = #{dtModifyTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="vCreateUserId != null">
+                and v_create_user_id = #{vCreateUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="vModifyUserId != null">
+                and v_modify_user_id = #{vModifyUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="iDelFlag != null">
+                and i_del_flag = #{iDelFlag,jdbcType=INTEGER}
+            </if>
+        </where>
+    </select>
+
+    <!--通过Id列表作为筛选条件查询列表，列表长度不为0-->
+    <select id="listByIds" resultMap="TblFaultResultMap" parameterType="list">
+        select
+        <include refid="table_field"/>
+        from tbl_fault
+        where v_fault_id in
+        <foreach item="item" collection="list" separator="," open="(" close=")" index="index">
+            #{item}
+        </foreach>
+    </select>
+
+    <!--新增实体属性不为null的列-->
+    <insert id="insert" keyProperty="vFaultId" useGeneratedKeys="true"
+            parameterType="com.shmashine.fault.fault.entity.TblFault">
+        insert into tbl_fault
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="vFaultId != null">
+                v_fault_id,
+            </if>
+            <if test="vElevatorId != null">
+                v_elevator_id,
+            </if>
+            <if test="vElevatorCode != null">
+                v_elevator_code,
+            </if>
+            <if test="vAddress != null">
+                v_address,
+            </if>
+            <if test="dtReportTime != null">
+                dt_report_time,
+            </if>
+            <if test="dtEndTime != null">
+                dt_end_time,
+            </if>
+            <if test="floor != null">
+                i_floor,
+            </if>
+            <if test="iFaultType != null">
+                i_fault_type,
+            </if>
+            <if test="vFaultName != null">
+                v_fault_name,
+            </if>
+            <if test="vFaultSecondType != null">
+                v_fault_second_type,
+            </if>
+            <if test="vFaultSecondName != null">
+                v_fault_second_name,
+            </if>
+            <if test="iLevel != null">
+                i_level,
+            </if>
+            <if test="iLevelName != null">
+                i_level_name,
+            </if>
+            <if test="dReportDate != null">
+                d_report_date,
+            </if>
+            <if test="iFaultNum != null">
+                i_fault_num,
+            </if>
+            <if test="iUncivilizedBehaviorFlag != null">
+                i_uncivilized_behavior_flag,
+            </if>
+            <if test="iStatus != null">
+                i_status,
+            </if>
+            <if test="iModeStatus != null">
+                i_mode_status,
+            </if>
+            <if test="iDurationTime != null">
+                i_duration_time,
+            </if>
+            <if test="iManualClear != null">
+                i_manual_clear,
+            </if>
+            <if test="iIsUserVisible != null">
+                i_is_user_visible,
+            </if>
+            <if test="dtCreateTime != null">
+                dt_create_time,
+            </if>
+            <if test="dtModifyTime != null">
+                dt_modify_time,
+            </if>
+            <if test="vCreateUserId != null">
+                v_create_user_id,
+            </if>
+            <if test="vModifyUserId != null">
+                v_modify_user_id,
+            </if>
+            <if test="iDelFlag != null">
+                i_del_flag,
+            </if>
+            <if test="vEventChannel != null">
+                v_event_channel,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="vFaultId != null">
+                #{vFaultId,jdbcType=VARCHAR},
+            </if>
+            <if test="vElevatorId != null">
+                #{vElevatorId,jdbcType=VARCHAR},
+            </if>
+            <if test="vElevatorCode != null">
+                #{vElevatorCode,jdbcType=VARCHAR},
+            </if>
+            <if test="vAddress != null">
+                #{vAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="dtReportTime != null">
+                #{dtReportTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="dtEndTime != null">
+                #{dtEndTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="floor != null">
+                #{floor,jdbcType=INTEGER},
+            </if>
+            <if test="iFaultType != null">
+                #{iFaultType,jdbcType=INTEGER},
+            </if>
+            <if test="vFaultName != null">
+                #{vFaultName,jdbcType=VARCHAR},
+            </if>
+            <if test="vFaultSecondType != null">
+                #{vFaultSecondType,jdbcType=INTEGER},
+            </if>
+            <if test="vFaultSecondName != null">
+                #{vFaultSecondName,jdbcType=VARCHAR},
+            </if>
+            <if test="iLevel != null">
+                #{iLevel,jdbcType=INTEGER},
+            </if>
+            <if test="iLevelName != null">
+                #{iLevelName,jdbcType=VARCHAR},
+            </if>
+            <if test="dReportDate != null">
+                #{dReportDate,jdbcType=VARCHAR},
+            </if>
+            <if test="iFaultNum != null">
+                #{iFaultNum,jdbcType=INTEGER},
+            </if>
+            <if test="iUncivilizedBehaviorFlag != null">
+                #{iUncivilizedBehaviorFlag,jdbcType=INTEGER},
+            </if>
+            <if test="iStatus != null">
+                #{iStatus,jdbcType=INTEGER},
+            </if>
+            <if test="iModeStatus != null">
+                #{iModeStatus,jdbcType=INTEGER},
+            </if>
+            <if test="iDurationTime != null">
+                #{iDurationTime,jdbcType=INTEGER},
+            </if>
+            <if test="iManualClear != null">
+                #{iManualClear,jdbcType=INTEGER},
+            </if>
+            <if test="iIsUserVisible != null">
+                #{iIsUserVisible,jdbcType=INTEGER},
+            </if>
+            <if test="dtCreateTime != null">
+                #{dtCreateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="dtModifyTime != null">
+                #{dtModifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="vCreateUserId != null">
+                #{vCreateUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="vModifyUserId != null">
+                #{vModifyUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="iDelFlag != null">
+                #{iDelFlag,jdbcType=INTEGER},
+            </if>
+            <if test="vEventChannel != null and vEventChannel != ''">
+                #{vEventChannel,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <!--添加传感器故障记录-->
+    <insert id="addSensorFault" keyProperty="vFaultId" useGeneratedKeys="true"
+            parameterType="com.shmashine.common.entity.TblSenSorFault">
+        insert into tbl_sensor_fault
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="vFaultId != null">
+                v_fault_id,
+            </if>
+            <if test="vElevatorId != null">
+                v_elevator_id,
+            </if>
+            <if test="vElevatorCode != null">
+                v_elevator_code,
+            </if>
+            <if test="vAddress != null">
+                v_address,
+            </if>
+            <if test="dtReportTime != null">
+                dt_report_time,
+            </if>
+            <if test="dtEndTime != null">
+                dt_end_time,
+            </if>
+            <if test="floor != null">
+                i_floor,
+            </if>
+            <if test="iFaultType != null">
+                i_fault_type,
+            </if>
+            <if test="vFaultName != null">
+                v_fault_name,
+            </if>
+            <if test="vFaultSecondType != null">
+                v_fault_second_type,
+            </if>
+            <if test="vFaultSecondName != null">
+                v_fault_second_name,
+            </if>
+            <if test="iLevel != null">
+                i_level,
+            </if>
+            <if test="iLevelName != null">
+                i_level_name,
+            </if>
+            <if test="dReportDate != null">
+                d_report_date,
+            </if>
+            <if test="iFaultNum != null">
+                i_fault_num,
+            </if>
+            <if test="iUncivilizedBehaviorFlag != null">
+                i_uncivilized_behavior_flag,
+            </if>
+            <if test="iStatus != null">
+                i_status,
+            </if>
+            <if test="iModeStatus != null">
+                i_mode_status,
+            </if>
+            <if test="iDurationTime != null">
+                i_duration_time,
+            </if>
+            <if test="iManualClear != null">
+                i_manual_clear,
+            </if>
+            <if test="iIsUserVisible != null">
+                i_is_user_visible,
+            </if>
+            <if test="dtCreateTime != null">
+                dt_create_time,
+            </if>
+            <if test="dtModifyTime != null">
+                dt_modify_time,
+            </if>
+            <if test="vCreateUserId != null">
+                v_create_user_id,
+            </if>
+            <if test="vModifyUserId != null">
+                v_modify_user_id,
+            </if>
+            <if test="iDelFlag != null">
+                i_del_flag,
+            </if>
+            <if test="vEventChannel != null">
+                v_event_channel,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="vFaultId != null">
+                #{vFaultId,jdbcType=VARCHAR},
+            </if>
+            <if test="vElevatorId != null">
+                #{vElevatorId,jdbcType=VARCHAR},
+            </if>
+            <if test="vElevatorCode != null">
+                #{vElevatorCode,jdbcType=VARCHAR},
+            </if>
+            <if test="vAddress != null">
+                #{vAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="dtReportTime != null">
+                #{dtReportTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="dtEndTime != null">
+                #{dtEndTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="floor != null">
+                #{floor,jdbcType=INTEGER},
+            </if>
+            <if test="iFaultType != null">
+                #{iFaultType,jdbcType=INTEGER},
+            </if>
+            <if test="vFaultName != null">
+                #{vFaultName,jdbcType=VARCHAR},
+            </if>
+            <if test="vFaultSecondType != null">
+                #{vFaultSecondType,jdbcType=INTEGER},
+            </if>
+            <if test="vFaultSecondName != null">
+                #{vFaultSecondName,jdbcType=VARCHAR},
+            </if>
+            <if test="iLevel != null">
+                #{iLevel,jdbcType=INTEGER},
+            </if>
+            <if test="iLevelName != null">
+                #{iLevelName,jdbcType=VARCHAR},
+            </if>
+            <if test="dReportDate != null">
+                #{dReportDate,jdbcType=VARCHAR},
+            </if>
+            <if test="iFaultNum != null">
+                #{iFaultNum,jdbcType=INTEGER},
+            </if>
+            <if test="iUncivilizedBehaviorFlag != null">
+                #{iUncivilizedBehaviorFlag,jdbcType=INTEGER},
+            </if>
+            <if test="iStatus != null">
+                #{iStatus,jdbcType=INTEGER},
+            </if>
+            <if test="iModeStatus != null">
+                #{iModeStatus,jdbcType=INTEGER},
+            </if>
+            <if test="iDurationTime != null">
+                #{iDurationTime,jdbcType=INTEGER},
+            </if>
+            <if test="iManualClear != null">
+                #{iManualClear,jdbcType=INTEGER},
+            </if>
+            <if test="iIsUserVisible != null">
+                #{iIsUserVisible,jdbcType=INTEGER},
+            </if>
+            <if test="dtCreateTime != null">
+                #{dtCreateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="dtModifyTime != null">
+                #{dtModifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="vCreateUserId != null">
+                #{vCreateUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="vModifyUserId != null">
+                #{vModifyUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="iDelFlag != null">
+                #{iDelFlag,jdbcType=INTEGER},
+            </if>
+            <if test="vEventChannel != null and vEventChannel != ''">
+                #{vEventChannel,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <!--批量新增所有列，列表长度不能为0-->
+    <insert id="insertBatch" keyProperty="vFaultId" useGeneratedKeys="true" parameterType="list">
+        insert into tbl_fault
+        (v_fault_id,v_elevator_id, v_elevator_code, v_address, dt_report_time, dt_end_time, i_fault_type, v_fault_name,
+        i_level, i_level_name, i_fault_num, i_status, i_mode_status, i_duration_time, i_manual_clear, i_is_user_visible,
+        dt_create_time, dt_modify_time, v_create_user_id, v_modify_user_id, i_del_flag)
+        values
+        <foreach item="item" collection="list" separator="," open="" close="" index="index">
+            (#{vFaultId,jdbcType=VARCHAR},#{item.vElevatorId,jdbcType=VARCHAR}, #{item.vElevatorCode,jdbcType=VARCHAR},
+            #{item.vAddress,jdbcType=VARCHAR}, #{item.dtReportTime,jdbcType=TIMESTAMP},
+            #{item.dtEndTime,jdbcType=TIMESTAMP}, #{item.iFaultType,jdbcType=INTEGER},
+            #{item.vFaultName,jdbcType=VARCHAR}, #{item.iLevel,jdbcType=INTEGER}, #{item.iLevelName,jdbcType=VARCHAR},
+            #{item.iFaultNum,jdbcType=INTEGER}, #{item.iStatus,jdbcType=INTEGER}, #{item.iModeStatus,jdbcType=INTEGER},
+            #{item.iDurationTime,jdbcType=INTEGER}, #{item.iManualClear,jdbcType=INTEGER},
+            #{item.iIsUserVisible,jdbcType=INTEGER}, #{item.dtCreateTime,jdbcType=TIMESTAMP},
+            #{item.dtModifyTime,jdbcType=TIMESTAMP}, #{item.vCreateUserId,jdbcType=VARCHAR},
+            #{item.vModifyUserId,jdbcType=VARCHAR}, #{item.iDelFlag,jdbcType=INTEGER})
+        </foreach>
+    </insert>
+
+    <insert id="addDeviceTimeOutFault">
+        insert into tbl_device_timeout_fault
+            (id, elevatorCode, sensorType, status, reportTime)
+            value (#{id},#{elevatorCode},#{sensorType},1,DATE_SUB(NOW(), INTERVAL 1 HOUR))
+    </insert>
+
+    <!--通过主键修改实体属性不为null的列-->
+    <update id="update" parameterType="com.shmashine.fault.fault.entity.TblFault">
+        update tbl_fault
+        <set>
+            <if test="vElevatorId != null and vElevatorId != ''">
+                v_elevator_id = #{vElevatorId,jdbcType=VARCHAR},
+            </if>
+            <if test="vElevatorCode != null and vElevatorCode != ''">
+                v_elevator_code = #{vElevatorCode,jdbcType=VARCHAR},
+            </if>
+            <if test="vAddress != null and vAddress != ''">
+                v_address = #{vAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="dtReportTime != null">
+                dt_report_time = #{dtReportTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="dtEndTime != null">
+                dt_end_time = #{dtEndTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="iFaultType != null">
+                i_fault_type = #{iFaultType,jdbcType=INTEGER},
+            </if>
+            <if test="vFaultName != null and vFaultName != ''">
+                v_fault_name = #{vFaultName,jdbcType=VARCHAR},
+            </if>
+            <if test="iLevel != null">
+                i_level = #{iLevel,jdbcType=INTEGER},
+            </if>
+            <if test="iLevelName != null and iLevelName != ''">
+                i_level_name = #{iLevelName,jdbcType=VARCHAR},
+            </if>
+            <if test="iFaultNum != null">
+                i_fault_num = #{iFaultNum,jdbcType=INTEGER},
+            </if>
+            <if test="iStatus != null">
+                i_status = #{iStatus,jdbcType=INTEGER},
+            </if>
+            <if test="iModeStatus != null">
+                i_mode_status = #{iModeStatus,jdbcType=INTEGER},
+            </if>
+            <if test="iDurationTime != null">
+                i_duration_time = #{iDurationTime,jdbcType=INTEGER},
+            </if>
+            <if test="iManualClear != null">
+                i_manual_clear = #{iManualClear,jdbcType=INTEGER},
+            </if>
+            <if test="iIsUserVisible != null">
+                i_is_user_visible = #{iIsUserVisible,jdbcType=INTEGER},
+            </if>
+            <if test="dtCreateTime != null">
+                dt_create_time = #{dtCreateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="dtModifyTime != null">
+                dt_modify_time = #{dtModifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="vCreateUserId != null and vCreateUserId != ''">
+                v_create_user_id = #{vCreateUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="vModifyUserId != null and vModifyUserId != ''">
+                v_modify_user_id = #{vModifyUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="iDelFlag != null">
+                i_del_flag = #{iDelFlag,jdbcType=INTEGER},
+            </if>
+        </set>
+        where v_fault_id = #{vFaultId,jdbcType=VARCHAR}
+    </update>
+
+    <!--更新传感器故障记录-->
+    <update id="disappearSensorFault" parameterType="com.shmashine.common.entity.TblSenSorFault">
+        update tbl_sensor_fault
+        <set>
+            <if test="vElevatorId != null and vElevatorId != ''">
+                v_elevator_id = #{vElevatorId,jdbcType=VARCHAR},
+            </if>
+            <if test="vElevatorCode != null and vElevatorCode != ''">
+                v_elevator_code = #{vElevatorCode,jdbcType=VARCHAR},
+            </if>
+            <if test="vAddress != null and vAddress != ''">
+                v_address = #{vAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="dtReportTime != null">
+                dt_report_time = #{dtReportTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="dtEndTime != null">
+                dt_end_time = #{dtEndTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="iFaultType != null">
+                i_fault_type = #{iFaultType,jdbcType=INTEGER},
+            </if>
+            <if test="vFaultName != null and vFaultName != ''">
+                v_fault_name = #{vFaultName,jdbcType=VARCHAR},
+            </if>
+            <if test="iLevel != null">
+                i_level = #{iLevel,jdbcType=INTEGER},
+            </if>
+            <if test="iLevelName != null and iLevelName != ''">
+                i_level_name = #{iLevelName,jdbcType=VARCHAR},
+            </if>
+            <if test="iFaultNum != null">
+                i_fault_num = #{iFaultNum,jdbcType=INTEGER},
+            </if>
+            <if test="iStatus != null">
+                i_status = #{iStatus,jdbcType=INTEGER},
+            </if>
+            <if test="iModeStatus != null">
+                i_mode_status = #{iModeStatus,jdbcType=INTEGER},
+            </if>
+            <if test="iDurationTime != null">
+                i_duration_time = #{iDurationTime,jdbcType=INTEGER},
+            </if>
+            <if test="iManualClear != null">
+                i_manual_clear = #{iManualClear,jdbcType=INTEGER},
+            </if>
+            <if test="iIsUserVisible != null">
+                i_is_user_visible = #{iIsUserVisible,jdbcType=INTEGER},
+            </if>
+            <if test="dtCreateTime != null">
+                dt_create_time = #{dtCreateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="dtModifyTime != null">
+                dt_modify_time = #{dtModifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="vCreateUserId != null and vCreateUserId != ''">
+                v_create_user_id = #{vCreateUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="vModifyUserId != null and vModifyUserId != ''">
+                v_modify_user_id = #{vModifyUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="iDelFlag != null">
+                i_del_flag = #{iDelFlag,jdbcType=INTEGER},
+            </if>
+        </set>
+        where v_fault_id = #{vFaultId,jdbcType=VARCHAR}
+    </update>
+
+    <!--通过表字段修改实体属性不为null的列-->
+    <update id="updateByField">
+        update tbl_fault
+        <set>
+            <if test="where.vElevatorId == null and set.vElevatorId != null and set.vElevatorId != ''">
+                v_elevator_id = #{set.vElevatorId,jdbcType=VARCHAR},
+            </if>
+            <if test="where.vElevatorCode == null and set.vElevatorCode != null and set.vElevatorCode != ''">
+                v_elevator_code = #{set.vElevatorCode,jdbcType=VARCHAR},
+            </if>
+            <if test="where.vAddress == null and set.vAddress != null and set.vAddress != ''">
+                v_address = #{set.vAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="where.dtReportTime == null and set.dtReportTime != null">
+                dt_report_time = #{set.dtReportTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="where.dtEndTime == null and set.dtEndTime != null">
+                dt_end_time = #{set.dtEndTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="where.iFaultType == null and set.iFaultType != null">
+                i_fault_type = #{set.iFaultType,jdbcType=INTEGER},
+            </if>
+            <if test="where.vFaultName == null and set.vFaultName != null and set.vFaultName != ''">
+                v_fault_name = #{set.vFaultName,jdbcType=VARCHAR},
+            </if>
+            <if test="where.iLevel == null and set.iLevel != null">
+                i_level = #{set.iLevel,jdbcType=INTEGER},
+            </if>
+            <if test="where.iLevelName == null and set.iLevelName != null and set.iLevelName != ''">
+                i_level_name = #{set.iLevelName,jdbcType=VARCHAR},
+            </if>
+            <if test="where.iFaultNum == null and set.iFaultNum != null">
+                i_fault_num = #{set.iFaultNum,jdbcType=INTEGER},
+            </if>
+            <if test="where.iStatus == null and set.iStatus != null">
+                i_status = #{set.iStatus,jdbcType=INTEGER},
+            </if>
+            <if test="where.iModeStatus == null and set.iModeStatus != null">
+                i_mode_status = #{set.iModeStatus,jdbcType=INTEGER},
+            </if>
+            <if test="where.iDurationTime == null and set.iDurationTime != null">
+                i_duration_time = #{set.iDurationTime,jdbcType=INTEGER},
+            </if>
+            <if test="where.iManualClear == null and set.iManualClear != null">
+                i_manual_clear = #{set.iManualClear,jdbcType=INTEGER},
+            </if>
+            <if test="where.iIsUserVisible == null and set.iIsUserVisible != null">
+                i_is_user_visible = #{set.iIsUserVisible,jdbcType=INTEGER},
+            </if>
+            <if test="where.dtCreateTime == null and set.dtCreateTime != null">
+                dt_create_time = #{set.dtCreateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="where.dtModifyTime == null and set.dtModifyTime != null">
+                dt_modify_time = #{set.dtModifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="where.vCreateUserId == null and set.vCreateUserId != null and set.vCreateUserId != ''">
+                v_create_user_id = #{set.vCreateUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="where.vModifyUserId == null and set.vModifyUserId != null and set.vModifyUserId != ''">
+                v_modify_user_id = #{set.vModifyUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="where.iDelFlag == null and set.iDelFlag != null">
+                i_del_flag = #{set.iDelFlag,jdbcType=INTEGER},
+            </if>
+        </set>
+        <where>
+            <if test="where.vFaultId != null">
+                and v_fault_id = #{where.vFaultId,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vElevatorId != null">
+                and v_elevator_id = #{where.vElevatorId,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vElevatorCode != null">
+                and v_elevator_code = #{where.vElevatorCode,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vAddress != null">
+                and v_address = #{where.vAddress,jdbcType=VARCHAR}
+            </if>
+            <if test="where.dtReportTime != null">
+                and dt_report_time = #{where.dtReportTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="where.dtEndTime != null">
+                and dt_end_time = #{where.dtEndTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="where.iFaultType != null">
+                and i_fault_type = #{where.iFaultType,jdbcType=INTEGER}
+            </if>
+            <if test="where.vFaultName != null">
+                and v_fault_name = #{where.vFaultName,jdbcType=VARCHAR}
+            </if>
+            <if test="where.iLevel != null">
+                and i_level = #{where.iLevel,jdbcType=INTEGER}
+            </if>
+            <if test="where.iLevelName != null">
+                and i_level_name = #{where.iLevelName,jdbcType=VARCHAR}
+            </if>
+            <if test="where.iFaultNum != null">
+                and i_fault_num = #{where.iFaultNum,jdbcType=INTEGER}
+            </if>
+            <if test="where.iStatus != null">
+                and i_status = #{where.iStatus,jdbcType=INTEGER}
+            </if>
+            <if test="where.iModeStatus != null">
+                and i_mode_status = #{where.iModeStatus,jdbcType=INTEGER}
+            </if>
+            <if test="where.iDurationTime != null">
+                and i_duration_time = #{where.iDurationTime,jdbcType=INTEGER}
+            </if>
+            <if test="where.iManualClear != null">
+                and i_manual_clear = #{where.iManualClear,jdbcType=INTEGER}
+            </if>
+            <if test="where.iIsUserVisible != null">
+                and i_is_user_visible = #{where.iIsUserVisible,jdbcType=INTEGER}
+            </if>
+            <if test="where.dtCreateTime != null">
+                and dt_create_time = #{where.dtCreateTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="where.dtModifyTime != null">
+                and dt_modify_time = #{where.dtModifyTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="where.vCreateUserId != null">
+                and v_create_user_id = #{where.vCreateUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vModifyUserId != null">
+                and v_modify_user_id = #{where.vModifyUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="where.iDelFlag != null">
+                and i_del_flag = #{where.iDelFlag,jdbcType=INTEGER}
+            </if>
+        </where>
+    </update>
+
+    <!--通过主键修改实体列表，列表长度不能为0，注意：当实体属性为null时，对应的列也会别更新为null-->
+    <update id="updateBatch" parameterType="list">
+        update tbl_fault
+        <trim prefix="set" suffixOverrides=",">
+            <trim prefix="v_elevator_id = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_fault_id = #{item.vFaultId} then #{item.vElevatorId}
+                </foreach>
+            </trim>
+            <trim prefix="v_elevator_code = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_fault_id = #{item.vFaultId} then #{item.vElevatorCode}
+                </foreach>
+            </trim>
+            <trim prefix="v_address = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_fault_id = #{item.vFaultId} then #{item.vAddress}
+                </foreach>
+            </trim>
+            <trim prefix="dt_report_time = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_fault_id = #{item.vFaultId} then #{item.dtReportTime}
+                </foreach>
+            </trim>
+            <trim prefix="dt_end_time = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_fault_id = #{item.vFaultId} then #{item.dtEndTime}
+                </foreach>
+            </trim>
+            <trim prefix="i_fault_type = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_fault_id = #{item.vFaultId} then #{item.iFaultType}
+                </foreach>
+            </trim>
+            <trim prefix="v_fault_name = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_fault_id = #{item.vFaultId} then #{item.vFaultName}
+                </foreach>
+            </trim>
+            <trim prefix="i_level = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_fault_id = #{item.vFaultId} then #{item.iLevel}
+                </foreach>
+            </trim>
+            <trim prefix="i_level_name = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_fault_id = #{item.vFaultId} then #{item.iLevelName}
+                </foreach>
+            </trim>
+            <trim prefix="i_fault_num = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_fault_id = #{item.vFaultId} then #{item.iFaultNum}
+                </foreach>
+            </trim>
+            <trim prefix="i_status = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_fault_id = #{item.vFaultId} then #{item.iStatus}
+                </foreach>
+            </trim>
+            <trim prefix="i_mode_status = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_fault_id = #{item.vFaultId} then #{item.iModeStatus}
+                </foreach>
+            </trim>
+            <trim prefix="i_duration_time = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_fault_id = #{item.vFaultId} then #{item.iDurationTime}
+                </foreach>
+            </trim>
+            <trim prefix="i_manual_clear = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_fault_id = #{item.vFaultId} then #{item.iManualClear}
+                </foreach>
+            </trim>
+            <trim prefix="i_is_user_visible = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_fault_id = #{item.vFaultId} then #{item.iIsUserVisible}
+                </foreach>
+            </trim>
+            <trim prefix="dt_create_time = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_fault_id = #{item.vFaultId} then #{item.dtCreateTime}
+                </foreach>
+            </trim>
+            <trim prefix="dt_modify_time = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_fault_id = #{item.vFaultId} then #{item.dtModifyTime}
+                </foreach>
+            </trim>
+            <trim prefix="v_create_user_id = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_fault_id = #{item.vFaultId} then #{item.vCreateUserId}
+                </foreach>
+            </trim>
+            <trim prefix="v_modify_user_id = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_fault_id = #{item.vFaultId} then #{item.vModifyUserId}
+                </foreach>
+            </trim>
+            <trim prefix="i_del_flag = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_fault_id = #{item.vFaultId} then #{item.iDelFlag}
+                </foreach>
+            </trim>
+        </trim>
+        where v_fault_id in
+        <foreach collection="list" index="index" item="item" separator="," open="(" close=")">
+            #{item.vFaultId,jdbcType=VARCHAR}
+        </foreach>
+    </update>
+
+    <!--消除传感器故障-->
+    <update id="disappearSensorFaultByEleCodeAndFaultType">
+        UPDATE tbl_sensor_fault
+        SET i_status       = 1,
+            dt_modify_time = NOW(),
+            dt_end_time    = NOW()
+        where v_elevator_code = #{elevatorCode}
+          AND i_fault_type = #{faultType}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById" parameterType="java.lang.String">
+        delete
+        from tbl_fault
+        where v_fault_id = #{vFaultId,jdbcType=VARCHAR}
+    </delete>
+
+    <!--通过实体非空属性删除-->
+    <delete id="deleteByEntity" parameterType="com.shmashine.fault.fault.entity.TblFault">
+        delete from tbl_fault
+        <where>
+            <if test="vElevatorId != null">
+                and v_elevator_id = #{vElevatorId,jdbcType=VARCHAR}
+            </if>
+            <if test="vElevatorCode != null">
+                and v_elevator_code = #{vElevatorCode,jdbcType=VARCHAR}
+            </if>
+            <if test="vAddress != null">
+                and v_address = #{vAddress,jdbcType=VARCHAR}
+            </if>
+            <if test="dtReportTime != null">
+                and dt_report_time = #{dtReportTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="dtEndTime != null">
+                and dt_end_time = #{dtEndTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="iFaultType != null">
+                and i_fault_type = #{iFaultType,jdbcType=INTEGER}
+            </if>
+            <if test="vFaultName != null">
+                and v_fault_name = #{vFaultName,jdbcType=VARCHAR}
+            </if>
+            <if test="iLevel != null">
+                and i_level = #{iLevel,jdbcType=INTEGER}
+            </if>
+            <if test="iLevelName != null">
+                and i_level_name = #{iLevelName,jdbcType=VARCHAR}
+            </if>
+            <if test="iFaultNum != null">
+                and i_fault_num = #{iFaultNum,jdbcType=INTEGER}
+            </if>
+            <if test="iStatus != null">
+                and i_status = #{iStatus,jdbcType=INTEGER}
+            </if>
+            <if test="iModeStatus != null">
+                and i_mode_status = #{iModeStatus,jdbcType=INTEGER}
+            </if>
+            <if test="iDurationTime != null">
+                and i_duration_time = #{iDurationTime,jdbcType=INTEGER}
+            </if>
+            <if test="iManualClear != null">
+                and i_manual_clear = #{iManualClear,jdbcType=INTEGER}
+            </if>
+            <if test="iIsUserVisible != null">
+                and i_is_user_visible = #{iIsUserVisible,jdbcType=INTEGER}
+            </if>
+            <if test="dtCreateTime != null">
+                and dt_create_time = #{dtCreateTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="dtModifyTime != null">
+                and dt_modify_time = #{dtModifyTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="vCreateUserId != null">
+                and v_create_user_id = #{vCreateUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="vModifyUserId != null">
+                and v_modify_user_id = #{vModifyUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="iDelFlag != null">
+                and i_del_flag = #{iDelFlag,jdbcType=INTEGER}
+            </if>
+        </where>
+    </delete>
+
+    <!--通过主键列表删除，列表长度不能为0-->
+    <delete id="deleteByIds" parameterType="list">
+        delete from tbl_fault where v_fault_id in
+        <foreach item="item" collection="list" separator="," open="(" close=")" index="index">
+            #{item}
+        </foreach>
+    </delete>
+
+    <select id="countAll" resultType="int">
+        select count(v_fault_id)
+        from tbl_fault
+    </select>
+
+    <select id="countByEntity" parameterType="com.shmashine.fault.fault.entity.TblFault" resultType="int">
+        select count(v_fault_id) from tbl_fault
+        <where>
+            <if test="vFaultId != null">
+                and v_fault_id = #{vFaultId,jdbcType=VARCHAR}
+            </if>
+            <if test="vElevatorId != null">
+                and v_elevator_id = #{vElevatorId,jdbcType=VARCHAR}
+            </if>
+            <if test="vElevatorCode != null">
+                and v_elevator_code = #{vElevatorCode,jdbcType=VARCHAR}
+            </if>
+            <if test="vAddress != null">
+                and v_address = #{vAddress,jdbcType=VARCHAR}
+            </if>
+            <if test="dtReportTime != null">
+                and dt_report_time = #{dtReportTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="dtEndTime != null">
+                and dt_end_time = #{dtEndTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="iFaultType != null">
+                and i_fault_type = #{iFaultType,jdbcType=INTEGER}
+            </if>
+            <if test="vFaultName != null">
+                and v_fault_name = #{vFaultName,jdbcType=VARCHAR}
+            </if>
+            <if test="iLevel != null">
+                and i_level = #{iLevel,jdbcType=INTEGER}
+            </if>
+            <if test="iLevelName != null">
+                and i_level_name = #{iLevelName,jdbcType=VARCHAR}
+            </if>
+            <if test="iFaultNum != null">
+                and i_fault_num = #{iFaultNum,jdbcType=INTEGER}
+            </if>
+            <if test="iStatus != null">
+                and i_status = #{iStatus,jdbcType=INTEGER}
+            </if>
+            <if test="iModeStatus != null">
+                and i_mode_status = #{iModeStatus,jdbcType=INTEGER}
+            </if>
+            <if test="iDurationTime != null">
+                and i_duration_time = #{iDurationTime,jdbcType=INTEGER}
+            </if>
+            <if test="iManualClear != null">
+                and i_manual_clear = #{iManualClear,jdbcType=INTEGER}
+            </if>
+            <if test="iIsUserVisible != null">
+                and i_is_user_visible = #{iIsUserVisible,jdbcType=INTEGER}
+            </if>
+            <if test="dtCreateTime != null">
+                and dt_create_time = #{dtCreateTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="dtModifyTime != null">
+                and dt_modify_time = #{dtModifyTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="vCreateUserId != null">
+                and v_create_user_id = #{vCreateUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="vModifyUserId != null">
+                and v_modify_user_id = #{vModifyUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="iDelFlag != null">
+                and i_del_flag = #{iDelFlag,jdbcType=INTEGER}
+            </if>
+        </where>
+    </select>
+
+    <!--获取所有故障中传感器故障-->
+    <select id="getAllSensorFaultOnFaulting" resultType="java.util.HashMap">
+        SELECT v_elevator_code,i_fault_type
+        FROM tbl_sensor_fault
+        WHERE i_status = 0
+        <if test="faultNum != null">
+            AND i_fault_num &gt; #{faultNum}
+        </if>
+        <if test="elevatorCode != null">
+            AND v_elevator_code = #{elevatorCode}
+        </if>
+        GROUP BY v_elevator_code,i_fault_type
+    </select>
+
+    <!--获取今日达三次传感器故障-->
+    <select id="getTodaySensorFaultOnThreeTimes" resultType="java.util.HashMap">
+        SELECT v_elevator_code, i_fault_type
+        FROM tbl_sensor_fault
+        WHERE i_status = 0
+          AND dt_report_time &gt; CURDATE()
+          AND i_fault_num &gt; 2
+        GROUP BY v_elevator_code, i_fault_type
+    </select>
+
+
+    <select id="getSensorConfig" resultType="java.util.HashMap">
+        SELECT v_fault_type, v_sensorFault_type
+        FROM tbl_sensor_config
+    </select>
+
+
+</mapper>

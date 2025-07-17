@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shmashine.api.dao.TblDataAccountDao">
+
+    <resultMap type="com.shmashine.api.entity.TblDataAccount" id="TblDataAccountMap">
+        <result property="vDataAccountId" column="v_data_account_id" jdbcType="VARCHAR"/>
+        <result property="vAccountName" column="v_account_name" jdbcType="VARCHAR"/>
+        <result property="vAccountCode" column="v_account_code" jdbcType="VARCHAR"/>
+        <result property="vPushUrl" column="v_push_url" jdbcType="VARCHAR"/>
+        <result property="iDelayDuration" column="i_delay_duration" jdbcType="INTEGER"/>
+        <result property="dtCreateTime" column="dt_create_time" jdbcType="TIMESTAMP"/>
+        <result property="dtModifyTime" column="dt_modify_time" jdbcType="TIMESTAMP"/>
+        <result property="vCreateUserId" column="v_create_user_id" jdbcType="VARCHAR"/>
+        <result property="vModifyUserId" column="v_modify_user_id" jdbcType="VARCHAR"/>
+        <result property="iDelFlag" column="i_del_flag" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="table_field">
+        v_data_account_id
+        , v_account_name, v_account_code, v_push_url, i_delay_duration, dt_create_time, dt_modify_time, v_create_user_id, v_modify_user_id, i_del_flag
+    </sql>
+
+    <select id="getById" parameterType="java.lang.String" resultMap="TblDataAccountMap">
+        select
+        <include refid="table_field"/>
+        from
+        tbl_data_account as tbl
+        where
+        tbl.v_data_account_id = #{vDataAccountId, jdbcType=VARCHAR}
+    </select>
+
+    <select id="getByEntity" resultMap="TblDataAccountMap" parameterType="com.shmashine.api.entity.TblDataAccount">
+        select
+        <include refid="table_field"/>
+        from tbl_data_account
+        <where>
+            <if test="vDataAccountId != null and vDataAccountId != ''">
+                and v_data_account_id = #{vDataAccountId,jdbcType=VARCHAR }
+            </if>
+            <if test="vAccountName != null and vAccountName != ''">
+                and v_account_name = #{vAccountName,jdbcType=VARCHAR }
+            </if>
+            <if test="vAccountCode != null and vAccountCode != ''">
+                and v_account_code = #{vAccountCode,jdbcType=VARCHAR }
+            </if>
+            <if test="dtCreateTime != null">
+                and dt_create_time = #{dtCreateTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="dtModifyTime != null">
+                and dt_modify_time = #{dtModifyTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="vCreateUserId != null">
+                and v_create_user_id = #{vCreateUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="vModifyUserId != null">
+                and v_modify_user_id = #{vModifyUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="iDelFlag != null">
+                and i_del_flag = #{iDelFlag,jdbcType=INTEGER}
+            </if>
+        </where>
+        limit 0, 1
+    </select>
+
+    <insert id="insert" keyProperty="vDataAccountId" useGeneratedKeys="true"
+            parameterType="com.shmashine.api.entity.TblDataAccount">
+        insert into tbl_data_account
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="vDataAccountId != null">
+                v_data_account_id,
+            </if>
+            <if test="vAccountName != null">
+                v_account_name,
+            </if>
+            <if test="vAccountCode != null">
+                v_account_code,
+            </if>
+            <if test="vPushUrl != null">
+                v_push_url,
+            </if>
+            <if test="iDelayDuration != null">
+                i_delay_duration,
+            </if>
+            <if test="dtCreateTime != null">
+                dt_create_time,
+            </if>
+            <if test="dtModifyTime != null">
+                dt_modify_time,
+            </if>
+            <if test="vCreateUserId != null">
+                v_create_user_id,
+            </if>
+            <if test="vModifyUserId != null">
+                v_modify_user_id,
+            </if>
+            <if test="iDelFlag != null">
+                i_del_flag,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="vDataAccountId != null">
+                #{vDataAccountId, jdbcType=VARCHAR},
+            </if>
+            <if test="vAccountName != null">
+                #{vAccountName, jdbcType=VARCHAR},
+            </if>
+            <if test="vAccountCode != null">
+                #{vAccountCode, jdbcType=VARCHAR},
+            </if>
+            <if test="vPushUrl != null">
+                #{vPushUrl, jdbcType=VARCHAR},
+            </if>
+            <if test="iDelayDuration != null">
+                #{iDelayDuration, jdbcType=INTEGER},
+            </if>
+            <if test="dtCreateTime != null">
+                #{dtCreateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="dtModifyTime != null">
+                #{dtModifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="vCreateUserId != null">
+                #{vCreateUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="vModifyUserId != null">
+                #{vModifyUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="iDelFlag != null">
+                #{iDelFlag,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+
+    <!--通过主键修改实体属性不为null的列-->
+    <update id="update" parameterType="com.shmashine.common.entity.TblCamera">
+        update tbl_data_account
+        <set>
+            <if test="vDataAccountId != null">
+                v_data_account_id = #{vDataAccountId, jdbcType=VARCHAR},
+            </if>
+            <if test="vAccountName != null">
+                v_account_name = #{vAccountName, jdbcType=VARCHAR},
+            </if>
+            <if test="vAccountCode != null">
+                v_account_code = #{vAccountCode, jdbcType=VARCHAR},
+            </if>
+            <if test="vPushUrl != null">
+                v_push_url = #{vPushUrl, jdbcType=VARCHAR},
+            </if>
+            <if test="iDelayDuration != null">
+                i_delay_duration = #{iDelayDuration, jdbcType=INTEGER},
+            </if>
+            <if test="dtCreateTime != null">
+                dt_create_time = #{dtCreateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="dtModifyTime != null">
+                dt_modify_time = #{dtModifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="vCreateUserId != null">
+                v_create_user_id = #{vCreateUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="vModifyUserId != null">
+                v_modify_user_id = #{vModifyUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="iDelFlag != null">
+                i_del_flag = #{iDelFlag,jdbcType=INTEGER},
+            </if>
+        </set>
+        where v_data_account_id = #{vDataAccountId,jdbcType=VARCHAR}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById" parameterType="java.lang.String">
+        delete
+        from tbl_data_account
+        where v_data_account_id = #{vDataAccountId, jdbcType=VARCHAR}
+    </delete>
+</mapper>

@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.pm.api.dao.TblDeviceSensorDao">
+    <resultMap id="BaseResultMap" type="com.shmashine.pm.api.entity.TblDeviceSensor">
+        <id column="v_device_sensor_id" jdbcType="VARCHAR" property="vDeviceSensorId"/>
+        <result column="v_device_id" jdbcType="VARCHAR" property="vDeviceId"/>
+        <result column="v_elevator_id" jdbcType="VARCHAR" property="vElevatorId"/>
+        <result column="v_elevator_code" jdbcType="VARCHAR" property="vElevatorCode"/>
+        <result column="dt_create_time" jdbcType="TIMESTAMP" property="dtCreateTime"/>
+        <result column="dt_modify_time" jdbcType="TIMESTAMP" property="dtModifyTime"/>
+        <result column="v_create_user_id" jdbcType="VARCHAR" property="vCreateUserId"/>
+        <result column="v_modify_user_id" jdbcType="VARCHAR" property="vModifyUserId"/>
+        <result column="i_del_flag" jdbcType="BIT" property="iDelFlag"/>
+        <result column="v_sensor_config_id" jdbcType="VARCHAR" property="vSensorConfigId"/>
+        <result column="i_sensor_chose" jdbcType="INTEGER" property="iSensorChose"/>
+    </resultMap>
+
+    <sql id="fieldSet">
+        `v_device_sensor_id`
+        , `v_device_id`, `v_elevator_id`, `v_elevator_code`,
+        `dt_create_time`, `dt_modify_time`, `v_create_user_id`, `v_modify_user_id`, `i_del_flag`,
+        `v_sensor_config_id`, `i_sensor_chose`
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="fieldSet"/>
+        from
+        tbl_device_sensor
+        where `v_device_sensor_id` = #{vDeviceSensorId,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectByEntity" parameterType="com.shmashine.pm.api.entity.TblDeviceSensor" resultMap="BaseResultMap">
+        select
+        <include refid="fieldSet"/>
+        from tbl_device_sensor
+        <where>
+            <if test="vElevatorId != null and vElevatorId != ''">
+                and v_elevator_id = #{vElevatorId,jdbcType=VARCHAR}
+            </if>
+            <if test="vElevatorCode != null and vElevatorCode != ''">
+                and v_elevator_code = #{vElevatorCode, jdbcType=VARCHAR}
+            </if>
+            <if test="vDeviceId != null and vDeviceId != ''">
+                and v_device_id = #{vDeviceId, jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+    <select id="getBizList" parameterType="com.shmashine.pm.api.entity.TblDeviceSensor" resultType="java.util.HashMap">
+        select
+        tds.v_device_sensor_id AS vDeviceSensorId,
+        tds.v_device_id AS vDeviceId,
+        tds.v_elevator_id AS vElevatorId,
+        tds.v_elevator_code AS vElevatorCode,
+        tds.dt_create_time AS dtCreateTime,
+        tds.dt_modify_time AS dtModifyTime,
+        tds.v_create_user_id AS vCreateUserId,
+        tds.v_modify_user_id AS vModifyUserId,
+        tds.i_del_flag AS iDelFlag,
+        tds.v_sensor_config_id AS vSensorConfigId,
+        tds.i_sensor_chose AS iSensorChose,
+        sensorConfig.v_sensor_name AS vSensorName,
+        device.v_sensor_type AS vSensorType,
+        device.eType AS eType
+        FROM tbl_device_sensor tds
+        inner join
+        tbl_sensor_config sensorConfig
+        on
+        sensorConfig.v_sensor_config_id = tds.v_sensor_config_id
+        inner join
+        tbl_device device
+        on
+        device.v_device_id = tds.v_device_id
+        <where>
+            <if test="vElevatorId != null and vElevatorId != ''">
+                and tds.v_elevator_id = #{vElevatorId,jdbcType=VARCHAR}
+            </if>
+            <if test="vElevatorCode != null and vElevatorCode != ''">
+                and tds.v_elevator_code = #{vElevatorCode, jdbcType=VARCHAR}
+            </if>
+            <if test="vDeviceId != null and vDeviceId != ''">
+                and tds.v_device_id = #{vDeviceId, jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete
+        from tbl_device_sensor
+        where `v_device_sensor_id` = #{vDeviceSensorId,jdbcType=VARCHAR}
+    </delete>
+
+
+    <insert id="insert" parameterType="com.shmashine.pm.api.entity.TblDeviceSensor">
+        insert into tbl_device_sensor
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="vDeviceSensorId != null">
+                `v_device_sensor_id`,
+            </if>
+            <if test="vDeviceId != null">
+                `v_device_id`,
+            </if>
+            <if test="vElevatorId != null">
+                `v_elevator_id`,
+            </if>
+            <if test="vElevatorCode != null">
+                `v_elevator_code`,
+            </if>
+            <if test="vSensorConfigId != null and vSensorConfigId != ''">
+                `v_sensor_config_id`,
+            </if>
+            <if test="iSensorChose != null">
+                `i_sensor_chose`,
+            </if>
+            <if test="dtCreateTime != null">
+                `dt_create_time`,
+            </if>
+            <if test="dtModifyTime != null">
+                `dt_modify_time`,
+            </if>
+            <if test="vCreateUserId != null">
+                `v_create_user_id`,
+            </if>
+            <if test="vModifyUserId != null">
+                `v_modify_user_id`,
+            </if>
+            <if test="iDelFlag != null">
+                `i_del_flag`,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="vDeviceSensorId != null">
+                #{vDeviceSensorId,jdbcType=VARCHAR},
+            </if>
+            <if test="vDeviceId != null">
+                #{vDeviceId,jdbcType=VARCHAR},
+            </if>
+            <if test="vElevatorId != null">
+                #{vElevatorId,jdbcType=VARCHAR},
+            </if>
+            <if test="vElevatorCode != null">
+                #{vElevatorCode,jdbcType=VARCHAR},
+            </if>
+            <if test="vSensorConfigId != null and vSensorConfigId != ''">
+                #{vSensorConfigId,jdbcType=VARCHAR},
+            </if>
+            <if test="iSensorChose != null">
+                #{iSensorChose,jdbcType=INTEGER},
+            </if>
+            <if test="dtCreateTime != null">
+                #{dtCreateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="dtModifyTime != null">
+                #{dtModifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="vCreateUserId != null">
+                #{vCreateUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="vModifyUserId != null">
+                #{vModifyUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="iDelFlag != null">
+                #{iDelFlag,jdbcType=BIT},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="com.shmashine.pm.api.entity.TblDeviceSensor">
+        update tbl_device_sensor
+        <set>
+            <if test="vDeviceId != null">
+                `v_device_id` = #{vDeviceId,jdbcType=VARCHAR},
+            </if>
+            <if test="vElevatorId != null">
+                `v_elevator_id` = #{vElevatorId,jdbcType=VARCHAR},
+            </if>
+            <if test="vElevatorCode != null">
+                `v_elevator_code` = #{vElevatorCode,jdbcType=VARCHAR},
+            </if>
+            <if test="vSensorConfigId != null and vSensorConfigId != ''">
+                `v_sensor_config_id` = #{vSensorConfigId,jdbcType=VARCHAR},
+            </if>
+            <if test="iSensorChose != null">
+                `v_sensor_chose` = #{iSensorChose,jdbcType=INTEGER},
+            </if>
+            <if test="dtCreateTime != null">
+                `dt_create_time` = #{dtCreateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="dtModifyTime != null">
+                `dt_modify_time` = #{dtModifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="vCreateUserId != null">
+                `v_create_user_id` = #{vCreateUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="vModifyUserId != null">
+                `v_modify_user_id` = #{vModifyUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="iDelFlag != null">
+                `i_del_flag` = #{iDelFlag,jdbcType=BIT},
+            </if>
+        </set>
+        where `v_device_sensor_id` = #{vDeviceSensorId,jdbcType=VARCHAR}
+    </update>
+
+    <insert id="batchInsert" keyProperty="v_device_sensor_id" useGeneratedKeys="true" parameterType="list">
+        insert into tbl_device_sensor
+        (
+        v_device_sensor_id,
+        v_device_id,
+        v_elevator_id,
+        v_elevator_code,
+        v_sensor_config_id,
+        i_sensor_chose,
+        dt_create_time,
+        dt_modify_time,
+        v_create_user_id,
+        v_modify_user_id,
+        i_del_flag
+        )
+        values
+        <foreach item="item" collection="list" separator="," open="" close="" index="index">
+            (
+            #{item.vDeviceSensorId},
+            #{item.vDeviceId},
+            #{item.vElevatorId},
+            #{item.vElevatorCode},
+            #{item.vSensorConfigId},
+            #{item.iSensorChose},
+            #{item.dtCreateTime},
+            #{item.dtModifyTime},
+            #{item.vCreateUserId},
+            #{item.vModifyUserId},
+            #{item.iDelFlag}
+            )
+        </foreach>
+    </insert>
+
+</mapper>

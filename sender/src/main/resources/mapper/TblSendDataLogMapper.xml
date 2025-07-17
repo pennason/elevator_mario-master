@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.sender.dao.TblSendDataLogDao">
+
+    <insert id="insertSendDataLog" parameterType="com.shmashine.common.entity.TblSendDataLog">
+        <selectKey order="AFTER" keyProperty="id" resultType="Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into tbl_send_data_log (<include refid="insertCol"/>) values (<include refid="insertValue"/>)
+    </insert>
+
+    <sql id="insertCol">
+        <trim suffixOverrides=",">
+            <if test="productId!=null and productId!=''">product_id,</if>
+            <if test="identificationNumber!=null and identificationNumber!=''">identification_number,</if>
+            <if test="idNr!=null and idNr!=''">id_nr,</if>
+            <if test="dataType!=null and dataType!=''">data_type,</if>
+            <if test="sendTime!=null and sendTime!=''">send_time,</if>
+            <if test="sendData!=null and sendData!=''">send_data,</if>
+            <if test="responseData!=null and responseData!=''">response_data,</if>
+            <if test="isSuccess!=null and isSuccess!=''">is_success,</if>
+            <if test="areaCode!=null and areaCode!=''">area_code,</if>
+            <if test="vendor!=null and vendor!=''">vendor,</if>
+        </trim>
+    </sql>
+
+    <sql id="insertValue">
+        <trim suffixOverrides=",">
+            <if test="productId!=null and productId!=''">#{productId},</if>
+            <if test="identificationNumber!=null and identificationNumber!=''">#{identificationNumber},</if>
+            <if test="idNr!=null and idNr!=''">#{idNr},</if>
+            <if test="dataType!=null and dataType!=''">#{dataType},</if>
+            <if test="sendTime!=null and sendTime!=''">#{sendTime},</if>
+            <if test="sendData!=null and sendData!=''">#{sendData},</if>
+            <if test="responseData!=null and responseData!=''">#{responseData},</if>
+            <if test="isSuccess!=null and isSuccess!=''">#{isSuccess},</if>
+            <if test="areaCode!=null and areaCode!=''">#{areaCode},</if>
+            <if test="vendor!=null and vendor!=''">#{vendor},</if>
+        </trim>
+    </sql>
+</mapper>

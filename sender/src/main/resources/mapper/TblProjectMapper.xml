@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.sender.dao.TblProjectDao">
+
+    <resultMap type="com.shmashine.common.entity.TblProject" id="TblProjectResultMap">
+        <result property="vProjectId" column="v_project_id" jdbcType="VARCHAR"/>
+        <result property="vProjectName" column="v_project_name" jdbcType="VARCHAR"/>
+        <result property="vDeptId" column="v_dept_id" jdbcType="VARCHAR"/>
+        <result property="vRemarks" column="v_remarks" jdbcType="VARCHAR"/>
+        <result property="vPartyA" column="v_party_a" jdbcType="VARCHAR"/>
+        <result property="vPartyContactsName" column="v_party_contacts_name" jdbcType="VARCHAR"/>
+        <result property="vPartyContactsTel" column="v_party_contacts_tel" jdbcType="VARCHAR"/>
+        <result property="dtCreateTime" column="dt_create_time" jdbcType="TIMESTAMP"/>
+        <result property="dtModifyTime" column="dt_modify_time" jdbcType="TIMESTAMP"/>
+        <result property="vCreateUserId" column="v_create_user_id" jdbcType="VARCHAR"/>
+        <result property="vModifyUserId" column="v_modify_user_id" jdbcType="VARCHAR"/>
+        <result property="iDelFlag" column="i_del_flag" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="table_field">
+        v_project_id
+        , v_project_name, v_dept_id, v_remarks, v_party_a, v_party_contacts_name, v_party_contacts_tel, dt_create_time, dt_modify_time, v_create_user_id, v_modify_user_id, i_del_flag
+    </sql>
+
+    <!--通过Id列表作为筛选条件查询列表，列表长度不为0-->
+    <select id="listProjectByIds" resultMap="TblProjectResultMap" parameterType="list">
+        select
+        <include refid="table_field"/>
+        from tbl_project
+        where v_project_id in
+        <foreach item="item" collection="projectIds" separator="," open="(" close=")" index="index">
+            #{item}
+        </foreach>
+    </select>
+</mapper>

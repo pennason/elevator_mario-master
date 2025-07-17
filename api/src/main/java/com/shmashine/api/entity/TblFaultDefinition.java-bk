@@ -1,0 +1,220 @@
+package com.shmashine.api.entity;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.io.Serializable;
+import java.util.Date;
+
+/**
+ * 故障定义表(TblFaultDefinition)实体类
+ *
+ * @author little.li
+ * @since 2020-06-16 11:04:31
+ */
+public class TblFaultDefinition implements Serializable {
+
+    private static final long serialVersionUID = 429956794054527864L;
+
+    /**
+     * 故障定义唯一ID
+     */
+    private String vFaultDefinitionId;
+    /**
+     * 故障类型
+     */
+    private String iFaultType;
+    /**
+     * 故障名称
+     */
+    private String vFaultName;
+    /**
+     * 故障等级
+     */
+    private Integer iLevel;
+    /**
+     * 故障等级名称
+     */
+    private String vLevelName;
+    /**
+     * 是否保存故障视频 0：不保存，1：保存
+     */
+    private Integer iIsSaveVideo;
+    /**
+     * 是否保存故障图片 0：不保存，1：保存
+     */
+    private Integer iIsSaveImage;
+    /**
+     * 平台名称
+     */
+    private String vPlatformName;
+    /**
+     * 电梯类型 1 直梯; 2 扶梯
+     */
+    private Integer iElevatorType;
+    /**
+     * 对应麦信的故障类型
+     */
+    private Integer iMashineFaultType;
+    /**
+     * 创建时间
+     */
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
+    private Date dtCreateTime;
+    /**
+     * 修改时间
+     */
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
+    private Date dtModifyTime;
+    /**
+     * 创建记录用户
+     */
+    private String vCreateUserId;
+    /**
+     * 修改记录用户
+     */
+    private String vModifyUserId;
+    /**
+     * 删除标识 0-未删除，1-已删除
+     */
+    private Integer iDelFlag;
+
+    @JsonProperty("vFaultDefinitionId")
+    public String getVFaultDefinitionId() {
+        return vFaultDefinitionId;
+    }
+
+    public void setVFaultDefinitionId(String vFaultDefinitonId) {
+        this.vFaultDefinitionId = vFaultDefinitonId;
+    }
+
+    @JsonProperty("iFaultType")
+    public String getIFaultType() {
+        return iFaultType;
+    }
+
+    public void setIFaultType(String iFaultType) {
+        this.iFaultType = iFaultType;
+    }
+
+    @JsonProperty("vFaultName")
+    public String getVFaultName() {
+        return vFaultName;
+    }
+
+    public void setVFaultName(String vFaultName) {
+        this.vFaultName = vFaultName;
+    }
+
+    @JsonProperty("iLevel")
+    public Integer getILevel() {
+        return iLevel;
+    }
+
+    public void setILevel(Integer iLevel) {
+        this.iLevel = iLevel;
+    }
+
+    @JsonProperty("vLevelName")
+    public String getVLevelName() {
+        return vLevelName;
+    }
+
+    @JsonProperty("iIsSaveVideo")
+    public Integer getIIsSaveVideo() {
+        return iIsSaveVideo;
+    }
+
+    public void setIIsSaveVideo(Integer iIsSaveVideo) {
+        this.iIsSaveVideo = iIsSaveVideo;
+    }
+
+    @JsonProperty("iIsSaveImage")
+    public Integer getIIsSaveImage() {
+        return iIsSaveImage;
+    }
+
+    public void setIIsSaveImage(Integer iIsSaveImage) {
+        this.iIsSaveImage = iIsSaveImage;
+    }
+
+    public void setVLevelName(String vLevelName) {
+        this.vLevelName = vLevelName;
+    }
+
+    @JsonProperty("vPlatformName")
+    public String getVPlatformName() {
+        return vPlatformName;
+    }
+
+    public void setVPlatformName(String vPlatformName) {
+        this.vPlatformName = vPlatformName;
+    }
+
+    @JsonProperty("iElevatorType")
+    public Integer getIElevatorType() {
+        return iElevatorType;
+    }
+
+    public void setIElevatorType(Integer iElevatorType) {
+        this.iElevatorType = iElevatorType;
+    }
+
+    @JsonProperty("iMashineFaultType")
+    public Integer getIMashineFaultType() {
+        return iMashineFaultType;
+    }
+
+    public void setIMashineFaultType(Integer iMashineFaultType) {
+        this.iMashineFaultType = iMashineFaultType;
+    }
+
+    @JsonProperty("dtCreateTime")
+    public Date getDtCreateTime() {
+        return dtCreateTime;
+    }
+
+    public void setDtCreateTime(Date dtCreateTime) {
+        this.dtCreateTime = dtCreateTime;
+    }
+
+    @JsonProperty("dtModifyTime")
+    public Date getDtModifyTime() {
+        return dtModifyTime;
+    }
+
+    public void setDtModifyTime(Date dtModifyTime) {
+        this.dtModifyTime = dtModifyTime;
+    }
+
+    @JsonProperty("vCreateUserId")
+    public String getVCreateUserId() {
+        return vCreateUserId;
+    }
+
+    public void setVCreateUserId(String vCreateUserId) {
+        this.vCreateUserId = vCreateUserId;
+    }
+
+    @JsonProperty("vModifyUserId")
+    public String getVModifyUserId() {
+        return vModifyUserId;
+    }
+
+    public void setVModifyUserId(String vModifyUserId) {
+        this.vModifyUserId = vModifyUserId;
+    }
+
+    @JsonProperty("iDelFlag")
+    public Integer getIDelFlag() {
+        return iDelFlag;
+    }
+
+    public void setIDelFlag(Integer iDelFlag) {
+        this.iDelFlag = iDelFlag;
+    }
+
+}

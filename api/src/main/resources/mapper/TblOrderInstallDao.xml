@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.api.dao.TblOrderInstallDao">
+
+    <resultMap type="com.shmashine.api.entity.TblOrderInstall" id="TblOrderInstallResultMap">
+        <result property="vOrderInstallId" column="v_order_install_id" jdbcType="VARCHAR"/>
+        <result property="vOrderBlankId" column="v_order_blank_id" jdbcType="VARCHAR"/>
+        <result property="dtInstallDate" column="dt_install_date" jdbcType="TIMESTAMP"/>
+        <result property="vInstaller" column="v_installer" jdbcType="VARCHAR"/>
+        <result property="iStatus" column="i_status" jdbcType="INTEGER"/>
+        <result property="dtCreateAt" column="dt_create_at" jdbcType="TIMESTAMP"/>
+        <result property="dtModifyAt" column="dt_modify_at" jdbcType="TIMESTAMP"/>
+        <result property="vUserId" column="v_user_id" jdbcType="VARCHAR"/>
+        <association property="tblOrderBlank" column="v_order_blank_id"
+                     javaType="com.shmashine.api.entity.TblOrderBlank">
+            <id property="vOrderBlankId" column="v_order_blank_id"/>
+            <result property="vProjectId" column="v_project_id" jdbcType="VARCHAR"/>
+            <result property="vAddress" column="v_address" jdbcType="VARCHAR"/>
+            <result property="vBuildingName" column="v_building_name" jdbcType="VARCHAR"/>
+            <result property="vCubeNo" column="v_cube_no" jdbcType="VARCHAR"/>
+            <result property="vElevatorCode" column="v_elevator_code" jdbcType="VARCHAR"/>
+            <result property="dtPlanInstallDate" column="dt_plan_install_date" jdbcType="TIMESTAMP"/>
+            <result property="dtAssignDate" column="dt_assign_date" jdbcType="TIMESTAMP"/>
+            <result property="vAssigner" column="v_assigner" jdbcType="VARCHAR"/>
+            <result property="iStatus" column="i_status" jdbcType="INTEGER"/>
+            <result property="dtCreateAt" column="dt_create_at" jdbcType="TIMESTAMP"/>
+            <result property="dtModifyAt" column="dt_modify_at" jdbcType="TIMESTAMP"/>
+            <result property="iDelFlag" column="i_del_flag" jdbcType="INTEGER"/>
+            <result property="vElevatorId" column="v_elevator_id" jdbcType="VARCHAR"/>
+            <result property="vProjectName" column="v_project_name" jdbcType="VARCHAR"/>
+            <collection property="orderBlankFormList" column="v_order_blank_id"
+                        ofType="com.shmashine.api.entity.TblOrderBlankForm" select="getFormDetail">
+            </collection>
+        </association>
+    </resultMap>
+
+    <insert id="insertRecord" keyProperty="vOrderInstallId" useGeneratedKeys="true"
+            parameterType="com.shmashine.api.entity.TblOrderInstall">
+        insert into tbl_order_install
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="tblOrderInstall.vOrderInstallId != null">
+                v_order_install_id,
+            </if>
+            <if test="tblOrderInstall.vOrderBlankId != null and tblOrderInstall.vOrderBlankId != ''">
+                v_order_blank_id,
+            </if>
+            <if test="tblOrderInstall.dtInstallDate != null">
+                dt_install_date,
+            </if>
+            <if test="tblOrderInstall.vInstaller != null and tblOrderInstall.vInstaller != ''">
+                v_installer,
+            </if>
+            <if test="tblOrderInstall.iStatus != null">
+                i_status,
+            </if>
+            <if test="tblOrderInstall.dtCreateAt != null">
+                dt_create_at,
+            </if>
+            <if test="tblOrderInstall.dtModifyAt != null">
+                dt_modify_at,
+            </if>
+            <if test="tblOrderInstall.vUserId != null and tblOrderInstall.vUserId != ''">
+                v_user_id,
+            </if>
+            <if test="tblOrderInstall.iDelFlag != null">
+                i_del_flag,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="tblOrderInstall.vOrderInstallId != null">
+                #{tblOrderInstall.vOrderInstallId},
+            </if>
+            <if test="tblOrderInstall.vOrderBlankId != null and tblOrderInstall.vOrderBlankId != ''">
+                #{tblOrderInstall.vOrderBlankId},
+            </if>
+            <if test="tblOrderInstall.dtInstallDate != null">
+                #{tblOrderInstall.dtInstallDate},
+            </if>
+            <if test="tblOrderInstall.vInstaller != null and tblOrderInstall.vInstaller != ''">
+                #{tblOrderInstall.vInstaller},
+            </if>
+            <if test="tblOrderInstall.iStatus != null">
+                #{tblOrderInstall.iStatus},
+            </if>
+            <if test="tblOrderInstall.dtCreateAt != null">
+                #{tblOrderInstall.dtCreateAt},
+            </if>
+            <if test="tblOrderInstall.dtModifyAt != null">
+                #{tblOrderInstall.dtModifyAt},
+            </if>
+            <if test="tblOrderInstall.vUserId != null and tblOrderInstall.vUserId != ''">
+                #{tblOrderInstall.vUserId},
+            </if>
+            <if test="tblOrderInstall.iDelFlag != null">
+                #{tblOrderInstall.iDelFlag},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateRecord" parameterType="com.shmashine.api.entity.TblOrderInstall">
+        update tbl_order_install
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="tblOrderInstall.vOrderBlankId != null and tblOrderInstall.vOrderBlankId != ''">
+                v_order_blank_id = #{tblOrderInstall.vOrderBlankId},
+            </if>
+            <if test="tblOrderInstall.dtInstallDate != null">
+                dt_install_date = #{tblOrderInstall.dtInstallDate},
+            </if>
+            <if test="tblOrderInstall.vInstaller != null and tblOrderInstall.vInstaller != ''">
+                v_installer = #{tblOrderInstall.vInstaller},
+            </if>
+            <if test="tblOrderInstall.iStatus != null">
+                i_status = #{tblOrderInstall.iStatus},
+            </if>
+            <if test="tblOrderInstall.dtCreateAt != null">
+                dt_create_at = #{tblOrderInstall.dtCreateAt},
+            </if>
+            <if test="tblOrderInstall.dtModifyAt != null">
+                dt_modify_at = #{tblOrderInstall.dtModifyAt},
+            </if>
+            <if test="tblOrderInstall.vUserId != null and tblOrderInstall.vUserId != ''">
+                v_user_id = #{tblOrderInstall.vUserId},
+            </if>
+        </trim>
+        where v_order_install_id = #{tblOrderInstall.vOrderInstallId}
+    </update>
+
+    <select id="search" parameterType="com.shmashine.api.module.orderBlank.TblOrderInstallModule"
+            resultMap="TblOrderInstallResultMap">
+        select tmp.*, tbl_project.v_project_name from (
+        select oi.v_order_install_id, oi.v_order_blank_id, oi.dt_install_date, oi.v_installer, oi.i_status,
+        oi.dt_create_at, oi.dt_modify_at, oi.v_user_id,
+        ob.v_project_id, ob.v_address, ob.v_building_name, ob.v_cube_no, ob.v_elevator_code, ob.dt_plan_install_date,
+        ob.dt_assign_date, ob.v_assigner, ob.v_elevator_id
+        from tbl_order_install as oi, tbl_order_blank as ob
+        where oi.v_order_blank_id = ob.v_order_blank_id
+        ) as tmp
+        <if test="tblOrderInstallModule.isAdminFlag">
+            left join tbl_project on tmp.v_project_id = tbl_project.v_project_id
+        </if>
+
+        <if test="!tblOrderInstallModule.isAdminFlag">
+            inner join tbl_project on tmp.v_project_id = tbl_project.v_project_id
+        </if>
+
+        <where>
+            <if test="tblOrderInstallModule.vProjectId != null and tblOrderInstallModule.vProjectId != ''">
+                and tmp.v_project_id = #{tblOrderInstallModule.vProjectId}
+            </if>
+            <if test="tblOrderInstallModule.vElevatorId != null and tblOrderInstallModule.vElevatorId != ''">
+                and tmp.v_elevator_id = #{tblOrderInstallModule.vElevatorId}
+            </if>
+            <if test="tblOrderInstallModule.vOrderInstallId != null and tblOrderInstallModule.vOrderInstallId != ''">
+                and tmp.v_order_install_id = #{tblOrderInstallModule.vOrderInstallId}
+            </if>
+            <if test="!tblOrderInstallModule.isAdminFlag">
+                and tbl_project.v_dept_id in
+                <foreach collection="tblOrderInstallModule.permissionDeptIds" item="item" open="(" close=")"
+                         separator=",">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+    <select id="getFormDetail" parameterType="Map"
+            resultMap="com.shmashine.api.dao.TblOrderBlankFormDao.TblOrderBlankFormResultMap">
+        select obf.v_order_blank_form_id,
+               obf.v_material_name,
+               obf.v_material_attribute_content,
+               obf.i_material_num,
+               obf.i_del_flag,
+               obf.v_material_id,
+               obf.v_material_attribute_id
+        from tbl_order_blank_form as obf
+        where obf.v_order_blank_id = #{v_order_blank_id}
+    </select>
+
+    <select id="detail" parameterType="String" resultMap="TblOrderInstallResultMap">
+        select oi.v_order_install_id,
+               oi.v_order_blank_id,
+               oi.dt_install_date,
+               oi.v_installer,
+               oi.i_status,
+               oi.dt_create_at,
+               oi.dt_modify_at,
+               oi.v_user_id,
+               ob.v_order_blank_id,
+               ob.v_project_id,
+               ob.v_address,
+               ob.v_building_name,
+               ob.v_cube_no,
+               ob.v_elevator_code,
+               ob.dt_plan_install_date,
+               ob.dt_assign_date,
+               ob.v_assigner,
+               ob.i_status,
+               ob.dt_create_at,
+               ob.dt_modify_at,
+               ob.v_user_id,
+               ob.i_del_flag,
+               ob.v_elevator_id,
+               tp.v_project_name
+        from tbl_order_install as oi,
+             tbl_order_blank as ob,
+             tbl_project as tp
+        where oi.v_order_blank_id = ob.v_order_blank_id
+          and oi.v_order_install_id = #{vOrderInstallId}
+          and tp.v_project_id = ob.v_project_id
+    </select>
+
+    <delete id="deleteRecord" parameterType="com.shmashine.api.entity.TblOrderInstall">
+        delete
+        from tbl_order_install
+        where tbl_order_install.v_order_install_id = #{tblOrderInstall.vOrderInstallId}
+    </delete>
+</mapper>

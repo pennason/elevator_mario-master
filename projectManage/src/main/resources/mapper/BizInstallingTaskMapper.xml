@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shmashine.pm.api.dao.BizInstallingTaskDao">
+
+    <resultMap id="TblInstallingTaskDtoResultMap" type="com.shmashine.pm.api.entity.dto.TblInstallingTaskDto">
+        <result property="vInstallingTaskId" column="v_installing_task_id" jdbcType="VARCHAR"/>
+        <result property="vProjectId" column="v_project_id" jdbcType="VARCHAR"/>
+        <result property="vVillageId" column="v_village_id" jdbcType="VARCHAR"/>
+        <result property="vPrincipalId" column="v_principal_id" jdbcType="VARCHAR"/>
+        <result property="iElevatorCount" column="i_elevator_count" jdbcType="INTEGER"/>
+        <result property="iStatus" column="i_status" jdbcType="INTEGER"/>
+        <result property="dInstallingDate" column="d_installing_date" jdbcType="INTEGER"/>
+        <result property="dtCreateTime" column="dt_create_time" jdbcType="TIMESTAMP"/>
+        <result property="dtModifyTime" column="dt_modify_time" jdbcType="TIMESTAMP"/>
+        <result property="vCreateUserId" column="v_create_user_id" jdbcType="VARCHAR"/>
+        <result property="vModifyUserId" column="v_modify_user_id" jdbcType="VARCHAR"/>
+        <result property="iDelFlag" column="i_del_flag" jdbcType="INTEGER"/>
+        <result property="vAddress" column="v_address" jdbcType="VARCHAR"/>
+        <result property="vProjectName" column="v_project_name" jdbcType="VARCHAR"/>
+        <result property="vVillageName" column="v_village_name" jdbcType="VARCHAR"/>
+        <result property="iStatusName" column="i_status_name" jdbcType="VARCHAR"/>
+        <result property="vPrincipalName" column="v_principal_name" jdbcType="VARCHAR"/>
+        <result property="vPrincipalMobile" column="v_principal_mobile" jdbcType="VARCHAR"/>
+        <result property="iNextStep" column="i_next_step" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="table_field">
+        v_installing_task_id
+        , v_project_id, v_village_id, v_address, v_principal_id, d_installing_date, i_elevator_count, i_status, dt_create_time, dt_modify_time, v_create_user_id, v_modify_user_id, i_del_flag, i_next_step
+    </sql>
+
+    <!-- 安装单列表 -->
+    <select id="searchInstallingTaskList" resultType="java.util.Map">
+        select
+        tbl.v_installing_task_id,
+        tbl.v_project_id,
+        tbl.v_village_id,
+        tbl.v_address,
+        tbl.v_principal_id,
+        tbl.d_installing_date,
+        tbl.i_elevator_count,
+        tbl.i_status,
+        tbl.i_next_step,
+        case
+        when tbl.i_status = 1 then '未安装'
+        when tbl.i_status = 2 then '安装中'
+        when tbl.i_status = 3 then '完成'
+        when tbl.i_status = -1 then '已取消'
+        else '无'
+        end as i_status_name,
+        tbl.dt_create_time,
+        tbl.dt_modify_time,
+        tbl.v_create_user_id,
+        tbl.v_modify_user_id,
+        tbl.i_del_flag,
+        village.v_village_name,
+        project.v_project_name,
+        sysinfo.v_name_zh_cn AS i_del_flag_name,
+        u.v_name as v_principal_name,
+        u.v_mobile as v_principal_mobile,
+        dept.v_dept_name
+        from tbl_installing_task tbl
+        left join tbl_sys_user as u
+        on u.v_user_id = tbl.v_principal_id
+        left join tbl_project project on project.v_project_id = tbl.v_project_id
+        left join tbl_sys_dept dept on dept.v_dept_id = project.v_dept_id
+        left join tbl_village village on village.v_village_id = tbl.v_village_id
+        left join tbl_sys_systeminfo sysinfo on sysinfo.v_sysvalue5 = tbl.i_del_flag and sysinfo.v_sysid = '10012'
+        <where>
+            <!--dept.v_dept_id-->
+            <!--<foreach collection="permissionDeptIds" item="item"  open="IN(" separator="," close=")" >-->
+            <!--#{item}-->
+            <!--</foreach>-->
+            <if test="vInstallingTaskId != null and vInstallingTaskId != ''">
+                and tbl.v_installing_task_id like concat("%", #{vInstallingTaskId,jdbcType=VARCHAR}, "%")
+            </if>
+            <if test="vProjectId != null and vProjectId != ''">
+                and tbl.v_project_id = #{vProjectId,jdbcType=VARCHAR}
+            </if>
+            <if test="vVillageId != null and vVillageId != ''">
+                and tbl.v_village_id = #{vVillageId,jdbcType=VARCHAR}
+            </if>
+            <if test="vAddress != null and vAddress != ''">
+                and tbl.v_address like CONCAT('%',#{vAddress,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="iDelFlag != null">
+                and tbl.i_del_flag = #{iDelFlag, jdbcType=INTEGER}
+            </if>
+            <if test="iStatus != null and iStatus !=''">
+                and tbl.i_status in
+                <foreach collection="iStatus.split(',')" item="item" index="index" separator="," open="(" close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="!isAdminFlag">
+                and tbl.v_principal_id = #{userId, jdbcType=VARCHAR}
+            </if>
+        </where>
+        order by tbl.dt_create_time desc
+    </select>
+
+    <select id="getTaskDetail" parameterType="java.lang.String" resultMap="TblInstallingTaskDtoResultMap">
+        select tbl.v_installing_task_id,
+               tbl.v_project_id,
+               tbl.v_village_id,
+               tbl.v_address,
+               tbl.v_principal_id,
+               tbl.d_installing_date,
+               tbl.i_elevator_count,
+               tbl.i_status,
+               tbl.i_next_step,
+               case
+                   when tbl.i_status = 1 then '未安装'
+                   when tbl.i_status = 2 then '安装中'
+                   when tbl.i_status = 3 then '完成'
+                   when tbl.i_status = -1 then '已取消'
+                   else '无'
+                   end              as i_status_name,
+               tbl.dt_create_time,
+               tbl.dt_modify_time,
+               tbl.v_create_user_id,
+               tbl.v_modify_user_id,
+               tbl.i_del_flag,
+               village.v_village_name,
+               project.v_project_name,
+               sysinfo.v_name_zh_cn AS i_del_flag_name,
+               u.v_name             as v_principal_name,
+               u.v_mobile           as v_principal_mobile
+        from tbl_installing_task tbl
+                 left join tbl_sys_user as u
+                           on u.v_user_id = tbl.v_principal_id
+                 join tbl_project project on project.v_project_id = tbl.v_project_id
+                 join tbl_sys_dept dept on dept.v_dept_id = project.v_dept_id
+                 join tbl_village village on village.v_village_id = tbl.v_village_id
+                 left join tbl_sys_systeminfo sysinfo
+                           on sysinfo.v_sysvalue5 = tbl.i_del_flag and sysinfo.v_sysid = '10012'
+        where tbl.v_installing_task_id = #{vInstallingTaskId, jdbcType=VARCHAR} limit 0,1
+    </select>
+
+    <!-- 获取小区下拉框 -->
+    <select id="searchInstallingTaskSelectList" resultType="java.util.Map">
+        select
+        v_installing_task_id,
+        v_project_id,
+        v_village_id,
+        v_address
+        from tbl_installing_task
+        <where>
+            v_installing_task_id = #{investigateTaskId}
+        </where>
+    </select>
+
+    <!-- 获取小区下拉框 -->
+    <select id="getByVillageId" resultType="com.shmashine.pm.api.entity.TblInstallingTask">
+        select
+        <include refid="table_field"/>
+        from tbl_installing_task
+        <where>
+            v_village_id = #{vVillageId}
+        </where>
+        limit 0, 1
+    </select>
+
+    <select id="getElevatorsInfo" resultType="java.util.Map">
+        select distinct bill.v_installing_bill_id,
+                        bill.i_status,
+                        elevator.v_elevator_code,
+                        elevator.v_elevator_name,
+                        elevator.v_address,
+                        elevator.v_equipment_code,
+                        elevator.v_elevator_id
+        from tbl_installing_bill as bill
+                 join tbl_elevator as elevator
+                      on elevator.v_elevator_code = bill.v_elevator_code
+        where bill.v_installing_task_id = #{vInstallingTaskId, jdbcType=VARCHAR}
+          and bill.i_status in (1, 3)
+    </select>
+</mapper>

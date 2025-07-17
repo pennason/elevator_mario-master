@@ -1,0 +1,55 @@
+/.fastRequest/
+/.vscode/
+/日志存储路径/
+/com.shmashine.socket.fault/mvnw
+/com.shmashine.socket.fault/mvnw.cmd
+/com.shmashine.socket.fault/pom.xml
+/logs/
+**/logs/
+/arthas-output/
+
+target/
+**/target/
+
+/build/
+**/build/
+
+tree
+/**/tree
+
+.gradle
+!gradle/wrapper/gradle-wrapper.jar
+!.mvn/wrapper/maven-wrapper.jar
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+nbproject/private/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+
+######################################################################
+# Others
+*.log
+*.xml.versionsBackup
+*.swp
+
+*.gz
+**/rebel.xml
+.rebel.xml
+/**/.DS_Store
+.DS_Store

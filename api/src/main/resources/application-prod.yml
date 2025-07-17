@@ -1,0 +1,134 @@
+# kafka topic 名称
+kafka:
+  topic:
+    fault: pro_oreo_fault
+    pre-fault: pro_oreo_preFault
+    http: pro_netty_nezha
+    socket: pro_web_nezha
+    monitor: pro_oreo_monitor
+
+eureka:
+  client:
+    service-url:
+      # defaultZone: http://172.31.183.101:8008/eureka/
+      defaultZone: http://shmashine-eureka:8008/eureka/
+  instance:
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+    # 优先使用IP地址方式进行注册服务
+    prefer-ip-address: true
+
+# sa-token 配置
+sa-token:
+  # 配置 Sa-Token 单独使用的 Redis 连接
+  alone-redis:
+    database: 13  # 默认13
+    host: redis.tech.internal.shmashine.com
+    port: 6379
+    password: shmashine@666
+    timeout: 5000
+
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    #driverClassName: net.sf.log4jdbc.DriverSpy
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://rm-m5e5x3037x8bn5br6.mysql.rds.aliyuncs.com:3306/elevator_master?useSSL=false&useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&autoReconnect=true&failOverReadOnly=false&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+    username: elevator_master
+    password: Shmash1ne@elevator_master
+
+  redis:
+    database: 2
+    host: redis.tech.internal.shmashine.com
+    port: 6379
+    password: shmashine@666
+    timeout: 8000 # 连接超时时间，单位为毫秒
+    lettuce:
+      pool:
+        max-active: 64  # 最大活跃连接数
+        max-wait: -1  # 最大等待时间（-1表示无限等待）
+        max-idle: 32  # 最大空闲连接数
+        min-idle: 0  # 最小空闲连接数
+
+  data:
+    mongodb:
+      host: mongo.tech.internal.shmashine.com
+      port: 27017
+      database: MX
+      username: shmashine
+      password: Shmashine@666
+
+  kafka:
+    producer:
+      #bootstrap-servers: kafka:9092
+      bootstrap-servers: kafka.pro.internal.shmashine.com:29092
+      retries: 0
+      batch-size: 16384
+      buffer-memory: 33554432
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      properties:
+        security.protocol: SASL_PLAINTEXT
+        sasl.mechanism: PLAIN
+        sasl.jaas.config: org.apache.kafka.common.security.plain.PlainLoginModule required username="producer" password="secret20190219";
+    consumer:
+      #bootstrap-servers: kafka:9092
+      bootstrap-servers: kafka.pro.internal.shmashine.com:29092
+      group-id: pro-sender
+      auto-offset-reset: latest
+      enable-auto-commit: true
+      auto-commit-interval: 1000
+      #max-poll-records: 800
+      heartbeat-interval: 3000
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      properties:
+        security.protocol: SASL_PLAINTEXT
+        sasl.mechanism: PLAIN
+        sasl.jaas.config: org.apache.kafka.common.security.plain.PlainLoginModule required username="producer" password="secret20190219";
+    listener:
+      missing-topics-fatal: false
+
+  boot:
+    admin:
+      client:
+        url: http://spring-boot-admin:9999 #配置admin-server地址
+        username: shmashine
+        password: shmashine
+        instance:
+          prefer-ip: true
+          # service-url: http://172.31.183.101:8003/api
+          service-url: http://shmashine-api:8003/api
+
+xxl:
+  job:
+    admin:
+      addresses: http://xxljob.shmashine.com:8088/xxl-job-admin
+    accessToken: shmashine
+    executor:
+      appname: shmashine-api
+      address: ~
+      ip: ~
+      port: 9998
+      logpath: /data/logs/${spring.application.name}/xxl-job
+      logretentiondays: 7
+
+springdoc:
+  api-docs:
+    enabled: true
+
+ali-oss:
+  use-internal: true # 服务器和OSS都位于青岛，可以使用内部地址上传到OSS
+
+#endpoint:
+#  shmashine-applets: http://172.31.183.101:8012
+
+endpoint:
+  shmashine-applets: http://172.31.183.101:8012
+  shmashine-satoken: http://172.31.183.101:8091
+  shmashine-camera: http://172.31.183.101:8005
+  shmashine-socket: http://172.31.183.100:8002
+  # 图像识别服务器正式环境（公网：47.104.233.100，内网：172.31.183.105）
+  ai-image-label: http://172.31.183.105:10087
+  sender-server: http://172.31.183.101:8086
+  # 升级文件使用地址
+  upgrade-file-server: 47.104.141.206:8003

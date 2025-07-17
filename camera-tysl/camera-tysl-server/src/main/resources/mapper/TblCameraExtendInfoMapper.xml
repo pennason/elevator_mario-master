@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.cameratysl.dao.TblCameraExtendInfoMapper">
+    <sql id="TABLE_NAME">
+        tbl_camera_extend_info
+    </sql>
+
+    <sql id="ALL_COLUMNS">
+        id
+        , cloud_number, platform_id, platform_name, sup_or_sub, elevator_code, guid, gbid, ctei, camera_type, channel_seq, device_code,
+        vendor_code, online_state, `status`, change_time, create_time, modify_time
+    </sql>
+
+    <select id="getCameraExtendInfoByElevatorCode" resultType="com.shmashine.common.entity.TblCameraExtendInfoEntity">
+        SELECT
+        <include refid="ALL_COLUMNS"/>
+        FROM
+        <include refid="TABLE_NAME"/>
+        WHERE
+        elevator_code = #{elevatorCode} AND camera_type = #{cameraType}
+        ORDER BY id DESC limit 1
+    </select>
+    <select id="getByCloudNumberAndPlatformId" resultType="com.shmashine.common.entity.TblCameraExtendInfoEntity">
+        SELECT
+        <include refid="ALL_COLUMNS"/>
+        FROM
+        <include refid="TABLE_NAME"/>
+        WHERE
+        cloud_number = #{cloudNumber} and platform_id = #{platformId}
+    </select>
+
+    <insert id="saveCameraExtendInfo" parameterType="com.shmashine.common.entity.TblCameraExtendInfoEntity">
+        INSERT INTO
+        <include refid="TABLE_NAME"/>
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="platformName != null and platformName != ''">
+                platform_name,
+            </if>
+            <if test="supOrSub != null and supOrSub != ''">
+                sup_or_sub,
+            </if>
+            <if test="elevatorCode != null and elevatorCode != ''">
+                elevator_code,
+            </if>
+            <if test="guid != null and guid != ''">
+                guid,
+            </if>
+            <if test="gbid != null and gbid != ''">
+                gbid,
+            </if>
+            <if test="ctei != null and ctei != ''">
+                ctei,
+            </if>
+            <if test="cameraType != null">
+                camera_type,
+            </if>
+            <if test="channelSeq != null and channelSeq != ''">
+                channel_seq,
+            </if>
+            <if test="deviceCode != null and deviceCode != ''">
+                device_code,
+            </if>
+            <if test="vendorCode != null and vendorCode != ''">
+                vendor_code,
+            </if>
+            <if test="onlineState != null">
+                online_state,
+            </if>
+            <if test="status != null">
+                `status`,
+            </if>
+            <if test="changeTime != null and changeTime != ''">
+                change_time,
+            </if>
+            cloud_number,
+            platform_id,
+        </trim>
+        <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+            <if test="platformName != null and platformName != ''">
+                #{platformName},
+            </if>
+            <if test="supOrSub != null and supOrSub != ''">
+                #{supOrSub},
+            </if>
+            <if test="elevatorCode != null and elevatorCode != ''">
+                #{elevatorCode},
+            </if>
+            <if test="guid != null and guid != ''">
+                #{guid},
+            </if>
+            <if test="gbid != null and gbid != ''">
+                #{gbid},
+            </if>
+            <if test="ctei != null and ctei != ''">
+                #{ctei},
+            </if>
+            <if test="cameraType != null">
+                #{cameraType},
+            </if>
+            <if test="channelSeq != null and channelSeq != ''">
+                #{channelSeq},
+            </if>
+            <if test="deviceCode != null and deviceCode != ''">
+                #{deviceCode},
+            </if>
+            <if test="vendorCode != null and vendorCode != ''">
+                #{vendorCode},
+            </if>
+            <if test="onlineState != null">
+                #{onlineState},
+            </if>
+            <if test="status != null">
+                #{status},
+            </if>
+            <if test="changeTime != null and changeTime != ''">
+                #{changeTime},
+            </if>
+            #{cloudNumber},
+            #{platformId},
+        </trim>
+        ON DUPLICATE KEY UPDATE
+        <trim suffixOverrides=",">
+            <if test="platformName != null and platformName != ''">
+                platform_name = #{platformName},
+            </if>
+            <if test="supOrSub != null and supOrSub != ''">
+                sup_or_sub = #{supOrSub},
+            </if>
+            <if test="elevatorCode != null and elevatorCode != ''">
+                elevator_code = #{elevatorCode},
+            </if>
+            <if test="guid != null and guid != ''">
+                guid = #{guid},
+            </if>
+            <if test="gbid != null and gbid != ''">
+                gbid = #{gbid},
+            </if>
+            <if test="ctei != null and ctei != ''">
+                ctei = #{ctei},
+            </if>
+            <if test="cameraType != null">
+                camera_type = #{cameraType},
+            </if>
+            <if test="channelSeq != null and channelSeq != ''">
+                channel_seq = #{channelSeq},
+            </if>
+            <if test="deviceCode != null and deviceCode != ''">
+                device_code = #{deviceCode},
+            </if>
+            <if test="vendorCode != null and vendorCode != ''">
+                vendor_code = #{vendorCode},
+            </if>
+            <if test="onlineState != null">
+                online_state = #{onlineState},
+            </if>
+            <if test="status != null">
+                `status` = #{status},
+            </if>
+            <if test="changeTime != null and changeTime != ''">
+                change_time = #{changeTime},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateCameraStatus">
+        UPDATE
+        <include refid="TABLE_NAME"/>
+        SET online_state = #{entity.status}, modify_time = NOW()
+        <where>
+            <if test="entity.guid != null">
+                AND guid = #{entity.guid}
+            </if>
+            <if test="entity.cloudNumber != null and entity.cloudNumber != ''">
+                AND cloud_number = #{entity.cloudNumber}
+            </if>
+            <if test="entity.id != null">
+                AND id = #{entity.id}
+            </if>
+        </where>
+    </update>
+
+    <update id="updateCameraStatusByGuid">
+        UPDATE
+        <include refid="TABLE_NAME"/>
+        SET online_state = #{entity.onlineStatus}, status = #{entity.status}, modify_time = NOW()
+        WHERE guid = #{entity.guid}
+    </update>
+
+</mapper>

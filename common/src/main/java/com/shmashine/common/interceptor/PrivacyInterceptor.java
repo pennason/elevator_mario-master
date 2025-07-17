@@ -1,0 +1,121 @@
+package com.shmashine.common.interceptor;
+
+import java.lang.reflect.Method;
+import java.util.List;
+
+import org.apache.ibatis.cache.CacheKey;
+import org.apache.ibatis.executor.Executor;
+import org.apache.ibatis.mapping.BoundSql;
+import org.apache.ibatis.mapping.MappedStatement;
+import org.apache.ibatis.plugin.Interceptor;
+import org.apache.ibatis.plugin.Intercepts;
+import org.apache.ibatis.plugin.Invocation;
+import org.apache.ibatis.plugin.Signature;
+import org.apache.ibatis.session.ResultHandler;
+import org.apache.ibatis.session.RowBounds;
+
+
+/**
+ * 拦截器处理
+ *
+ * @Author: jiangheng
+ * @Version: 1.0.0
+ * @Date: 2024/5/20 17:32
+ * @Since: 1.0.0
+ */
+@Intercepts(
+        {
+                @Signature(type = Executor.class, method = "query",
+                        args = {MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class}),
+                @Signature(type = Executor.class, method = "query",
+                        args = {MappedStatement.class, Object.class, RowBounds.class,
+                                ResultHandler.class, CacheKey.class, BoundSql.class}),
+                @Signature(type = Executor.class, method = "update",
+                        args = {MappedStatement.class, Object.class}),
+        }
+)
+public class PrivacyInterceptor implements Interceptor {
+
+    private final CryptHandler cryptHandler;
+
+    public PrivacyInterceptor(CryptHandler cryptHandler) {
+        this.cryptHandler = cryptHandler;
+    }
+
+    @Override
+    public Object intercept(Invocation invocation) throws Throwable {
+        Method method = invocation.getMethod();
+        Object[] args = invocation.getArgs();
+        MappedStatement ms = (MappedStatement) args[0];
+        Object parameter = args[1];
+
+
+        switch (method.getName()) {
+            case "update":
+                updateHandle(parameter);
+                return invocation.proceed();
+            case "query":
+                RowBounds rowBounds = (RowBounds) args[2];
+                ResultHandler<Object> resultHandler = (ResultHandler) args[3];
+                Executor executor = (Executor) invocation.getTarget();
+
+                CacheKey cacheKey;
+                BoundSql boundSql;
+                //由于逻辑关系，只会进入一次
+                if (args.length == 4) {
+                    //4 个参数时
+                    boundSql = ms.getBoundSql(parameter);
+                    cacheKey = executor.createCacheKey(ms, parameter, rowBounds, boundSql);
+                } else {
+                    //6 个参数时
+                    cacheKey = (CacheKey) args[4];
+                    boundSql = (BoundSql) args[5];
+                }
+                return selectHandle(executor, ms, parameter, rowBounds, resultHandler, boundSql, cacheKey);
+            default:
+                return invocation.proceed();
+        }
+    }
+
+    /**
+     * 查询操作处理
+     */
+    protected Object selectHandle(Executor executor, MappedStatement ms, Object parameter, RowBounds rowBounds,
+                                  ResultHandler resultHandler, BoundSql boundSql, CacheKey cacheKey) throws Throwable {
+
+        //查询前置处理
+        beforeQuery(parameter);
+        List<Object> resultList = executor.query(ms, parameter, rowBounds, resultHandler, cacheKey, boundSql);
+        // 查询后置处理
+        afterQuery(resultList);
+        return resultList;
+    }
+
+    /**
+     * 新增修改操作处理
+     */
+    protected void updateHandle(Object parameter) {
+
+        beforeUpdate(parameter);
+    }
+
+
+    private void beforeQuery(Object parameter) {
+        if (parameter != null) {
+            cryptHandler.handleParam(parameter);
+        }
+    }
+
+    private void afterQuery(List<Object> resultList) {
+        if (resultList != null && !resultList.isEmpty()) {
+            cryptHandler.handleResultList(resultList);
+        }
+    }
+
+    private void beforeUpdate(Object parameter) {
+        if (parameter != null) {
+            cryptHandler.handleParam(parameter);
+        }
+    }
+
+}

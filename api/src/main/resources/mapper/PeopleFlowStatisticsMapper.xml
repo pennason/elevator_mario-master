@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shmashine.api.dao.PeopleFlowStatisticsDao">
+
+
+    <!--新增人流量统计记录-->
+    <insert id="insert">
+        insert into people_flow_statistics_message
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="elevatorCode != null">
+                elevator_code,
+            </if>
+            <if test="triggerTime != null">
+                trigger_time,
+            </if>
+            <if test="floor != null">
+                floor,
+            </if>
+            <if test="direction != null">
+                direction,
+            </if>
+            <if test="identificationNumber != null">
+                identification_number,
+            </if>
+            <if test="throughput != null">
+                throughput,
+            </if>
+            <if test="picUrl != null">
+                pic_url,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="elevatorCode != null">
+                #{elevatorCode},
+            </if>
+            <if test="triggerTime != null">
+                #{triggerTime},
+            </if>
+            <if test="floor != null">
+                #{floor},
+            </if>
+            <if test="direction != null">
+                #{direction},
+            </if>
+            <if test="identificationNumber != null">
+                #{identificationNumber},
+            </if>
+            <if test="throughput != null">
+                #{throughput},
+            </if>
+            <if test="picUrl != null">
+                #{picUrl},
+            </if>
+        </trim>
+    </insert>
+
+    <!--更新记录-->
+    <update id="updateById">
+        UPDATE people_flow_statistics_message
+        <set>
+            <if test="elevatorCode != null and elevatorCode != ''">elevator_code = #{elevatorCode},</if>
+            <if test="triggerTime != null ">trigger_time = #{triggerTime},</if>
+            <if test="floor != null ">floor = #{floor},</if>
+            <if test="direction != null ">direction = #{direction},</if>
+            <if test="identificationNumber != null ">identification_number =
+                #{identificationNumber},
+            </if>
+            <if test="throughput != null ">throughput = #{throughput},</if>
+            <if test="picUrl != null and picUrl != ''">pic_url = #{picUrl}</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <!--根据id获取记录-->
+    <select id="getById" resultType="com.shmashine.common.message.PeopleFlowStatisticsMessage">
+        SELECT *
+        FROM people_flow_statistics_message
+        WHERE id = #{id}
+    </select>
+
+    <!--获取上一条记录-->
+    <select id="getPreviousRecord" resultType="com.shmashine.common.message.PeopleFlowStatisticsMessage">
+        SELECT *
+        FROM people_flow_statistics_message
+        WHERE elevator_code = #{elevatorCode}
+          AND trigger_time &lt; #{triggerTime}
+          AND direction &lt;&gt; 0
+        ORDER BY trigger_time DESC LIMIT 1
+    </select>
+
+    <!--获取上下行人流量统计 时间段分组-->
+    <select id="pedestrianFlowStatistics"
+            resultType="com.shmashine.api.service.peopleFlowStatistics.dto.PedestrianFlowStatisticsDTO">
+        SELECT DATE_FORMAT(trigger_time,'%Y-%m-%d %H:00:00') AS groupData, direction AS groupBy,SUM(throughput) AS
+        throughput FROM
+        people_flow_statistics_message
+        <where>
+            <if test="selectStartTime != null ">AND trigger_time &gt;= #{selectStartTime}</if>
+            <if test="selectEndTime != null ">AND trigger_time &lt;= #{selectEndTime}</if>
+            AND elevator_code = #{elevatorCode}
+            AND throughput > 0
+        </where>
+        GROUP BY DATE_FORMAT(trigger_time,'%Y-%m-%d %H:00:00'),direction
+    </select>
+
+    <!--获取当前时间段记录-->
+    <select id="getListByTriggerTime" resultType="com.shmashine.common.message.PeopleFlowStatisticsMessage">
+        SELECT *
+        FROM people_flow_statistics_message
+        WHERE trigger_time &gt;= #{startTime}
+          AND trigger_time &lt; #{endTime}
+          AND throughput IS NULL
+          AND direction &lt;&gt; 0
+        ORDER BY elevator_code, trigger_time
+    </select>
+
+    <!--获取上下行人流量统计 楼层分组-->
+    <select id="pedestrianFlowStatisticsGroupByFloor"
+            resultType="com.shmashine.api.service.peopleFlowStatistics.dto.PedestrianFlowStatisticsDTO">
+        SELECT floor AS groupData, #{groupBy} AS groupBy,SUM(ABS(throughput)) AS throughput FROM
+        people_flow_statistics_message
+        <where>
+            <if test="reqVO.selectStartTime != null ">AND trigger_time &gt;= #{reqVO.selectStartTime}</if>
+            <if test="reqVO.selectEndTime != null ">AND trigger_time &lt;= #{reqVO.selectEndTime}</if>
+            <if test="groupBy == 1 ">AND throughput &gt; 0</if>
+            <if test="groupBy == -1 ">AND throughput &lt; 0</if>
+            AND elevator_code = #{reqVO.elevatorCode}
+        </where>
+        GROUP BY floor
+    </select>
+
+    <!--获取小区电梯上下行人流量统计 时间段分组-->
+    <select id="pedestrianFlowStatisticsByVillage"
+            resultType="com.shmashine.api.service.peopleFlowStatistics.dto.PedestrianFlowStatisticsDTO">
+        SELECT DATE_FORMAT(pm.trigger_time,'%Y-%m-%d %H:00:00') AS groupData, pm.direction AS groupBy,SUM(pm.throughput)
+        AS throughput FROM
+        people_flow_statistics_message pm
+        INNER JOIN tbl_elevator te ON te.v_elevator_code = pm.elevator_code AND te.v_village_id = #{villageId}
+        <where>
+            <if test="selectStartTime != null ">AND trigger_time &gt;= #{selectStartTime}</if>
+            <if test="selectEndTime != null ">AND trigger_time &lt;= #{selectEndTime}</if>
+            AND throughput > 0
+        </where>
+        GROUP BY DATE_FORMAT(trigger_time,'%Y-%m-%d %H:00:00'),direction
+    </select>
+
+</mapper>

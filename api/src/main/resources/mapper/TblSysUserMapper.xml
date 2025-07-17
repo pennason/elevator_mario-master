@@ -1,0 +1,880 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.api.dao.TblSysUserDao">
+
+    <resultMap type="com.shmashine.common.entity.TblSysUser" id="TblSysUserResultMap">
+        <result property="vUserId" column="v_user_id" jdbcType="VARCHAR"/>
+        <result property="vUsername" column="v_username" jdbcType="VARCHAR"/>
+        <result property="vPassword" column="v_password" jdbcType="VARCHAR"/>
+        <result property="openId" column="open_id" jdbcType="VARCHAR"/>
+        <result property="vName" column="v_name" jdbcType="VARCHAR"/>
+        <result property="vEmail" column="v_email" jdbcType="VARCHAR"/>
+        <result property="vMobile" column="v_mobile" jdbcType="VARCHAR"/>
+        <result property="iStatus" column="i_status" jdbcType="INTEGER"/>
+        <result property="vSex" column="v_sex" jdbcType="INTEGER"/>
+        <result property="vBirth" column="v_birth" jdbcType="TIMESTAMP"/>
+        <result property="vPicId" column="v_pic_id" jdbcType="VARCHAR"/>
+        <result property="vProvincialCity" column="v_provincial_city" jdbcType="VARCHAR"/>
+        <result property="vAddress" column="v_address" jdbcType="VARCHAR"/>
+        <result property="vHobby" column="v_hobby" jdbcType="VARCHAR"/>
+        <result property="iWorkOrderFlag" column="i_work_order_flag" jdbcType="INTEGER"/>
+        <result property="iSendPhoneStatus" column="i_send_phone_status" jdbcType="INTEGER"/>
+        <result property="iSendMessageStatus" column="i_send_message_status" jdbcType="INTEGER"/>
+        <result property="dtCreatetime" column="dt_createTime" jdbcType="TIMESTAMP"/>
+        <result property="dtModifytime" column="dt_modifyTime" jdbcType="TIMESTAMP"/>
+        <result property="vCreateid" column="v_createid" jdbcType="VARCHAR"/>
+        <result property="vModifyid" column="v_modifyid" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="table_field">
+        v_user_id
+        , v_username, v_password, open_id, v_name, v_email, v_mobile, i_status, v_sex, v_birth, v_pic_id, v_provincial_city, v_address, v_hobby, i_work_order_flag, i_send_phone_status, i_send_message_status, dt_createTime, dt_modifyTime, v_createid, v_modifyid
+    </sql>
+
+    <!--通过Id查询单个-->
+    <select id="getById" resultMap="TblSysUserResultMap" parameterType="java.lang.String">
+        select
+        <include refid="table_field"/>
+        from tbl_sys_user
+        where v_user_id = #{vUserId,jdbcType=VARCHAR}
+    </select>
+
+
+    <!--通过实体不为空的属性作为筛选条件查询列表-->
+    <select id="listByEntity" resultMap="TblSysUserResultMap" parameterType="com.shmashine.common.entity.TblSysUser">
+        select
+        <include refid="table_field"/>
+        from tbl_sys_user
+        <where>
+            <if test="vUserId != null">
+                and v_user_id = #{vUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="vUsername != null">
+                and v_username = #{vUsername,jdbcType=VARCHAR}
+            </if>
+            <if test="vPassword != null">
+                and v_password = #{vPassword,jdbcType=VARCHAR}
+            </if>
+            <if test="openId != null">
+                and open_id = #{openId,jdbcType=VARCHAR}
+            </if>
+            <if test="vName != null">
+                and v_name = #{vName,jdbcType=VARCHAR}
+            </if>
+            <if test="vEmail != null">
+                and v_email = #{vEmail,jdbcType=VARCHAR}
+            </if>
+            <if test="vMobile != null">
+                and v_mobile = #{vMobile,jdbcType=VARCHAR}
+            </if>
+            <if test="iStatus != null">
+                and i_status = #{iStatus,jdbcType=INTEGER}
+            </if>
+            <if test="vSex != null">
+                and v_sex = #{vSex,jdbcType=INTEGER}
+            </if>
+            <if test="vBirth != null">
+                and v_birth = #{vBirth,jdbcType=TIMESTAMP}
+            </if>
+            <if test="vPicId != null">
+                and v_pic_id = #{vPicId,jdbcType=VARCHAR}
+            </if>
+            <if test="vProvincialCity != null">
+                and v_provincial_city = #{vProvincialCity,jdbcType=VARCHAR}
+            </if>
+            <if test="vAddress != null">
+                and v_address = #{vAddress,jdbcType=VARCHAR}
+            </if>
+            <if test="vHobby != null">
+                and v_hobby = #{vHobby,jdbcType=VARCHAR}
+            </if>
+            <if test="iWorkOrderFlag != null">
+                and i_work_order_flag = #{iWorkOrderFlag,jdbcType=INTEGER}
+            </if>
+            <if test="iSendPhoneStatus != null">
+                and i_send_phone_status = #{iSendPhoneStatus,jdbcType=INTEGER}
+            </if>
+            <if test="iSendMessageStatus != null">
+                and i_send_message_status = #{iSendMessageStatus,jdbcType=INTEGER}
+            </if>
+            <if test="dtCreatetime != null">
+                and dt_createTime = #{dtCreatetime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="dtModifytime != null">
+                and dt_modifyTime = #{dtModifytime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="vCreateid != null">
+                and v_createid = #{vCreateid,jdbcType=VARCHAR}
+            </if>
+            <if test="vModifyid != null">
+                and v_modifyid = #{vModifyid,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+    <!--通过实体不为空的属性作为筛选条件查询单个-->
+    <select id="getByEntity" resultMap="TblSysUserResultMap" parameterType="com.shmashine.common.entity.TblSysUser">
+        select
+        <include refid="table_field"/>
+        from tbl_sys_user
+        <where>
+            <if test="vUserId != null">
+                and v_user_id = #{vUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="vUsername != null">
+                and v_username = #{vUsername,jdbcType=VARCHAR}
+            </if>
+            <if test="vPassword != null">
+                and v_password = #{vPassword,jdbcType=VARCHAR}
+            </if>
+            <if test="openId != null">
+                and open_id = #{openId,jdbcType=VARCHAR}
+            </if>
+            <if test="vName != null">
+                and v_name = #{vName,jdbcType=VARCHAR}
+            </if>
+            <if test="vEmail != null">
+                and v_email = #{vEmail,jdbcType=VARCHAR}
+            </if>
+            <if test="vMobile != null">
+                and v_mobile = #{vMobile,jdbcType=VARCHAR}
+            </if>
+            <if test="iStatus != null">
+                and i_status = #{iStatus,jdbcType=INTEGER}
+            </if>
+            <if test="vSex != null">
+                and v_sex = #{vSex,jdbcType=INTEGER}
+            </if>
+            <if test="vBirth != null">
+                and v_birth = #{vBirth,jdbcType=TIMESTAMP}
+            </if>
+            <if test="vPicId != null">
+                and v_pic_id = #{vPicId,jdbcType=VARCHAR}
+            </if>
+            <if test="vProvincialCity != null">
+                and v_provincial_city = #{vProvincialCity,jdbcType=VARCHAR}
+            </if>
+            <if test="vAddress != null">
+                and v_address = #{vAddress,jdbcType=VARCHAR}
+            </if>
+            <if test="vHobby != null">
+                and v_hobby = #{vHobby,jdbcType=VARCHAR}
+            </if>
+            <if test="iWorkOrderFlag != null">
+                and i_work_order_flag = #{iWorkOrderFlag,jdbcType=INTEGER}
+            </if>
+            <if test="iSendPhoneStatus != null">
+                and i_send_phone_status = #{iSendPhoneStatus,jdbcType=INTEGER}
+            </if>
+            <if test="iSendMessageStatus != null">
+                and i_send_message_status = #{iSendMessageStatus,jdbcType=INTEGER}
+            </if>
+            <if test="dtCreatetime != null">
+                and dt_createTime = #{dtCreatetime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="dtModifytime != null">
+                and dt_modifyTime = #{dtModifytime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="vCreateid != null">
+                and v_createid = #{vCreateid,jdbcType=VARCHAR}
+            </if>
+            <if test="vModifyid != null">
+                and v_modifyid = #{vModifyid,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+    <!--通过Id列表作为筛选条件查询列表，列表长度不为0-->
+    <select id="listByIds" resultMap="TblSysUserResultMap" parameterType="list">
+        select
+        <include refid="table_field"/>
+        from tbl_sys_user
+        where v_user_id in
+        <foreach item="item" collection="list" separator="," open="(" close=")" index="index">
+            #{item}
+        </foreach>
+    </select>
+
+    <!--新增实体属性不为null的列-->
+    <insert id="insert" keyProperty="vUserId" useGeneratedKeys="true"
+            parameterType="com.shmashine.common.entity.TblSysUser">
+        insert into tbl_sys_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="vUserId != null">
+                v_user_id,
+            </if>
+            <if test="vUsername != null">
+                v_username,
+            </if>
+            <if test="vPassword != null">
+                v_password,
+            </if>
+            <if test="openId != null">
+                open_id,
+            </if>
+            <if test="vName != null">
+                v_name,
+            </if>
+            <if test="vEmail != null">
+                v_email,
+            </if>
+            <if test="vMobile != null">
+                v_mobile,
+            </if>
+            <if test="iStatus != null">
+                i_status,
+            </if>
+            <if test="vSex != null">
+                v_sex,
+            </if>
+            <if test="vBirth != null">
+                v_birth,
+            </if>
+            <if test="vPicId != null">
+                v_pic_id,
+            </if>
+            <if test="vProvincialCity != null">
+                v_provincial_city,
+            </if>
+            <if test="vAddress != null">
+                v_address,
+            </if>
+            <if test="vHobby != null">
+                v_hobby,
+            </if>
+            <if test="iWorkOrderFlag != null">
+                i_work_order_flag,
+            </if>
+            <if test="iSendPhoneStatus != null">
+                i_send_phone_status,
+            </if>
+            <if test="iSendMessageStatus != null">
+                i_send_message_status,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+            <if test="dtCreatetime != null">
+                dt_createTime,
+            </if>
+            <if test="dtModifytime != null">
+                dt_modifyTime,
+            </if>
+            <if test="vCreateid != null">
+                v_createid,
+            </if>
+            <if test="vModifyid != null">
+                v_modifyid,
+            </if>
+            <if test="vPosition != null">
+                v_position,
+            </if>
+            <if test="vIdentity != null">
+                v_identity,
+            </if>
+            <if test="vOpsCertCode != null">
+                v_ops_cert_code,
+            </if>
+            <if test="vOpsCertAgency != null">
+                v_ops_cert_agency,
+            </if>
+            <if test="dtOpsCertExpire != null">
+                dt_ops_cert_expire,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="vUserId != null">
+                #{vUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="vUsername != null">
+                #{vUsername,jdbcType=VARCHAR},
+            </if>
+            <if test="vPassword != null">
+                #{vPassword,jdbcType=VARCHAR},
+            </if>
+            <if test="openId != null">
+                #{openId,jdbcType=VARCHAR},
+            </if>
+            <if test="vName != null">
+                #{vName,jdbcType=VARCHAR},
+            </if>
+            <if test="vEmail != null">
+                #{vEmail,jdbcType=VARCHAR},
+            </if>
+            <if test="vMobile != null">
+                #{vMobile,jdbcType=VARCHAR},
+            </if>
+            <if test="iStatus != null">
+                #{iStatus,jdbcType=INTEGER},
+            </if>
+            <if test="vSex != null">
+                #{vSex,jdbcType=INTEGER},
+            </if>
+            <if test="vBirth != null">
+                #{vBirth,jdbcType=TIMESTAMP},
+            </if>
+            <if test="vPicId != null">
+                #{vPicId,jdbcType=VARCHAR},
+            </if>
+            <if test="vProvincialCity != null">
+                #{vProvincialCity,jdbcType=VARCHAR},
+            </if>
+            <if test="vAddress != null">
+                #{vAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="vHobby != null">
+                #{vHobby,jdbcType=VARCHAR},
+            </if>
+            <if test="iWorkOrderFlag != null">
+                #{iWorkOrderFlag,jdbcType=INTEGER},
+            </if>
+            <if test="iSendPhoneStatus != null">
+                #{iSendPhoneStatus,jdbcType=INTEGER},
+            </if>
+            <if test="iSendMessageStatus != null">
+                #{iSendMessageStatus,jdbcType=INTEGER},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="dtCreatetime != null">
+                #{dtCreatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="dtModifytime != null">
+                #{dtModifytime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="vCreateid != null">
+                #{vCreateid,jdbcType=VARCHAR},
+            </if>
+            <if test="vModifyid != null">
+                #{vModifyid,jdbcType=VARCHAR},
+            </if>
+            <if test="vPosition != null">
+                #{vPosition},
+            </if>
+            <if test="vIdentity != null">
+                #{vIdentity},
+            </if>
+            <if test="vOpsCertCode != null">
+                #{vOpsCertCode},
+            </if>
+            <if test="vOpsCertAgency != null">
+                #{vOpsCertAgency},
+            </if>
+            <if test="dtOpsCertExpire != null">
+                #{dtOpsCertExpire},
+            </if>
+        </trim>
+    </insert>
+
+    <!--批量新增所有列，列表长度不能为0-->
+    <insert id="insertBatch" keyProperty="vUserId" useGeneratedKeys="true" parameterType="list">
+        insert into tbl_sys_user
+        ( v_user_id ,v_username, v_password, open_id, v_name, v_email, v_mobile, i_status, v_sex, v_birth, v_pic_id,
+        v_provincial_city, v_address, v_hobby, i_work_order_flag, i_send_phone_status, i_send_message_status,
+        dt_createTime, dt_modifyTime, v_createid, v_modifyid, v_position, v_identity, v_ops_cert_code,
+        v_ops_cert_agency, dt_ops_cert_expire)
+        values
+        <foreach item="item" collection="list" separator="," open="" close="" index="index">
+            (#{item.vUserId,jdbcType=VARCHAR},#{item.vUsername,jdbcType=VARCHAR}, #{item.vPassword,jdbcType=VARCHAR},
+            #{item.openId,jdbcType=VARCHAR}, #{item.vName,jdbcType=VARCHAR},
+            #{item.vEmail,jdbcType=VARCHAR}, #{item.vMobile,jdbcType=VARCHAR},
+            #{item.iStatus,jdbcType=INTEGER}, #{item.vSex,jdbcType=INTEGER},
+            #{item.vBirth,jdbcType=TIMESTAMP}, #{item.vPicId,jdbcType=VARCHAR},
+            #{item.vProvincialCity,jdbcType=VARCHAR}, #{item.vAddress,jdbcType=VARCHAR},
+            #{item.vHobby,jdbcType=VARCHAR}, #{item.iWorkOrderFlag,jdbcType=INTEGER},
+            #{item.iSendPhoneStatus,jdbcType=INTEGER}, #{item.iSendMessageStatus,jdbcType=INTEGER},
+            #{item.dtCreatetime,jdbcType=TIMESTAMP}, #{item.dtModifytime,jdbcType=TIMESTAMP},
+            #{item.vCreateid,jdbcType=VARCHAR}, #{item.vModifyid,jdbcType=VARCHAR},
+            #{item.vPosition}, #{item.vIdentity}, #{item.vOpsCertCode},
+            #{item.vOpsCertAgency}, #{item.dtOpsCertExpire})
+        </foreach>
+    </insert>
+
+    <!--通过主键修改实体属性不为null的列-->
+    <update id="update" parameterType="com.shmashine.common.entity.TblSysUser">
+        update tbl_sys_user
+        <set>
+            <if test="vUsername != null and vUsername != ''">
+                v_username = #{vUsername,jdbcType=VARCHAR},
+            </if>
+            <if test="vPassword != null and vPassword != ''">
+                v_password = #{vPassword,jdbcType=VARCHAR},
+            </if>
+            <if test="openId != null and openId != ''">
+                open_id = #{openId,jdbcType=VARCHAR},
+            </if>
+            <if test="vName != null and vName != ''">
+                v_name = #{vName,jdbcType=VARCHAR},
+            </if>
+            <if test="vEmail != null and vEmail != ''">
+                v_email = #{vEmail,jdbcType=VARCHAR},
+            </if>
+            <if test="vMobile != null and vMobile != ''">
+                v_mobile = #{vMobile,jdbcType=VARCHAR},
+            </if>
+            <if test="iStatus != null">
+                i_status = #{iStatus,jdbcType=INTEGER},
+            </if>
+            <if test="vSex != null">
+                v_sex = #{vSex,jdbcType=INTEGER},
+            </if>
+            <if test="vBirth != null">
+                v_birth = #{vBirth,jdbcType=TIMESTAMP},
+            </if>
+            <if test="vPicId != null and vPicId != ''">
+                v_pic_id = #{vPicId,jdbcType=VARCHAR},
+            </if>
+            <if test="vProvincialCity != null and vProvincialCity != ''">
+                v_provincial_city = #{vProvincialCity,jdbcType=VARCHAR},
+            </if>
+            <if test="vAddress != null and vAddress != ''">
+                v_address = #{vAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="vHobby != null and vHobby != ''">
+                v_hobby = #{vHobby,jdbcType=VARCHAR},
+            </if>
+            <if test="iWorkOrderFlag != null">
+                i_work_order_flag = #{iWorkOrderFlag,jdbcType=INTEGER},
+            </if>
+            <if test="iSendPhoneStatus != null">
+                i_send_phone_status = #{iSendPhoneStatus,jdbcType=INTEGER},
+            </if>
+            <if test="iSendMessageStatus != null">
+                i_send_message_status = #{iSendMessageStatus,jdbcType=INTEGER},
+            </if>
+            <if test="iSendMessageStatus != null">
+                i_send_message_status = #{iSendMessageStatus,jdbcType=INTEGER},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="dtModifytime != null">
+                dt_modifyTime = #{dtModifytime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="vCreateid != null and vCreateid != ''">
+                v_createid = #{vCreateid,jdbcType=VARCHAR},
+            </if>
+            <if test="vModifyid != null and vModifyid != ''">
+                v_modifyid = #{vModifyid,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where v_user_id = #{vUserId,jdbcType=VARCHAR}
+    </update>
+
+    <!--通过表字段修改实体属性不为null的列-->
+    <update id="updateByField">
+        update tbl_sys_user
+        <set>
+            <if test="where.vUsername == null and set.vUsername != null and set.vUsername != ''">
+                v_username = #{set.vUsername,jdbcType=VARCHAR},
+            </if>
+            <if test="where.vPassword == null and set.vPassword != null and set.vPassword != ''">
+                v_password = #{set.vPassword,jdbcType=VARCHAR},
+            </if>
+            <if test="where.openId == null and set.openId != null and set.openId != ''">
+                open_id = #{set.openId,jdbcType=VARCHAR},
+            </if>
+            <if test="where.vName == null and set.vName != null and set.vName != ''">
+                v_name = #{set.vName,jdbcType=VARCHAR},
+            </if>
+            <if test="where.vEmail == null and set.vEmail != null and set.vEmail != ''">
+                v_email = #{set.vEmail,jdbcType=VARCHAR},
+            </if>
+            <if test="where.vMobile == null and set.vMobile != null and set.vMobile != ''">
+                v_mobile = #{set.vMobile,jdbcType=VARCHAR},
+            </if>
+            <if test="where.iStatus == null and set.iStatus != null">
+                i_status = #{set.iStatus,jdbcType=INTEGER},
+            </if>
+            <if test="where.vSex == null and set.vSex != null">
+                v_sex = #{set.vSex,jdbcType=INTEGER},
+            </if>
+            <if test="where.vBirth == null and set.vBirth != null">
+                v_birth = #{set.vBirth,jdbcType=TIMESTAMP},
+            </if>
+            <if test="where.vPicId == null and set.vPicId != null and set.vPicId != ''">
+                v_pic_id = #{set.vPicId,jdbcType=VARCHAR},
+            </if>
+            <if test="where.vProvincialCity == null and set.vProvincialCity != null and set.vProvincialCity != ''">
+                v_provincial_city = #{set.vProvincialCity,jdbcType=VARCHAR},
+            </if>
+            <if test="where.vAddress == null and set.vAddress != null and set.vAddress != ''">
+                v_address = #{set.vAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="where.vHobby == null and set.vHobby != null and set.vHobby != ''">
+                v_hobby = #{set.vHobby,jdbcType=VARCHAR},
+            </if>
+            <if test="where.iWorkOrderFlag == null and set.iWorkOrderFlag != null">
+                i_work_order_flag = #{set.iWorkOrderFlag,jdbcType=INTEGER},
+            </if>
+            <if test="where.iSendPhoneStatus == null and set.iSendPhoneStatus != null">
+                i_send_phone_status = #{set.iSendPhoneStatus,jdbcType=INTEGER},
+            </if>
+            <if test="where.iSendMessageStatus == null and set.iSendMessageStatus != null">
+                i_send_message_status = #{set.iSendMessageStatus,jdbcType=INTEGER},
+            </if>
+            <if test="where.dtCreatetime == null and set.dtCreatetime != null">
+                dt_createTime = #{set.dtCreatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="where.dtModifytime == null and set.dtModifytime != null">
+                dt_modifyTime = #{set.dtModifytime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="where.vCreateid == null and set.vCreateid != null and set.vCreateid != ''">
+                v_createid = #{set.vCreateid,jdbcType=VARCHAR},
+            </if>
+            <if test="where.vModifyid == null and set.vModifyid != null and set.vModifyid != ''">
+                v_modifyid = #{set.vModifyid,jdbcType=VARCHAR},
+            </if>
+        </set>
+        <where>
+            <if test="where.vUserId != null">
+                and v_user_id = #{where.vUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vUsername != null">
+                and v_username = #{where.vUsername,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vPassword != null">
+                and v_password = #{where.vPassword,jdbcType=VARCHAR}
+            </if>
+            <if test="where.openId != null">
+                and open_id = #{where.openId,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vName != null">
+                and v_name = #{where.vName,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vEmail != null">
+                and v_email = #{where.vEmail,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vMobile != null">
+                and v_mobile = #{where.vMobile,jdbcType=VARCHAR}
+            </if>
+            <if test="where.iStatus != null">
+                and i_status = #{where.iStatus,jdbcType=INTEGER}
+            </if>
+            <if test="where.vSex != null">
+                and v_sex = #{where.vSex,jdbcType=INTEGER}
+            </if>
+            <if test="where.vBirth != null">
+                and v_birth = #{where.vBirth,jdbcType=TIMESTAMP}
+            </if>
+            <if test="where.vPicId != null">
+                and v_pic_id = #{where.vPicId,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vProvincialCity != null">
+                and v_provincial_city = #{where.vProvincialCity,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vAddress != null">
+                and v_address = #{where.vAddress,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vHobby != null">
+                and v_hobby = #{where.vHobby,jdbcType=VARCHAR}
+            </if>
+            <if test="where.iWorkOrderFlag != null">
+                and i_work_order_flag = #{where.iWorkOrderFlag,jdbcType=INTEGER}
+            </if>
+            <if test="where.iSendPhoneStatus != null">
+                and i_send_phone_status = #{where.iSendPhoneStatus,jdbcType=INTEGER}
+            </if>
+            <if test="where.iSendMessageStatus != null">
+                and i_send_message_status = #{where.iSendMessageStatus,jdbcType=INTEGER}
+            </if>
+            <if test="where.dtCreatetime != null">
+                and dt_createTime = #{where.dtCreatetime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="where.dtModifytime != null">
+                and dt_modifyTime = #{where.dtModifytime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="where.vCreateid != null">
+                and v_createid = #{where.vCreateid,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vModifyid != null">
+                and v_modifyid = #{where.vModifyid,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </update>
+
+    <!--通过主键修改实体列表，列表长度不能为0，注意：当实体属性为null时，对应的列也会别更新为null-->
+    <update id="updateBatch" parameterType="list">
+        update tbl_sys_user
+        <trim prefix="set" suffixOverrides=",">
+            <trim prefix="v_username = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_user_id = #{item.vUserId} then #{item.vUsername}
+                </foreach>
+            </trim>
+            <trim prefix="v_password = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_user_id = #{item.vUserId} then #{item.vPassword}
+                </foreach>
+            </trim>
+            <trim prefix="open_id = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_user_id = #{item.vUserId} then #{item.openId}
+                </foreach>
+            </trim>
+            <trim prefix="v_name = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_user_id = #{item.vUserId} then #{item.vName}
+                </foreach>
+            </trim>
+            <trim prefix="v_email = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_user_id = #{item.vUserId} then #{item.vEmail}
+                </foreach>
+            </trim>
+            <trim prefix="v_mobile = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_user_id = #{item.vUserId} then #{item.vMobile}
+                </foreach>
+            </trim>
+            <trim prefix="i_status = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_user_id = #{item.vUserId} then #{item.iStatus}
+                </foreach>
+            </trim>
+            <trim prefix="v_sex = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_user_id = #{item.vUserId} then #{item.vSex}
+                </foreach>
+            </trim>
+            <trim prefix="v_birth = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_user_id = #{item.vUserId} then #{item.vBirth}
+                </foreach>
+            </trim>
+            <trim prefix="v_pic_id = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_user_id = #{item.vUserId} then #{item.vPicId}
+                </foreach>
+            </trim>
+            <trim prefix="v_provincial_city = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_user_id = #{item.vUserId} then #{item.vProvincialCity}
+                </foreach>
+            </trim>
+            <trim prefix="v_address = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_user_id = #{item.vUserId} then #{item.vAddress}
+                </foreach>
+            </trim>
+            <trim prefix="v_hobby = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_user_id = #{item.vUserId} then #{item.vHobby}
+                </foreach>
+            </trim>
+            <trim prefix="i_work_order_flag = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_user_id = #{item.vUserId} then #{item.iWorkOrderFlag}
+                </foreach>
+            </trim>
+            <trim prefix="i_send_phone_status = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_user_id = #{item.vUserId} then #{item.iSendPhoneStatus}
+                </foreach>
+            </trim>
+            <trim prefix="i_send_message_status = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_user_id = #{item.vUserId} then #{item.iSendMessageStatus}
+                </foreach>
+            </trim>
+            <trim prefix="dt_createTime = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_user_id = #{item.vUserId} then #{item.dtCreatetime}
+                </foreach>
+            </trim>
+            <trim prefix="dt_modifyTime = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_user_id = #{item.vUserId} then #{item.dtModifytime}
+                </foreach>
+            </trim>
+            <trim prefix="v_createid = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_user_id = #{item.vUserId} then #{item.vCreateid}
+                </foreach>
+            </trim>
+            <trim prefix="v_modifyid = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_user_id = #{item.vUserId} then #{item.vModifyid}
+                </foreach>
+            </trim>
+        </trim>
+        where v_user_id in
+        <foreach collection="list" index="index" item="item" separator="," open="(" close=")">
+            #{item.vUserId,jdbcType=VARCHAR}
+        </foreach>
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById" parameterType="java.lang.String">
+        delete
+        from tbl_sys_user
+        where v_user_id = #{vUserId,jdbcType=VARCHAR}     </delete>
+
+    <!--通过实体非空属性删除-->
+    <delete id="deleteByEntity" parameterType="com.shmashine.common.entity.TblSysUser">
+        delete from tbl_sys_user
+        <where>
+            <if test="vUsername != null">
+                and v_username = #{vUsername,jdbcType=VARCHAR}
+            </if>
+            <if test="vPassword != null">
+                and v_password = #{vPassword,jdbcType=VARCHAR}
+            </if>
+            <if test="openId != null">
+                and open_id = #{openId,jdbcType=VARCHAR}
+            </if>
+            <if test="vName != null">
+                and v_name = #{vName,jdbcType=VARCHAR}
+            </if>
+            <if test="vEmail != null">
+                and v_email = #{vEmail,jdbcType=VARCHAR}
+            </if>
+            <if test="vMobile != null">
+                and v_mobile = #{vMobile,jdbcType=VARCHAR}
+            </if>
+            <if test="iStatus != null">
+                and i_status = #{iStatus,jdbcType=INTEGER}
+            </if>
+            <if test="vSex != null">
+                and v_sex = #{vSex,jdbcType=INTEGER}
+            </if>
+            <if test="vBirth != null">
+                and v_birth = #{vBirth,jdbcType=TIMESTAMP}
+            </if>
+            <if test="vPicId != null">
+                and v_pic_id = #{vPicId,jdbcType=VARCHAR}
+            </if>
+            <if test="vProvincialCity != null">
+                and v_provincial_city = #{vProvincialCity,jdbcType=VARCHAR}
+            </if>
+            <if test="vAddress != null">
+                and v_address = #{vAddress,jdbcType=VARCHAR}
+            </if>
+            <if test="vHobby != null">
+                and v_hobby = #{vHobby,jdbcType=VARCHAR}
+            </if>
+            <if test="iWorkOrderFlag != null">
+                and i_work_order_flag = #{iWorkOrderFlag,jdbcType=INTEGER}
+            </if>
+            <if test="iSendPhoneStatus != null">
+                and i_send_phone_status = #{iSendPhoneStatus,jdbcType=INTEGER}
+            </if>
+            <if test="iSendMessageStatus != null">
+                and i_send_message_status = #{iSendMessageStatus,jdbcType=INTEGER}
+            </if>
+            <if test="dtCreatetime != null">
+                and dt_createTime = #{dtCreatetime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="dtModifytime != null">
+                and dt_modifyTime = #{dtModifytime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="vCreateid != null">
+                and v_createid = #{vCreateid,jdbcType=VARCHAR}
+            </if>
+            <if test="vModifyid != null">
+                and v_modifyid = #{vModifyid,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </delete>
+
+    <!--通过主键列表删除，列表长度不能为0-->
+    <delete id="deleteByIds" parameterType="list">
+        delete from tbl_sys_user where v_user_id in
+        <foreach item="item" collection="list" separator="," open="(" close=")" index="index">
+            #{item}
+        </foreach>
+    </delete>
+
+    <select id="countAll" resultType="int">
+        select count(v_user_id)
+        from tbl_sys_user
+    </select>
+
+    <select id="countByEntity" parameterType="com.shmashine.common.entity.TblSysUser" resultType="int">
+        select count(v_user_id) from tbl_sys_user
+        <where>
+            <if test="vUserId != null">
+                and v_user_id = #{vUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="vUsername != null">
+                and v_username = #{vUsername,jdbcType=VARCHAR}
+            </if>
+            <if test="vPassword != null">
+                and v_password = #{vPassword,jdbcType=VARCHAR}
+            </if>
+            <if test="openId != null">
+                and open_id = #{openId,jdbcType=VARCHAR}
+            </if>
+            <if test="vName != null">
+                and v_name = #{vName,jdbcType=VARCHAR}
+            </if>
+            <if test="vEmail != null">
+                and v_email = #{vEmail,jdbcType=VARCHAR}
+            </if>
+            <if test="vMobile != null">
+                and v_mobile = #{vMobile,jdbcType=VARCHAR}
+            </if>
+            <if test="iStatus != null">
+                and i_status = #{iStatus,jdbcType=INTEGER}
+            </if>
+            <if test="vSex != null">
+                and v_sex = #{vSex,jdbcType=INTEGER}
+            </if>
+            <if test="vBirth != null">
+                and v_birth = #{vBirth,jdbcType=TIMESTAMP}
+            </if>
+            <if test="vPicId != null">
+                and v_pic_id = #{vPicId,jdbcType=VARCHAR}
+            </if>
+            <if test="vProvincialCity != null">
+                and v_provincial_city = #{vProvincialCity,jdbcType=VARCHAR}
+            </if>
+            <if test="vAddress != null">
+                and v_address = #{vAddress,jdbcType=VARCHAR}
+            </if>
+            <if test="vHobby != null">
+                and v_hobby = #{vHobby,jdbcType=VARCHAR}
+            </if>
+            <if test="iWorkOrderFlag != null">
+                and i_work_order_flag = #{iWorkOrderFlag,jdbcType=INTEGER}
+            </if>
+            <if test="iSendPhoneStatus != null">
+                and i_send_phone_status = #{iSendPhoneStatus,jdbcType=INTEGER}
+            </if>
+            <if test="iSendMessageStatus != null">
+                and i_send_message_status = #{iSendMessageStatus,jdbcType=INTEGER}
+            </if>
+            <if test="dtCreatetime != null">
+                and dt_createTime = #{dtCreatetime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="dtModifytime != null">
+                and dt_modifyTime = #{dtModifytime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="vCreateid != null">
+                and v_createid = #{vCreateid,jdbcType=VARCHAR}
+            </if>
+            <if test="vModifyid != null">
+                and v_modifyid = #{vModifyid,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+    <!--根据项目获取用户授权电梯数-->
+    <select id="countByProjectIdAndUser" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM tbl_sys_user_resource sur
+                 INNER JOIN tbl_elevator ele ON sur.v_resource_id = ele.v_elevator_id AND v_project_id = #{projectId}
+        WHERE v_user_id = #{permissionUserId}
+    </select>
+
+
+    <!--根据小区获取用户授权电梯数-->
+    <select id="countByVillageIdAndUser" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM tbl_sys_user_resource sur
+                 INNER JOIN tbl_elevator ele ON sur.v_resource_id = ele.v_elevator_id AND v_village_id = #{villageId}
+        WHERE v_user_id = #{permissionUserId}
+    </select>
+
+</mapper>

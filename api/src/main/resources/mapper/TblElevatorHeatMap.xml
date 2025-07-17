@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shmashine.api.dao.TblElevatorHeatMapDao">
+
+    <insert id="insertElevatorFloorNumberCountInfo" parameterType="com.shmashine.api.entity.TblElevatorHeatMap">
+        insert into tbl_elevator_heat_map (<include refid="insertCol"/>) values (<include refid="insertVal"/>)
+    </insert>
+
+    <sql id="insertCol">
+        <trim suffixOverrides=",">
+            <if test="id !=null and id!=''">id,</if>
+            <if test="elevatorCode !=null and elevatorCode!=''">elevator_code,</if>
+            <if test="floorNumber !=null">floor_number,</if>
+            <if test="countStop !=null ">count_stop,</if>
+            <if test="countDate !=null and  countDate !='' ">count_date,</if>
+            <if test="insertTime !=null and  insertTime !='' ">insert_time,</if>
+            <if test="modifyTime !=null and  modifyTime !='' ">modify_time,</if>
+        </trim>
+    </sql>
+    <sql id="insertVal">
+        <trim suffixOverrides=",">
+            <if test="id !=null and id!=''">#{id},</if>
+            <if test="elevatorCode !=null and elevatorCode!=''">#{elevatorCode},</if>
+            <if test="floorNumber !=null">#{floorNumber},</if>
+            <if test="countStop !=null ">#{countStop},</if>
+            <if test="countDate !=null and  countDate !='' ">#{countDate},</if>
+            <if test="insertTime !=null and  insertTime !='' ">#{insertTime},</if>
+            <if test="modifyTime !=null and  modifyTime !='' ">#{modifyTime},</if>
+        </trim>
+    </sql>
+
+    <update id="modifyElevatorFloorNumberCountInfo" parameterType="com.shmashine.api.entity.TblElevatorHeatMap">
+        update tbl_elevator_heat_map
+        <include refid="modifyElevatorFloorNumberCountInfoSql"/>
+        where id=#{id}
+    </update>
+
+    <!--批量更新-->
+    <update id="updateList" parameterType="list">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            update tbl_elevator_heat_map
+            <set>
+                count_stop=#{item.countStop}
+            </set>
+            where id = #{item.id}
+        </foreach>
+    </update>
+
+    <sql id="modifyElevatorFloorNumberCountInfoSql">
+        <set>
+            <trim suffixOverrides=",">
+                <if test="id !=null and id!=''">id=#{id},</if>
+                <if test="elevatorCode !=null and elevatorCode!=''">elevator_code=#{elevatorCode},</if>
+                <if test="floorNumber !=null">floor_number=#{floorNumber},</if>
+                <if test="countStop !=null ">count_stop=#{countStop},</if>
+                <if test="countDate !=null and  countDate !='' ">count_date=#{countDate},</if>
+                <if test="insertTime !=null and  insertTime !='' ">insert_time=#{insertTime},</if>
+                <if test="modifyTime !=null and  modifyTime !='' ">modify_time=#{modifyTime},</if>
+            </trim>
+        </set>
+    </sql>
+
+    <sql id="table_field">
+        id
+        ,elevator_code,floor_number,count_stop,count_date,insert_time,modify_time
+    </sql>
+
+    <resultMap id="resultTblElevatorHeatMap" type="com.shmashine.api.entity.TblElevatorHeatMap">
+        <id column="id" property="id"/>
+        <result column="elevator_code" property="elevatorCode"/>
+        <result column="floor_number" property="floorNumber"/>
+        <result column="count_stop" property="countStop"/>
+        <result column="count_date" property="countDate"/>
+    </resultMap>
+
+    <select id="getTblElevatorHeatMap" parameterType="com.shmashine.api.entity.TblElevatorHeatMap"
+            resultMap="resultTblElevatorHeatMap">
+        select id,elevator_code,floor_number,count_stop,count_date from tbl_elevator_heat_map
+        <where>
+            <if test="elevatorCode !=null and elevatorCode!=''">elevator_code=#{elevatorCode}</if>
+            <if test="floorNumber !=null">and floor_number=#{floorNumber}</if>
+            <if test="countDate !=null and  countDate !='' ">and count_date=#{countDate}</if>
+        </where>
+        order by elevator_code desc
+    </select>
+
+    <select id="getTblElevatorHeatMapNew" parameterType="com.shmashine.api.entity.TblElevatorHeatMap"
+            resultMap="resultTblElevatorHeatMap">
+        select id,elevator_code,floor_number,count_stop,count_date from tbl_elevator_heat_map
+        <where>
+            <if test="elevatorCode !=null and elevatorCode!=''">elevator_code=#{elevatorCode}</if>
+            <if test="floorNumber !=null">and floor_number=#{floorNumber}</if>
+            <if test="startDate !=null and  startDate !='' ">and count_date &gt;= #{startDate}</if>
+            <if test="endDate !=null and  endDate !='' ">and count_date &lt;= #{endDate}</if>
+        </where>
+        order by elevator_code desc
+    </select>
+
+    <select id="getAllElevatorCode" parameterType="com.shmashine.api.entity.TblElevatorHeatMap"
+            resultMap="resultTblElevatorHeatMap">
+        select id,elevator_code,floor_number,count_stop,count_date from tbl_elevator_heat_map
+        <where>
+            <if test="elevatorCode !=null and elevatorCode!=''">elevator_code=#{elevatorCode}</if>
+            <if test="floorNumber !=null">and floor_number=#{floorNumber}</if>
+            <if test="countDate !=null and  countDate !='' ">and count_date=#{countDate}</if>
+        </where>
+        group by elevator_code
+    </select>
+
+    <!--根据电梯获取电梯楼层热力图次数统计-->
+    <select id="getElevatorHeatMapRunCount" resultType="com.shmashine.api.entity.TblElevatorHeatMap">
+        SELECT elevator_code, SUM(count_stop) count_stop
+        FROM tbl_elevator_heat_map
+        WHERE count_date = #{countDate}
+        GROUP BY elevator_code
+    </select>
+
+    <!--获取今日该电梯楼层列表-->
+    <select id="getListByElevatorCodeAndCountDate" resultType="com.shmashine.api.entity.TblElevatorHeatMap">
+        SELECT *
+        FROM tbl_elevator_heat_map
+        WHERE elevator_code = #{elevatorCode}
+          AND count_date = #{today}
+    </select>
+
+</mapper>

@@ -1,0 +1,622 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.api.dao.TblSysSysteminfoDao">
+
+    <resultMap type="com.shmashine.common.entity.TblSysSysteminfo" id="TblSysSysteminfoResultMap">
+        <result property="vSysid" column="v_sysid" jdbcType="INTEGER"/>
+        <result property="vSyssubid" column="v_syssubid" jdbcType="INTEGER"/>
+        <result property="vSysvalue1" column="v_sysvalue1" jdbcType="VARCHAR"/>
+        <result property="vSysvalue2" column="v_sysvalue2" jdbcType="VARCHAR"/>
+        <result property="vSysvalue3" column="v_sysvalue3" jdbcType="VARCHAR"/>
+        <result property="vSysvalue4" column="v_sysvalue4" jdbcType="VARCHAR"/>
+        <result property="vSysvalue5" column="v_sysvalue5" jdbcType="VARCHAR"/>
+        <result property="vNameZhCn" column="v_name_zh_cn" jdbcType="VARCHAR"/>
+        <result property="iSortindex" column="i_sortindex" jdbcType="INTEGER"/>
+        <result property="vIsfixvalue" column="v_isfixvalue" jdbcType="VARCHAR"/>
+        <result property="vDescription" column="v_description" jdbcType="VARCHAR"/>
+        <result property="dtCreatetime" column="dt_createTime" jdbcType="TIMESTAMP"/>
+        <result property="dtModifytime" column="dt_modifyTime" jdbcType="TIMESTAMP"/>
+        <result property="vCreateid" column="v_createid" jdbcType="VARCHAR"/>
+        <result property="vModifyid" column="v_modifyid" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="table_field">
+        v_sysid
+        , v_syssubid, v_sysvalue1, v_sysvalue2, v_sysvalue3, v_sysvalue4, v_sysvalue5, v_name_zh_cn, i_sortindex, v_isfixvalue, v_description, dt_createTime, dt_modifyTime, v_createid, v_modifyid
+    </sql>
+
+    <!--通过Id查询单个-->
+    <select id="getById" resultMap="TblSysSysteminfoResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="table_field"/>
+        from tbl_sys_systeminfo
+        where v_sysid = #{vSysid,jdbcType=INTEGER}
+    </select>
+
+
+    <!--通过实体不为空的属性作为筛选条件查询列表-->
+    <select id="listByEntity" resultMap="TblSysSysteminfoResultMap"
+            parameterType="com.shmashine.common.entity.TblSysSysteminfo">
+        select
+        <include refid="table_field"/>
+        from tbl_sys_systeminfo
+        <where>
+            <if test="vSysid != null and vSysid != ''">
+                and v_sysid = #{vSysid,jdbcType=INTEGER}
+            </if>
+            <if test="vSyssubid != null and vSyssubid != ''">
+                and v_syssubid = #{vSyssubid,jdbcType=INTEGER}
+            </if>
+            <if test="vSysvalue1 != null and vSysvalue1 != ''">
+                and v_sysvalue1 = #{vSysvalue1,jdbcType=VARCHAR}
+            </if>
+            <if test="vSysvalue2 != null and vSysvalue2 != ''">
+                and v_sysvalue2 = #{vSysvalue2,jdbcType=VARCHAR}
+            </if>
+            <if test="vSysvalue3 != null and vSysvalue3 != ''">
+                and v_sysvalue3 = #{vSysvalue3,jdbcType=VARCHAR}
+            </if>
+            <if test="vSysvalue4 != null and vSysvalue4 != ''">
+                and v_sysvalue4 = #{vSysvalue4,jdbcType=VARCHAR}
+            </if>
+            <if test="vSysvalue5 != null and vSysvalue5 != ''">
+                and v_sysvalue5 = #{vSysvalue5,jdbcType=VARCHAR}
+            </if>
+            <if test="vNameZhCn != null and vNameZhCn != ''">
+                and v_name_zh_cn = #{vNameZhCn,jdbcType=VARCHAR}
+            </if>
+            <if test="iSortindex != null and iSortindex != ''">
+                and i_sortindex = #{iSortindex,jdbcType=INTEGER}
+            </if>
+            <if test="vIsfixvalue != null and vIsfixvalue != ''">
+                and v_isfixvalue = #{vIsfixvalue,jdbcType=VARCHAR}
+            </if>
+            <if test="vDescription != null and vDescription != ''">
+                and v_description = #{vDescription,jdbcType=VARCHAR}
+            </if>
+            <if test="dtCreatetime != null and dtCreatetime != ''">
+                and dt_createTime = #{dtCreatetime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="dtModifytime != null and dtModifytime != ''">
+                and dt_modifyTime = #{dtModifytime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="vCreateid != null and vCreateid != ''">
+                and v_createid = #{vCreateid,jdbcType=VARCHAR}
+            </if>
+            <if test="vModifyid != null and vModifyid != ''">
+                and v_modifyid = #{vModifyid,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+    <!--通过实体不为空的属性作为筛选条件查询单个-->
+    <select id="getByEntity" resultMap="TblSysSysteminfoResultMap"
+            parameterType="com.shmashine.common.entity.TblSysSysteminfo">
+        select
+        <include refid="table_field"/>
+        from tbl_sys_systeminfo
+        <where>
+            <if test="vSysid != null and vSysid != ''">
+                and v_sysid = #{vSysid,jdbcType=INTEGER}
+            </if>
+            <if test="vSyssubid != null and vSyssubid != ''">
+                and v_syssubid = #{vSyssubid,jdbcType=INTEGER}
+            </if>
+            <if test="vSysvalue1 != null and vSysvalue1 != ''">
+                and v_sysvalue1 = #{vSysvalue1,jdbcType=VARCHAR}
+            </if>
+            <if test="vSysvalue2 != null and vSysvalue2 != ''">
+                and v_sysvalue2 = #{vSysvalue2,jdbcType=VARCHAR}
+            </if>
+            <if test="vSysvalue3 != null and vSysvalue3 != ''">
+                and v_sysvalue3 = #{vSysvalue3,jdbcType=VARCHAR}
+            </if>
+            <if test="vSysvalue4 != null and vSysvalue4 != ''">
+                and v_sysvalue4 = #{vSysvalue4,jdbcType=VARCHAR}
+            </if>
+            <if test="vSysvalue5 != null and vSysvalue5 != ''">
+                and v_sysvalue5 = #{vSysvalue5,jdbcType=VARCHAR}
+            </if>
+            <if test="vNameZhCn != null and vNameZhCn != ''">
+                and v_name_zh_cn = #{vNameZhCn,jdbcType=VARCHAR}
+            </if>
+            <if test="iSortindex != null and iSortindex != ''">
+                and i_sortindex = #{iSortindex,jdbcType=INTEGER}
+            </if>
+            <if test="vIsfixvalue != null and vIsfixvalue != ''">
+                and v_isfixvalue = #{vIsfixvalue,jdbcType=VARCHAR}
+            </if>
+            <if test="vDescription != null and vDescription != ''">
+                and v_description = #{vDescription,jdbcType=VARCHAR}
+            </if>
+            <if test="dtCreatetime != null and dtCreatetime != ''">
+                and dt_createTime = #{dtCreatetime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="dtModifytime != null and dtModifytime != ''">
+                and dt_modifyTime = #{dtModifytime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="vCreateid != null and vCreateid != ''">
+                and v_createid = #{vCreateid,jdbcType=VARCHAR}
+            </if>
+            <if test="vModifyid != null and vModifyid != ''">
+                and v_modifyid = #{vModifyid,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+    <!--通过Id列表作为筛选条件查询列表，列表长度不为0-->
+    <select id="listByIds" resultMap="TblSysSysteminfoResultMap" parameterType="list">
+        select
+        <include refid="table_field"/>
+        from tbl_sys_systeminfo
+        where v_sysid in
+        <foreach item="item" collection="list" separator="," open="(" close=")" index="index">
+            #{item}
+        </foreach>
+    </select>
+
+    <!--新增实体属性不为null的列-->
+    <insert id="insert" keyProperty="vSysid" useGeneratedKeys="true"
+            parameterType="com.shmashine.common.entity.TblSysSysteminfo">
+        insert into tbl_sys_systeminfo
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="vSysid != null">
+                v_sysid,
+            </if>
+            <if test="vSyssubid != null">
+                v_syssubid,
+            </if>
+            <if test="vSysvalue1 != null">
+                v_sysvalue1,
+            </if>
+            <if test="vSysvalue2 != null">
+                v_sysvalue2,
+            </if>
+            <if test="vSysvalue3 != null">
+                v_sysvalue3,
+            </if>
+            <if test="vSysvalue4 != null">
+                v_sysvalue4,
+            </if>
+            <if test="vSysvalue5 != null">
+                v_sysvalue5,
+            </if>
+            <if test="vNameZhCn != null">
+                v_name_zh_cn,
+            </if>
+            <if test="iSortindex != null">
+                i_sortindex,
+            </if>
+            <if test="vIsfixvalue != null">
+                v_isfixvalue,
+            </if>
+            <if test="vDescription != null">
+                v_description,
+            </if>
+            <if test="dtCreatetime != null">
+                dt_createTime,
+            </if>
+            <if test="dtModifytime != null">
+                dt_modifyTime,
+            </if>
+            <if test="vCreateid != null">
+                v_createid,
+            </if>
+            <if test="vModifyid != null">
+                v_modifyid,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="vSysid != null">
+                #{vSysid,jdbcType=INTEGER},
+            </if>
+            <if test="vSyssubid != null">
+                #{vSyssubid,jdbcType=INTEGER},
+            </if>
+            <if test="vSysvalue1 != null">
+                #{vSysvalue1,jdbcType=VARCHAR},
+            </if>
+            <if test="vSysvalue2 != null">
+                #{vSysvalue2,jdbcType=VARCHAR},
+            </if>
+            <if test="vSysvalue3 != null">
+                #{vSysvalue3,jdbcType=VARCHAR},
+            </if>
+            <if test="vSysvalue4 != null">
+                #{vSysvalue4,jdbcType=VARCHAR},
+            </if>
+            <if test="vSysvalue5 != null">
+                #{vSysvalue5,jdbcType=VARCHAR},
+            </if>
+            <if test="vNameZhCn != null">
+                #{vNameZhCn,jdbcType=VARCHAR},
+            </if>
+            <if test="iSortindex != null">
+                #{iSortindex,jdbcType=INTEGER},
+            </if>
+            <if test="vIsfixvalue != null">
+                #{vIsfixvalue,jdbcType=VARCHAR},
+            </if>
+            <if test="vDescription != null">
+                #{vDescription,jdbcType=VARCHAR},
+            </if>
+            <if test="dtCreatetime != null">
+                #{dtCreatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="dtModifytime != null">
+                #{dtModifytime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="vCreateid != null">
+                #{vCreateid,jdbcType=VARCHAR},
+            </if>
+            <if test="vModifyid != null">
+                #{vModifyid,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <!--批量新增所有列，列表长度不能为0，且列表id统一为null或者统一不为null-->
+    <insert id="insertBatch" keyProperty="vSysid" useGeneratedKeys="true" parameterType="list">
+        insert into tbl_sys_systeminfo
+        (<if test="vSysid != null">v_sysid,</if>v_sysvalue1, v_sysvalue2, v_sysvalue3, v_sysvalue4, v_sysvalue5,
+        v_name_zh_cn, i_sortindex, v_isfixvalue, v_description, dt_createTime, dt_modifyTime, v_createid, v_modifyid)
+        values
+        <foreach item="item" collection="list" separator="," open="" close="" index="index">
+            (<if test="vSysid != null">#{vSysid,jdbcType=INTEGER},</if>#{vSysvalue1,jdbcType=VARCHAR},
+            #{vSysvalue2,jdbcType=VARCHAR}, #{vSysvalue3,jdbcType=VARCHAR}, #{vSysvalue4,jdbcType=VARCHAR},
+            #{vSysvalue5,jdbcType=VARCHAR}, #{vNameZhCn,jdbcType=VARCHAR}, #{iSortindex,jdbcType=INTEGER},
+            #{vIsfixvalue,jdbcType=VARCHAR}, #{vDescription,jdbcType=VARCHAR}, #{dtCreatetime,jdbcType=TIMESTAMP},
+            #{dtModifytime,jdbcType=TIMESTAMP}, #{vCreateid,jdbcType=VARCHAR}, #{vModifyid,jdbcType=VARCHAR})
+        </foreach>
+    </insert>
+
+    <!--通过主键修改实体属性不为null的列-->
+    <update id="update" parameterType="com.shmashine.common.entity.TblSysSysteminfo">
+        update tbl_sys_systeminfo
+        <set>
+            <if test="vSysvalue1 != null and vSysvalue1 != ''">
+                v_sysvalue1 = #{vSysvalue1,jdbcType=VARCHAR},
+            </if>
+            <if test="vSysvalue2 != null and vSysvalue2 != ''">
+                v_sysvalue2 = #{vSysvalue2,jdbcType=VARCHAR},
+            </if>
+            <if test="vSysvalue3 != null and vSysvalue3 != ''">
+                v_sysvalue3 = #{vSysvalue3,jdbcType=VARCHAR},
+            </if>
+            <if test="vSysvalue4 != null and vSysvalue4 != ''">
+                v_sysvalue4 = #{vSysvalue4,jdbcType=VARCHAR},
+            </if>
+            <if test="vSysvalue5 != null and vSysvalue5 != ''">
+                v_sysvalue5 = #{vSysvalue5,jdbcType=VARCHAR},
+            </if>
+            <if test="vNameZhCn != null and vNameZhCn != ''">
+                v_name_zh_cn = #{vNameZhCn,jdbcType=VARCHAR},
+            </if>
+            <if test="iSortindex != null">
+                i_sortindex = #{iSortindex,jdbcType=INTEGER},
+            </if>
+            <if test="vIsfixvalue != null and vIsfixvalue != ''">
+                v_isfixvalue = #{vIsfixvalue,jdbcType=VARCHAR},
+            </if>
+            <if test="vDescription != null and vDescription != ''">
+                v_description = #{vDescription,jdbcType=VARCHAR},
+            </if>
+            <if test="dtCreatetime != null">
+                dt_createTime = #{dtCreatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="dtModifytime != null">
+                dt_modifyTime = #{dtModifytime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="vCreateid != null and vCreateid != ''">
+                v_createid = #{vCreateid,jdbcType=VARCHAR},
+            </if>
+            <if test="vModifyid != null and vModifyid != ''">
+                v_modifyid = #{vModifyid,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where v_sysid = #{vSysid,jdbcType=INTEGER}
+    </update>
+
+    <!--通过表字段修改实体属性不为null的列-->
+    <update id="updateByField">
+        update tbl_sys_systeminfo
+        <set>
+            <if test="where.vSysvalue1 == null and set.vSysvalue1 != null and set.vSysvalue1 != ''">
+                v_sysvalue1 = #{set.vSysvalue1,jdbcType=VARCHAR},
+            </if>
+            <if test="where.vSysvalue2 == null and set.vSysvalue2 != null and set.vSysvalue2 != ''">
+                v_sysvalue2 = #{set.vSysvalue2,jdbcType=VARCHAR},
+            </if>
+            <if test="where.vSysvalue3 == null and set.vSysvalue3 != null and set.vSysvalue3 != ''">
+                v_sysvalue3 = #{set.vSysvalue3,jdbcType=VARCHAR},
+            </if>
+            <if test="where.vSysvalue4 == null and set.vSysvalue4 != null and set.vSysvalue4 != ''">
+                v_sysvalue4 = #{set.vSysvalue4,jdbcType=VARCHAR},
+            </if>
+            <if test="where.vSysvalue5 == null and set.vSysvalue5 != null and set.vSysvalue5 != ''">
+                v_sysvalue5 = #{set.vSysvalue5,jdbcType=VARCHAR},
+            </if>
+            <if test="where.vNameZhCn == null and set.vNameZhCn != null and set.vNameZhCn != ''">
+                v_name_zh_cn = #{set.vNameZhCn,jdbcType=VARCHAR},
+            </if>
+            <if test="where.iSortindex == null and set.iSortindex != null">
+                i_sortindex = #{set.iSortindex,jdbcType=INTEGER},
+            </if>
+            <if test="where.vIsfixvalue == null and set.vIsfixvalue != null and set.vIsfixvalue != ''">
+                v_isfixvalue = #{set.vIsfixvalue,jdbcType=VARCHAR},
+            </if>
+            <if test="where.vDescription == null and set.vDescription != null and set.vDescription != ''">
+                v_description = #{set.vDescription,jdbcType=VARCHAR},
+            </if>
+            <if test="where.dtCreatetime == null and set.dtCreatetime != null">
+                dt_createTime = #{set.dtCreatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="where.dtModifytime == null and set.dtModifytime != null">
+                dt_modifyTime = #{set.dtModifytime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="where.vCreateid == null and set.vCreateid != null and set.vCreateid != ''">
+                v_createid = #{set.vCreateid,jdbcType=VARCHAR},
+            </if>
+            <if test="where.vModifyid == null and set.vModifyid != null and set.vModifyid != ''">
+                v_modifyid = #{set.vModifyid,jdbcType=VARCHAR},
+            </if>
+        </set>
+        <where>
+            <if test="where.vSysid != null">
+                and v_sysid = #{where.vSysid,jdbcType=INTEGER}
+            </if>
+            <if test="where.vSyssubid != null">
+                and v_syssubid = #{where.vSyssubid,jdbcType=INTEGER}
+            </if>
+            <if test="where.vSysvalue1 != null">
+                and v_sysvalue1 = #{where.vSysvalue1,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vSysvalue2 != null">
+                and v_sysvalue2 = #{where.vSysvalue2,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vSysvalue3 != null">
+                and v_sysvalue3 = #{where.vSysvalue3,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vSysvalue4 != null">
+                and v_sysvalue4 = #{where.vSysvalue4,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vSysvalue5 != null">
+                and v_sysvalue5 = #{where.vSysvalue5,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vNameZhCn != null">
+                and v_name_zh_cn = #{where.vNameZhCn,jdbcType=VARCHAR}
+            </if>
+            <if test="where.iSortindex != null">
+                and i_sortindex = #{where.iSortindex,jdbcType=INTEGER}
+            </if>
+            <if test="where.vIsfixvalue != null">
+                and v_isfixvalue = #{where.vIsfixvalue,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vDescription != null">
+                and v_description = #{where.vDescription,jdbcType=VARCHAR}
+            </if>
+            <if test="where.dtCreatetime != null">
+                and dt_createTime = #{where.dtCreatetime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="where.dtModifytime != null">
+                and dt_modifyTime = #{where.dtModifytime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="where.vCreateid != null">
+                and v_createid = #{where.vCreateid,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vModifyid != null">
+                and v_modifyid = #{where.vModifyid,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </update>
+
+    <!--通过主键修改实体列表，列表长度不能为0，注意：当实体属性为null时，对应的列也会别更新为null-->
+    <update id="updateBatch" parameterType="list">
+        update tbl_sys_systeminfo
+        <trim prefix="set" suffixOverrides=",">
+            <trim prefix="v_sysvalue1 = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_sysid = #{item.vSysid} then #{item.vSysvalue1}
+                </foreach>
+            </trim>
+            <trim prefix="v_sysvalue2 = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_sysid = #{item.vSysid} then #{item.vSysvalue2}
+                </foreach>
+            </trim>
+            <trim prefix="v_sysvalue3 = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_sysid = #{item.vSysid} then #{item.vSysvalue3}
+                </foreach>
+            </trim>
+            <trim prefix="v_sysvalue4 = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_sysid = #{item.vSysid} then #{item.vSysvalue4}
+                </foreach>
+            </trim>
+            <trim prefix="v_sysvalue5 = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_sysid = #{item.vSysid} then #{item.vSysvalue5}
+                </foreach>
+            </trim>
+            <trim prefix="v_name_zh_cn = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_sysid = #{item.vSysid} then #{item.vNameZhCn}
+                </foreach>
+            </trim>
+            <trim prefix="i_sortindex = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_sysid = #{item.vSysid} then #{item.iSortindex}
+                </foreach>
+            </trim>
+            <trim prefix="v_isfixvalue = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_sysid = #{item.vSysid} then #{item.vIsfixvalue}
+                </foreach>
+            </trim>
+            <trim prefix="v_description = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_sysid = #{item.vSysid} then #{item.vDescription}
+                </foreach>
+            </trim>
+            <trim prefix="dt_createTime = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_sysid = #{item.vSysid} then #{item.dtCreatetime}
+                </foreach>
+            </trim>
+            <trim prefix="dt_modifyTime = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_sysid = #{item.vSysid} then #{item.dtModifytime}
+                </foreach>
+            </trim>
+            <trim prefix="v_createid = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_sysid = #{item.vSysid} then #{item.vCreateid}
+                </foreach>
+            </trim>
+            <trim prefix="v_modifyid = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_sysid = #{item.vSysid} then #{item.vModifyid}
+                </foreach>
+            </trim>
+        </trim>
+        where v_sysid in
+        <foreach collection="list" index="index" item="item" separator="," open="(" close=")">
+            #{item.vSysid,jdbcType=INTEGER}
+        </foreach>
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById" parameterType="java.lang.Integer">
+        delete
+        from tbl_sys_systeminfo
+        where v_sysid = #{vSysid,jdbcType=INTEGER}
+    </delete>
+
+    <!--通过实体非空属性删除-->
+    <delete id="deleteByEntity" parameterType="com.shmashine.common.entity.TblSysSysteminfo">
+        delete from tbl_sys_systeminfo
+        <where>
+            <if test="vSysvalue1 != null">
+                and v_sysvalue1 = #{vSysvalue1,jdbcType=VARCHAR}
+            </if>
+            <if test="vSysvalue2 != null">
+                and v_sysvalue2 = #{vSysvalue2,jdbcType=VARCHAR}
+            </if>
+            <if test="vSysvalue3 != null">
+                and v_sysvalue3 = #{vSysvalue3,jdbcType=VARCHAR}
+            </if>
+            <if test="vSysvalue4 != null">
+                and v_sysvalue4 = #{vSysvalue4,jdbcType=VARCHAR}
+            </if>
+            <if test="vSysvalue5 != null">
+                and v_sysvalue5 = #{vSysvalue5,jdbcType=VARCHAR}
+            </if>
+            <if test="vNameZhCn != null">
+                and v_name_zh_cn = #{vNameZhCn,jdbcType=VARCHAR}
+            </if>
+            <if test="iSortindex != null">
+                and i_sortindex = #{iSortindex,jdbcType=INTEGER}
+            </if>
+            <if test="vIsfixvalue != null">
+                and v_isfixvalue = #{vIsfixvalue,jdbcType=VARCHAR}
+            </if>
+            <if test="vDescription != null">
+                and v_description = #{vDescription,jdbcType=VARCHAR}
+            </if>
+            <if test="dtCreatetime != null">
+                and dt_createTime = #{dtCreatetime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="dtModifytime != null">
+                and dt_modifyTime = #{dtModifytime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="vCreateid != null">
+                and v_createid = #{vCreateid,jdbcType=VARCHAR}
+            </if>
+            <if test="vModifyid != null">
+                and v_modifyid = #{vModifyid,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </delete>
+
+    <!--通过主键列表删除，列表长度不能为0-->
+    <delete id="deleteByIds" parameterType="list">
+        delete from tbl_sys_systeminfo where v_sysid in
+        <foreach item="item" collection="list" separator="," open="(" close=")" index="index">
+            #{item}
+        </foreach>
+    </delete>
+
+    <select id="countAll" resultType="int">
+        select count(v_sysid)
+        from tbl_sys_systeminfo
+    </select>
+
+    <select id="countByEntity" parameterType="com.shmashine.common.entity.TblSysSysteminfo" resultType="int">
+        select count(v_sysid) from tbl_sys_systeminfo
+        <where>
+            <if test="vSysid != null">
+                and v_sysid = #{vSysid,jdbcType=INTEGER}
+            </if>
+            <if test="vSyssubid != null">
+                and v_syssubid = #{vSyssubid,jdbcType=INTEGER}
+            </if>
+            <if test="vSysvalue1 != null">
+                and v_sysvalue1 = #{vSysvalue1,jdbcType=VARCHAR}
+            </if>
+            <if test="vSysvalue2 != null">
+                and v_sysvalue2 = #{vSysvalue2,jdbcType=VARCHAR}
+            </if>
+            <if test="vSysvalue3 != null">
+                and v_sysvalue3 = #{vSysvalue3,jdbcType=VARCHAR}
+            </if>
+            <if test="vSysvalue4 != null">
+                and v_sysvalue4 = #{vSysvalue4,jdbcType=VARCHAR}
+            </if>
+            <if test="vSysvalue5 != null">
+                and v_sysvalue5 = #{vSysvalue5,jdbcType=VARCHAR}
+            </if>
+            <if test="vNameZhCn != null">
+                and v_name_zh_cn = #{vNameZhCn,jdbcType=VARCHAR}
+            </if>
+            <if test="iSortindex != null">
+                and i_sortindex = #{iSortindex,jdbcType=INTEGER}
+            </if>
+            <if test="vIsfixvalue != null">
+                and v_isfixvalue = #{vIsfixvalue,jdbcType=VARCHAR}
+            </if>
+            <if test="vDescription != null">
+                and v_description = #{vDescription,jdbcType=VARCHAR}
+            </if>
+            <if test="dtCreatetime != null">
+                and dt_createTime = #{dtCreatetime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="dtModifytime != null">
+                and dt_modifyTime = #{dtModifytime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="vCreateid != null">
+                and v_createid = #{vCreateid,jdbcType=VARCHAR}
+            </if>
+            <if test="vModifyid != null">
+                and v_modifyid = #{vModifyid,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+    <select id="getMaintenanceType" resultType="com.shmashine.common.entity.TblSysSysteminfo">
+        select
+        <include refid="table_field"/>
+        from tbl_sys_systeminfo
+        where v_sysid = 10015
+        and v_syssubid != 0
+    </select>
+
+    <select id="getBySysId" resultType="com.shmashine.common.entity.TblSysSysteminfo" parameterType="java.lang.Integer">
+        select
+        <include refid="table_field"/>
+        from tbl_sys_systeminfo
+        where v_sysid = ${sysId, jdbcType=INTEGER}
+        and v_syssubid != 0
+    </select>
+
+</mapper>

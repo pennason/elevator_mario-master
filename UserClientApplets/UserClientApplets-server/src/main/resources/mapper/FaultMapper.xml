@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shmashine.userclientapplets.dao.FaultDao">
+
+    <!--获取故障列表-->
+    <select id="queryFaultList" resultType="com.shmashine.userclientapplets.entity.Fault">
+        select
+        fault.v_fault_id AS faultId,
+        fault.v_elevator_code AS elevatorCode,
+        ele.v_elevator_name AS elevatorName,
+        fault.i_level AS level,
+        fault.v_address AS address,
+        fault.dt_report_time AS reportTime,
+        fault.i_fault_type AS faultType,
+        fault.v_fault_name AS faultName,
+        fault.v_fault_second_type AS faultSecondType,
+        fault.v_fault_second_name AS faultSecondName,
+        fault.i_fault_num AS faultNumber,
+        fault.i_mode_status AS modeStatus,
+        fault.i_status AS status
+        from
+        tbl_fault fault
+        <if test="!searchFaultModule.isAdminFlag">
+            join tbl_sys_user_resource resource on fault.v_elevator_id = resource.v_resource_id and v_user_id =
+            #{searchFaultModule.userId}
+        </if>
+        left join tbl_elevator ele on ele.v_elevator_id = fault.v_elevator_id
+        <where>
+            fault.i_del_flag = 0
+            <if test="searchFaultModule.vElevatorCode != null and searchFaultModule.vElevatorCode != ''">
+                and fault.v_elevator_code like CONCAT('%',#{searchFaultModule.vElevatorCode},'%')
+            </if>
+            <if test="searchFaultModule.startTime != null and searchFaultModule.startTime != ''">
+                <![CDATA[  and fault.dt_report_time >= #{searchFaultModule.startTime} ]]>
+            </if>
+            <if test="searchFaultModule.endTime != null and searchFaultModule.endTime != ''">
+                <![CDATA[ and fault.dt_report_time <=  #{searchFaultModule.endTime} ]]>
+            </if>
+            <if test="searchFaultModule.iStatus != null and searchFaultModule.iStatus != ''">
+                and fault.i_status = #{searchFaultModule.iStatus}
+            </if>
+            <if test="searchFaultModule.iFaultType != null and searchFaultModule.iFaultType != ''">
+                and fault.i_fault_type = #{searchFaultModule.iFaultType}
+            </if>
+            <if test="searchFaultModule.iElevatorType != null and searchFaultModule.iElevatorType != ''">
+                and ele.i_elevator_type = #{searchFaultModule.iElevatorType}
+            </if>
+            <if test="searchFaultModule.iUncivilizedBehaviorFlag != null and searchFaultModule.iUncivilizedBehaviorFlag != '' or searchFaultModule.iUncivilizedBehaviorFlag == 0">
+                and fault.i_uncivilized_behavior_flag = #{searchFaultModule.iUncivilizedBehaviorFlag}
+            </if>
+            <if test="searchFaultModule.vEventType != null and searchFaultModule.vEventType != ''">
+                and fault.v_event_channel = #{searchFaultModule.vEventType}
+            </if>
+            <if test="searchFaultModule.vProjectId != null and searchFaultModule.vProjectId != ''">
+                and ele.v_project_id = #{searchFaultModule.vProjectId}
+            </if>
+            <if test="searchFaultModule.villageId != null and searchFaultModule.villageId != ''">
+                and ele.v_village_id = #{searchFaultModule.villageId}
+            </if>
+        </where>
+        order by dt_report_time desc
+    </select>
+
+    <select id="getFaultTotal" resultType="integer">
+        select
+        count(1)
+        from
+        tbl_fault fault
+        <if test="!isAdminFlag">
+            join tbl_sys_user_resource resource on fault.v_elevator_id = resource.v_resource_id and v_user_id =
+            #{userId}
+        </if>
+        left join tbl_elevator ele on ele.v_elevator_id = fault.v_elevator_id
+        left join tbl_sys_systeminfo sysinfo on sysinfo.v_sysvalue5 = fault.i_mode_status and sysinfo.v_sysid = '10009'
+        left join tbl_sys_systeminfo sysinfo2 on sysinfo2.v_sysvalue5 = fault.i_status and sysinfo2.v_sysid = '10010'
+        <where>
+            fault.i_del_flag = 0
+            <if test="vElevatorCode != null and vElevatorCode != ''">
+                and fault.v_elevator_code like CONCAT('%',#{vElevatorCode},'%')
+            </if>
+            <if test="startTime != null and startTime != ''">
+                <![CDATA[  and fault.dt_report_time >= #{startTime} ]]>
+            </if>
+            <if test="endTime != null and endTime != ''">
+                <![CDATA[ and fault.dt_report_time <=  #{endTime} ]]>
+            </if>
+            <if test="elevatorId != null and elevatorId != ''">
+                and ele.v_elevator_id = #{elevatorId}
+            </if>
+            <if test="iStatus != null">
+                and fault.i_status = #{iStatus}
+            </if>
+            <if test="iFaultType != null and iFaultType != ''">
+                and fault.i_fault_type = #{iFaultType}
+            </if>
+            <if test="iElevatorType != null and iElevatorType != ''">
+                and ele.i_elevator_type = #{iElevatorType}
+            </if>
+            <if test="iUncivilizedBehaviorFlag != null and iUncivilizedBehaviorFlag != '' or iUncivilizedBehaviorFlag == 0">
+                and fault.i_uncivilized_behavior_flag = #{iUncivilizedBehaviorFlag}
+            </if>
+            <if test="vEventType != null and vEventType != ''">
+                and fault.v_event_channel = #{vEventType}
+            </if>
+            <if test="vProjectId != null and vProjectId != ''">
+                and ele.v_project_id = #{vProjectId}
+            </if>
+            <if test="villageId != null and villageId != ''">
+                and ele.v_village_id = #{villageId}
+            </if>
+        </where>
+        order by dt_report_time desc
+    </select>
+
+    <select id="queryTrappedPeopleByPage" resultType="com.shmashine.userclientapplets.entity.Fault">
+        select
+        ele.v_elevator_id,
+        fault.v_fault_id AS faultId,
+        fault.v_elevator_code AS elevatorCode,
+        ele.v_elevator_name AS elevatorName,
+        fault.i_level AS level,
+        fault.v_address AS address,
+        fault.dt_report_time AS reportTime,
+        fault.i_fault_type AS faultType,
+        fault.v_fault_name AS faultName,
+        fault.v_fault_second_type AS faultSecondType,
+        fault.v_fault_second_name AS faultSecondName,
+        fault.i_fault_num AS faultNumber,
+        fault.i_mode_status AS modeStatus,
+        fault.i_status AS status
+        from
+        tbl_fault fault
+        <if test="!searchFaultModule.isAdminFlag">
+            join tbl_sys_user_resource resource on fault.v_elevator_id = resource.v_resource_id and v_user_id =
+            #{searchFaultModule.userId}
+        </if>
+        left join tbl_elevator ele on ele.v_elevator_id = fault.v_elevator_id
+        <where>
+            fault.i_del_flag = 0
+            and fault.i_fault_type IN ("7","8")
+            <if test="searchFaultModule.vElevatorCode != null and searchFaultModule.vElevatorCode != ''">
+                and fault.v_elevator_code like CONCAT('%',#{searchFaultModule.vElevatorCode},'%')
+            </if>
+            <if test="searchFaultModule.startTime != null and searchFaultModule.startTime != ''">
+                <![CDATA[  and fault.dt_report_time >= #{searchFaultModule.startTime} ]]>
+            </if>
+            <if test="searchFaultModule.endTime != null and searchFaultModule.endTime != ''">
+                <![CDATA[ and fault.dt_report_time <=  #{searchFaultModule.endTime} ]]>
+            </if>
+            <if test="searchFaultModule.iStatus != null and searchFaultModule.iStatus != ''">
+                and fault.i_status = #{searchFaultModule.iStatus}
+            </if>
+            <if test="searchFaultModule.iElevatorType != null and searchFaultModule.iElevatorType != ''">
+                and ele.i_elevator_type = #{searchFaultModule.iElevatorType}
+            </if>
+            <if test="searchFaultModule.vEventType != null and searchFaultModule.vEventType != ''">
+                and fault.v_event_channel = #{searchFaultModule.vEventType}
+            </if>
+            <if test="searchFaultModule.vProjectId != null and searchFaultModule.vProjectId != ''">
+                and ele.v_project_id = #{searchFaultModule.vProjectId}
+            </if>
+            <if test="searchFaultModule.villageId != null and searchFaultModule.villageId != ''">
+                and ele.v_village_id = #{searchFaultModule.villageId}
+            </if>
+        </where>
+        order by dt_report_time desc
+    </select>
+
+    <select id="getTrappedPeopleTotal" resultType="integer">
+        select count(1)
+        from
+        tbl_fault fault
+        <if test="!isAdminFlag">
+            join tbl_sys_user_resource resource on fault.v_elevator_id = resource.v_resource_id and v_user_id =
+            #{userId}
+        </if>
+        left join tbl_elevator ele on ele.v_elevator_id = fault.v_elevator_id
+        <where>
+            fault.i_del_flag = 0
+            and fault.i_fault_type IN ("7","8")
+            <if test="vElevatorCode != null and vElevatorCode != ''">
+                and fault.v_elevator_code like CONCAT('%',#{vElevatorCode},'%')
+            </if>
+            <if test="startTime != null and startTime != ''">
+                <![CDATA[  and fault.dt_report_time >= #{startTime} ]]>
+            </if>
+            <if test="endTime != null and endTime != ''">
+                <![CDATA[ and fault.dt_report_time <=  #{endTime} ]]>
+            </if>
+            <if test="elevatorId != null and elevatorId != ''">
+                and ele.v_elevator_id = #{elevatorId}
+            </if>
+            <if test="iStatus != null">
+                and fault.i_status = #{iStatus}
+            </if>
+            <if test="iElevatorType != null and iElevatorType != ''">
+                and ele.i_elevator_type = #{iElevatorType}
+            </if>
+            <if test="vEventType != null and vEventType != ''">
+                and fault.v_event_channel = #{vEventType}
+            </if>
+            <if test="vProjectId != null and vProjectId != ''">
+                and ele.v_project_id = #{vProjectId}
+            </if>
+            <if test="villageId != null and villageId != ''">
+                and ele.v_village_id = #{villageId}
+            </if>
+        </where>
+    </select>
+
+    <!--获取当日故障列表-->
+    <select id="getFaultByDay" resultType="java.lang.String">
+        select
+        CONCAT('电梯：',ele.v_address,'，于：',fault.dt_report_time,'，发生：',fault.v_fault_name) AS 'name'
+        from
+        tbl_fault fault
+        <if test="!admin">
+            join tbl_sys_user_resource resource on fault.v_elevator_id = resource.v_resource_id and v_user_id =
+            #{userId}
+        </if>
+        left join tbl_elevator ele on ele.v_elevator_id = fault.v_elevator_id
+        <where>
+            fault.i_del_flag = 0
+            and fault.dt_report_time >= CURDATE()
+            and fault.i_uncivilized_behavior_flag = 0
+        </where>
+        order by dt_report_time desc
+    </select>
+
+    <!--救援时长统计麦信平台故障时长-->
+    <select id="getTrappedPeopleTimeForMX" resultType="java.lang.Integer">
+        SELECT
+        IFNULL(AVG( tf.i_duration_time ),0) AS number
+        FROM
+        tbl_fault tf
+        JOIN tbl_elevator ele ON tf.v_elevator_id = ele.v_elevator_id
+        <if test="!isAdminFlag">
+            JOIN tbl_sys_user_resource resource ON ele.v_elevator_id = resource.v_resource_id
+            AND resource.v_user_id = #{userId}
+        </if>
+        <where>
+            (tf.i_fault_type = 7 OR tf.i_fault_type = 8)
+            <if test="startTime != null and startTime != ''">
+                <![CDATA[  and tf.dt_report_time >= #{startTime} ]]>
+            </if>
+            <if test="endTime != null and endTime != ''">
+                <![CDATA[ and tf.dt_report_time <=  #{endTime} ]]>
+            </if>
+            <if test="elevatorId != null and elevatorId != ''">
+                and ele.v_elevator_id = #{elevatorId}
+            </if>
+            <if test="villageId != null and villageId != ''">
+                AND ele.v_village_id = #{villageId}
+            </if>
+            <if test="vProjectId != null and vProjectId != ''">
+                AND ele.v_project_id = #{vProjectId}
+            </if>
+            <if test="vElevatorCode != null and vElevatorCode != ''">
+                AND ele.v_elevator_code = #{vElevatorCode}
+            </if>
+        </where>
+    </select>
+
+
+    <select id="getFaultList" resultType="com.shmashine.userclientapplets.entity.Fault">
+        SELECT *
+        FROM
+        tbl_fault fault
+        WHERE
+        fault.i_del_flag = 0
+        AND fault.v_elevator_id IN
+        <foreach item="id" index="index" collection="elevators" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+        <if test="selectStartTime != null and selectStartTime != ''">
+            <![CDATA[  AND fault.dt_report_time >= #{selectStartTime} ]]>
+        </if>
+        <if test="selectEndTime != null and selectEndTime != ''">
+            <![CDATA[ AND fault.dt_report_time <= #{selectEndTime} ]]>
+        </if>
+        <if test="faultType != null and faultType != ''">
+            AND fault.i_fault_type = #{faultType}
+        </if>
+    </select>
+
+</mapper>

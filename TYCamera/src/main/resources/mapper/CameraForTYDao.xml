@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.hkCameraForTY.dao.CameraForTYDao">
+
+    <select id="getFaultBy37ok" resultType="String">
+        select s.v_url
+        from tbl_sys_file s
+        where v_business_id in (
+            select f.v_fault_id
+            from tbl_fault f
+            where i_fault_type = 37
+              and i_del_flag = 1
+              AND f.dt_create_time <![CDATA[>=]]> #{beginDate}
+              AND f.dt_create_time <![CDATA[<=]]> #{endDate})
+          AND s.v_file_type = 0
+    </select>
+
+    <select id="getFaultBy37fault" resultType="String">
+        select s.v_url
+        from tbl_sys_file s
+        where v_business_id in (
+            select f.v_fault_id
+            from tbl_fault f
+            where i_fault_type = 37
+              and i_del_flag = 0
+              AND f.dt_create_time <![CDATA[>=]]> #{beginDate}
+              AND f.dt_create_time <![CDATA[<=]]> #{endDate})
+          AND s.v_file_type = 0
+    </select>
+
+    <insert id="add">
+        insert into tbl_response_hk_report (file_status, create_time, return_code,
+                                            elevator_code, fault_id, faultType, start_time, end_time,
+                                            request_failed_num, comment) VALUE
+            (#{fileStatus,jdbcType=INTEGER},
+            #{createTime,jdbcType=TIMESTAMP},
+            #{returnCode,jdbcType=INTEGER},
+            #{elevatorCode,jdbcType=VARCHAR},
+            #{faultId,jdbcType=VARCHAR},
+            #{faultType,jdbcType=VARCHAR},
+            #{startTime,jdbcType=TIMESTAMP},
+            #{endTime,jdbcType=TIMESTAMP},
+            #{requestFailedNum,jdbcType=INTEGER},
+            #{comment,jdbcType=VARCHAR})
+    </insert>
+
+    <insert id="addTblSysFile">
+        insert into tbl_sys_file (v_file_id, v_file_type, v_file_name, v_business_id,
+                                  i_business_type, v_url, dt_create_time) VALUE
+            (#{fileId,jdbcType=VARCHAR},
+            #{fileType,jdbcType=VARCHAR},
+            #{fileName,jdbcType=VARCHAR},
+            #{businessId,jdbcType=VARCHAR},
+            #{businessType,jdbcType=INTEGER},
+            #{url,jdbcType=VARCHAR},
+            #{createTime,jdbcType=TIMESTAMP})
+    </insert>
+
+    <select id="queryResHkReport" resultType="com.shmashine.hkCameraForTY.entity.TblResponseHkReport">
+        select *
+        from tbl_response_hk_report
+        where file_status = 3
+          AND <![CDATA[ create_time > DATE_SUB(NOW(), INTERVAL 5 DAY) ]]>
+        AND del_flag = 0
+    </select>
+
+    <update id="updateHkReport">
+        update tbl_response_hk_report
+        set file_status        = #{fileStatus,jdbcType=INTEGER},
+            request_failed_num = #{requestFailedNum,jdbcType=INTEGER}
+        where fault_id = #{businessId,jdbcType=VARCHAR}
+    </update>
+
+    <select id="getHkCameraInfo" resultType="java.util.HashMap">
+        select *
+        from tbl_hk_camera
+        where v_elevator_code = #{elevatorCode,jdbcType=VARCHAR}
+    </select>
+
+    <select id="getStartAndEndTime" resultType="java.util.HashMap">
+        select dt_report_time as startTime, dt_end_time as endTime
+        from tbl_fault
+        where v_fault_id = #{workOrderId,jdbcType=VARCHAR}
+    </select>
+
+
+</mapper>

@@ -1,0 +1,29 @@
+// Copyright (C) 2024 Shmashine Holding Ltd. All Rights Reserved.
+
+package com.shmashine.common.config;
+
+import java.util.List;
+
+import org.springframework.context.annotation.Configuration;
+import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
+import org.springframework.web.method.support.HandlerMethodArgumentResolver;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+/**
+ * 默认说明
+ *
+ * @author chenxue (chenxue4076@163.com)
+ * @version 1.0.0 - 2024/12/16 15:17
+ * @since 1.0
+ */
+
+@Configuration
+public class PageConfiguration implements WebMvcConfigurer {
+
+    @Override
+    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
+        var resolver = new PageableHandlerMethodArgumentResolver();
+        resolver.setMaxPageSize(Integer.MAX_VALUE);
+        resolvers.add(resolver);
+    }
+}

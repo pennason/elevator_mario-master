@@ -1,0 +1,596 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shmashine.api.dao.WuyeEventDao">
+
+    <!--获取仪电困人数-->
+    <select id="getPeopleTrappedCount" resultType="java.util.HashMap">
+        select
+        ifnull(sum(temp.num), 0) AS number,
+        ifnull(sum(ele.bi_run_count), 0) as total
+        from
+        tbl_elevator ele
+        inner join
+        (SELECT
+        envent.register_number,
+        ifnull(count(envent.register_number), 0) AS num
+        FROM
+        tbl_third_party_ruijin_envent envent
+        join tbl_elevator ele on ele.v_equipment_code = envent.register_number
+        <if test="!isAdminFlag">
+            join tbl_sys_user_resource resource on ele.v_elevator_id = resource.v_resource_id and resource.v_user_id =
+            #{userId}
+        </if>
+        <where>
+            envent.failure_code = '09'
+            <if test="timeFlag != null and timeFlag != ''">
+                <if test="timeFlag == '00'">
+                    <![CDATA[AND DATE_SUB(CURDATE(), INTERVAL 7 DAY) <= envent.occur_time]]>
+                </if>
+                <if test="timeFlag == '11'">
+                    <![CDATA[AND DATE_SUB(CURDATE(), INTERVAL 30 DAY) <= envent.occur_time]]>
+                </if>
+                <if test="timeFlag == '22'">
+                    <![CDATA[AND DATE_SUB(CURDATE(), INTERVAL 365 DAY) <= envent.occur_time]]>
+                </if>
+            </if>
+            <if test="villageId != null and villageId != ''">
+                AND ele.v_village_id = #{villageId}
+            </if>
+            <if test="vProjectId != null and vProjectId != ''">
+                AND ele.v_project_id = #{vProjectId}
+            </if>
+        </where>
+        group by
+        envent.register_number) temp
+        on temp.register_number = ele.v_equipment_code
+    </select>
+
+    <!--    <select id="getPeopleTrappedCount" resultType="java.util.HashMap">-->
+    <!--        SELECT-->
+    <!--        ifnull(count(envent.event_number), 0) AS `number`,-->
+    <!--        ifnull(sum(ele.bi_run_count), 0) AS `total`-->
+    <!--        FROM-->
+    <!--        tbl_third_party_ruijin_envent envent-->
+    <!--        join tbl_elevator ele on envent.register_number = ele.v_equipment_code-->
+    <!--        <if test="!isAdminFlag">-->
+    <!--            join tbl_sys_user_resource resource on ele.v_elevator_id = resource.v_resource_id and resource.v_user_id =-->
+    <!--            #{userId}-->
+    <!--        </if>-->
+    <!--        <where>-->
+    <!--            envent.failure_code = '09'-->
+    <!--            <if test="timeFlag != null and timeFlag != ''">-->
+    <!--                <if test="timeFlag == '00'">-->
+    <!--                    <![CDATA[AND DATE_SUB(CURDATE(), INTERVAL 7 DAY) <= envent.occur_time]]>-->
+    <!--                </if>-->
+    <!--                <if test="timeFlag == '11'">-->
+    <!--                    <![CDATA[AND DATE_SUB(CURDATE(), INTERVAL 30 DAY) <= envent.occur_time]]>-->
+    <!--                </if>-->
+    <!--                <if test="timeFlag == '22'">-->
+    <!--                    <![CDATA[AND DATE_SUB(CURDATE(), INTERVAL 365 DAY) <= envent.occur_time]]>-->
+    <!--                </if>-->
+    <!--            </if>-->
+    <!--            <if test="vElevatorCode != null and vElevatorCode != ''">-->
+    <!--                and ele.v_elevator_code = #{vElevatorCode}-->
+    <!--            </if>-->
+    <!--            <if test="villageId != null and villageId != ''">-->
+    <!--                AND ele.v_village_id = #{villageId}-->
+    <!--            </if>-->
+    <!--            <if test="vProjectId != null and vProjectId != ''">-->
+    <!--                AND ele.v_project_id = #{vProjectId}-->
+    <!--            </if>-->
+    <!--        </where>-->
+    <!--    </select>-->
+
+    <!--获取仪电困人数-->
+    <select id="getPeopleTrappedCountByVillage" resultType="java.util.HashMap">
+        SELECT
+        ele.v_village_id,
+        ifnull(count(envent.event_number), 0) AS number
+        FROM
+        tbl_third_party_ruijin_envent envent
+        join tbl_elevator ele on envent.failure_code = '09' and envent.register_number = ele.v_equipment_code
+        <if test="!isAdminFlag">
+            join tbl_sys_user_resource resource on ele.v_elevator_id = resource.v_resource_id and resource.v_user_id =
+            #{userId}
+        </if>
+        <where>
+            <if test="timeFlag != null and timeFlag != ''">
+                <if test="timeFlag == '00'">
+                    <![CDATA[AND DATE_SUB(CURDATE(), INTERVAL 7 DAY) <= envent.occur_time]]>
+                </if>
+                <if test="timeFlag == '11'">
+                    <![CDATA[AND DATE_SUB(CURDATE(), INTERVAL 30 DAY) <= envent.occur_time]]>
+                </if>
+                <if test="timeFlag == '22'">
+                    <![CDATA[AND DATE_SUB(CURDATE(), INTERVAL 365 DAY) <= envent.occur_time]]>
+                </if>
+            </if>
+            <if test="vElevatorCode != null and vElevatorCode != ''">
+                and ele.v_elevator_code = #{vElevatorCode}
+            </if>
+            <if test="villageId != null and villageId != ''">
+                AND ele.v_village_id = #{villageId}
+            </if>
+            <if test="vProjectId != null and vProjectId != ''">
+                AND ele.v_project_id = #{vProjectId}
+            </if>
+        </where>
+        GROUP BY ele.v_village_id
+    </select>
+
+    <!--获取故障数-->
+    <select id="getFaultCount" resultType="java.lang.Integer">
+        SELECT
+        count(distinct envent.event_number) AS number
+        FROM
+        tbl_third_party_ruijin_envent envent
+        join tbl_elevator ele on ele.v_equipment_code = envent.register_number
+        <if test="!isAdminFlag">
+            join tbl_sys_user_resource resource on ele.v_elevator_id = resource.v_resource_id and resource.v_user_id =
+            #{userId}
+        </if>
+        <where>
+            <if test="timeFlag != null and timeFlag != ''">
+                <if test="timeFlag == '00'">
+                    <![CDATA[AND DATE_SUB(CURDATE(), INTERVAL 7 DAY) <= envent.occur_time]]>
+                </if>
+                <if test="timeFlag == '11'">
+                    <![CDATA[AND DATE_SUB(CURDATE(), INTERVAL 30 DAY) <= envent.occur_time]]>
+                </if>
+                <if test="timeFlag == '22'">
+                    <![CDATA[AND DATE_SUB(CURDATE(), INTERVAL 365 DAY) <= envent.occur_time]]>
+                </if>
+            </if>
+            <if test="vElevatorCode != null and vElevatorCode != ''">
+                and ele.v_elevator_code = #{vElevatorCode}
+            </if>
+            <if test="villageId != null and villageId != ''">
+                AND ele.v_village_id = #{villageId}
+            </if>
+            <if test="vProjectId != null and vProjectId != ''">
+                AND ele.v_project_id = #{vProjectId}
+            </if>
+        </where>
+    </select>
+
+    <!--仪电反推且状态为已确认和已完成的工单-->
+    <select id="getFaultOrderByConfirmOrCompleted" resultType="java.util.HashMap">
+        SELECT
+        ele.v_village_id,
+        count(distinct envent.event_number) AS number
+        FROM
+        tbl_third_party_ruijin_envent envent
+        join tbl_elevator ele on ele.v_equipment_code = envent.register_number
+        <if test="!isAdminFlag">
+            join tbl_sys_user_resource resource on ele.v_elevator_id = resource.v_resource_id and resource.v_user_id =
+            #{userId}
+        </if>
+        <where>
+            envent.current_status IN (5,6)
+            <if test="timeFlag != null and timeFlag != ''">
+                <if test="timeFlag == '00'">
+                    <![CDATA[AND DATE_SUB(CURDATE(), INTERVAL 7 DAY) <= envent.occur_time]]>
+                </if>
+                <if test="timeFlag == '11'">
+                    <![CDATA[AND DATE_SUB(CURDATE(), INTERVAL 30 DAY) <= envent.occur_time]]>
+                </if>
+                <if test="timeFlag == '22'">
+                    <![CDATA[AND DATE_SUB(CURDATE(), INTERVAL 365 DAY) <= envent.occur_time]]>
+                </if>
+            </if>
+            <if test="villageId != null and villageId != ''">
+                AND ele.v_village_id = #{villageId}
+            </if>
+            <if test="vProjectId != null and vProjectId != ''">
+                AND ele.v_project_id = #{vProjectId}
+            </if>
+        </where>
+        GROUP BY ele.v_village_id
+    </select>
+
+    <!--仪电反推且状态为已确认和已完成的工单-->
+    <select id="getFaultOrderByConfirmOrCompletedTotal" resultType="java.util.HashMap">
+        select
+        ifnull(sum(temp.num), 0) AS number,
+        ifnull(sum(ele.bi_run_count), 0) as total
+        from
+        tbl_elevator ele
+        inner join
+        (SELECT
+        envent.register_number,
+        ifnull(count(envent.register_number), 0) AS num
+        FROM
+        tbl_third_party_ruijin_envent envent
+        join tbl_elevator ele on ele.v_equipment_code = envent.register_number
+        <if test="!isAdminFlag">
+            join tbl_sys_user_resource resource on ele.v_elevator_id = resource.v_resource_id and resource.v_user_id =
+            #{userId}
+        </if>
+        <where>
+            envent.current_status IN (5,6)
+            <if test="timeFlag != null and timeFlag != ''">
+                <if test="timeFlag == '00'">
+                    <![CDATA[AND DATE_SUB(CURDATE(), INTERVAL 7 DAY) <= envent.occur_time]]>
+                </if>
+                <if test="timeFlag == '11'">
+                    <![CDATA[AND DATE_SUB(CURDATE(), INTERVAL 30 DAY) <= envent.occur_time]]>
+                </if>
+                <if test="timeFlag == '22'">
+                    <![CDATA[AND DATE_SUB(CURDATE(), INTERVAL 365 DAY) <= envent.occur_time]]>
+                </if>
+            </if>
+            <if test="villageId != null and villageId != ''">
+                AND ele.v_village_id = #{villageId}
+            </if>
+            <if test="vProjectId != null and vProjectId != ''">
+                AND ele.v_project_id = #{vProjectId}
+            </if>
+        </where>
+        group by
+        envent.register_number) temp
+        on temp.register_number = ele.v_equipment_code
+    </select>
+
+    <!--    <select id="getFaultOrderByConfirmOrCompletedTotal" resultType="java.util.HashMap">-->
+    <!--        SELECT-->
+    <!--        ifnull(count(envent.register_number), 0) AS number,-->
+    <!--        ifnull(sum(ele.bi_run_count), 0) AS total-->
+    <!--        FROM-->
+    <!--        tbl_third_party_ruijin_envent envent-->
+    <!--        join tbl_elevator ele on ele.v_equipment_code = envent.register_number-->
+    <!--        <if test="!isAdminFlag">-->
+    <!--            join tbl_sys_user_resource resource on ele.v_elevator_id = resource.v_resource_id and resource.v_user_id =-->
+    <!--            #{userId}-->
+    <!--        </if>-->
+    <!--        <where>-->
+    <!--            envent.current_status IN (5,6)-->
+    <!--            <if test="timeFlag != null and timeFlag != ''">-->
+    <!--                <if test="timeFlag == '00'">-->
+    <!--                    <![CDATA[AND DATE_SUB(CURDATE(), INTERVAL 7 DAY) <= envent.occur_time]]>-->
+    <!--                </if>-->
+    <!--                <if test="timeFlag == '11'">-->
+    <!--                    <![CDATA[AND DATE_SUB(CURDATE(), INTERVAL 30 DAY) <= envent.occur_time]]>-->
+    <!--                </if>-->
+    <!--                <if test="timeFlag == '22'">-->
+    <!--                    <![CDATA[AND DATE_SUB(CURDATE(), INTERVAL 365 DAY) <= envent.occur_time]]>-->
+    <!--                </if>-->
+    <!--            </if>-->
+    <!--            <if test="villageId != null and villageId != ''">-->
+    <!--                AND ele.v_village_id = #{villageId}-->
+    <!--            </if>-->
+    <!--            <if test="vProjectId != null and vProjectId != ''">-->
+    <!--                AND ele.v_project_id = #{vProjectId}-->
+    <!--            </if>-->
+    <!--        </where>-->
+    <!--    </select>-->
+
+    <!--仪电反推且状态为误报或新建工单两种状态的工单-->
+    <select id="getFaultOrderByFalsePositiveOrNew" resultType="java.util.HashMap">
+        SELECT
+        ele.v_village_id,
+        count(distinct envent.event_number) AS number
+        FROM
+        tbl_third_party_ruijin_envent envent
+        join tbl_elevator ele on ele.v_equipment_code = envent.register_number
+        <if test="!isAdminFlag">
+            join tbl_sys_user_resource resource on ele.v_elevator_id = resource.v_resource_id and resource.v_user_id =
+            #{userId}
+        </if>
+        <where>
+            envent.current_status IN (2,7)
+            <if test="timeFlag != null and timeFlag != ''">
+                <if test="timeFlag == '00'">
+                    <![CDATA[AND DATE_SUB(CURDATE(), INTERVAL 7 DAY) <= envent.occur_time]]>
+                </if>
+                <if test="timeFlag == '11'">
+                    <![CDATA[AND DATE_SUB(CURDATE(), INTERVAL 30 DAY) <= envent.occur_time]]>
+                </if>
+                <if test="timeFlag == '22'">
+                    <![CDATA[AND DATE_SUB(CURDATE(), INTERVAL 365 DAY) <= envent.occur_time]]>
+                </if>
+            </if>
+            <if test="villageId != null and villageId != ''">
+                AND ele.v_village_id = #{villageId}
+            </if>
+            <if test="vProjectId != null and vProjectId != ''">
+                AND ele.v_project_id = #{vProjectId}
+            </if>
+        </where>
+        GROUP BY ele.v_village_id
+    </select>
+
+
+    <select id="getEventCountByTime" resultType="java.util.HashMap">
+        SELECT
+        <if test="iStatus == 1">
+            '急修次数' as name,
+        </if>
+        <if test="iStatus == 2">
+            '隐患问题' as name,
+        </if>
+        date_format( `envent`.occur_time, '%Y-%m-%d' ) AS date,
+        COUNT(1) as number
+        FROM
+        tbl_third_party_ruijin_envent `envent`
+        join tbl_elevator ele on ele.v_equipment_code = `envent`.register_number
+        <if test="!isAdminFlag">
+            join tbl_sys_user_resource resource on ele.v_elevator_id = resource.v_resource_id and resource.v_user_id =
+            #{userId}
+        </if>
+        <where>
+            <if test="iStatus == 1">
+                `envent`.current_status IN (5,6)
+            </if>
+            <if test="iStatus == 2">
+                `envent`.current_status IN (2,7)
+            </if>
+            <if test="timeFlag != null and timeFlag != ''">
+                <if test="timeFlag == '00'">
+                    <![CDATA[AND DATE_SUB(CURDATE(), INTERVAL 7 DAY) <= `envent`.occur_time]]>
+                </if>
+                <if test="timeFlag == '11'">
+                    <![CDATA[AND DATE_SUB(CURDATE(), INTERVAL 30 DAY) <= `envent`.occur_time]]>
+                </if>
+            </if>
+            <if test="villageId != null and villageId != ''">
+                AND ele.v_village_id = #{villageId}
+            </if>
+            <if test="vProjectId != null and vProjectId != ''">
+                AND ele.v_project_id = #{vProjectId}
+            </if>
+        </where>
+        GROUP BY date
+    </select>
+
+    <!--获取仪电反推故障工单-->
+    <select id="getEventByPage" resultType="HashMap">
+        SELECT
+        ele.v_elevator_id AS elevatorId,
+        ele.v_elevator_name AS elevatorName,
+        ele.v_elevator_code AS elevatorCode,
+        ele.v_address AS address,
+        envent.occur_time AS reportTime,
+        envent.handler AS handlerPeople,
+        envent.current_status AS status,
+        envent.event_id AS eventId,
+        envent.event_number AS eventNumber,
+        SUBSTRING( envent.reporter, 6 ) AS faultId,
+        envent.event_desc AS eventName
+        FROM
+        tbl_third_party_ruijin_envent envent
+        join tbl_elevator ele on ele.v_equipment_code = envent.register_number
+        <if test="!searchFaultModule.isAdminFlag">
+            join tbl_sys_user_resource resource on ele.v_elevator_id = resource.v_resource_id and resource.v_user_id =
+            #{searchFaultModule.userId}
+        </if>
+        <where>
+            <if test="searchFaultModule.vElevatorCode != null and searchFaultModule.vElevatorCode != ''">
+                and ele.v_elevator_code = #{searchFaultModule.vElevatorCode}
+            </if>
+            <if test="searchFaultModule.iFaultType != null and searchFaultModule.iFaultType != ''">
+                AND envent.failure_code = #{searchFaultModule.iFaultType}
+            </if>
+            <if test="searchFaultModule.iStatus != null and searchFaultModule.iStatus != ''">
+                AND envent.current_status = #{searchFaultModule.iStatus}
+            </if>
+            <if test="searchFaultModule.dtReportTime != null and searchFaultModule.dtReportTime != ''">
+                AND envent.occur_time &gt;= #{searchFaultModule.dtReportTime}
+            </if>
+            <if test="searchFaultModule.dtEndTime != null and searchFaultModule.dtEndTime != ''">
+                AND envent.occur_time &lt;= #{searchFaultModule.dtEndTime}
+            </if>
+            <if test="searchFaultModule.villageId != null and searchFaultModule.villageId != ''">
+                AND ele.v_village_id = #{searchFaultModule.villageId}
+            </if>
+            <if test="searchFaultModule.vProjectId != null and searchFaultModule.vProjectId != ''">
+                AND ele.v_project_id = #{searchFaultModule.vProjectId}
+            </if>
+        </where>
+    </select>
+
+    <!--救援进度表-->
+    <select id="getEventRealTimeSchedule" resultType="java.util.HashMap">
+        SELECT status_time,
+               status,
+               handler,
+               handler_tel,
+               rescue_company_name,
+               CASE STATUS
+                   WHEN 1 THEN
+                       '渠道上报'
+                   WHEN 2 THEN
+                       '新建工单'
+                   WHEN 3 THEN
+                       '已接单'
+                   WHEN 4 THEN
+                       '已签到'
+                   WHEN 5 THEN
+                       '已完成'
+                   WHEN 6 THEN
+                       '已确认'
+                   end
+                   AS comment
+        FROM tbl_third_party_ruijin_envent_detail
+        where event_id = #{ event_id }
+        ORDER BY status_time desc
+    </select>
+
+    <select id="getPeopleTrappedDetails" resultType="java.util.HashMap">
+        select fault.v_fault_id,
+               fault.v_elevator_code,
+               fault.v_address,
+               fault.dt_report_time,
+               fault.dt_end_time,
+               fault.v_fault_name,
+               fault.i_mode_status,
+               fault.i_status,
+               evt.handler,
+               evt.handler_tel
+        from tbl_fault fault
+                 LEFT JOIN tbl_third_party_ruijin_envent evt ON evt.reporter = CONCAT('shmx-', #{faultId})
+        where fault.v_fault_id = #{faultId}
+    </select>
+
+    <!-- 智能监管 -->
+    <select id="intelligentSupervision" resultType="java.util.Map">
+        SELECT
+        '维保单位' AS `lable`,
+        maintenance_company_name AS number,
+        '' AS `name`
+        FROM
+        `tbl_third_party_ruijin_maintenance`
+        WHERE
+        register_number = '31103101042006030320'
+
+        UNION
+
+        SELECT
+        '昨日维保电梯数量(台)' AS `label`,
+        count( DISTINCT ele.v_elevator_name ) AS number,
+        GROUP_CONCAT( DISTINCT ele.v_elevator_name ORDER BY ele.v_elevator_name ) AS `name`
+        FROM
+        tbl_third_party_ruijin_work_order wo
+        JOIN tbl_elevator ele ON ele.v_equipment_code = wo.register_number
+        <if test="!module.isAdminFlag">
+            JOIN tbl_sys_user_resource resource ON ele.v_elevator_id = resource.v_resource_id AND resource.v_user_id =
+            #{module.userId}
+        </if>
+        JOIN (
+        SELECT
+        t_wo.register_number,
+        max( t_wo.work_order_number ) AS work_order_number
+        FROM tbl_third_party_ruijin_work_order t_wo
+        GROUP BY t_wo.register_number
+        ) temp ON wo.work_order_number = temp.work_order_number
+        <where>
+            <![CDATA[ DATE_SUB( CURDATE(), INTERVAL 1 DAY ) = DATE(wo.next_maintenance_date) or DATE_SUB( CURDATE(), INTERVAL 1 DAY ) = DATE(wo.should_complete_date)]]>
+            <if test="module.villageId != null and module.villageId != 'null' and module.villageId != 'undefined' and module.villageId != ''">
+                and ele.v_village_id = #{module.villageId}
+            </if>
+            <if test="module.vProjectId != null and module.vProjectId != 'null' and module.vProjectId != 'undefined' and module.vProjectId != ''">
+                and ele.v_project_id = #{module.vProjectId}
+            </if>
+        </where>
+
+        UNION
+
+        SELECT
+        '当日急修电梯' as `label`,
+        count( distinct `event`.register_number) as number,
+        GROUP_CONCAT( DISTINCT `event`.register_number ORDER BY `event`.register_number ) AS `name`
+        FROM
+        tbl_third_party_ruijin_envent `event`
+        JOIN tbl_elevator ele ON ele.v_equipment_code = `event`.register_number AND `event`.current_status = 6
+        <if test="!module.isAdminFlag">
+            JOIN tbl_sys_user_resource resource ON ele.v_elevator_id = resource.v_resource_id AND resource.v_user_id =
+            #{module.userId}
+        </if>
+        <where>
+            AND `event`.occur_time >= DATE_FORMAT(NOW(), '%Y-%m-%d 00:00:00')
+            <if test="module.villageId != null and module.villageId != ''">
+                AND ele.v_village_id = #{module.villageId}
+            </if>
+            <if test="module.vProjectId != null and module.vProjectId != ''">
+                AND ele.v_project_id = #{module.vProjectId}
+            </if>
+        </where>
+
+        /*检验2周内到期改成检验前30天开始提醒，直到检验为止*/
+
+        UNION
+
+        SELECT
+        '本月需年检电梯数量(台)' AS `label`,
+        count( DISTINCT ele.v_elevator_code ) AS number,
+        GROUP_CONCAT( DISTINCT ele.v_elevator_name ORDER BY ele.v_elevator_code ) AS `name`
+        FROM
+        tbl_elevator ele
+        <if test="!module.isAdminFlag">
+            JOIN tbl_sys_user_resource resource ON ele.v_elevator_id = resource.v_resource_id AND resource.v_user_id =
+            #{module.userId}
+        </if>
+        <where>
+            <![CDATA[ DATE_SUB( CURDATE(), INTERVAL 0 DAY ) <= ele.d_next_inspect_date]]>
+            AND <![CDATA[ DATE_SUB( CURDATE(), INTERVAL -30 DAY) >= ele.d_next_inspect_date]]>
+            <if test="module.villageId != null and module.villageId != 'null' and module.villageId != 'undefined' and module.villageId != ''">
+                and ele.v_village_id = #{module.villageId}
+            </if>
+            <if test="module.vProjectId != null and module.vProjectId != 'null' and module.vProjectId != 'undefined' and module.vProjectId != ''">
+                and ele.v_project_id = #{module.vProjectId}
+            </if>
+        </where>
+
+        UNION
+
+        SELECT
+        '年检逾期电梯' AS `label`,
+        count( DISTINCT ele.v_elevator_id ) AS number,
+        GROUP_CONCAT( DISTINCT ele.v_elevator_name ORDER BY ele.v_elevator_name ) AS `name`
+        from
+        tbl_elevator ele
+        <if test="!module.isAdminFlag">
+            join tbl_sys_user_resource resource on ele.v_elevator_id = resource.v_resource_id and v_user_id =
+            #{module.userId}
+        </if>
+        <where>
+            ele.d_next_inspect_date &lt; DATE_SUB(CURDATE(),INTERVAL DAYOFMONTH(now()) -1 DAY)
+        </where>
+
+        UNION
+        SELECT
+        '当日困人电梯' AS `label`,
+        count( DISTINCT ele.v_elevator_name ) AS number,
+        GROUP_CONCAT( DISTINCT ele.v_elevator_name ORDER BY ele.v_elevator_name) AS `name`
+        FROM tbl_third_party_ruijin_envent tre
+        INNER JOIN tbl_elevator ele ON tre.register_number = ele.v_equipment_code
+        <if test="!module.isAdminFlag">
+            JOIN tbl_sys_user_resource resource ON ele.v_elevator_id = resource.v_resource_id AND resource.v_user_id =
+            #{module.userId}
+        </if>
+        <where>
+            tre.failure_code = 09
+            AND tre.occur_time >= DATE_FORMAT(NOW(), '%Y-%m-%d 00:00:00')
+            <if test="module.villageId != null and module.villageId != ''">
+                AND ele.v_village_id = #{module.villageId}
+            </if>
+            <if test="module.vProjectId != null and module.vProjectId != ''">
+                AND ele.v_project_id = #{module.vProjectId}
+            </if>
+        </where>
+
+        UNION
+        SELECT
+        '逾期维保电梯' AS `label`,
+        COUNT(`order`.work_order_number) AS `number`,
+        GROUP_CONCAT( DISTINCT `order`.work_order_number ORDER BY `order`.work_order_number) AS `name`
+        FROM
+        tbl_third_party_ruijin_work_order `order`
+        inner join
+        tbl_elevator as ele on order.register_number = ele.v_equipment_code
+        <if test="!module.isAdminFlag">
+            JOIN tbl_sys_user_resource resource ON ele.v_elevator_id = resource.v_resource_id AND resource.v_user_id =
+            #{module.userId}
+        </if>
+        <where>
+            <![CDATA[
+             Date ( IFNULL(`order`.complete_time,CURDATE())) > Date (DATE_ADD(`order`.should_complete_date, INTERVAL 2 DAY))
+             ]]>
+            <if test="module.timeFlag == '00'">
+                <![CDATA[AND DATE_SUB(CURDATE(), INTERVAL 7 DAY) <= `order`.should_complete_date]]>
+            </if>
+
+            <if test="module.timeFlag == '11'">
+                <![CDATA[AND DATE_SUB(CURDATE(), INTERVAL 30 DAY) <= `order`.should_complete_date ]]>
+            </if>
+
+            <if test="module.timeFlag == '22'">
+                <![CDATA[AND DATE_SUB(CURDATE(), INTERVAL 365 DAY) <= `order`.should_complete_date ]]>
+            </if>
+            <if test="module.villageId != null and module.villageId != ''">
+                AND ele.v_village_id = #{module.villageId}
+            </if>
+        </where>
+
+    </select>
+
+</mapper>

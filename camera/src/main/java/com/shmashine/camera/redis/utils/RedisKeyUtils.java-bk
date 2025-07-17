@@ -1,0 +1,41 @@
+package com.shmashine.camera.redis.utils;
+
+/**
+ * redis key 工具
+ *
+ * @author little.li
+ */
+public class RedisKeyUtils {
+
+
+    /**
+     * 构建路由 缓存key
+     *
+     * @param elevatorCode 电梯编号
+     * @param sensorType   设备类型
+     * @return 缓存key
+     */
+    public static String getGateWayRouteKey(String elevatorCode, String sensorType) {
+        return "GATEWAY:ROUTE:" + elevatorCode + ":" + sensorType;
+    }
+
+    /**
+     * 电梯状态 缓存key
+     *
+     * @param elevatorCode 电梯编号
+     * @param sensorType   设备类型
+     * @return 缓存key
+     */
+    public static String getElevatorStatus(String elevatorCode, String sensorType) {
+        return "ELEVATOR:STATUS:" + elevatorCode + ":" + sensorType;
+    }
+
+
+    public static String getCameraHistoryStatus(String elevatorCode) {
+        return "ELEVATOR:CAMERA:" + elevatorCode;
+    }
+
+    public static String getXiongMaiHlsUrl(String elevatorCode) {
+        return "CAMERA:HLSURL:" + elevatorCode;
+    }
+}

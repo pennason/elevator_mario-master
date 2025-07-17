@@ -1,0 +1,1236 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shmashine.api.dao.BizFaultDao">
+
+    <!-- 查询故障列表 -->
+    <select id="searchFaultList" resultType="java.util.Map">
+        select distinct
+        device.eType,
+        fault.v_fault_id,
+        fault.v_elevator_code,
+        ele.v_elevator_name,
+        ele.v_village_id as villageId,
+        fault.i_level,
+        fault.i_level_name,
+        fault.v_address,
+        fault.dt_report_time,
+        fault.i_fault_type,
+        fault.v_fault_name,
+        fault.v_fault_second_type,
+        fault.v_fault_second_name,
+        fault.i_fault_num,
+        fault.i_mode_status,
+        sysinfo.v_name_zh_cn AS i_mode_status_name,
+        fault.i_status,
+        sysinfo2.v_name_zh_cn AS i_status_name
+        from
+        tbl_fault fault
+        <if test="!isAdminFlag">
+            join tbl_sys_user_resource resource on fault.v_elevator_id = resource.v_resource_id and v_user_id =
+            #{userId}
+        </if>
+        left join tbl_elevator ele on ele.v_elevator_id = fault.v_elevator_id
+        left join tbl_device device on device.v_elevator_id = fault.v_elevator_id
+        left join tbl_sys_systeminfo sysinfo on sysinfo.v_sysvalue5 = fault.i_mode_status and sysinfo.v_sysid = '10009'
+        left join tbl_sys_systeminfo sysinfo2 on sysinfo2.v_sysvalue5 = fault.i_status and sysinfo2.v_sysid = '10010'
+        <where>
+            fault.i_del_flag = 0
+            <if test="vElevatorCode != null and vElevatorCode != ''">
+                and fault.v_elevator_code like CONCAT('%',#{vElevatorCode},'%')
+            </if>
+            <if test="dtReportTime != null and dtReportTime != ''">
+                <![CDATA[  and fault.dt_report_time >= #{dtReportTime} ]]>
+            </if>
+            <if test="dtEndTime != null and dtEndTime != ''">
+                <![CDATA[ and fault.dt_report_time <=  #{dtEndTime} ]]>
+            </if>
+            <if test="iStatus != null">
+                and fault.i_status = #{iStatus}
+            </if>
+            <if test="iFaultType != null and iFaultType != ''">
+                and fault.i_fault_type = #{iFaultType}
+            </if>
+            <if test="iInstallStatus != null and iInstallStatus != ''">
+                and ele.i_install_status = #{iInstallStatus}
+            </if>
+            <if test="installStatusArray != null and installStatusArray.size() > 0">
+                and ele.i_install_status in
+                <foreach collection="installStatusArray" item="install" open="(" separator="," close=")">
+                    #{install}
+                </foreach>
+            </if>
+            <if test="iElevatorType != null and iElevatorType != ''">
+                and ele.i_elevator_type = #{iElevatorType}
+            </if>
+            <if test="iUncivilizedBehaviorFlag != null">
+                and fault.i_uncivilized_behavior_flag = #{iUncivilizedBehaviorFlag}
+            </if>
+            <if test="vEventType != null and vEventType != ''">
+                and fault.v_event_channel = #{vEventType}
+            </if>
+            <if test="vProjectId != null and vProjectId != ''">
+                and ele.v_project_id = #{vProjectId}
+            </if>
+            <if test="villageId != null and villageId != ''">
+                and ele.v_village_id = #{villageId}
+            </if>
+            <if test="villageIds != null and villageIds .size() > 0">
+                and ele.v_village_id in
+                <foreach collection="villageIds" item="it" open="(" separator="," close=")">
+                    #{it}
+                </foreach>
+            </if>
+            <if test="iInstallStatus != null">
+                and ele.i_install_status = #{iInstallStatus}
+            </if>
+            <if test="eType != null and eType.contains('201')">
+                and (device.eType = #{eType} or device.eType is null)
+            </if>
+            <if test="eType != null and eType != '' and !eType.contains('201')">
+                and device.eType = #{eType}
+            </if>
+            <if test="projectIds != null and projectIds.size() > 0">
+                and ele.v_project_id in
+                <foreach collection="projectIds" item="projectId" open="(" separator="," close=")">
+                    #{projectId}
+                </foreach>
+            </if>
+        </where>
+        order by dt_report_time desc
+    </select>
+
+
+    <!-- 查询故障列表 -->
+    <select id="searchSensorFaultList" resultType="java.util.Map">
+        select DISTINCT
+        fault.v_fault_id,
+        fault.v_elevator_id,
+        fault.v_elevator_code,
+        ele.v_elevator_name,
+        ele.v_village_id,
+        ele.v_village_id AS villageId,
+        fault.i_level,
+        fault.i_level_name,
+        fault.v_address,
+        fault.dt_report_time,
+        fault.i_fault_type,
+        fault.v_fault_name,
+        fault.i_fault_num,
+        fault.i_mode_status,
+        fault.dt_modify_time,
+        ifnull(device.eType, 'MX201') as e_type,
+        sysinfo.v_name_zh_cn AS i_mode_status_name,
+        fault.i_status,
+        sysinfo2.v_name_zh_cn AS i_status_name
+        from
+        tbl_sensor_fault fault
+        <if test="!isAdminFlag">
+            join tbl_sys_user_resource resource on fault.v_elevator_id = resource.v_resource_id and v_user_id =
+            #{userId}
+        </if>
+        left join tbl_elevator ele on ele.v_elevator_id = fault.v_elevator_id
+        left join tbl_device device on device.v_elevator_id = ele.v_elevator_id
+        left join tbl_sys_systeminfo sysinfo on sysinfo.v_sysvalue5 = fault.i_mode_status and sysinfo.v_sysid = '10009'
+        left join tbl_sys_systeminfo sysinfo2 on sysinfo2.v_sysvalue5 = fault.i_status and sysinfo2.v_sysid = '10010'
+        <where>
+            fault.i_del_flag = 0
+            <if test="startTime != null and startTime != ''">
+                and DATE_FORMAT(dt_report_time,'%T') >= #{startTime}
+            </if>
+            <if test="endTime != null and endTime != ''">
+                and DATE_FORMAT(dt_report_time,'%T') &lt;= #{endTime}
+            </if>
+            <if test="vElevatorCode != null and vElevatorCode != ''">
+                and fault.v_elevator_code like CONCAT('%',#{vElevatorCode},'%')
+            </if>
+            <if test="dtReportTime != null and dtReportTime != ''">
+                <![CDATA[  and fault.dt_report_time >= #{dtReportTime} ]]>
+            </if>
+            <if test="dtEndTime != null and dtEndTime != ''">
+                <![CDATA[ and fault.dt_report_time <=  #{dtEndTime} ]]>
+            </if>
+            <if test="iStatus != null">
+                and fault.i_status = #{iStatus}
+            </if>
+            <if test="iFaultType != null and iFaultType != ''">
+                and fault.i_fault_type = #{iFaultType}
+            </if>
+            <if test="iElevatorType != null and iElevatorType != ''">
+                and ele.i_elevator_type = #{iElevatorType}
+            </if>
+            <if test="iUncivilizedBehaviorFlag != null">
+                and fault.i_uncivilized_behavior_flag = #{iUncivilizedBehaviorFlag}
+            </if>
+            <if test="vEventType != null and vEventType != ''">
+                and fault.v_event_channel = #{vEventType}
+            </if>
+            <if test="vProjectId != null and vProjectId != ''">
+                and ele.v_project_id = #{vProjectId}
+            </if>
+            <if test="villageId != null and villageId != ''">
+                and ele.v_village_id = #{villageId}
+            </if>
+            <if test="eType != null and eType.contains('201')">
+                and (device.eType = #{eType} or device.eType is null)
+            </if>
+            <if test="eType != null and eType != '' and !eType.contains('201')">
+                and device.eType = #{eType}
+            </if>
+        </where>
+        GROUP BY fault.v_fault_id
+        order by dt_report_time desc
+    </select>
+
+    <!-- 查询故障列表 -->
+    <select id="searchSensorFaultDownload" resultType="com.shmashine.api.module.fault.output.SensorFaultExportModule">
+        select
+        fault.v_elevator_code as vElevatorCode,
+        project.v_project_name as vProjectName,
+        village.v_village_name as vVillageName,
+        fault.i_level_name as iLevelName,
+        fault.v_address as vAddress,
+        fault.dt_report_time as dtReportTime,
+        fault.v_fault_name as vFaultName,
+        fault.i_fault_num as iFaultNum,
+        fault.dt_modify_time as dtModifyTime,
+        ifnull(device.eType, 'MX201') as eType,
+        sysinfo2.v_name_zh_cn as iStatusName,
+        sysinfo.v_name_zh_cn AS iModeStatusName
+        from
+        tbl_sensor_fault fault
+        <if test="!isAdminFlag">
+            join tbl_sys_user_resource resource on fault.v_elevator_id = resource.v_resource_id and v_user_id =
+            #{userId}
+        </if>
+        left join tbl_elevator ele on ele.v_elevator_id = fault.v_elevator_id
+        left join tbl_village village on ele.v_village_id = village.v_village_id
+        left join tbl_project project on ele.v_project_id = project.v_project_id
+        left join tbl_device device on device.v_elevator_id = ele.v_elevator_id
+        left join tbl_sys_systeminfo sysinfo on sysinfo.v_sysvalue5 = fault.i_mode_status and sysinfo.v_sysid = '10009'
+        left join tbl_sys_systeminfo sysinfo2 on sysinfo2.v_sysvalue5 = fault.i_status and sysinfo2.v_sysid = '10010'
+        <where>
+            fault.i_del_flag = 0
+            <if test="startTime != null and startTime != ''">
+                and DATE_FORMAT(dt_report_time,'%T') &gt;= #{startTime}
+            </if>
+            <if test="endTime != null and endTime != ''">
+                and DATE_FORMAT(dt_report_time,'%T') &lt;= #{endTime}
+            </if>
+            <if test="vElevatorCode != null and vElevatorCode != ''">
+                and fault.v_elevator_code like CONCAT('%',#{vElevatorCode},'%')
+            </if>
+            <if test="dtReportTime != null and dtReportTime != ''">
+                <![CDATA[  and fault.dt_report_time >= #{dtReportTime} ]]>
+            </if>
+            <if test="dtEndTime != null and dtEndTime != ''">
+                <![CDATA[ and fault.dt_report_time <=  #{dtEndTime} ]]>
+            </if>
+            <if test="iStatus != null">
+                and fault.i_status = #{iStatus}
+            </if>
+            <if test="iFaultType != null and iFaultType != ''">
+                and fault.i_fault_type = #{iFaultType}
+            </if>
+            <if test="iElevatorType != null and iElevatorType != ''">
+                and ele.i_elevator_type = #{iElevatorType}
+            </if>
+            <if test="iUncivilizedBehaviorFlag != null">
+                and fault.i_uncivilized_behavior_flag = #{iUncivilizedBehaviorFlag}
+            </if>
+            <if test="vEventType != null and vEventType != ''">
+                and fault.v_event_channel = #{vEventType}
+            </if>
+            <if test="vProjectId != null and vProjectId != ''">
+                and ele.v_project_id = #{vProjectId}
+            </if>
+            <if test="villageId != null and villageId != ''">
+                and ele.v_village_id = #{villageId}
+            </if>
+            <if test="eType != null and eType.contains('201')">
+                and (device.eType = #{eType} or device.eType is null)
+            </if>
+            <if test="eType != null and eType != '' and !eType.contains('201')">
+                and device.eType = #{eType}
+            </if>
+        </where>
+        order by dt_report_time desc
+        limit 0, 500
+    </select>
+
+    <!-- 查找电梯传感器故障 -->
+    <select id="getSensorFaultDetail" resultType="java.util.Map">
+        select fault.v_fault_id
+             , fault.i_level
+             , fault.v_elevator_id
+             , fault.v_elevator_code
+             , fault.i_level_name
+             , fault.v_address
+             , fault.dt_report_time
+             , fault.dt_end_time
+             , fault.i_floor
+             , fault.i_fault_type
+             , fault.v_fault_name
+             , fault.i_fault_num
+             , fault.i_mode_status
+             , wk.v_work_order_id    AS v_work_order_id
+             , sysinfo.v_name_zh_cn  AS i_mode_status_name
+             , fault.i_status
+             , sysinfo2.v_name_zh_cn AS i_status_name
+        from tbl_sensor_fault fault
+                 left join tbl_sys_systeminfo sysinfo
+                           on sysinfo.v_sysvalue5 = fault.i_mode_status and sysinfo.v_sysid = '10009'
+                 left join tbl_sys_systeminfo sysinfo2
+                           on sysinfo2.v_sysvalue5 = fault.i_status and sysinfo2.v_sysid = '10010'
+                 left join tbl_work_order wk on wk.v_source_id = fault.v_fault_id
+        where v_fault_id = #{faultId}
+    </select>
+
+    <!--通过主键修改实体属性不为null的列-->
+    <update id="cancelSensorFault" parameterType="com.shmashine.common.entity.TblFault">
+        update tbl_sensor_fault
+        <set>
+            <if test="vElevatorId != null and vElevatorId != ''">
+                v_elevator_id = #{vElevatorId,jdbcType=VARCHAR},
+            </if>
+            <if test="vElevatorCode != null and vElevatorCode != ''">
+                v_elevator_code = #{vElevatorCode,jdbcType=VARCHAR},
+            </if>
+            <if test="vAddress != null and vAddress != ''">
+                v_address = #{vAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="dtReportTime != null">
+                dt_report_time = #{dtReportTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="dtEndTime != null">
+                dt_end_time = #{dtEndTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="iFaultType != null and iFaultType != ''">
+                i_fault_type = #{iFaultType,jdbcType=INTEGER},
+            </if>
+            <if test="vFaultName != null and vFaultName != ''">
+                v_fault_name = #{vFaultName,jdbcType=VARCHAR},
+            </if>
+            <if test="iLevel != null and iLevel != ''">
+                i_level = #{iLevel,jdbcType=INTEGER},
+            </if>
+            <if test="iLevelName != null and iLevelName != ''">
+                i_level_name = #{iLevelName,jdbcType=VARCHAR},
+            </if>
+            <if test="iFaultNum != null">
+                i_fault_num = #{iFaultNum,jdbcType=INTEGER},
+            </if>
+            <if test="iStatus != null">
+                i_status = #{iStatus,jdbcType=INTEGER},
+            </if>
+            <if test="iModeStatus != null">
+                i_mode_status = #{iModeStatus,jdbcType=INTEGER},
+            </if>
+            <if test="iManualClear != null">
+                i_manual_clear = #{iManualClear,jdbcType=INTEGER},
+            </if>
+            <if test="iIsUserVisible != null">
+                i_is_user_visible = #{iIsUserVisible,jdbcType=INTEGER},
+            </if>
+            <if test="dtModifyTime != null">
+                dt_modify_time = #{dtModifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="vModifyUserId != null and vModifyUserId != ''">
+                v_modify_user_id = #{vModifyUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="iDelFlag != null">
+                i_del_flag = #{iDelFlag,jdbcType=INTEGER},
+            </if>
+        </set>
+        where v_fault_id = #{vFaultId,jdbcType=VARCHAR}
+    </update>
+
+
+    <select id="searchFaultListDownload"
+            resultType="com.shmashine.api.module.fault.output.FaultDetailDownloadModuleMap">
+        select
+        distinct
+        ifnull(device.eType, 'MX201') as eType,
+        fault.v_fault_id as faultId,
+        fault.v_elevator_code as elevatorCode,
+        ele.v_elevator_name as elevatorName,
+        fault.i_level_name as levelName,
+        fault.v_address as address,
+        fault.dt_report_time as reportTime,
+        fault.i_fault_type as faultType,
+        fault.v_fault_name as faultName,
+        fault.i_fault_num as faultNum,
+        sysinfo.v_name_zh_cn AS modeStatus ,
+        sysinfo2.v_name_zh_cn AS statusName
+        from
+        tbl_fault fault
+        <if test="!module.isAdminFlag">
+            join tbl_sys_user_resource resource on fault.v_elevator_id = resource.v_resource_id and v_user_id =
+            #{module.userId}
+        </if>
+        left join tbl_elevator ele on ele.v_elevator_id = fault.v_elevator_id
+        left join tbl_device device on device.v_elevator_id = ele.v_elevator_id
+        left join tbl_sys_systeminfo sysinfo on sysinfo.v_sysvalue5 = fault.i_mode_status and sysinfo.v_sysid = '10009'
+        left join tbl_sys_systeminfo sysinfo2 on sysinfo2.v_sysvalue5 = fault.i_status and sysinfo2.v_sysid = '10010'
+        <where>
+            fault.i_del_flag = 0
+            <if test="module.vElevatorCode != null and module.vElevatorCode != ''">
+                and fault.v_elevator_code like CONCAT('%',#{module.vElevatorCode},'%')
+            </if>
+            <if test="module.dtReportTime != null and module.dtReportTime != ''">
+                <![CDATA[  and fault.dt_report_time >= #{module.dtReportTime} ]]>
+            </if>
+            <if test="module.dtEndTime != null and module.dtEndTime != ''">
+                <![CDATA[ and fault.dt_report_time <=  #{module.dtEndTime} ]]>
+            </if>
+            <if test="module.iStatus != null">
+                and fault.i_status = #{module.iStatus}
+            </if>
+            <if test="module.iFaultType != null and module.iFaultType != ''">
+                and fault.i_fault_type = #{module.iFaultType}
+            </if>
+            <if test="module.iElevatorType != null and module.iElevatorType != ''">
+                and ele.i_elevator_type = #{module.iElevatorType}
+            </if>
+            <if test="module.iUncivilizedBehaviorFlag != null">
+                and fault.i_uncivilized_behavior_flag = #{module.iUncivilizedBehaviorFlag}
+            </if>
+            <if test="module.vEventType != null and module.vEventType != ''">
+                and fault.v_event_channel = #{module.vEventType}
+            </if>
+            <if test="module.vProjectId != null and module.vProjectId != ''">
+                and ele.v_project_id = #{module.vProjectId}
+            </if>
+            <if test="module.villageIds != null and module.villageIds .size() > 0">
+                and ele.v_village_id in
+                <foreach collection="module.villageIds" item="it" open="(" separator="," close=")">
+                    #{it}
+                </foreach>
+            </if>
+            <if test="module.iInstallStatus != null">
+                and ele.i_install_status = #{module.iInstallStatus}
+            </if>
+            <if test="module.eType != null and module.eType.contains('201')">
+                and (device.eType = #{module.eType} or device.eType is null)
+            </if>
+            <if test="module.eType != null and  !module.eType.contains('201')">
+                and device.eType = #{module.eType}
+            </if>
+        </where>
+        order by dt_report_time desc
+    </select>
+
+
+    <select id="searchUncivilizedBehaviorListDownload"
+            resultType="com.shmashine.api.module.fault.output.UncivilizedBehaviorDownloadModuleMap">
+        select
+        fault.v_fault_id as faultId,
+        fault.v_elevator_code as elevatorCode,
+        ele.v_elevator_name as elevatorName,
+        fault.i_level_name as levelName,
+        fault.v_address as address,
+        fault.dt_report_time as reportTime,
+        fault.i_fault_type as faultType,
+        fault.v_fault_name as faultName,
+        fault.i_fault_num as faultNum,
+        sysinfo.v_name_zh_cn AS modeStatus ,
+        sysinfo2.v_name_zh_cn AS statusName
+        from
+        tbl_fault fault
+        <if test="!module.isAdminFlag">
+            join tbl_sys_user_resource resource on fault.v_elevator_id = resource.v_resource_id and v_user_id =
+            #{module.userId}
+        </if>
+        left join tbl_elevator ele on ele.v_elevator_id = fault.v_elevator_id
+        left join tbl_sys_systeminfo sysinfo on sysinfo.v_sysvalue5 = fault.i_mode_status and sysinfo.v_sysid = '10009'
+        left join tbl_sys_systeminfo sysinfo2 on sysinfo2.v_sysvalue5 = fault.i_status and sysinfo2.v_sysid = '10010'
+        <where>
+            <if test="module.vElevatorCode != null and module.vElevatorCode != ''">
+                and fault.v_elevator_code like CONCAT('%',#{module.vElevatorCode},'%')
+            </if>
+            <if test="module.dtReportTime != null and module.dtReportTime != ''">
+                <![CDATA[  and fault.dt_report_time >= #{module.dtReportTime} ]]>
+            </if>
+            <if test="module.dtEndTime != null and module.dtEndTime != ''">
+                <![CDATA[ and fault.dt_report_time <=  #{module.dtEndTime} ]]>
+            </if>
+            <if test="module.iStatus != null">
+                and fault.i_status = #{module.iStatus}
+            </if>
+            <if test="module.iFaultType != null and module.iFaultType != ''">
+                and fault.i_fault_type = #{module.iFaultType}
+            </if>
+            <if test="module.vProjectId != null and module.vProjectId != ''">
+                and ele.v_project_id = #{module.vProjectId}
+            </if>
+            <if test="module.villageIds != null and module.villageIds .size() > 0">
+                and ele.v_village_id in
+                <foreach collection="module.villageIds" item="it" open="(" separator="," close=")">
+                    #{it}
+                </foreach>
+            </if>
+            <if test="module.iElevatorType != null and module.iElevatorType != ''">
+                and ele.i_elevator_type = #{module.iElevatorType}
+            </if>
+            <if test="module.iUncivilizedBehaviorFlag != null">
+                and fault.i_uncivilized_behavior_flag = #{module.iUncivilizedBehaviorFlag}
+            </if>
+            <if test="module.vEventType != null and module.vEventType != ''">
+                and fault.v_event_channel = #{module.vEventType}
+            </if>
+        </where>
+        order by dt_report_time desc
+    </select>
+
+
+    <!-- 查找电梯故障 -->
+    <select id="getFaultDetail" resultType="java.util.Map">
+        select fault.v_fault_id
+             , fault.i_level
+             , fault.v_elevator_code
+             , te.v_elevator_name
+             , te.i_elevator_type
+             , fault.i_level_name
+             , fault.v_address
+             , fault.dt_report_time
+             , fault.dt_end_time
+             , fault.i_floor
+             , fault.i_fault_type
+             , fault.v_fault_name
+             , fault.i_fault_num
+             , fault.i_mode_status
+             , fault.i_uncivilized_behavior_flag
+             , sysinfo.v_name_zh_cn  AS i_mode_status_name
+             , fault.i_status
+             , sysinfo2.v_name_zh_cn AS i_status_name
+        from tbl_fault fault
+                 inner join tbl_elevator te on fault.v_elevator_id = te.v_elevator_id
+                 left join tbl_sys_systeminfo sysinfo
+                           on sysinfo.v_sysvalue5 = fault.i_mode_status and sysinfo.v_sysid = '10009'
+                 left join tbl_sys_systeminfo sysinfo2
+                           on sysinfo2.v_sysvalue5 = fault.i_status and sysinfo2.v_sysid = '10010'
+        where v_fault_id = #{faultId}
+    </select>
+
+
+    <select id="getTopHundredElevatorCode" resultType="java.lang.String">
+        select
+        tbl_fault.v_elevator_code
+        from
+        tbl_fault
+        left join tbl_elevator on tbl_fault.v_elevator_id = tbl_elevator.v_elevator_id and tbl_elevator.i_install_status
+        IN (1,3)
+        <if test="eType != null and eType.contains('201')">
+            left join tbl_device device on device.v_elevator_id = tbl_fault.v_elevator_id and (device.eType = #{eType}
+            or device.eType is null)
+        </if>
+        <if test="eType != null and eType != '' and !eType.contains('201')">
+            INNER join tbl_device device on device.v_elevator_id = tbl_fault.v_elevator_id and device.eType = #{eType}
+        </if>
+        <if test="!isAdminFlag and userId != null">
+            INNER JOIN tbl_sys_user_resource resource on tbl_fault.v_elevator_id = resource.v_resource_id and v_user_id
+            =
+            #{userId}
+        </if>
+        <where>
+            <if test="projectId != null and projectId != '' ">
+                and tbl_elevator.v_project_id = #{projectId}
+            </if>
+            <if test="projectIds != null and projectIds.size() > 0">
+                and tbl_elevator.v_project_id in
+                <foreach collection="projectIds" item="projectId" open="(" separator="," close=")">
+                    #{projectId}
+                </foreach>
+            </if>
+            <if test="elevatorType != null">
+                and tbl_elevator.i_elevator_type = #{elevatorType}
+            </if>
+            <if test="elevatorCode != null and elevatorCode != '' ">
+                and tbl_elevator.v_elevator_code like CONCAT('%',#{elevatorCode},'%')
+            </if>
+            <if test="startTime != null  and startTime != '' ">
+                and tbl_fault.dt_report_time &gt;= #{startTime}
+            </if>
+            <if test="endTime != null  and endTime != '' ">
+                and tbl_fault.dt_report_time &lt;= #{endTime}
+            </if>
+            <if test="faultType != null and faultType != ''">
+                and tbl_fault.i_fault_type = #{faultType}
+            </if>
+            <if test="uncivilizedBehaviorFlag != null">
+                and tbl_fault.i_uncivilized_behavior_flag = #{uncivilizedBehaviorFlag}
+            </if>
+            <if test="eventType != null and eventType != '' ">
+                and tbl_fault.v_event_channel = #{eventType}
+            </if>
+            <if test="villageId != null and villageId != '' ">
+                and tbl_elevator.v_village_id = #{villageId}
+            </if>
+            and tbl_fault.i_del_flag = 0
+        </where>
+        group by tbl_fault.v_elevator_code
+        order by sum(tbl_fault.i_fault_num) desc
+        limit 0, 50
+    </select>
+
+    <select id="getStatisticsFaultList" resultType="com.shmashine.api.module.fault.output.FaultResponseModule">
+        SELECT
+        tbl_fault.d_report_date as createTime,
+        tbl_fault.i_fault_type as faultType,
+        SUM(tbl_fault.i_fault_num) as faultNumCount,
+        tbl_fault_definition.v_fault_name as faultName
+        FROM
+        tbl_fault
+        LEFT JOIN
+        tbl_fault_definition
+        ON
+        tbl_fault.i_fault_type = tbl_fault_definition.i_fault_type
+        LEFT JOIN
+        tbl_elevator
+        ON
+        tbl_fault.v_elevator_code = tbl_elevator.v_elevator_code and tbl_elevator.i_install_status IN (1,3)
+        LEFT JOIN
+        tbl_device device
+        ON
+        device.v_elevator_id = tbl_elevator.v_elevator_id
+        <if test="!isAdminFlag and userId != null">
+            join tbl_sys_user_resource resource on tbl_fault.v_elevator_id = resource.v_resource_id and v_user_id =
+            #{userId}
+        </if>
+        <where>
+            <if test="projectId != null and projectId != ''">
+                and tbl_elevator.v_project_id = #{projectId}
+            </if>
+            <if test="projectIds != null and projectIds.size() > 0">
+                and tbl_elevator.v_project_id in
+                <foreach collection="projectIds" item="projectId" open="(" separator="," close=")">
+                    #{projectId}
+                </foreach>
+            </if>
+            <if test="elevatorType != null and  elevatorType != ''">
+                and tbl_elevator.i_elevator_type = #{elevatorType}
+            </if>
+            <if test="elevatorCode != null and  elevatorCode !=  ''">
+                and tbl_elevator.v_elevator_code like CONCAT('%',#{elevatorCode},'%')
+            </if>
+            <if test="startTime != null  and startTime != '' ">
+                and tbl_fault.dt_report_time &gt;= #{startTime}
+            </if>
+            <if test="endTime != null  and endTime != '' ">
+                and tbl_fault.dt_report_time &lt;= DATE_ADD(#{endTime}, INTERVAL 1 DAY)
+            </if>
+            <if test="faultType != null and faultType != ''">
+                and tbl_fault.i_fault_type = #{faultType}
+            </if>
+            <if test="uncivilizedBehaviorFlag != null and uncivilizedBehaviorFlag != ''">
+                and tbl_fault.i_uncivilized_behavior_flag = #{uncivilizedBehaviorFlag}
+            </if>
+            <if test="villageId != null and villageId != ''">
+                and tbl_elevator.v_village_id = #{villageId}
+            </if>
+            <if test="eType != null and eType.contains('201')">
+                and (device.eType = #{eType} or device.eType is null)
+            </if>
+            <if test="eType != null and eType != '' and !eType.contains('201')">
+                and device.eType = #{eType}
+            </if>
+        </where>
+        GROUP BY
+        tbl_fault.d_report_date, tbl_fault.i_fault_Type
+    </select>
+
+
+    <select id="getStatisticsFaultListByElevatorCode"
+            resultType="com.shmashine.api.module.fault.output.FaultResponseModule">
+        select
+        tbl_elevator.v_elevator_code as elevatorCode,
+        tbl_fault.dt_create_time as createTime,
+        tbl_fault.i_fault_type as faultType,
+        SUM(tbl_fault.i_fault_num) as faultNumCount,
+        tbl_fault.v_fault_name as faultName
+        FROM tbl_fault
+        left join tbl_elevator on tbl_fault.v_elevator_id = tbl_elevator.v_elevator_id and tbl_elevator.i_install_status
+        IN (1,3)
+        <if test="eType != null and eType.contains('201')">
+            INNER join tbl_device device on device.v_elevator_id = tbl_fault.v_elevator_id and (device.eType = #{eType}
+            or device.eType is null)
+        </if>
+        <if test="eType != null and eType != '' and !eType.contains('201')">
+            INNER join tbl_device device on device.v_elevator_id = tbl_fault.v_elevator_id and device.eType = #{eType}
+        </if>
+        <if test="!isAdminFlag">
+            join tbl_sys_user_resource resource on tbl_fault.v_elevator_id = resource.v_resource_id and v_user_id =
+            #{userId}
+        </if>
+        <where>
+            <if test="projectId != null and projectId != '' ">
+                and tbl_elevator.v_project_id = #{projectId}
+            </if>
+            <if test="projectIds != null and projectIds.size() > 0">
+                and tbl_elevator.v_project_id in
+                <foreach collection="projectIds" item="projectId" open="(" separator="," close=")">
+                    #{projectId}
+                </foreach>
+            </if>
+            <if test="elevatorType != null">
+                and tbl_elevator.i_elevator_type = #{elevatorType}
+            </if>
+            <if test="elevatorCode != null and elevatorCode != '' ">
+                and tbl_elevator.v_elevator_code like CONCAT('%',#{elevatorCode},'%')
+            </if>
+            <if test="startTime != null  and startTime != '' ">
+                and tbl_fault.dt_report_time &gt;= #{startTime}
+            </if>
+            <if test="endTime != null  and endTime != '' ">
+                and tbl_fault.dt_report_time &lt;= #{endTime}
+            </if>
+            <if test="faultType != null and faultType != ''">
+                and tbl_fault.i_fault_type = #{faultType}
+            </if>
+            <if test="uncivilizedBehaviorFlag != null">
+                and tbl_fault.i_uncivilized_behavior_flag = #{uncivilizedBehaviorFlag}
+            </if>
+            <if test="eventType != null">
+                and tbl_fault.v_event_channel = #{eventType}
+            </if>
+            <if test="villageId != null">
+                and tbl_elevator.v_village_id = #{villageId}
+            </if>
+            and tbl_fault.i_del_flag = 0
+        </where>
+        GROUP BY tbl_fault.i_fault_Type, tbl_elevator.v_elevator_code
+    </select>
+
+    <!--通过Id查询单个-->
+    <select id="getById" resultType="com.shmashine.common.entity.TblFault" parameterType="java.lang.String">
+        select *
+        from tbl_fault
+        where v_fault_id = #{vFaultId,jdbcType=VARCHAR}
+    </select>
+
+    <select id="taskReloadFaultConfirm" resultType="java.util.Map">
+        SELECT v_business_id, v_url
+        FROM tbl_sys_file
+        WHERE v_business_id IN (SELECT v_fault_id
+                                FROM tbl_fault_uncivilized_behavior37
+                                WHERE i_confirm_status = 0
+                                  AND i_fault_type = 37
+                                  AND dt_report_time &gt; DATE_SUB(NOW(), INTERVAL 15 MINUTE))
+          AND v_file_type = 0
+        ORDER BY dt_create_time DESC LIMIT 1,60
+    </select>
+
+    <select id="getOnFualtBy37" resultType="com.shmashine.common.entity.TblFault">
+        select *
+        from tbl_fault
+        where i_status = 0
+          and i_fault_type = 37
+          AND dt_report_time &gt; DATE_SUB(NOW(), INTERVAL 30 MINUTE)
+    </select>
+
+    <select id="getFaultTempStatusById" resultType="int">
+        select i_status
+        from tbl_fault_temp
+        where v_fault_id = #{faultId,jdbcType=VARCHAR}
+    </select>
+
+    <!-- 昨日故障占比统计sql -->
+    <select id="getYesterdayFaultStatics" resultType="java.util.Map">
+        SELECT
+        fault.i_fault_type,
+        fault.v_fault_name,
+        sum( fault.i_fault_num ) AS `number`
+        FROM
+        tbl_fault fault
+        <if test="!isAdmin">
+            join tbl_sys_user_resource resource on fault.v_elevator_id = resource.v_resource_id and resource.v_user_id =
+            #{userId}
+        </if>
+        WHERE
+        fault.d_report_date = DATE_SUB(curdate( ), INTERVAL 1 DAY )
+        AND
+        fault.i_uncivilized_behavior_flag = 0
+        <if test="elevatorIds != null and elevatorIds.size() > 0">
+            and fault.v_elevator_id in
+            <foreach collection="elevatorIds" item="elevatorId" open="(" separator="," close=")">
+                #{elevatorId}
+            </foreach>
+        </if>
+        GROUP BY
+        fault.i_fault_type,
+        fault.v_fault_name
+    </select>
+
+
+    <!-- 故障详情 -->
+    <select id="getByFaultId" resultType="com.shmashine.common.entity.TblFault">
+        SELECT *
+        FROM tbl_fault
+        WHERE v_fault_id = #{faultId}
+    </select>
+
+    <!-- 单体历史故障统计 -->
+    <select id="getHisFaultStatics" resultType="java.util.Map">
+        SELECT
+        fault.i_fault_type,
+        fault.v_fault_name,
+        sum( fault.i_fault_num ) AS `number`
+        FROM
+        tbl_fault fault
+        <if test="!isAdmin">
+            join tbl_sys_user_resource resource on fault.v_elevator_id = resource.v_resource_id and resource.v_user_id =
+            #{userId}
+        </if>
+        <where>
+            fault.i_uncivilized_behavior_flag = 0
+            <if test="elevatorId != null and elevatorId != ''">
+                and fault.v_elevator_id = #{elevatorId}
+            </if>
+        </where>
+        GROUP BY
+        fault.i_fault_type,
+        fault.v_fault_name
+    </select>
+
+    <!-- 单体历史不文明行为占比 -->
+    <select id="getHospitalizationIonFaultStatistics" resultType="java.util.Map">
+        Select
+        fault.i_fault_type,
+        fault.v_fault_name,
+        sum( fault.i_fault_num ) AS `number`
+        FROM
+        tbl_fault fault
+        <if test="!isAdmin">
+            join tbl_sys_user_resource resource on fault.v_elevator_id = resource.v_resource_id and resource.v_user_id =
+            #{userId}
+        </if>
+        <where>
+            fault.i_uncivilized_behavior_flag = 1
+            <if test="elevatorId != null and elevatorId != ''">
+                and fault.v_elevator_id = #{elevatorId}
+            </if>
+        </where>
+        GROUP BY
+        fault.i_fault_type,
+        fault.v_fault_name
+    </select>
+
+    <select id="getSensorFaultBYDataAndStatus" resultType="java.util.Map">
+        SELECT COUNT(tf.v_elevator_code) AS num, DATE_FORMAT(dt_report_time, '%Y-%m-%d') time,tf.i_status
+        FROM tbl_sensor_fault tf INNER JOIN tbl_elevator te ON tf.v_elevator_code = te.v_elevator_code
+        WHERE tf.dt_report_time
+        BETWEEN DATE_FORMAT( DATE_SUB(CURDATE(), INTERVAL 1 MONTH), '%Y-%m-%d 00:00:00') AND NOW()
+        <if test="projectId != null and projectId != ''">
+            and v_project_id = #{projectId}
+        </if>
+        GROUP BY DATE_FORMAT(tf.dt_report_time, '%d'),tf.i_status
+    </select>
+
+    <!--统计周困人次数-->
+    <select id="tiringStatistics" resultType="java.util.Map">
+        SELECT COUNT(tf.v_elevator_code) AS num, DATE_FORMAT(tf.dt_report_time, '%u') time
+        FROM tbl_fault tf
+        inner join tbl_elevator te on tf.v_elevator_id = te.v_elevator_id
+        <if test="!isAdmin">
+            join tbl_sys_user_resource resource on te.v_elevator_id = resource.v_resource_id and v_user_id =
+            #{userId}
+        </if>
+        WHERE tf.dt_report_time
+        BETWEEN DATE_FORMAT(DATE_SUB(NOW(), INTERVAL 11 WEEK), '%Y-%m-%d 00:00:00') AND NOW()
+        AND tf.v_event_channel = 1
+        AND (tf.i_fault_type = 7 OR tf.i_fault_type = 8)
+        <if test="projectId != null and projectId != ''">
+            and v_project_id = #{projectId}
+        </if>
+        GROUP BY DATE_FORMAT(tf.dt_report_time, '%u')
+    </select>
+
+    <!--统计周检修次数-->
+    <select id="maintenanceStatistics" resultType="java.util.Map">
+        SELECT COUNT(time) AS num, DATE_FORMAT(time, '%u') time
+        FROM
+        (
+        SELECT DATE_FORMAT(tf.dt_report_time, '%Y-%m-%d') time
+        FROM tbl_fault tf
+        inner join tbl_elevator te on tf.v_elevator_id = te.v_elevator_id
+        <if test="!isAdmin">
+            join tbl_sys_user_resource resource on te.v_elevator_id = resource.v_resource_id and v_user_id =
+            #{userId}
+        </if>
+        WHERE tf.dt_report_time
+        BETWEEN DATE_FORMAT(DATE_SUB(NOW(), INTERVAL 11 WEEK), '%Y-%m-%d 00:00:00') AND NOW()
+        AND tf.v_event_channel = 1
+        AND tf.i_fault_type = 6
+        <if test="projectId != null and projectId != ''">
+            and v_project_id = #{projectId}
+        </if>
+        GROUP BY DATE_FORMAT(tf.dt_report_time, '%d')
+        )as t
+        GROUP BY DATE_FORMAT(time, '%u')
+    </select>
+
+    <!--周故障次数统计-->
+    <select id="faultStatistics" resultType="java.util.Map">
+        SELECT COUNT(tf.v_elevator_code) AS num, DATE_FORMAT(tf.dt_report_time, '%u') time
+        FROM tbl_fault tf
+        inner join tbl_elevator te on tf.v_elevator_id = te.v_elevator_id
+        <if test="!isAdmin">
+            join tbl_sys_user_resource resource on te.v_elevator_id = resource.v_resource_id and v_user_id =
+            #{userId}
+        </if>
+        WHERE tf.dt_report_time
+        BETWEEN DATE_FORMAT(DATE_SUB(NOW(), INTERVAL 11 WEEK), '%Y-%m-%d 00:00:00') AND NOW()
+        AND tf.i_uncivilized_behavior_flag = 0
+        <if test="projectId != null and projectId != ''">
+            and v_project_id = #{projectId}
+        </if>
+        GROUP BY DATE_FORMAT(tf.dt_report_time, '%u')
+    </select>
+
+    <!--周电动车次数统计-->
+    <select id="bicycleStatistics" resultType="java.util.Map">
+        SELECT COUNT(tf.v_elevator_code) AS num, DATE_FORMAT(tf.dt_report_time, '%u') time
+        FROM tbl_fault tf
+        inner join tbl_elevator te on tf.v_elevator_id = te.v_elevator_id
+        <if test="!isAdmin">
+            join tbl_sys_user_resource resource on te.v_elevator_id = resource.v_resource_id and v_user_id =
+            #{userId}
+        </if>
+        WHERE tf.dt_report_time
+        BETWEEN DATE_FORMAT(DATE_SUB(NOW(), INTERVAL 11 WEEK), '%Y-%m-%d 00:00:00') AND NOW()
+        AND tf.v_event_channel = 1
+        AND tf.i_fault_type = 37
+        <if test="projectId != null and projectId != ''">
+            and v_project_id = #{projectId}
+        </if>
+        GROUP BY DATE_FORMAT(tf.dt_report_time, '%u')
+    </select>
+
+    <!--周反复阻挡门统计-->
+    <select id="stopTheDoorStatistics" resultType="java.util.Map">
+        SELECT COUNT(tf.v_elevator_code) AS num, DATE_FORMAT(tf.dt_report_time, '%u') time
+        FROM tbl_fault tf
+        inner join tbl_elevator te on tf.v_elevator_id = te.v_elevator_id
+        <if test="!isAdmin">
+            join tbl_sys_user_resource resource on te.v_elevator_id = resource.v_resource_id and v_user_id =
+            #{userId}
+        </if>
+        WHERE tf.dt_report_time
+        BETWEEN DATE_FORMAT(DATE_SUB(NOW(), INTERVAL 11 WEEK), '%Y-%m-%d 00:00:00') AND NOW()
+        AND tf.v_event_channel = 1
+        AND tf.i_fault_type = 20
+        <if test="projectId != null and projectId != ''">
+            and v_project_id = #{projectId}
+        </if>
+        GROUP BY DATE_FORMAT(tf.dt_report_time, '%u')
+    </select>
+
+    <!--统计日运行次数-->
+    <select id="runStatistics" resultType="java.util.Map">
+        SELECT SUM(tr.bi_run_count) AS num,tr.dt_report_date time
+        FROM tbl_elevator_run_count tr
+        inner join tbl_elevator te on tr.v_elevator_code = te.v_elevator_code
+        <if test="!isAdmin">
+            join tbl_sys_user_resource resource on te.v_elevator_id = resource.v_resource_id and v_user_id =
+            #{userId}
+        </if>
+        WHERE tr.create_time
+        BETWEEN DATE_FORMAT(DATE_SUB(NOW(), INTERVAL 1 MONTH), '%Y-%m-%d 00:00:00') AND NOW()
+        <if test="projectId != null and projectId != ''">
+            and tr.v_project_id = #{projectId}
+        </if>
+        GROUP BY tr.dt_report_date
+    </select>
+
+    <!--获取一小时离线告警故障列表-->
+    <select id="searchTimeoutFaultList" resultType="java.util.Map">
+        select
+        fault.id,
+        fault.elevatorCode,
+        ele.v_elevator_name,
+        ele.v_address,
+        fault.sensorType,
+        fault.status,
+        fault.reportTime,
+        fault.endTime,
+        ifnull(device.eType, 'MX201')
+        from
+        tbl_device_timeout_fault fault
+        left join tbl_elevator ele on ele.v_elevator_code = fault.elevatorCode
+        left join tbl_device device on device.v_elevator_code = fault.elevatorCode
+        <if test="!isAdminFlag">
+            join tbl_sys_user_resource resource on ele.v_elevator_id = resource.v_resource_id and v_user_id =
+            #{userId}
+        </if>
+        <where>
+            fault.del_flag = 0
+            <if test="vElevatorCode != null and vElevatorCode != ''">
+                and fault.elevatorCode like CONCAT('%',#{vElevatorCode},'%')
+            </if>
+            <if test="dtReportTime != null and dtReportTime != ''">
+                <![CDATA[  and fault.reportTime >= #{dtReportTime} ]]>
+            </if>
+            <if test="dtEndTime != null and dtEndTime != ''">
+                <![CDATA[ and fault.reportTime <=  #{dtEndTime} ]]>
+            </if>
+            <if test="iStatus != null">
+                and fault.status = #{iStatus}
+            </if>
+            <if test="vProjectId != null and vProjectId != ''">
+                and ele.v_project_id = #{vProjectId}
+            </if>
+            <if test="villageId != null and villageId != ''">
+                and ele.v_village_id = #{villageId}
+            </if>
+            <if test="eType != null and eType.contains('201')">
+                and (device.eType = #{eType} or device.eType is null)
+            </if>
+
+            <if test="eType != null and eType != '' and !eType.contains('201')">
+                and device.eType = #{eType}
+            </if>
+        </where>
+        order by reportTime desc
+    </select>
+
+    <!--获取电梯对应详细地址-->
+    <select id="getElevatorAddressByEleCodes" resultType="java.util.HashMap">
+        SELECT
+        v_elevator_code, v_address
+        FROM
+        tbl_elevator
+        WHERE
+        v_elevator_code
+        <foreach collection="list" item="elevatorCode" index="elevatorCodeList" open="IN (" close=")" separator=",">
+            #{elevatorCode}
+        </foreach>
+    </select>
+
+    <!--每日故障统计导出-->
+    <select id="getStatisticsFaultExportList"
+            resultType="com.shmashine.api.module.fault.output.FaultStatisticsExportModule">
+        SELECT
+        tf.d_report_date AS reportDate,
+        tf.i_fault_type AS faultType,
+        SUM(tf.i_fault_num) AS faultNumCount,
+        tf.v_fault_name AS faultName,
+        tf.v_elevator_code AS elevatorCode
+        FROM
+        tbl_fault tf
+        left join tbl_elevator ele on tf.v_elevator_id = ele.v_elevator_id
+        left join tbl_device device on device.v_elevator_id = ele.v_elevator_id
+        <if test="!isAdminFlag and userId != null">
+            join tbl_sys_user_resource resource on tf.v_elevator_id = resource.v_resource_id and v_user_id =
+            #{userId}
+        </if>
+        <where>
+            tf.i_del_flag = 0
+            <if test="projectId != null and projectId != ''">
+                and ele.v_project_id = #{projectId}
+            </if>
+            <if test="elevatorType != null and  elevatorType != ''">
+                and ele.i_elevator_type = #{elevatorType}
+            </if>
+            <if test="elevatorCode != null and  elevatorCode !=  ''">
+                and ele.v_elevator_code like CONCAT('%',#{elevatorCode},'%')
+            </if>
+            <if test="startTime != null  and startTime != '' ">
+                and tf.dt_report_time &gt;= #{startTime}
+            </if>
+            <if test="endTime != null  and endTime != '' ">
+                and tf.dt_report_time &lt;= DATE_ADD(#{endTime}, INTERVAL 1 DAY)
+            </if>
+            <if test="faultType != null and faultType != ''">
+                and tf.i_fault_type = #{faultType}
+            </if>
+            <if test="uncivilizedBehaviorFlag != null and uncivilizedBehaviorFlag != ''">
+                and tf.i_uncivilized_behavior_flag = #{uncivilizedBehaviorFlag}
+            </if>
+            <if test="villageId != null and villageId != ''">
+                and ele.v_village_id = #{villageId}
+            </if>
+            <if test="eType != null and eType.contains('201')">
+                and (device.eType = #{eType} or device.eType is null)
+            </if>
+            <if test="eType != null and eType != '' and !eType.contains('201')">
+                and device.eType = #{eType}
+            </if>
+        </where>
+        GROUP BY
+        tf.d_report_date, tf.v_elevator_id, tf.i_fault_Type
+    </select>
+
+    <select id="getFaultElevatorListByFaultType" resultType="java.lang.String">
+        SELECT
+        tf.v_elevator_id
+        FROM
+        tbl_elevator te
+        INNER JOIN tbl_fault tf ON te.v_elevator_id = tf.v_elevator_id AND te.i_install_status &lt;&gt; 0
+        <if test="!isAdminFlag">
+            INNER JOIN tbl_sys_user_resource resource on te.v_elevator_id = resource.v_resource_id and v_user_id =
+            #{userId}
+        </if>
+        WHERE
+        tf.dt_report_time &gt; curdate()
+        AND tf.i_status = 0
+        AND tf.i_uncivilized_behavior_flag = 0
+        <if test="faultTypeList != null ">
+            AND tf.i_fault_type
+            <foreach collection="faultTypeList" item="type" index="faultTypeList" open="IN (" close=")" separator=",">
+                #{type}
+            </foreach>
+        </if>
+    </select>
+
+    <!--根据电梯id和故障上报时间获取故障列表-->
+    <select id="getByElevatorCodeAndReportTime" resultType="com.shmashine.common.entity.TblFault">
+        SELECT *
+        FROM tbl_fault
+        WHERE v_elevator_code = #{elevatorCode}
+          AND i_uncivilized_behavior_flag = 0
+          AND dt_report_time &gt;= #{startTime}
+          AND dt_report_time &lt; #{endTime}
+    </select>
+
+
+    <!--获取传感器关联故障表-->
+    <select id="getSensorConfig" resultType="java.util.HashMap">
+        SELECT v_fault_type, v_sensorFault_type
+        FROM tbl_sensor_config
+    </select>
+
+    <!--获取所有故障中传感器故障-->
+    <select id="getAllSensorFaultOnFaulting" resultType="java.util.HashMap">
+        SELECT v_elevator_code,i_fault_type
+        FROM tbl_sensor_fault
+        WHERE i_status = 0
+        <if test="faultNum != null">
+            AND i_fault_num &gt; #{faultNum}
+        </if>
+        <if test="elevatorCode != null">
+            AND v_elevator_code = #{elevatorCode}
+        </if>
+        GROUP BY v_elevator_code,i_fault_type
+    </select>
+
+    <!--根据传感器故障id获取电梯编号-->
+    <select id="getElevatorCodeBySensorFaultId" resultType="java.lang.String">
+        SELECT v_elevator_code
+        FROM tbl_sensor_fault
+        where v_fault_id = #{vFaultId,jdbcType=VARCHAR}
+    </select>
+    <select id="getFultList" resultType="com.shmashine.api.module.fault.output.FaultResponseModule">
+        select
+        tbl_elevator.v_elevator_code as elevatorCode,
+        tbl_fault.dt_create_time as createTime,
+        tbl_fault.i_fault_type as faultType,
+        SUM(tbl_fault.i_fault_num) as faultNumCount,
+        tbl_fault.v_fault_name as faultName
+        FROM tbl_fault
+        left join tbl_elevator on tbl_fault.v_elevator_id = tbl_elevator.v_elevator_id
+        <where>
+            tbl_fault.i_del_flag = 0
+            <if test="villageId != null">
+                and tbl_elevator.v_village_id = #{villageId}
+            </if>
+            <if test="elevator != null and !elevator.isEmpty()">
+                AND tbl_fault.v_elevator_code IN
+                <foreach item="code" collection="elevator" open="(" separator="," close=")">
+                    #{code}
+                </foreach>
+            </if>
+        </where>
+        GROUP BY tbl_fault.i_fault_Type, tbl_elevator.v_elevator_code
+    </select>
+
+    <update id="cancelTimeOutFault">
+        update tbl_device_timeout_fault
+        set status = 0
+        where id = #{id}
+    </update>
+
+    <!--通过主键修改实体属性不为null的列-->
+    <update id="update" parameterType="com.shmashine.common.entity.TblFault">
+        update tbl_fault
+        <set>
+            <if test="vElevatorId != null and vElevatorId != ''">
+                v_elevator_id = #{vElevatorId,jdbcType=VARCHAR},
+            </if>
+            <if test="vElevatorCode != null and vElevatorCode != ''">
+                v_elevator_code = #{vElevatorCode,jdbcType=VARCHAR},
+            </if>
+            <if test="vAddress != null and vAddress != ''">
+                v_address = #{vAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="dtReportTime != null">
+                dt_report_time = #{dtReportTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="dtEndTime != null">
+                dt_end_time = #{dtEndTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="iFaultType != null">
+                i_fault_type = #{iFaultType,jdbcType=INTEGER},
+            </if>
+            <if test="vFaultName != null and vFaultName != ''">
+                v_fault_name = #{vFaultName,jdbcType=VARCHAR},
+            </if>
+            <if test="iLevel != null">
+                i_level = #{iLevel,jdbcType=INTEGER},
+            </if>
+            <if test="iLevelName != null and iLevelName != ''">
+                i_level_name = #{iLevelName,jdbcType=VARCHAR},
+            </if>
+            <if test="iFaultNum != null">
+                i_fault_num = #{iFaultNum,jdbcType=INTEGER},
+            </if>
+            <if test="iStatus != null">
+                i_status = #{iStatus,jdbcType=INTEGER},
+            </if>
+            <if test="iModeStatus != null">
+                i_mode_status = #{iModeStatus,jdbcType=INTEGER},
+            </if>
+            <if test="iDurationTime != null">
+                i_duration_time = #{iDurationTime,jdbcType=INTEGER},
+            </if>
+            <if test="iManualClear != null">
+                i_manual_clear = #{iManualClear,jdbcType=INTEGER},
+            </if>
+            <if test="iIsUserVisible != null">
+                i_is_user_visible = #{iIsUserVisible,jdbcType=INTEGER},
+            </if>
+            <if test="dtModifyTime != null">
+                dt_modify_time = #{dtModifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="vModifyUserId != null and vModifyUserId != ''">
+                v_modify_user_id = #{vModifyUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="iDelFlag != null">
+                i_del_flag = #{iDelFlag,jdbcType=INTEGER},
+            </if>
+        </set>
+        where v_fault_id = #{vFaultId,jdbcType=VARCHAR}
+    </update>
+
+    <!--删除该梯所有故障-->
+    <update id="delFaultByElevatorCode">
+        update tbl_fault
+        set i_del_flag = 1
+        where v_elevator_code = #{elevatorCode}
+    </update>
+
+    <!--根据id删除该故障-->
+    <update id="delFaultById">
+        update tbl_fault
+        set i_del_flag = 1
+        where v_fault_id = #{faultId}
+    </update>
+
+    <!--每日凌晨清理故障中故障-->
+    <update id="clearInFaultingFault">
+        update tbl_fault
+        set i_status       = 1,
+            dt_end_time    = NOW(),
+            dt_modify_time = NOW()
+        where i_status = 0
+    </update>
+
+</mapper>

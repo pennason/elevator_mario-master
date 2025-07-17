@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shmashine.camera.dao.BizUserDao">
+
+    <select id="isAdmin" resultType="java.lang.String">
+        SELECT
+        '1'
+        FROM
+        tbl_sys_user user
+        JOIN tbl_sys_user_role role ON role.v_user_id = user.v_user_id
+        JOIN tbl_sys_dept_user dept ON dept.v_user_id = user.v_user_id
+        WHERE
+        <!-- 部门为麦信系统和系统托管平台 -->
+        dept.v_dept_id IN ('1274176398029885440', '8131381858575908864')
+        <!-- 角色为超级管理员 和 工程部（上海） -->
+        and role.v_role_id IN ('ROLE0000000000000001', 'ROLE00000000000007')
+        and user.v_user_id = #{userId}
+    </select>
+</mapper>

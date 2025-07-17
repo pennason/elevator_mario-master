@@ -1,0 +1,49 @@
+# sa-token 配置
+sa-token:
+  # 配置 Sa-Token 单独使用的 Redis 连接
+  alone-redis:
+    database: 13  # 默认13
+    host: redis.tech.internal.shmashine.com
+    port: 6379
+    password: shmashine@666
+    timeout: 5000
+
+eureka:
+  client:
+    service-url:
+      # defaultZone: http://172.31.183.101:8008/eureka/
+      defaultZone: http://shmashine-eureka:8008/eureka/
+  instance:
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+    # 优先使用IP地址方式进行注册服务
+    prefer-ip-address: true
+
+spring:
+  redis:
+    database: 2
+    host: redis.tech.internal.shmashine.com
+    port: 6379
+    password: shmashine@666
+    timeout: 5000
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://rm-m5e5x3037x8bn5br6.mysql.rds.aliyuncs.com:3306/elevator_master?useSSL=false&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+    username: elevator_master
+    password: Shmash1ne@elevator_master
+
+  boot:
+    admin:
+      client:
+        url: http://spring-boot-admin:9999/
+        username: shmashine
+        password: shmashine
+        instance:
+          prefer-ip: true
+          # service-url: http://172.31.183.101:8009
+          service-url: http://shmashine-hk-camera-ys:8009
+
+
+ali-oss:
+  use-internal: false # 服务器和OSS都位于青岛，可以使用内部地址上传到OSS
+

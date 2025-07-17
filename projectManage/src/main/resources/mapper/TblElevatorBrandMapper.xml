@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.pm.api.dao.TblElevatorBrandDao">
+
+    <select id="selectBrandByName" parameterType="java.lang.String" resultType="java.util.HashMap">
+        select v_elevator_brand_id   as vElevatorBrandId,
+               v_elevator_brand_name as vElevatorBrandName
+        from tbl_elevator_brand
+        where v_elevator_brand_name = trim(#{brandName, jdbcType=VARCHAR}) limit 0, 1
+    </select>
+</mapper>

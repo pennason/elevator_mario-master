@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shmashine.api.dao.BizMapDao">
+
+    <!-- 加载地图一层接口 -->
+    <select id="searchMapElevatorList" resultType="java.util.Map">
+        SELECT
+        t.v_village_id,
+        t.v_village_name,
+        t.v_longitude,
+        t.v_latitude,
+        sum(t.num) AS totalQuantity,
+        Max( CASE t.i_on_line WHEN '1' THEN t.num ELSE 0 END ) AS onlineQuantity,
+        Max( CASE t.i_on_line WHEN '0' THEN t.num ELSE 0 END ) AS offlineQuantity,
+        Max( CASE t.i_fault_status WHEN '1' THEN t.num ELSE 0 END )AS faultQuantity,
+        Max( CASE t.i_mode_status WHEN '1' THEN t.num ELSE 0 END ) AS overhaulQuantity
+        FROM
+        (
+        SELECT
+        count( 1 ) AS num,
+        village.v_village_id,
+        village.v_village_name,
+        village.v_longitude,
+        village.v_latitude,
+        ele.i_mode_status,
+        ele.i_fault_status,
+        ele.i_on_line
+        FROM
+        `tbl_elevator` ele
+        <if test="!isAdminFlag">
+            join tbl_sys_user_resource resource on ele.v_elevator_id = resource.v_resource_id and resource.v_user_id =
+            #{userId}
+        </if>
+        LEFT JOIN tbl_village village ON village.v_village_id = ele.v_village_id
+
+        <if test="elevatorIds != null and elevatorIds.size() > 0">
+            WHERE ele.v_elevator_id in
+            <foreach collection="elevatorIds" item="elevatorId" open="(" separator="," close=")">
+                #{elevatorId}
+            </foreach>
+        </if>
+        GROUP BY
+        v_village_id,
+        i_on_line
+        ) AS t
+        GROUP BY
+        t.v_village_id
+    </select>
+
+    <!-- 获取小区下的电梯 -->
+    <select id="getElevatorInfo" resultType="java.util.Map">
+        select
+        ele.v_elevator_id,
+        ele.i_elevator_type,
+        ele.v_elevator_code,
+        ele.v_address,
+        ele.i_mode_status,
+        ele.i_on_line,
+        sysinfo.v_name_zh_cn AS i_on_line_name,
+        sysinfo2.v_name_zh_cn AS i_mode_status_name
+        from tbl_elevator ele
+        <if test="!isAdminFlag">
+            join tbl_sys_user_resource resource on ele.v_elevator_id = resource.v_resource_id and resource.v_user_id =
+            #{userId}
+        </if>
+        left join tbl_sys_systeminfo sysinfo on sysinfo.v_sysvalue5 = ele.i_on_line and sysinfo.v_sysid = '10007'
+        left join tbl_sys_systeminfo sysinfo2 on sysinfo2.v_sysvalue5 = ele.i_mode_status and sysinfo2.v_sysid = '10009'
+        WHERE v_village_id = #{villageId}
+    </select>
+
+    <!-- 获取电梯坐标 -->
+    <select id="getElevatorPosition" resultType="java.util.Map">
+        SELECT ele.v_elevator_id,
+               ele.v_elevator_code,
+               ele.v_longitude,
+               ele.v_address,
+               ele.v_latitude,
+               sysinfo.v_name_zh_cn  AS i_on_line_name,
+               sysinfo2.v_name_zh_cn AS i_mode_status_name
+        FROM tbl_elevator ele
+                 left join tbl_sys_systeminfo sysinfo
+                           on sysinfo.v_sysvalue5 = ele.i_on_line and sysinfo.v_sysid = '10007'
+                 left join tbl_sys_systeminfo sysinfo2
+                           on sysinfo2.v_sysvalue5 = ele.i_mode_status and sysinfo2.v_sysid = '10009'
+        WHERE v_elevator_id = #{elevatorId}
+    </select>
+</mapper>

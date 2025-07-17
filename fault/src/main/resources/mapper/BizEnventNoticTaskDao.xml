@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.fault.task.dao.BizEnventNoticTaskDao">
+
+    <!-- 当天发生且处于故障中的梯 -->
+    <select id="getLatestFaultStatistics" resultType="java.util.Map">
+        SELECT fault.v_elevator_code,
+               fault.i_fault_type,
+               fault.v_fault_name,
+               fault.dt_create_time,
+               fault.dt_report_time,
+               fault.dt_modify_time
+        FROM tbl_fault fault
+        WHERE fault.d_report_date >= CURDATE()
+          AND fault.i_status = 0
+    </select>
+
+
+    <!-- 昨日故障/不文明行为 超过2次的电梯 -->
+    <select id="getYesterdayElevatorFaultStatics" resultType="java.util.Map">
+        SELECT fault.v_elevator_code,
+               fault.i_fault_type,
+               fault.v_fault_name,
+               sum(fault.i_fault_num) AS `number`
+        FROM tbl_fault fault
+        WHERE fault.d_report_date = DATE_SUB(curdate(), INTERVAL 1 DAY )
+        GROUP BY fault.v_elevator_code,
+                 fault.i_fault_type,
+                 fault.v_fault_name
+        HAVING number > 1
+        ORDER BY number DESC
+    </select>
+
+    <!-- 最近7天 topN 故障梯 -->
+    <select id="getTopHundredElevatorCode" resultType="java.util.Map">
+        SELECT fault.v_elevator_code,
+               fault.i_fault_type,
+               fault.v_fault_name,
+               sum(fault.i_fault_num) AS `number`
+        FROM tbl_fault fault
+        WHERE fault.d_report_date = DATE_SUB(curdate(), INTERVAL 7 DAY )
+        GROUP BY fault.v_elevator_code,
+                 fault.i_fault_type,
+                 fault.v_fault_name
+        ORDER BY number DESC
+            limit #{topN}
+    </select>
+
+
+    <!--批量新增所有列，列表长度不能为0-->
+    <insert id="insertBatch" parameterType="list">
+        insert into tbl_fault
+        (v_envent_notify_id,v_elevator_id, v_elevator_code, v_register_no, v_notice_type, v_message, i_is_delete,
+        dt_start_time,
+        dt_end_time)
+        values
+        <foreach item="item" collection="list" separator="," open="" close="" index="index">
+            (
+            #{item.vEnventNotifyId,jdbcType=VARCHAR},
+            #{item.vElevatorId,jdbcType=VARCHAR},
+            #{item.vElevatorCode,jdbcType=VARCHAR},
+            #{item.vRegisterNo,jdbcType=VARCHAR},
+            #{item.vNoticeType,jdbcType=VARCHAR},
+            #{item.vMessage,jdbcType=VARCHAR},
+            #{item.iIsDelete,jdbcType=INTEGER},
+            #{item.dtStartTime,jdbcType=TIMESTAMP},
+            #{item.dtEndTime,jdbcType=TIMESTAMP}
+            )
+        </foreach>
+    </insert>
+
+</mapper>

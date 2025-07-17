@@ -1,0 +1,212 @@
+server:
+  #  port: 8003
+  port: 8080
+  servlet:
+    context-path: /api
+
+# kafka topic 名称
+kafka:
+  topic:
+    fault: pro_oreo_fault
+    pre-fault: pro_oreo_preFault
+    http: pro_netty_nezha
+    socket: pro_web_nezha_test
+    monitor: pro_oreo_monitor
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://shmashine-eureka:8080/eureka/
+  instance:
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+    # 优先使用IP地址方式进行注册服务
+    prefer-ip-address: true
+
+# sa-token 配置
+sa-token:
+  # 配置 Sa-Token 单独使用的 Redis 连接
+  alone-redis:
+    database: 13  # 默认13
+    host: 10.0.0.113
+    port: 6379
+    password: shmashine@666
+    timeout: 5000
+
+feign:
+  hystrix:
+    enabled: true
+  client:
+    config:
+      default:
+        read-timeout: 60000
+        connect-timeout: 60000
+
+spring:
+  cache:
+    type: simple
+  profiles:
+    active: dev
+    include: version
+  application:
+    name: shmashine-api
+  main:
+    allow-bean-definition-overriding: true
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+
+  data:
+    mongodb:
+      host: 10.0.0.124
+      port: 27017
+      database: MX
+      username: shmashine
+      password: Shmashine@666
+
+  redis:
+    database: 2
+    host: 10.0.0.113
+    port: 6379
+    password: shmashine@666
+    timeout: 5000
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    #    driverClassName: net.sf.log4jdbc.DriverSpy
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://rm-bp1n9d80pc03n1ag4qo.mysql.rds.aliyuncs.com:3306/elevator_master?useSSL=false&useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&autoReconnect=true&failOverReadOnly=false&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+    username: shmashine
+    password: SHAMSHINE@sfbhsdjkfgsd#678
+    #    url: jdbc:mysql://124.220.207.150:3306/elevator_master?useSSL=false&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+    ##    url: jdbc:mysql://rm-bp1n9d80pc03n1ag4qo.mysql.rds.aliyuncs.com:3306/elevator_master?useSSL=false&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+    #    #生产数据库
+    ##    url: jdbc:mysql://kafka:3306/elevator_master?useSSL=false&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+    #    username: admin #wuyanjie
+    ##    username: wuyanjie
+    ##    username: admrot #elevator_qingpu
+    #    password: MaiXin@666 #Maixin480
+    #    password: Maixin480
+    #    password: c912741f69591bbd #7f2kN5zs8wajXBNB
+    initialSize: 1
+    minIdle: 3
+    maxActive: 400
+    # 配置获取连接等待超时的时间
+    maxWait: 60000
+    # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+    timeBetweenEvictionRunsMillis: 60000
+    # 配置一个连接在池中最小生存的时间，单位是毫秒
+    minEvictableIdleTimeMillis: 30000
+    validationQuery: select 'x'
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    remove-abandoned: true
+    remove-abandoned-timeout: 5
+    log-abandoned: true
+    # 打开PSCache，并且指定每个连接上PSCache的大小
+    poolPreparedStatements: true
+    maxPoolPreparedStatementPerConnectionSize: 20
+    # 配置监控统计拦截的filters，去掉后监控界面sqla's无法统计，'wall'用于防火墙
+    filters: stat,slf4j
+    # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
+    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+    # 合并多个DruidDataSource的监控数据
+    #useGlobalDataSourceStat: true
+    #单个文件最大大小
+  servlet:
+    multipart:
+      max-file-size: 200MB #单个文件上传大小
+      max-request-size: 600MB #连续上传文件大小
+      enabled: true
+  boot:
+    admin:
+      client:
+        url: http://spring-boot-admin:8080 #配置admin-server地址
+        username: shmashine
+        password: shmashine
+        instance:
+          prefer-ip: true
+          service-url: http://shmashine-api:8080/api
+caching:
+  specs:
+    project:
+      timeout: 30
+      expireMode: 0
+    dept:
+      timeout: 30
+      expireMode: 0
+    test:
+      timeout: 120
+      expireMode: 0
+
+mybatis-plus:
+  mapper-locations: mapper/*.xml
+  type-aliases-package: com.shmashine.UserClientApplets.entity
+  configuration:
+    map-underscore-to-camel-case: true    #开启驼峰功能
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl # 这个配置会将执行的sql打印出来，在开发或测试的时候可以用
+  global-config:
+    db-config:
+      update-strategy: NOT_EMPTY # 更新时，只更新非空字段
+      insert-strategy: NOT_EMPTY # 新增时，只新增非空字段
+      id-type: auto   #id自增长
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+  page-size-zero: true
+  row-bound-with-count: false
+  # params: count=countSql
+
+springdoc:
+  swagger-ui:
+    enabled: true
+  api-docs:
+    enabled: true
+
+
+ali-oss:
+  use-internal: false # 服务器和OSS都位于青岛，可以使用内部地址上传到OSS
+
+mdf:
+  cache:
+    enabled: true
+
+endpoint:
+  shmashine-applets: http://shmashine-applets:8012
+  shmashine-satoken: http://shmashine-satoken:8091
+  shmashine-camera: http://shmashine-camera:8080
+  shmashine-hk-camera-ys: http://shmashine-hk-camera-ys:8080
+  shmashine-hk-camera-ym: http://shmashine-hk-camera-ym:8080
+  # 图像识别服务器本地环境
+  ai-image-label: http://172.31.183.105:10087
+  sender-server: http://sender-service:8080
+  # 升级文件使用地址
+  upgrade-file-server: 47.104.141.206:8003
+
+# 故障屏蔽, 超过指定次数后不上报
+fault-masking:
+  # 每天故障上报次数大于5次-北向屏蔽
+  north-fault-count-day: 5
+  # 每小时故障上报次数大于3次-平台屏蔽
+  platform-fault-count-hour: 3
+
+# 监控信息
+management:
+  endpoints:
+    web:
+      exposure:
+        #        include: "health,prometheus,httptrace"
+        include: "*"
+  endpoint:
+    health:
+      show-details: ALWAYS
+      probes:
+        enabled: true
+      group:
+        readiness:
+          include: db
+    prometheus:
+      enabled: true
+  metrics:
+    tags:
+      application: ${spring.application.name}

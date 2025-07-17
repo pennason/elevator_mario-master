@@ -1,0 +1,57 @@
+server:
+  #  port: 8008
+  port: 8080
+
+eureka:
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+    service-url:
+      defaultZone: http://shmashine-eureka:8080/eureka/
+
+spring:
+  application:
+    name: shmashine-eureka
+  profiles:
+    active: dev
+  redis:
+    database: 2
+    host: 10.0.0.113
+    port: 6379
+    password: shmashine@666
+    timeout: 5000
+  boot:
+    admin:
+      client:
+        url: http://spring-boot-admin:8080 #配置admin-server地址
+        username: shmashine
+        password: shmashine
+        instance:
+          prefer-ip: true
+          service-url: http://shmashine-eureka:8080
+
+
+# 监控信息
+management:
+  endpoints:
+    web:
+      exposure:
+        #        include: "health,prometheus,httptrace"
+        include: "*"
+  endpoint:
+    health:
+      show-details: ALWAYS
+      probes:
+        enabled: true
+      group:
+        readiness:
+          include: db
+    prometheus:
+      enabled: true
+  metrics:
+    tags:
+      application: ${spring.application.name}
+
+#logging:
+#  file:
+#    name: eureka-server.log

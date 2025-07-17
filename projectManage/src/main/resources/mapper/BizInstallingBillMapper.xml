@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shmashine.pm.api.dao.BizInstallingBillDao">
+    <resultMap type="com.shmashine.pm.api.entity.dto.TblInstallingBillDto" id="TblInstallingBillDtoResultMap">
+        <result property="vInstallingBillId" column="v_installing_bill_id" jdbcType="VARCHAR"/>
+        <result property="vInstallingTaskId" column="v_installing_task_id" jdbcType="VARCHAR"/>
+        <result property="vProjectId" column="v_project_id" jdbcType="VARCHAR"/>
+        <result property="vVillageId" column="v_village_id" jdbcType="VARCHAR"/>
+        <result property="vElevatorCode" column="v_elevator_code" jdbcType="VARCHAR"/>
+        <result property="iSingleBox" column="i_single_box" jdbcType="INTEGER"/>
+        <result property="iDoubleBox" column="i_double_box" jdbcType="INTEGER"/>
+        <result property="vConnectMode" column="v_connect_mode" jdbcType="VARCHAR"/>
+        <result property="iCamera" column="i_camera" jdbcType="INTEGER"/>
+        <result property="iFloorSensor" column="i_floor_sensor" jdbcType="INTEGER"/>
+        <result property="iCameraWatermark" column="i_camera_watermark" jdbcType="INTEGER"/>
+        <result property="iBodySensor" column="i_body_sensor" jdbcType="INTEGER"/>
+        <result property="iCarroofDoorSensor" column="i_carroof_door_sensor" jdbcType="INTEGER"/>
+        <result property="iCarroofLockSensor" column="i_carroof_lock_sensor" jdbcType="INTEGER"/>
+        <result property="iMachRoomServiceSensor" column="i_mach_room_service_sensor" jdbcType="INTEGER"/>
+        <result property="iMachRoomOverhaulSensor" column="i_mach_room_overhaul_sensor" jdbcType="INTEGER"/>
+        <result property="iMachRoomSwitchSensor" column="i_mach_room_switch_sensor" jdbcType="INTEGER"/>
+        <result property="iMachRoomCallSensor" column="i_mach_room_call_sensor" jdbcType="INTEGER"/>
+        <result property="iMachRoomCircuitSensor" column="i_mach_room_circuit_sensor" jdbcType="INTEGER"/>
+        <result property="iMachRoomHallCircuitSensor" column="i_mach_room_hall_circuit_sensor" jdbcType="INTEGER"/>
+        <result property="iMachRoomSwitchCircuitSensor" column="i_mach_room_switch_circuit_sensor" jdbcType="INTEGER"/>
+        <result property="iMachRoomElectricitySensor" column="i_mach_room_electricity_sensor" jdbcType="INTEGER"/>
+        <result property="iCable" column="i_cable" jdbcType="INTEGER"/>
+        <result property="iPowerSupply" column="i_power_supply" jdbcType="INTEGER"/>
+        <result property="iDeviceSelfcheck" column="i_device_selfcheck" jdbcType="INTEGER"/>
+        <result property="iStatus" column="i_status" jdbcType="INTEGER"/>
+        <result property="vVerifyCode" column="v_verify_code" jdbcType="VARCHAR"/>
+        <result property="dtCreateTime" column="dt_create_time" jdbcType="TIMESTAMP"/>
+        <result property="dtModifyTime" column="dt_modify_time" jdbcType="TIMESTAMP"/>
+        <result property="vCreateUserId" column="v_create_user_id" jdbcType="VARCHAR"/>
+        <result property="vModifyUserId" column="v_modify_user_id" jdbcType="VARCHAR"/>
+        <result property="iDelFlag" column="i_del_flag" jdbcType="INTEGER"/>
+        <result property="vRemark" column="v_remark" jdbcType="VARCHAR"/>
+        <result property="iRouter" column="i_router" jdbcType="INTEGER"/>
+        <result property="i4gRouter" column="i_4g_router" jdbcType="INTEGER"/>
+        <result property="vDeviceType" column="v_device_type" jdbcType="VARCHAR"/>
+        <result property="iTempSensor" column="i_temp_sensor" jdbcType="INTEGER"/>
+        <result property="iMagnetSensor" column="i_magnet_sensor" jdbcType="INTEGER"/>
+        <result property="iPlcMode" column="i_plc_mode" jdbcType="INTEGER"/>
+        <result property="iNetworkMode" column="i_network_mode" jdbcType="INTEGER"/>
+        <result property="iCollateFloorSensor" column="i_collate_floor_sensor" jdbcType="INTEGER"/>
+        <result property="i4gModule" column="i_4g_module" jdbcType="INTEGER"/>
+        <result property="iPatchBoard" column="i_patch_board" jdbcType="INTEGER"/>
+        <result property="iCircuitBeauty" column="i_circuit_beauty" jdbcType="INTEGER"/>
+        <result property="iCarroofPoint" column="i_carroof_endpoint" jdbcType="INTEGER"/>
+        <collection property="carInsideImages" ofType="com.shmashine.pm.api.entity.TblPmImage"
+                    select="selectCarInsideImages" column="v_installing_bill_id">
+        </collection>
+        <collection property="machRoomBoxImages" ofType="com.shmashine.pm.api.entity.TblPmImage"
+                    select="selectMachRoomBoxImages" column="v_installing_bill_id">
+        </collection>
+        <collection property="carRoofBoxImages" ofType="com.shmashine.pm.api.entity.TblPmImage"
+                    select="selectCarRoofBoxImages" column="v_installing_bill_id">
+        </collection>
+    </resultMap>
+
+    <select id="getStatusInfo" parameterType="java.lang.String" resultType="java.util.Map">
+        select ifnull(count(1), 0) as count,
+      group_concat(tbl.v_installing_bill_id) as vInstallingBillIds,
+      group_concat(tbl.v_elevator_code) as vElevatorCodes,
+      group_concat(elevator.v_address) as vElevatorAddresses,
+      ifnull(group_concat(tbl.v_remark), "") as vRemarks,
+      tbl.i_status as iStatus,
+      tbl.v_device_type,
+      tbl.i_temp_sensor,
+      tbl.i_magnet_sensor,
+      tbl.i_plc_mode,
+      tbl.i_network_mode,
+      tbl.i_circuit_beauty,
+      tbl.i_carroof_endpoint,
+      case
+      when i_status = 1 then "安装中"
+      when i_status = 2 then "已安装"
+      when i_status = -1 then "已取消"
+      else "无"
+        end
+        as iStatusName,
+      brand.v_elevator_brand_name as vElevatorBrandName
+      from tbl_installing_bill tbl
+      left join tbl_elevator elevator on tbl.v_elevator_code = elevator.v_elevator_code
+      left join tbl_elevator_brand brand on brand.v_elevator_brand_id = elevator.v_elevator_brand_id
+      where tbl.v_village_id =
+        #{vVillageId, jdbcType=VARCHAR}
+        group
+        by
+        iStatus
+    </select>
+
+    <select id="getAllStatus" resultType="java.lang.Integer">
+        select
+        i_status
+        from
+        tbl_installing_bill
+        <where>
+            <if test="vInstallingTaskId != null and vInstallingTaskId != ''">
+                and v_installing_task_id = #{vInstallingTaskId, jdbcType=VARCHAR}
+            </if>
+            <if test="vVillageId != null and vVillageId != ''">
+                and v_village_id = #{vVillageId, jdbcType=VARCHAR}
+            </if>
+            and i_del_flag = 0
+        </where>
+    </select>
+
+    <select id="getBizInfoById" parameterType="java.lang.String" resultMap="TblInstallingBillDtoResultMap">
+        select tbl_installing_bill.*
+        from tbl_installing_bill
+        where tbl_installing_bill.v_installing_bill_id = #{vInstallingBillId, jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectCarInsideImages" resultMap="com.shmashine.pm.api.dao.TblPmImageDao.TblPmImageResultMap"
+            parameterType="java.lang.String">
+        select *
+        from tbl_pm_image
+        where v_target_id = #{v_installing_bill_id, jdbcType=VARCHAR}
+          and i_image_type = 4
+    </select>
+
+    <select id="selectMachRoomBoxImages" resultMap="com.shmashine.pm.api.dao.TblPmImageDao.TblPmImageResultMap"
+            parameterType="java.lang.String">
+        select *
+        from tbl_pm_image
+        where v_target_id = #{v_installing_bill_id, jdbcType=VARCHAR}
+          and i_image_type = 5
+    </select>
+
+    <select id="selectCarRoofBoxImages" resultMap="com.shmashine.pm.api.dao.TblPmImageDao.TblPmImageResultMap"
+            parameterType="java.lang.String">
+        select *
+        from tbl_pm_image
+        where v_target_id = #{v_installing_bill_id, jdbcType=VARCHAR}
+          and i_image_type = 6
+    </select>
+
+    <select id="selectByBillModule" parameterType="com.shmashine.pm.api.module.installingBill.InstallingBillModule"
+            resultType="Map">
+        select
+        bill.v_installing_bill_id,
+        bill.v_installing_task_id,
+        bill.v_elevator_code,
+        bill.v_device_type,
+        bill.i_temp_sensor,
+        bill.i_magnet_sensor,
+        bill.i_plc_mode,
+        bill.i_network_mode,
+        bill.i_circuit_beauty,
+        bill.i_carroof_endpoint,
+        case
+        when i_status = 1 then "安装中"
+        when i_status = 2 then "已安装"
+        when bill.i_status = -1 then "已取消"
+        else "无"
+        end as v_status_name,
+        bill.i_status,
+        elevator.v_elevator_name,
+        elevator.v_address,
+        elevator.v_equipment_code,
+        elevator.i_elevator_type,
+        elevator.v_elevator_id,
+        case
+        when elevator.i_elevator_type = 1 then "直梯"
+        when elevator.i_elevator_type = 2 then "扶梯"
+        else "直梯"
+        end as v_elevator_type_name
+        from
+        tbl_installing_bill as bill
+        left join
+        tbl_elevator as elevator on bill.v_elevator_code = elevator.v_elevator_code
+        <where>
+            <if test="vElevatorCode != null and vElevatorCode !=''">
+                and bill.v_elevator_code = #{vElevatorCode}
+            </if>
+            <if test="vInstallingTaskId != null and vInstallingTaskId != ''">
+                and bill.v_installing_task_id = #{vInstallingTaskId}
+            </if>
+            <if test="vInstallingBillId != null and vInstallingBillId != ''">
+                and bill.v_installing_bill_id = #{vInstallingBillId}
+            </if>
+        </where>
+    </select>
+</mapper>

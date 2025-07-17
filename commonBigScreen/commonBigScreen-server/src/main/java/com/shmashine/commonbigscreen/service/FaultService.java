@@ -1,0 +1,96 @@
+package com.shmashine.commonbigscreen.service;
+
+import java.util.HashMap;
+import java.util.List;
+
+import com.baomidou.mybatisplus.extension.service.IService;
+import com.shmashine.commonbigscreen.entity.Fault;
+import com.shmashine.commonbigscreen.entity.SearchElevatorModule;
+import com.shmashine.commonbigscreen.entity.SearchFaultModule;
+
+/**
+ * 故障服务
+ *
+ * @author jiangheng
+ * @version V1.0 - 2022/3/7 11:11
+ */
+public interface FaultService extends IService<Fault> {
+
+    /**
+     * 获取故障统计
+     *
+     * @param searchFaultModule 查询参数
+     */
+    HashMap<String, Integer> getFaultCount(SearchFaultModule searchFaultModule);
+
+    /**
+     * 根据小区统计急修、隐患、电瓶车入梯
+     *
+     * @param searchFaultModule 查询参数
+     */
+    List<HashMap<String, Object>> getFaultCountByVillage(SearchFaultModule searchFaultModule);
+
+    /**
+     * 根据时间获取故障柱状图
+     *
+     * @param searchFaultModule 查询参数
+     */
+    HashMap<String, Object> getFaultChartByTime(SearchFaultModule searchFaultModule);
+
+    /**
+     * 获取当日困人电梯
+     *
+     * @param searchElevatorModule 查询参数
+     */
+    HashMap<String, Object> getTodayPeopleTrappedElevator(SearchElevatorModule searchElevatorModule);
+
+    /**
+     * 获取当日故障电梯
+     *
+     * @param searchElevatorModule 查询参数
+     */
+    HashMap<String, Object> getTodayFaultElevator(SearchElevatorModule searchElevatorModule);
+
+    /**
+     * 获取故障中故障
+     *
+     * @param elevatorCode 电梯编号
+     */
+    HashMap<String, Object> getThisMomentFault(String elevatorCode);
+
+    /**
+     * 事件回溯
+     *
+     * @param searchFaultModule 查询参数
+     */
+    HashMap<String, Integer> getHistoryRecordCount(SearchFaultModule searchFaultModule);
+
+    /**
+     * 获取故障数量
+     *
+     * @param searchFaultModule 查询参数
+     */
+    Integer queryFaultNumber(SearchFaultModule searchFaultModule);
+
+
+    /**
+     * 获取困人数
+     *
+     * @param searchFaultModule 查询参数
+     */
+    Integer queryTrappedPeopleNumber(SearchFaultModule searchFaultModule);
+
+    /**
+     * 救援时长统计麦信平台故障时长
+     *
+     * @param searchFaultModule 查询参数
+     */
+    Integer getTrappedPeopleTimeForMX(SearchFaultModule searchFaultModule);
+
+    /**
+     * 获取故障取证文件
+     *
+     * @param faultId 故障id
+     */
+    List<HashMap<String, Object>> getFaultFileById(String faultId);
+}

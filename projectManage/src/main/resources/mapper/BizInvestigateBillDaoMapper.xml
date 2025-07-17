@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shmashine.pm.api.dao.BizInvestigateBillDao">
+
+    <resultMap type="com.shmashine.pm.api.entity.dto.TblInvestigateBillDto" id="BizInvestigateBillResultMap">
+        <id column="v_investigate_bill_id" property="vInvestigateBillId"/>
+        <result property="vInvestigateBillId" column="v_investigate_bill_id" jdbcType="VARCHAR"/>
+        <result property="vInvestigateTaskId" column="v_investigate_task_id" jdbcType="VARCHAR"/>
+        <result property="iWellHoleFourMeter" column="i_well_hole_four_meter" jdbcType="INTEGER"/>
+        <result property="iMachRoom220" column="i_mach_room_220" jdbcType="INTEGER"/>
+        <result property="iBackupCable" column="i_backup_cable" jdbcType="INTEGER"/>
+        <result property="iStraightDoorElevator" column="i_straight_door_elevator" jdbcType="INTEGER"/>
+        <result property="iElevatorCount" column="i_elevator_count" jdbcType="INTEGER"/>
+        <result property="vRealInvestigator" column="v_real_investigator" jdbcType="VARCHAR"/>
+        <result property="vRealInvestigatorPhone" column="v_real_investigator_phone" jdbcType="VARCHAR"/>
+        <result property="dtCreateTime" column="dt_create_time" jdbcType="TIMESTAMP"/>
+        <result property="dtModifyTime" column="dt_modify_time" jdbcType="TIMESTAMP"/>
+        <result property="vCreateUserId" column="v_create_user_id" jdbcType="VARCHAR"/>
+        <result property="vModifyUserId" column="v_modify_user_id" jdbcType="VARCHAR"/>
+        <result property="vElevatorId" column="v_elevator_id" jdbcType="VARCHAR"/>
+        <result property="iStatus" column="i_status" jdbcType="INTEGER"/>
+        <result property="vStatusName" column="v_status_name" jdbcType="VARCHAR"/>
+        <result property="iDelFlag" column="i_del_flag" jdbcType="INTEGER"/>
+        <result property="iMachRoom" column="i_mach_room" jdbcType="INTEGER"/>
+        <result property="vDevicePosition" column="v_device_position" jdbcType="VARCHAR"/>
+        <result property="vElevatorBrand" column="v_elevator_brand" jdbcType="VARCHAR"/>
+        <result property="vInvestigateOnceBillId" column="v_investigate_once_bill_id" jdbcType="VARCHAR"/>
+        <result property="iControlElevator" column="i_control_elevator" jdbcType="INTEGER"/>
+        <collection property="greenCodeImages" ofType="com.shmashine.pm.api.entity.TblPmImage"
+                    select="selectGreenCodeImages" column="v_investigate_bill_id">
+        </collection>
+        <collection property="floorImages" ofType="com.shmashine.pm.api.entity.TblPmImage" select="selectFloorImages"
+                    column="v_investigate_bill_id">
+        </collection>
+        <collection property="machRoomSignalImages" ofType="com.shmashine.pm.api.entity.TblPmImage"
+                    select="selectMachRoomSignalImages" column="v_investigate_bill_id">
+        </collection>
+        <collection property="equipmentCodeImages" ofType="com.shmashine.pm.api.entity.TblPmImage"
+                    select="selectEquipmentCodeImages" column="v_investigate_bill_id">
+        </collection>
+        <collection property="elevatorDoorBtnInsideImages" ofType="com.shmashine.pm.api.entity.TblPmImage"
+                    select="selectElevatorDoorBtnInsideImages" column="v_investigate_bill_id">
+        </collection>
+    </resultMap>
+
+    <sql id="table_field">
+        tbl_investigate_bill
+        .
+        v_investigate_bill_id
+        ,
+      tbl_investigate_bill.v_investigate_task_id,
+      tbl_investigate_bill.i_well_hole_four_meter,
+      tbl_investigate_bill.i_mach_room_220,
+      tbl_investigate_bill.i_backup_cable,
+      tbl_investigate_bill.i_straight_door_elevator,
+      tbl_investigate_bill.i_elevator_count,
+      tbl_investigate_bill.v_real_investigator,
+      tbl_investigate_bill.v_real_investigator_phone,
+      tbl_investigate_bill.i_mach_room,
+      tbl_investigate_bill.dt_create_time,
+      tbl_investigate_bill.dt_modify_time,
+      tbl_investigate_bill.v_create_user_id,
+      tbl_investigate_bill.v_modify_user_id,
+      tbl_investigate_bill.i_del_flag,
+      tbl_investigate_bill.i_status,
+      tbl_investigate_bill.v_device_position,
+      tbl_investigate_bill.v_elevator_brand,
+      tbl_investigate_bill.v_investigate_once_bill_id,
+      tbl_investigate_bill.i_control_elevator,
+      tbl_investigate_bill.v_elevator_id
+    </sql>
+
+    <!-- 列表 -->
+    <select id="searchInvestigateBillList" resultType="java.util.Map">
+        select
+        tbl.v_investigate_bill_id,
+        tbl.v_investigate_task_id,
+        tbl.i_mach_room_220,
+        tbl.i_backup_cable,
+        tbl.i_straight_door_elevator,
+        tbl.i_elevator_count,
+        tbl.v_real_investigator,
+        tbl.v_real_investigator_phone,
+        tbl.i_mach_room,
+        tbl.dt_create_time,
+        tbl.dt_modify_time,
+        tbl.v_create_user_id,
+        tbl.v_modify_user_id,
+        tbl.v_elevator_id,
+        tbl.i_status,
+        tbl.v_device_position,
+        tbl.v_elevator_brand,
+        tbl.v_investigate_once_bill_id,
+        tbl.i_control_elevator,
+        case
+        when tbl.i_status = 1 then '未现勘'
+        when tbl.i_status = 2 then '现勘中'
+        when tbl.i_status = 3 then '已现勘'
+        when tbl.i_status = -1 then '已取消'
+        else '无'
+        end as v_status_name,
+        elevator.v_elevator_code,
+        elevator.v_elevator_name,
+        elevator.v_address,
+        elevator.v_equipment_code,
+        case
+        when elevator.i_elevator_type = 1 then '直梯'
+        when elevator.i_elevator_type = 2 then '扶梯'
+        else '直梯'
+        end as elevator_type,
+        brand.v_elevator_brand_name,
+        sysinfo.v_name_zh_cn AS i_del_flag_name
+        from tbl_investigate_bill tbl
+        left join tbl_pm_image billImage
+        on billImage.v_target_id = tbl.v_investigate_bill_id
+        left join tbl_sys_systeminfo sysinfo on sysinfo.v_sysvalue5 = tbl.i_del_flag and sysinfo.v_sysid = '10012'
+        left join tbl_elevator elevator on elevator.v_elevator_id = tbl.v_elevator_id
+        left join tbl_elevator_brand brand on brand.v_elevator_brand_id = elevator.v_elevator_brand_id
+        <where>
+            <!--  dept.v_dept_id
+              <foreach collection="permissionDeptIds" item="item"  open="IN(" separator="," close=")" >
+                  #{item}
+              </foreach> -->
+            <if test="vInvestigateBillId != null and vInvestigateBillId != ''">
+                and tbl.v_investigate_bill_id = #{vInvestigateBillId,jdbcType=VARCHAR}
+            </if>
+            <if test="vInvestigateTaskId != null and vInvestigateTaskId != ''">
+                and tbl.v_investigate_task_id = #{vInvestigateTaskId,jdbcType=VARCHAR}
+            </if>
+            <if test="vElevatorId != null and vElevatorId != ''">
+                and tbl.v_elevator_id = #{vElevatorId, jdbcType=VARCHAR}
+            </if>
+            <if test="iStatus != null">
+                and tbl.i_status = #{iStatus, jdbcType=INTEGER}
+            </if>
+            <if test="iDelFlag != null">
+                and tbl.i_del_flag = #{iDelFlag,jdbcType=INTEGER}
+            </if>
+            <if test="vInvestigateOnceBillId != null and vInvestigateOnceBillId != ''">
+                and tbl.v_investigate_once_bill_id = #{vInvestigateOnceBillId,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+    <!-- 获取小区下拉框 -->
+    <!-- <select id="searchInvestigateBillSelectList" resultType="java.util.Map">
+        select
+        v_investigate_task_id,
+        v_project_id,
+        v_village_id,
+        v_address
+        from tbl_investigate_task
+        <where>
+            v_investigate_task_id = #{vInvestigateBillId}
+        </where>
+    </select> -->
+
+    <!-- 获取小区下拉框 -->
+    <select id="getByBillId" resultMap="BizInvestigateBillResultMap">
+        select
+        <include refid="table_field"/>
+        from tbl_investigate_bill
+        <where>
+            v_investigate_bill_id = #{vInvestigateBillId}
+        </where>
+        limit 0, 1
+    </select>
+
+    <!-- 获取小区下拉框 -->
+    <select id="getElevatorCountByTaskId" resultType="java.lang.Integer">
+        select
+        ifnull(sum(i_elevator_count), 0)
+        from tbl_investigate_bill
+        <where>
+            v_investigate_task_id = #{vInvestigateTaskId}
+            <if test="vInvestigateBillId != null and vInvestigateBillId != ''">
+                and v_investigate_bill_id != #{vInvestigateBillId, jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+    <select id="getAllBillByInvestigateTaskId" resultMap="BizInvestigateBillResultMap" parameterType="java.lang.String">
+        select
+        distinct
+        <include refid="table_field"/>
+        from tbl_investigate_bill
+        left join tbl_pm_image
+        on tbl_investigate_bill.v_investigate_bill_id = tbl_pm_image.v_target_id
+        where tbl_investigate_bill.v_investigate_task_id = #{vInvestigateTaskId, jdbcType=VARCHAR}
+    </select>
+
+    <select id="getBillInfoByInvestigateBillId" resultMap="BizInvestigateBillResultMap"
+            parameterType="java.lang.String">
+        select
+        distinct
+        <include refid="table_field"/>,
+        case
+        when tbl_investigate_bill.i_status = 1 then '未现勘'
+        when tbl_investigate_bill.i_status = 2 then '现勘中'
+        when tbl_investigate_bill.i_status = 3 then '已现勘'
+        when tbl_investigate_bill.i_status = -1 then '已取消'
+        else '无'
+        end as v_status_name,
+        bill.v_device_type
+        from tbl_investigate_bill
+        inner join tbl_village_device_bill bill on bill.v_village_id = tbl_investigate_bill.v_village_id
+        left join tbl_pm_image
+        on tbl_investigate_bill.v_investigate_bill_id = tbl_pm_image.v_target_id
+        where tbl_investigate_bill.v_investigate_bill_id = #{vInvestigateBillId, jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectGreenCodeImages" resultMap="com.shmashine.pm.api.dao.TblPmImageDao.TblPmImageResultMap"
+            parameterType="java.lang.String">
+        select *
+        from tbl_pm_image
+        where v_target_id = #{v_investigate_bill_id, jdbcType=VARCHAR}
+          and i_image_type = 1
+    </select>
+
+    <select id="selectFloorImages" resultMap="com.shmashine.pm.api.dao.TblPmImageDao.TblPmImageResultMap"
+            parameterType="java.lang.String">
+        select *
+        from tbl_pm_image
+        where v_target_id = #{v_investigate_bill_id, jdbcType=VARCHAR}
+          and i_image_type = 2
+    </select>
+
+    <select id="selectMachRoomSignalImages" resultMap="com.shmashine.pm.api.dao.TblPmImageDao.TblPmImageResultMap"
+            parameterType="java.lang.String">
+        select *
+        from tbl_pm_image
+        where v_target_id = #{v_investigate_bill_id, jdbcType=VARCHAR}
+          and i_image_type = 3
+    </select>
+
+    <select id="selectEquipmentCodeImages" resultMap="com.shmashine.pm.api.dao.TblPmImageDao.TblPmImageResultMap"
+            parameterType="java.lang.String">
+        select *
+        from tbl_pm_image
+        where v_target_id = #{v_investigate_bill_id, jdbcType=VARCHAR}
+          and i_image_type = 7
+    </select>
+
+    <select id="selectElevatorDoorBtnInsideImages"
+            resultMap="com.shmashine.pm.api.dao.TblPmImageDao.TblPmImageResultMap" parameterType="java.lang.String">
+        select *
+        from tbl_pm_image
+        where v_target_id = #{v_investigate_bill_id, jdbcType=VARCHAR}
+          and i_image_type = 8
+    </select>
+
+    <select id="selectRelatedInfosByTaskId" resultType="Map" parameterType="String">
+        select dept.v_dept_name         as deptName,
+               project.v_project_name   as projectName,
+               village.v_village_name   as villageName,
+               elevator.v_elevator_id   as elevatorId,
+               elevator.v_elevator_name as elevatorName,
+               village.i_status         as status,
+               case
+                   when village.i_status = 1 then "待现勘"
+                   when village.i_status = 2 then "待配货"
+                   when village.i_status = 3 then "待安装"
+                   when village.i_status = 4 then "待调测"
+                   when village.i_status = 5 then "待验收"
+                   when village.i_status = 6 then "运行中"
+                   when village.i_status = 7 then "托管"
+                   when village.i_status = 11 then "现勘中"
+                   when village.i_status = 12 then "配货中"
+                   when village.i_status = 13 then "安装中"
+                   when village.i_status = 14 then "调测中"
+                   when village.i_status = 15 then "验收中"
+                   else "待现勘"
+                   end                     statusName
+        from tbl_investigate_bill as bill
+                 inner join
+             tbl_investigate_task as task on task.v_investigate_task_id = bill.v_investigate_task_id
+                 inner join
+             tbl_project as project on project.v_project_id = task.v_project_id
+                 inner join
+             tbl_village as village on village.v_village_id = task.v_village_id
+                 inner join
+             tbl_sys_dept as dept on dept.v_dept_id = project.v_dept_id
+                 inner join
+             tbl_elevator as elevator on elevator.v_elevator_id = bill.v_elevator_id
+        where bill.v_investigate_task_id = #{vInvestigateTaskId}
+          and bill.i_status != -1
+      and
+        bill.i_del_flag = 0
+        order by elevator.v_elevator_id asc
+    </select>
+
+    <select id="selectRelatedInfo" resultType="Map" parameterType="String">
+        select dept.v_dept_name          as deptName,
+               project.v_project_name    as projectName,
+               village.v_village_name    as villageName,
+               elevator.v_elevator_name  as elevatorName,
+               elevator.v_address        as elevatorAddress,
+               elevator.v_equipment_code as elevatorEquipmentCode,
+               village.i_status          as status,
+               case
+                   when village.i_status = 1 then "待现勘"
+                   when village.i_status = 2 then "待配货"
+                   when village.i_status = 3 then "待安装"
+                   when village.i_status = 4 then "待调测"
+                   when village.i_status = 5 then "待验收"
+                   when village.i_status = 6 then "运行中"
+                   when village.i_status = 7 then "托管"
+                   when village.i_status = 11 then "现勘中"
+                   when village.i_status = 12 then "配货中"
+                   when village.i_status = 13 then "安装中"
+                   when village.i_status = 14 then "调测中"
+                   when village.i_status = 15 then "验收中"
+                   else "待现勘"
+                   end                      statusName
+        from tbl_investigate_bill as bill
+                 inner join tbl_project as project on project.v_project_id = bill.v_project_id
+                 inner join tbl_village as village on village.v_village_id = bill.v_village_id
+                 inner join tbl_sys_dept as dept on dept.v_dept_id = project.v_dept_id
+                 inner join tbl_elevator as elevator on elevator.v_elevator_id = bill.v_elevator_id
+        where bill.v_investigate_bill_id = #{vInvestigateBillId}
+    </select>
+
+    <select id="statusCountByVillageId" resultType="Map" parameterType="String">
+        select count(1) as count,
+          tbl.i_status,
+          case
+          when tbl.i_status = 1 then '未现勘'
+          when tbl.i_status = 2 then '现勘中'
+          when tbl.i_status = 3 then '已现勘'
+          when tbl.i_status = -1 then '已取消'
+          else '无'
+        end
+        as i_status_name
+          from tbl_investigate_bill as tbl
+          where v_village_id =
+        #{vVillageId}
+        group
+        by
+        tbl
+        .
+        i_status
+    </select>
+
+    <select id="getAllStatus" resultType="java.lang.Integer">
+        select
+        i_status
+        from
+        tbl_investigate_bill
+        <where>
+            <if test="vInvestigateTaskId != null and vInvestigateTaskId != ''">
+                and v_investigate_task_id = #{vInvestigateTaskId}
+            </if>
+            <if test="vVillageId != null and vVillageId != ''">
+                and v_village_id = #{vVillageId}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectByBillModule" parameterType="com.shmashine.pm.api.module.investigateBill.InvestigateBillModule"
+            resultType="Map">
+        select
+        bill.v_investigate_bill_id,
+        bill.v_investigate_task_id,
+        bill.v_elevator_id,
+        bill.v_device_position,
+        case
+        when bill.i_status = 1 then "未现勘"
+        when bill.i_status = 2 then "现勘中"
+        when bill.i_status = 3 then "已现勘"
+        when bill.i_status = -1 then "已取消"
+        else "无"
+        end as v_status_name,
+        bill.i_status as i_status,
+        elevator.v_elevator_name,
+        elevator.v_address,
+        elevator.v_equipment_code,
+        elevator.i_elevator_type,
+        case
+        when elevator.i_elevator_type = 1 then "直梯"
+        when elevator.i_elevator_type = 2 then "扶梯"
+        else "直梯"
+        end as v_elevator_type_name,
+        brand.v_elevator_brand_name
+        from
+        tbl_investigate_bill bill
+        inner join tbl_elevator elevator on bill.v_elevator_id = elevator.v_elevator_id
+        left join tbl_elevator_brand brand on brand.v_elevator_brand_id = elevator.v_elevator_brand_id
+        <where>
+            <if test="vElevatorId != null and vElevatorId !=''">
+                and bill.v_elevator_id = #{vElevatorId}
+            </if>
+            <if test="vInvestigateTaskId != null and vInvestigateTaskId != ''">
+                and bill.v_investigate_task_id = #{vInvestigateTaskId}
+            </if>
+            <if test="vInvestigateBillId != null and vInvestigateBillId != ''">
+                and bill.v_investigate_bill_id = #{vInvestigateBillId}
+            </if>
+        </where>
+    </select>
+</mapper>

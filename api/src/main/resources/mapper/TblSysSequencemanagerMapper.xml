@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.api.dao.TblSysSequencemanagerDao">
+
+    <resultMap type="com.shmashine.common.entity.TblSysSequencemanager" id="TblSysSequencemanagerResultMap">
+        <result property="vSeqId" column="v_seq_id" jdbcType="VARCHAR"/>
+        <result property="iSeqNo" column="i_seq_no" jdbcType="INTEGER"/>
+        <result property="vDescription" column="v_description" jdbcType="VARCHAR"/>
+        <result property="dtCreatetime" column="dt_createTime" jdbcType="TIMESTAMP"/>
+        <result property="dtModifytime" column="dt_modifyTime" jdbcType="TIMESTAMP"/>
+        <result property="vCreateid" column="v_createid" jdbcType="VARCHAR"/>
+        <result property="vModifyid" column="v_modifyid" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="table_field">
+        v_seq_id
+        , i_seq_no, v_description, dt_createTime, dt_modifyTime, v_createid, v_modifyid
+    </sql>
+
+    <!--通过Id查询单个-->
+    <select id="getById" resultMap="TblSysSequencemanagerResultMap" parameterType="java.lang.String">
+        select
+        <include refid="table_field"/>
+        from tbl_sys_sequencemanager
+        where v_seq_id = #{vSeqId,jdbcType=VARCHAR}
+    </select>
+
+
+    <!--通过实体不为空的属性作为筛选条件查询列表-->
+    <select id="listByEntity" resultMap="TblSysSequencemanagerResultMap"
+            parameterType="com.shmashine.common.entity.TblSysSequencemanager">
+        select
+        <include refid="table_field"/>
+        from tbl_sys_sequencemanager
+        <where>
+            <if test="vSeqId != null and vSeqId != ''">
+                and v_seq_id = #{vSeqId,jdbcType=VARCHAR}
+            </if>
+            <if test="iSeqNo != null and iSeqNo != ''">
+                and i_seq_no = #{iSeqNo,jdbcType=INTEGER}
+            </if>
+            <if test="vDescription != null and vDescription != ''">
+                and v_description = #{vDescription,jdbcType=VARCHAR}
+            </if>
+            <if test="dtCreatetime != null and dtCreatetime != ''">
+                and dt_createTime = #{dtCreatetime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="dtModifytime != null and dtModifytime != ''">
+                and dt_modifyTime = #{dtModifytime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="vCreateid != null and vCreateid != ''">
+                and v_createid = #{vCreateid,jdbcType=VARCHAR}
+            </if>
+            <if test="vModifyid != null and vModifyid != ''">
+                and v_modifyid = #{vModifyid,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+    <!--通过实体不为空的属性作为筛选条件查询单个-->
+    <select id="getByEntity" resultMap="TblSysSequencemanagerResultMap"
+            parameterType="com.shmashine.common.entity.TblSysSequencemanager">
+        select
+        <include refid="table_field"/>
+        from tbl_sys_sequencemanager
+        <where>
+            <if test="vSeqId != null and vSeqId != ''">
+                and v_seq_id = #{vSeqId,jdbcType=VARCHAR}
+            </if>
+            <if test="iSeqNo != null and iSeqNo != ''">
+                and i_seq_no = #{iSeqNo,jdbcType=INTEGER}
+            </if>
+            <if test="vDescription != null and vDescription != ''">
+                and v_description = #{vDescription,jdbcType=VARCHAR}
+            </if>
+            <if test="dtCreatetime != null and dtCreatetime != ''">
+                and dt_createTime = #{dtCreatetime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="dtModifytime != null and dtModifytime != ''">
+                and dt_modifyTime = #{dtModifytime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="vCreateid != null and vCreateid != ''">
+                and v_createid = #{vCreateid,jdbcType=VARCHAR}
+            </if>
+            <if test="vModifyid != null and vModifyid != ''">
+                and v_modifyid = #{vModifyid,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+    <!--通过Id列表作为筛选条件查询列表，列表长度不为0-->
+    <select id="listByIds" resultMap="TblSysSequencemanagerResultMap" parameterType="list">
+        select
+        <include refid="table_field"/>
+        from tbl_sys_sequencemanager
+        where v_seq_id in
+        <foreach item="item" collection="list" separator="," open="(" close=")" index="index">
+            #{item}
+        </foreach>
+    </select>
+
+    <!--新增实体属性不为null的列-->
+    <insert id="insert" keyProperty="vSeqId" useGeneratedKeys="true"
+            parameterType="com.shmashine.common.entity.TblSysSequencemanager">
+        insert into tbl_sys_sequencemanager
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="vSeqId != null">
+                v_seq_id,
+            </if>
+            <if test="iSeqNo != null">
+                i_seq_no,
+            </if>
+            <if test="vDescription != null">
+                v_description,
+            </if>
+            <if test="dtCreatetime != null">
+                dt_createTime,
+            </if>
+            <if test="dtModifytime != null">
+                dt_modifyTime,
+            </if>
+            <if test="vCreateid != null">
+                v_createid,
+            </if>
+            <if test="vModifyid != null">
+                v_modifyid,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="vSeqId != null">
+                #{vSeqId,jdbcType=VARCHAR},
+            </if>
+            <if test="iSeqNo != null">
+                #{iSeqNo,jdbcType=INTEGER},
+            </if>
+            <if test="vDescription != null">
+                #{vDescription,jdbcType=VARCHAR},
+            </if>
+            <if test="dtCreatetime != null">
+                #{dtCreatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="dtModifytime != null">
+                #{dtModifytime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="vCreateid != null">
+                #{vCreateid,jdbcType=VARCHAR},
+            </if>
+            <if test="vModifyid != null">
+                #{vModifyid,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <!--批量新增所有列，列表长度不能为0，且列表id统一为null或者统一不为null-->
+    <insert id="insertBatch" keyProperty="vSeqId" useGeneratedKeys="true" parameterType="list">
+        insert into tbl_sys_sequencemanager
+        (<if test="vSeqId != null">v_seq_id,</if>i_seq_no, v_description, dt_createTime, dt_modifyTime, v_createid,
+        v_modifyid)
+        values
+        <foreach item="item" collection="list" separator="," open="" close="" index="index">
+            (<if test="vSeqId != null">#{vSeqId,jdbcType=VARCHAR},</if>#{iSeqNo,jdbcType=INTEGER},
+            #{vDescription,jdbcType=VARCHAR}, #{dtCreatetime,jdbcType=TIMESTAMP}, #{dtModifytime,jdbcType=TIMESTAMP},
+            #{vCreateid,jdbcType=VARCHAR}, #{vModifyid,jdbcType=VARCHAR})
+        </foreach>
+    </insert>
+
+    <!--通过主键修改实体属性不为null的列-->
+    <update id="update" parameterType="com.shmashine.common.entity.TblSysSequencemanager">
+        update tbl_sys_sequencemanager
+        <set>
+            <if test="iSeqNo != null">
+                i_seq_no = #{iSeqNo,jdbcType=INTEGER},
+            </if>
+            <if test="vDescription != null and vDescription != ''">
+                v_description = #{vDescription,jdbcType=VARCHAR},
+            </if>
+            <if test="dtCreatetime != null">
+                dt_createTime = #{dtCreatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="dtModifytime != null">
+                dt_modifyTime = #{dtModifytime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="vCreateid != null and vCreateid != ''">
+                v_createid = #{vCreateid,jdbcType=VARCHAR},
+            </if>
+            <if test="vModifyid != null and vModifyid != ''">
+                v_modifyid = #{vModifyid,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where v_seq_id = #{vSeqId,jdbcType=VARCHAR}
+    </update>
+
+    <!--通过表字段修改实体属性不为null的列-->
+    <update id="updateByField">
+        update tbl_sys_sequencemanager
+        <set>
+            <if test="where.iSeqNo == null and set.iSeqNo != null">
+                i_seq_no = #{set.iSeqNo,jdbcType=INTEGER},
+            </if>
+            <if test="where.vDescription == null and set.vDescription != null and set.vDescription != ''">
+                v_description = #{set.vDescription,jdbcType=VARCHAR},
+            </if>
+            <if test="where.dtCreatetime == null and set.dtCreatetime != null">
+                dt_createTime = #{set.dtCreatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="where.dtModifytime == null and set.dtModifytime != null">
+                dt_modifyTime = #{set.dtModifytime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="where.vCreateid == null and set.vCreateid != null and set.vCreateid != ''">
+                v_createid = #{set.vCreateid,jdbcType=VARCHAR},
+            </if>
+            <if test="where.vModifyid == null and set.vModifyid != null and set.vModifyid != ''">
+                v_modifyid = #{set.vModifyid,jdbcType=VARCHAR},
+            </if>
+        </set>
+        <where>
+            <if test="where.vSeqId != null">
+                and v_seq_id = #{where.vSeqId,jdbcType=VARCHAR}
+            </if>
+            <if test="where.iSeqNo != null">
+                and i_seq_no = #{where.iSeqNo,jdbcType=INTEGER}
+            </if>
+            <if test="where.vDescription != null">
+                and v_description = #{where.vDescription,jdbcType=VARCHAR}
+            </if>
+            <if test="where.dtCreatetime != null">
+                and dt_createTime = #{where.dtCreatetime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="where.dtModifytime != null">
+                and dt_modifyTime = #{where.dtModifytime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="where.vCreateid != null">
+                and v_createid = #{where.vCreateid,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vModifyid != null">
+                and v_modifyid = #{where.vModifyid,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </update>
+
+    <!--通过主键修改实体列表，列表长度不能为0，注意：当实体属性为null时，对应的列也会别更新为null-->
+    <update id="updateBatch" parameterType="list">
+        update tbl_sys_sequencemanager
+        <trim prefix="set" suffixOverrides=",">
+            <trim prefix="i_seq_no = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_seq_id = #{item.vSeqId} then #{item.iSeqNo}
+                </foreach>
+            </trim>
+            <trim prefix="v_description = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_seq_id = #{item.vSeqId} then #{item.vDescription}
+                </foreach>
+            </trim>
+            <trim prefix="dt_createTime = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_seq_id = #{item.vSeqId} then #{item.dtCreatetime}
+                </foreach>
+            </trim>
+            <trim prefix="dt_modifyTime = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_seq_id = #{item.vSeqId} then #{item.dtModifytime}
+                </foreach>
+            </trim>
+            <trim prefix="v_createid = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_seq_id = #{item.vSeqId} then #{item.vCreateid}
+                </foreach>
+            </trim>
+            <trim prefix="v_modifyid = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_seq_id = #{item.vSeqId} then #{item.vModifyid}
+                </foreach>
+            </trim>
+        </trim>
+        where v_seq_id in
+        <foreach collection="list" index="index" item="item" separator="," open="(" close=")">
+            #{item.vSeqId,jdbcType=VARCHAR}
+        </foreach>
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById" parameterType="java.lang.String">
+        delete
+        from tbl_sys_sequencemanager
+        where v_seq_id = #{vSeqId,jdbcType=VARCHAR}
+    </delete>
+
+    <!--通过实体非空属性删除-->
+    <delete id="deleteByEntity" parameterType="com.shmashine.common.entity.TblSysSequencemanager">
+        delete from tbl_sys_sequencemanager
+        <where>
+            <if test="iSeqNo != null">
+                and i_seq_no = #{iSeqNo,jdbcType=INTEGER}
+            </if>
+            <if test="vDescription != null">
+                and v_description = #{vDescription,jdbcType=VARCHAR}
+            </if>
+            <if test="dtCreatetime != null">
+                and dt_createTime = #{dtCreatetime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="dtModifytime != null">
+                and dt_modifyTime = #{dtModifytime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="vCreateid != null">
+                and v_createid = #{vCreateid,jdbcType=VARCHAR}
+            </if>
+            <if test="vModifyid != null">
+                and v_modifyid = #{vModifyid,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </delete>
+
+    <!--通过主键列表删除，列表长度不能为0-->
+    <delete id="deleteByIds" parameterType="list">
+        delete from tbl_sys_sequencemanager where v_seq_id in
+        <foreach item="item" collection="list" separator="," open="(" close=")" index="index">
+            #{item}
+        </foreach>
+    </delete>
+
+    <select id="countAll" resultType="int">
+        select count(v_seq_id)
+        from tbl_sys_sequencemanager
+    </select>
+
+    <select id="countByEntity" parameterType="com.shmashine.common.entity.TblSysSequencemanager" resultType="int">
+        select count(v_seq_id) from tbl_sys_sequencemanager
+        <where>
+            <if test="vSeqId != null">
+                and v_seq_id = #{vSeqId,jdbcType=VARCHAR}
+            </if>
+            <if test="iSeqNo != null">
+                and i_seq_no = #{iSeqNo,jdbcType=INTEGER}
+            </if>
+            <if test="vDescription != null">
+                and v_description = #{vDescription,jdbcType=VARCHAR}
+            </if>
+            <if test="dtCreatetime != null">
+                and dt_createTime = #{dtCreatetime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="dtModifytime != null">
+                and dt_modifyTime = #{dtModifytime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="vCreateid != null">
+                and v_createid = #{vCreateid,jdbcType=VARCHAR}
+            </if>
+            <if test="vModifyid != null">
+                and v_modifyid = #{vModifyid,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+</mapper>

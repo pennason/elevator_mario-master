@@ -1,0 +1,51 @@
+
+# sa-token 配置
+sa-token:
+  # 配置 Sa-Token 单独使用的 Redis 连接
+  alone-redis:
+    database: 12  # 默认13
+    host: redis
+    port: 6379
+    password: shmashine@666
+    timeout: 5000
+
+spring:
+  redis:
+    database: 1
+    host: redis
+    port: 6379
+    password: shmashine@666
+    timeout: 5000
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    #    driverClassName: net.sf.log4jdbc.DriverSpy
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://mysql8:3306/elevator_master?useSSL=false&useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&autoReconnect=true&failOverReadOnly=false&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+    username: root
+    password: shmashine@666
+    #url: jdbc:mysql://rm-m5e5x3037x8bn5br61o.mysql.rds.aliyuncs.com:3306/elevator_master?useSSL=false&useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&autoReconnect=true&failOverReadOnly=false&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+    #username: shmashine_dev
+    #password: Maixin@789#jhgfdsa
+
+  data:
+    mongodb:
+      host: mongodb
+      port: 27017
+      database: MX
+      username: shmashine
+      password: Shmashine@666
+
+
+  boot:
+    admin:
+      client:
+        url: http://spring-boot-admin:9999/
+        username: shmashine
+        password: shmashine
+        instance:
+          service-url: http://localhost:8086
+
+
+springdoc:
+  api-docs:
+    enabled: true

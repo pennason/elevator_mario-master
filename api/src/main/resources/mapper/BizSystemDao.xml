@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shmashine.api.dao.BizSystemDao">
+    <!--通过主编号 获取系统字典 按下拉选择数据结构形式展示-->
+    <select id="getSelectList" resultType="java.util.Map">
+        SELECT v_name_zh_cn                   AS label,
+               convert(v_sysvalue5, UNSIGNED) AS `value`
+        FROM `tbl_sys_systeminfo`
+        WHERE v_sysid = #{mainId}
+          AND <![CDATA[ v_syssubid <> 0 ]]>
+        ORDER BY i_sortindex
+    </select>
+
+
+    <select id="getPlatformSelectList" resultType="java.util.Map">
+        SELECT v_name_zh_cn AS label,
+               v_sysvalue5  AS `value`
+        FROM `tbl_sys_systeminfo`
+        WHERE v_sysid = #{mainId}
+          AND <![CDATA[ v_syssubid <> 0 ]]>
+        ORDER BY i_sortindex
+    </select>
+
+    <!--通过主编号 获取系统字典 按下拉选择数据结构形式展示-->
+    <select id="getWorkOrderSelectList" resultType="java.util.Map">
+        SELECT v_name_zh_cn AS label,
+               v_syssubid   AS `value`
+        FROM `tbl_sys_systeminfo`
+        WHERE v_sysid = #{mainId}
+          AND <![CDATA[ v_syssubid <> 0 ]]>
+        ORDER BY i_sortindex
+    </select>
+
+    <!-- 获取省市区sql 文 -->
+
+    <select id="getAreaSelectList" resultType="java.util.Map">
+        select
+        v_areaName AS `label`,
+        i_areaId AS `value`,
+        v_center,
+        i_parentId,
+        v_cityCode,
+        v_center
+        from
+        tbl_sys_provincial_city
+        <where>
+            <if test="parentId != null and parentId != ''">
+                i_parentId = #{parentId}
+            </if>
+            <if test="parentId == null or parentId == ''">
+                i_parentId = -1
+            </if>
+        </where>
+    </select>
+
+    <!--获取故障标准-->
+    <select id="getFaultDefinitionSelectList" resultType="java.util.HashMap">
+        select
+        fault.v_event_channel AS `value`,
+        tss.v_name_zh_cn AS label
+        from
+        tbl_fault fault
+        <if test="!isAdminFlag">
+            join tbl_sys_user_resource resource on fault.v_elevator_id = resource.v_resource_id and v_user_id =
+            #{userId}
+            left join tbl_elevator ele on ele.v_elevator_id = fault.v_elevator_id
+        </if>
+
+        left join tbl_sys_systeminfo tss ON v_sysid = 10030 AND fault.v_event_channel = tss.v_sysvalue5
+        where
+        fault.i_del_flag = 0 AND fault.v_event_channel IS NOT NULL
+        <if test="elevatorIds != null and elevatorIds.size() > 0">
+            and fault.v_elevator_id in
+            <foreach collection="elevatorIds" item="elevatorId" open="(" separator="," close=")">
+                #{elevatorId}
+            </foreach>
+        </if>
+        GROUP BY fault.v_event_channel
+        ORDER BY fault.v_event_channel
+    </select>
+</mapper>

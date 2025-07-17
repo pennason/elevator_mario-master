@@ -1,0 +1,491 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.api.dao.TblSysMenuDao">
+
+    <resultMap type="com.shmashine.common.entity.TblSysMenu" id="TblSysMenuResultMap">
+        <result property="vMenuId" column="v_menu_id" jdbcType="VARCHAR"/>
+        <result property="vParentId" column="v_parent_id" jdbcType="VARCHAR"/>
+        <result property="vMenuName" column="v_menu_name" jdbcType="VARCHAR"/>
+        <result property="vMenuUrl" column="v_menu_url" jdbcType="VARCHAR"/>
+        <result property="vMenuType" column="v_menu_type" jdbcType="VARCHAR"/>
+        <result property="vIcon" column="v_icon" jdbcType="VARCHAR"/>
+        <result property="iOrderNum" column="i_order_num" jdbcType="INTEGER"/>
+        <result property="dtCreatetime" column="dt_createTime" jdbcType="TIMESTAMP"/>
+        <result property="dtModifytime" column="dt_modifyTime" jdbcType="TIMESTAMP"/>
+        <result property="vCreateid" column="v_createid" jdbcType="VARCHAR"/>
+        <result property="vModifyid" column="v_modifyid" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="table_field">
+        v_menu_id
+        , v_parent_id, v_menu_name, v_menu_url, v_menu_type, v_icon, i_order_num, dt_createTime, dt_modifyTime, v_createid, v_modifyid
+    </sql>
+
+    <!--通过Id查询单个-->
+    <select id="getById" resultMap="TblSysMenuResultMap" parameterType="java.lang.String">
+        select
+        <include refid="table_field"/>
+        from tbl_sys_menu
+        where v_menu_id = #{vMenuId,jdbcType=VARCHAR}
+        and i_del_flag = 0
+    </select>
+
+    <!--通过实体不为空的属性作为筛选条件查询列表-->
+    <select id="listByEntity" resultMap="TblSysMenuResultMap" parameterType="com.shmashine.common.entity.TblSysMenu">
+        select
+        <include refid="table_field"/>
+        from tbl_sys_menu
+        <where>
+            <if test="vMenuId != null and vMenuId != ''">
+                and v_menu_id = #{vMenuId,jdbcType=VARCHAR}
+            </if>
+            <if test="vParentId != null and vParentId != ''">
+                and v_parent_id = #{vParentId,jdbcType=VARCHAR}
+            </if>
+            <if test="vMenuName != null and vMenuName != ''">
+                and v_menu_name = #{vMenuName,jdbcType=VARCHAR}
+            </if>
+            <if test="vMenuUrl != null and vMenuUrl != ''">
+                and v_menu_url = #{vMenuUrl,jdbcType=VARCHAR}
+            </if>
+            <if test="vMenuType != null and vMenuType != ''">
+                and v_menu_type = #{vMenuType,jdbcType=VARCHAR}
+            </if>
+            <if test="vIcon != null and vIcon != ''">
+                and v_icon = #{vIcon,jdbcType=VARCHAR}
+            </if>
+            <if test="iOrderNum != null and iOrderNum != ''">
+                and i_order_num = #{iOrderNum,jdbcType=INTEGER}
+            </if>
+            <if test="dtCreatetime != null and dtCreatetime != ''">
+                and dt_createTime = #{dtCreatetime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="dtModifytime != null and dtModifytime != ''">
+                and dt_modifyTime = #{dtModifytime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="vCreateid != null and vCreateid != ''">
+                and v_createid = #{vCreateid,jdbcType=VARCHAR}
+            </if>
+            <if test="vModifyid != null and vModifyid != ''">
+                and v_modifyid = #{vModifyid,jdbcType=VARCHAR}
+            </if>
+            and i_del_flag = 0
+        </where>
+    </select>
+
+    <!--通过实体不为空的属性作为筛选条件查询单个-->
+    <select id="getByEntity" resultMap="TblSysMenuResultMap" parameterType="com.shmashine.common.entity.TblSysMenu">
+        select
+        <include refid="table_field"/>
+        from tbl_sys_menu
+        <where>
+            <if test="vMenuId != null and vMenuId != ''">
+                and v_menu_id = #{vMenuId,jdbcType=VARCHAR}
+            </if>
+            <if test="vParentId != null and vParentId != ''">
+                and v_parent_id = #{vParentId,jdbcType=VARCHAR}
+            </if>
+            <if test="vMenuName != null and vMenuName != ''">
+                and v_menu_name = #{vMenuName,jdbcType=VARCHAR}
+            </if>
+            <if test="vMenuUrl != null and vMenuUrl != ''">
+                and v_menu_url = #{vMenuUrl,jdbcType=VARCHAR}
+            </if>
+            <if test="vMenuType != null and vMenuType != ''">
+                and v_menu_type = #{vMenuType,jdbcType=VARCHAR}
+            </if>
+            <if test="vIcon != null and vIcon != ''">
+                and v_icon = #{vIcon,jdbcType=VARCHAR}
+            </if>
+            <if test="iOrderNum != null and iOrderNum != ''">
+                and i_order_num = #{iOrderNum,jdbcType=INTEGER}
+            </if>
+            <if test="dtCreatetime != null and dtCreatetime != ''">
+                and dt_createTime = #{dtCreatetime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="dtModifytime != null and dtModifytime != ''">
+                and dt_modifyTime = #{dtModifytime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="vCreateid != null and vCreateid != ''">
+                and v_createid = #{vCreateid,jdbcType=VARCHAR}
+            </if>
+            <if test="vModifyid != null and vModifyid != ''">
+                and v_modifyid = #{vModifyid,jdbcType=VARCHAR}
+            </if>
+            and i_del_flag = 0
+        </where>
+    </select>
+
+    <!--通过Id列表作为筛选条件查询列表，列表长度不为0-->
+    <select id="listByIds" resultMap="TblSysMenuResultMap" parameterType="list">
+        select
+        <include refid="table_field"/>
+        from tbl_sys_menu
+        where v_menu_id in
+        <foreach item="item" collection="list" separator="," open="(" close=")" index="index">
+            #{item}
+        </foreach>
+        and i_del_flag = 0
+    </select>
+
+    <!--新增实体属性不为null的列-->
+    <insert id="insert" keyProperty="vMenuId" useGeneratedKeys="true"
+            parameterType="com.shmashine.common.entity.TblSysMenu">
+        insert into tbl_sys_menu
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="vMenuId != null">
+                v_menu_id,
+            </if>
+            <if test="vParentId != null">
+                v_parent_id,
+            </if>
+            <if test="vMenuName != null">
+                v_menu_name,
+            </if>
+            <if test="vMenuUrl != null">
+                v_menu_url,
+            </if>
+            <if test="vMenuType != null">
+                v_menu_type,
+            </if>
+            <if test="vIcon != null">
+                v_icon,
+            </if>
+            <if test="iOrderNum != null">
+                i_order_num,
+            </if>
+            <if test="dtCreatetime != null">
+                dt_createTime,
+            </if>
+            <if test="dtModifytime != null">
+                dt_modifyTime,
+            </if>
+            <if test="vCreateid != null">
+                v_createid,
+            </if>
+            <if test="vModifyid != null">
+                v_modifyid,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="vMenuId != null">
+                #{vMenuId,jdbcType=VARCHAR},
+            </if>
+            <if test="vParentId != null">
+                #{vParentId,jdbcType=VARCHAR},
+            </if>
+            <if test="vMenuName != null">
+                #{vMenuName,jdbcType=VARCHAR},
+            </if>
+            <if test="vMenuUrl != null">
+                #{vMenuUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="vMenuType != null">
+                #{vMenuType,jdbcType=VARCHAR},
+            </if>
+            <if test="vIcon != null">
+                #{vIcon,jdbcType=VARCHAR},
+            </if>
+            <if test="iOrderNum != null">
+                #{iOrderNum,jdbcType=INTEGER},
+            </if>
+            <if test="dtCreatetime != null">
+                #{dtCreatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="dtModifytime != null">
+                #{dtModifytime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="vCreateid != null">
+                #{vCreateid,jdbcType=VARCHAR},
+            </if>
+            <if test="vModifyid != null">
+                #{vModifyid,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <!--批量新增所有列，列表长度不能为0，且列表id统一为null或者统一不为null-->
+    <insert id="insertBatch" keyProperty="vMenuId" useGeneratedKeys="true" parameterType="list">
+        insert into tbl_sys_menu
+        (<if test="vMenuId != null">v_menu_id,</if>v_parent_id, v_menu_name, v_menu_url, v_menu_type, v_icon,
+        i_order_num, dt_createTime, dt_modifyTime, v_createid, v_modifyid)
+        values
+        <foreach item="item" collection="list" separator="," open="" close="" index="index">
+            (<if test="vMenuId != null">#{vMenuId,jdbcType=VARCHAR},</if>#{vParentId,jdbcType=VARCHAR},
+            #{vMenuName,jdbcType=VARCHAR}, #{vMenuUrl,jdbcType=VARCHAR}, #{vMenuType,jdbcType=VARCHAR},
+            #{vIcon,jdbcType=VARCHAR}, #{iOrderNum,jdbcType=INTEGER}, #{dtCreatetime,jdbcType=TIMESTAMP},
+            #{dtModifytime,jdbcType=TIMESTAMP}, #{vCreateid,jdbcType=VARCHAR}, #{vModifyid,jdbcType=VARCHAR})
+        </foreach>
+    </insert>
+
+    <!--通过主键修改实体属性不为null的列-->
+    <update id="update" parameterType="com.shmashine.common.entity.TblSysMenu">
+        update tbl_sys_menu
+        <set>
+            <if test="vParentId != null and vParentId != ''">
+                v_parent_id = #{vParentId,jdbcType=VARCHAR},
+            </if>
+            <if test="vMenuName != null and vMenuName != ''">
+                v_menu_name = #{vMenuName,jdbcType=VARCHAR},
+            </if>
+            <if test="vMenuUrl != null and vMenuUrl != ''">
+                v_menu_url = #{vMenuUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="vMenuType != null and vMenuType != ''">
+                v_menu_type = #{vMenuType,jdbcType=VARCHAR},
+            </if>
+            <if test="vIcon != null and vIcon != ''">
+                v_icon = #{vIcon,jdbcType=VARCHAR},
+            </if>
+            <if test="iOrderNum != null">
+                i_order_num = #{iOrderNum,jdbcType=INTEGER},
+            </if>
+            <if test="dtCreatetime != null">
+                dt_createTime = #{dtCreatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="dtModifytime != null">
+                dt_modifyTime = #{dtModifytime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="vCreateid != null and vCreateid != ''">
+                v_createid = #{vCreateid,jdbcType=VARCHAR},
+            </if>
+            <if test="vModifyid != null and vModifyid != ''">
+                v_modifyid = #{vModifyid,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where v_menu_id = #{vMenuId,jdbcType=VARCHAR}
+    </update>
+
+    <!--通过表字段修改实体属性不为null的列-->
+    <update id="updateByField">
+        update tbl_sys_menu
+        <set>
+            <if test="where.vParentId == null and set.vParentId != null and set.vParentId != ''">
+                v_parent_id = #{set.vParentId,jdbcType=VARCHAR},
+            </if>
+            <if test="where.vMenuName == null and set.vMenuName != null and set.vMenuName != ''">
+                v_menu_name = #{set.vMenuName,jdbcType=VARCHAR},
+            </if>
+            <if test="where.vMenuUrl == null and set.vMenuUrl != null and set.vMenuUrl != ''">
+                v_menu_url = #{set.vMenuUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="where.vMenuType == null and set.vMenuType != null and set.vMenuType != ''">
+                v_menu_type = #{set.vMenuType,jdbcType=VARCHAR},
+            </if>
+            <if test="where.vIcon == null and set.vIcon != null and set.vIcon != ''">
+                v_icon = #{set.vIcon,jdbcType=VARCHAR},
+            </if>
+            <if test="where.iOrderNum == null and set.iOrderNum != null">
+                i_order_num = #{set.iOrderNum,jdbcType=INTEGER},
+            </if>
+            <if test="where.dtCreatetime == null and set.dtCreatetime != null">
+                dt_createTime = #{set.dtCreatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="where.dtModifytime == null and set.dtModifytime != null">
+                dt_modifyTime = #{set.dtModifytime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="where.vCreateid == null and set.vCreateid != null and set.vCreateid != ''">
+                v_createid = #{set.vCreateid,jdbcType=VARCHAR},
+            </if>
+            <if test="where.vModifyid == null and set.vModifyid != null and set.vModifyid != ''">
+                v_modifyid = #{set.vModifyid,jdbcType=VARCHAR},
+            </if>
+        </set>
+        <where>
+            <if test="where.vMenuId != null">
+                and v_menu_id = #{where.vMenuId,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vParentId != null">
+                and v_parent_id = #{where.vParentId,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vMenuName != null">
+                and v_menu_name = #{where.vMenuName,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vMenuUrl != null">
+                and v_menu_url = #{where.vMenuUrl,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vMenuType != null">
+                and v_menu_type = #{where.vMenuType,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vIcon != null">
+                and v_icon = #{where.vIcon,jdbcType=VARCHAR}
+            </if>
+            <if test="where.iOrderNum != null">
+                and i_order_num = #{where.iOrderNum,jdbcType=INTEGER}
+            </if>
+            <if test="where.dtCreatetime != null">
+                and dt_createTime = #{where.dtCreatetime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="where.dtModifytime != null">
+                and dt_modifyTime = #{where.dtModifytime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="where.vCreateid != null">
+                and v_createid = #{where.vCreateid,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vModifyid != null">
+                and v_modifyid = #{where.vModifyid,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </update>
+
+    <!--通过主键修改实体列表，列表长度不能为0，注意：当实体属性为null时，对应的列也会别更新为null-->
+    <update id="updateBatch" parameterType="list">
+        update tbl_sys_menu
+        <trim prefix="set" suffixOverrides=",">
+            <trim prefix="v_parent_id = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_menu_id = #{item.vMenuId} then #{item.vParentId}
+                </foreach>
+            </trim>
+            <trim prefix="v_menu_name = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_menu_id = #{item.vMenuId} then #{item.vMenuName}
+                </foreach>
+            </trim>
+            <trim prefix="v_menu_url = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_menu_id = #{item.vMenuId} then #{item.vMenuUrl}
+                </foreach>
+            </trim>
+            <trim prefix="v_menu_type = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_menu_id = #{item.vMenuId} then #{item.vMenuType}
+                </foreach>
+            </trim>
+            <trim prefix="v_icon = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_menu_id = #{item.vMenuId} then #{item.vIcon}
+                </foreach>
+            </trim>
+            <trim prefix="i_order_num = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_menu_id = #{item.vMenuId} then #{item.iOrderNum}
+                </foreach>
+            </trim>
+            <trim prefix="dt_createTime = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_menu_id = #{item.vMenuId} then #{item.dtCreatetime}
+                </foreach>
+            </trim>
+            <trim prefix="dt_modifyTime = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_menu_id = #{item.vMenuId} then #{item.dtModifytime}
+                </foreach>
+            </trim>
+            <trim prefix="v_createid = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_menu_id = #{item.vMenuId} then #{item.vCreateid}
+                </foreach>
+            </trim>
+            <trim prefix="v_modifyid = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_menu_id = #{item.vMenuId} then #{item.vModifyid}
+                </foreach>
+            </trim>
+        </trim>
+        where v_menu_id in
+        <foreach collection="list" index="index" item="item" separator="," open="(" close=")">
+            #{item.vMenuId,jdbcType=VARCHAR}
+        </foreach>
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById" parameterType="java.lang.String">
+        delete
+        from tbl_sys_menu
+        where v_menu_id = #{vMenuId,jdbcType=VARCHAR}
+          and i_del_flag = 0
+    </delete>
+
+    <!--通过实体非空属性删除-->
+    <delete id="deleteByEntity" parameterType="com.shmashine.common.entity.TblSysMenu">
+        delete from tbl_sys_menu
+        <where>
+            <if test="vParentId != null">
+                and v_parent_id = #{vParentId,jdbcType=VARCHAR}
+            </if>
+            <if test="vMenuName != null">
+                and v_menu_name = #{vMenuName,jdbcType=VARCHAR}
+            </if>
+            <if test="vMenuUrl != null">
+                and v_menu_url = #{vMenuUrl,jdbcType=VARCHAR}
+            </if>
+            <if test="vMenuType != null">
+                and v_menu_type = #{vMenuType,jdbcType=VARCHAR}
+            </if>
+            <if test="vIcon != null">
+                and v_icon = #{vIcon,jdbcType=VARCHAR}
+            </if>
+            <if test="iOrderNum != null">
+                and i_order_num = #{iOrderNum,jdbcType=INTEGER}
+            </if>
+            <if test="dtCreatetime != null">
+                and dt_createTime = #{dtCreatetime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="dtModifytime != null">
+                and dt_modifyTime = #{dtModifytime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="vCreateid != null">
+                and v_createid = #{vCreateid,jdbcType=VARCHAR}
+            </if>
+            <if test="vModifyid != null">
+                and v_modifyid = #{vModifyid,jdbcType=VARCHAR}
+            </if>
+            and i_del_flag = 0
+        </where>
+    </delete>
+
+    <!--通过主键列表删除，列表长度不能为0-->
+    <delete id="deleteByIds" parameterType="list">
+        delete from tbl_sys_menu where v_menu_id in
+        <foreach item="item" collection="list" separator="," open="(" close=")" index="index">
+            #{item}
+        </foreach>
+        and i_del_flag = 0
+    </delete>
+
+    <select id="countAll" resultType="int">
+        select count(v_menu_id)
+        from tbl_sys_menu
+    </select>
+
+    <select id="countByEntity" parameterType="com.shmashine.common.entity.TblSysMenu" resultType="int">
+        select count(v_menu_id) from tbl_sys_menu
+        <where>
+            <if test="vMenuId != null">
+                and v_menu_id = #{vMenuId,jdbcType=VARCHAR}
+            </if>
+            <if test="vParentId != null">
+                and v_parent_id = #{vParentId,jdbcType=VARCHAR}
+            </if>
+            <if test="vMenuName != null">
+                and v_menu_name = #{vMenuName,jdbcType=VARCHAR}
+            </if>
+            <if test="vMenuUrl != null">
+                and v_menu_url = #{vMenuUrl,jdbcType=VARCHAR}
+            </if>
+            <if test="vMenuType != null">
+                and v_menu_type = #{vMenuType,jdbcType=VARCHAR}
+            </if>
+            <if test="vIcon != null">
+                and v_icon = #{vIcon,jdbcType=VARCHAR}
+            </if>
+            <if test="iOrderNum != null">
+                and i_order_num = #{iOrderNum,jdbcType=INTEGER}
+            </if>
+            <if test="dtCreatetime != null">
+                and dt_createTime = #{dtCreatetime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="dtModifytime != null">
+                and dt_modifyTime = #{dtModifytime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="vCreateid != null">
+                and v_createid = #{vCreateid,jdbcType=VARCHAR}
+            </if>
+            <if test="vModifyid != null">
+                and v_modifyid = #{vModifyid,jdbcType=VARCHAR}
+            </if>
+            and i_del_flag = 0
+        </where>
+    </select>
+</mapper>

@@ -1,0 +1,62 @@
+# sa-token 配置
+sa-token:
+  # 配置 Sa-Token 单独使用的 Redis 连接
+  alone-redis:
+    database: 13  # 默认13
+    host: redis.tech.internal.shmashine.com
+    port: 6379
+    password: shmashine@666
+    timeout: 5000
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://172.31.183.101:8008/eureka/
+  instance:
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+    # 优先使用IP地址方式进行注册服务
+    prefer-ip-address: true
+
+spring:
+  redis:
+    database: 2
+    host: 106.14.192.66
+    port: 6379
+    password: fb8GDavR
+    timeout: 5000
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://rm-bp1n9d80pc03n1ag4qo.mysql.rds.aliyuncs.com:3306/elevator_master?useSSL=false&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+    username: shmashine
+    password: SHAMSHINE@sfbhsdjkfgsd#678
+  kafka:
+    producer:
+      bootstrap-servers: kafka:9092
+      retries: 0
+      batch-size: 16384
+      buffer-memory: 33554432
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      properties:
+        security.protocol: SASL_PLAINTEXT
+        sasl.mechanism: PLAIN
+        sasl.jaas.config: org.apache.kafka.common.security.plain.PlainLoginModule required username="producer" password="secret20190219";
+    consumer:
+      bootstrap-servers: kafka:9092
+      group-id: oreo-socket-group-testwu-test
+      auto-offset-reset: latest
+      enable-auto-commit: true
+      auto-commit-interval: 100
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      properties:
+        security.protocol: SASL_PLAINTEXT
+        sasl.mechanism: PLAIN
+        sasl.jaas.config: org.apache.kafka.common.security.plain.PlainLoginModule required username="producer" password="secret20190219";
+
+# kafka topic 名称
+kafka:
+  topic:
+    fault: pro_oreo_fault
+    pre-fault: pro_oreo_preFault

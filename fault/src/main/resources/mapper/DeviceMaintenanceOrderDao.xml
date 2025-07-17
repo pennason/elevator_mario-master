@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.fault.dal.dao.DeviceMaintenanceOrderDAO">
+
+    <!--获取未完成状态的运维单-->
+    <select id="queryByElevatorAndNotComplete" resultType="com.shmashine.common.entity.DeviceMaintenanceOrder">
+        SELECT *
+        FROM device_maintenance_order
+        WHERE elevator_code = #{elevatorCode}
+          AND order_status &lt;&gt; 4
+    </select>
+
+    <!--更新工单-->
+    <update id="updateOrderById">
+        update device_maintenance_order
+        <set>
+            <if test="faultName != null and faultName != ''">
+                fault_name = #{faultName},
+            </if>
+            <if test="distributeOrdersTime != null and distributeOrdersTime != ''">
+                distribute_orders_time = #{distributeOrdersTime},
+            </if>
+            <if test="appointed != null and appointed != ''">
+                appointed = #{appointed},
+            </if>
+            <if test="completeTime != null and completeTime != ''">
+                complete_time = #{completeTime},
+            </if>
+            <if test="executor != null and executor != ''">
+                executor = #{executor},
+            </if>
+            <if test="orderStatus != null and orderStatus != ''">
+                order_status = #{orderStatus},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--新增工单-->
+    <insert id="insert">
+        insert into device_maintenance_order
+        (id, project_id, project_name, village_id, village_name, address, elevator_code, fault_name,
+         order_generation_time, create_time)
+            value (#{id},#{projectId},#{projectName},#{villageId},#{villageName},#{address},#{elevatorCode},#{faultName},#{orderGenerationTime},#{createTime})
+    </insert>
+
+</mapper>

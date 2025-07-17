@@ -1,0 +1,17 @@
+spring:
+  redis:
+    database: 2
+    host: 10.0.0.113
+    port: 6379
+    password: shmashine@666
+    timeout: 5000
+
+  boot:
+    admin:
+      client:
+        url: http://spring-boot-admin:8080/
+        username: shmashine
+        password: shmashine
+        instance:
+          prefer-ip: true
+          service-url: http://shmashine-common-big-screen:8080/commonBigScreen

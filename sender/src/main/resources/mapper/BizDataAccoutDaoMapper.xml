@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shmashine.sender.dao.BizDataAccountDao">
+
+    <sql id="table_field">
+        v_data_account_id
+        , v_account_name, v_account_code, v_push_url, i_delay_duration, dt_create_time, dt_modify_time, v_create_user_id, v_modify_user_id, i_del_flag
+    </sql>
+
+    <select id="list" resultType="java.util.Map">
+        select
+        <include refid="table_field"/>
+        from
+        tbl_data_account as tbl
+        where tbl.i_del_flag = 0
+    </select>
+
+    <!--推送临港电梯-->
+    <select id="getElevatorsByLingang" resultType="com.shmashine.common.entity.TblElevator">
+        select *
+        from tbl_elevator
+        where v_http_pt_codes like '%linGang%'
+    </select>
+
+    <!--获取临港电梯基础信息-->
+    <select id="getElevatorsInfosByLingang" resultType="com.shmashine.common.entity.TblElevatorInfos">
+        SELECT ele.*,
+               provincial_city.v_areaName  AS province_name,
+               provincial_city2.v_areaName AS city_name,
+               provincial_city3.v_areaName AS area_name,
+               brand.v_elevator_brand_name AS elevator_brand_name,
+               dept.v_dept_name            AS maintain_company_name,
+               project.v_project_name      AS project_name,
+               village.v_village_name      AS v_village_name
+        FROM tbl_elevator ele
+                 left join tbl_sys_provincial_city provincial_city on provincial_city.i_areaId = ele.i_province_id
+                 left join tbl_sys_provincial_city provincial_city2 on provincial_city2.i_areaId = ele.i_city_id
+                 left join tbl_sys_provincial_city provincial_city3 on provincial_city3.i_areaId = ele.i_area_id
+                 left join tbl_elevator_brand brand on brand.v_elevator_brand_id = ele.v_elevator_brand_id
+                 left join tbl_sys_dept dept on dept.v_dept_id = ele.v_maintain_company_id and dept.i_dept_type_id = '1'
+                 left join tbl_project project on project.v_project_id = ele.v_project_id
+                 left join tbl_village village on village.v_village_id = ele.v_village_id
+        WHERE ele.v_http_pt_codes LIKE '%linGang%'
+    </select>
+
+</mapper>

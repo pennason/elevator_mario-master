@@ -1,0 +1,31 @@
+
+### 测试获取历史视频
+POST http://localhost:8005/camera/download-camera-file-by-elevator-code
+Content-Type: application/json
+Authorization: Bearer zdrXrRh4oNMsS6Y71W81Zxuqggk
+User_id: shmashine666
+
+{
+  "elevatorCode": "MXCS16",
+  "collectTime": "2023-07-27 10:00:00",
+  "startTime": "2023-07-27 10:00:00",
+  "endTime": "2023-07-27 10:00:20",
+  "floor": "2",
+  "taskType": "EMERGENCY_REPAIR_FIRST_AID",
+  "taskCustomId": "MXCS16-20230727100000",
+  "taskCustomType": 0,
+  "mediaType": "MP4"
+}
+
+
+### counter
+GET http://47.105.214.0:8086/counter/getLitterScreen?projectId=8157543493636653056&groupId=yidian
+
+### ezopenToken
+GET http://47.105.214.0/cameras/ezopenToken
+
+###
+GET /sender/fault/resend/{faultId}/{cameraType}
+
+### 重发
+GET http://localhost:8086/sender/fault/resend/MXCS16-20230727100000/4

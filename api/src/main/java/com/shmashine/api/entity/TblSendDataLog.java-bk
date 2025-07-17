@@ -1,0 +1,77 @@
+package com.shmashine.api.entity;
+
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+
+/**
+ * @author chenx
+ */
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode(callSuper = true)
+public class TblSendDataLog extends PageListParams {
+
+    /**
+     * id（自增长主键）
+     */
+    private Long id;
+
+    /**
+     *设备出厂编号
+     */
+    private String productId;
+
+    /**
+     * 电梯识别码
+     */
+    private String identificationNumber;
+
+    /**
+     * 设备注册代码
+     */
+    private String idNr;
+
+    /**
+     * 发送时间
+     */
+    private String sendTime;
+
+    /**
+     * 电梯数据类型（状态、故障等）
+     */
+    private String dataType;
+
+    /**
+     * 发送数据的内容
+     */
+    private String sendData;
+
+    /**
+     * 响应数据的内容
+     */
+    private String responseData;
+
+    /**
+     * 1表示成功0表示失败
+     */
+    private Integer isSuccess;
+
+    /**
+     * 城市区号
+     */
+    private String areaCode;
+
+    /**
+     * 设备制造商
+     */
+    private String vendor;
+    /**
+     * 城市名称
+     */
+    private String city;
+
+}

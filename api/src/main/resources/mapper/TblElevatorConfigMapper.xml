@@ -1,0 +1,1217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.api.dao.TblElevatorConfigDao">
+
+    <resultMap type="com.shmashine.common.entity.TblElevatorConfig" id="TblElevatorConfigResultMap">
+        <result property="elevatorConfigId" column="elevator_config_id" jdbcType="VARCHAR"/>
+        <result property="elevatorId" column="elevator_id" jdbcType="VARCHAR"/>
+        <result property="elevatorCode" column="elevator_code" jdbcType="VARCHAR"/>
+        <result property="volume" column="volume" jdbcType="VARCHAR"/>
+        <result property="videoMask" column="video_mask" jdbcType="VARCHAR"/>
+        <result property="voiceMask" column="voice_mask" jdbcType="VARCHAR"/>
+        <result property="videoJump" column="video_jump" jdbcType="VARCHAR"/>
+        <result property="voiceJump" column="voice_jump" jdbcType="VARCHAR"/>
+        <result property="videoDoor" column="video_door" jdbcType="VARCHAR"/>
+        <result property="voiceDoor" column="voice_door" jdbcType="VARCHAR"/>
+        <result property="loadQ" column="load_q" jdbcType="VARCHAR"/>
+        <result property="ropesNum" column="ropes_num" jdbcType="VARCHAR"/>
+        <result property="acceleration" column="acceleration" jdbcType="VARCHAR"/>
+        <result property="guidanceFactor" column="guidance_factor" jdbcType="VARCHAR"/>
+        <result property="ropeEfficiency" column="rope_efficiency" jdbcType="VARCHAR"/>
+        <result property="bearingRopes" column="bearing_ropes" jdbcType="VARCHAR"/>
+        <result property="loadSpeed" column="load_speed" jdbcType="VARCHAR"/>
+        <result property="ropeDiameter" column="rope_diameter" jdbcType="VARCHAR"/>
+        <result property="sheaveDiameter" column="sheave_diameter" jdbcType="VARCHAR"/>
+        <result property="tensileStrength" column="tensile_strength" jdbcType="VARCHAR"/>
+        <result property="bendingLength" column="bending_length" jdbcType="VARCHAR"/>
+        <result property="ropeLubrication" column="rope_lubrication" jdbcType="VARCHAR"/>
+        <result property="ropeConstruction" column="rope_construction" jdbcType="VARCHAR"/>
+        <result property="grooveRadius" column="groove_radius" jdbcType="VARCHAR"/>
+        <result property="undercutAngle" column="undercut_angle" jdbcType="VARCHAR"/>
+        <result property="angle" column="angle" jdbcType="VARCHAR"/>
+        <result property="sideDeflection" column="side_deflection" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="modifyTime" column="modify_time" jdbcType="TIMESTAMP"/>
+        <result property="createUserId" column="create_user_id" jdbcType="VARCHAR"/>
+        <result property="modifyUserId" column="modify_user_id" jdbcType="VARCHAR"/>
+        <result property="delFlag" column="del_flag" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="table_field">
+        elevator_config_id
+        , elevator_id, elevator_code, volume, video_mask, voice_mask, video_jump, voice_jump, video_door, voice_door, load_q, ropes_num, acceleration, guidance_factor, rope_efficiency, bearing_ropes, load_speed, rope_diameter, sheave_diameter, tensile_strength, bending_length, rope_lubrication, rope_construction, groove_radius, undercut_angle, angle, side_deflection, create_time, modify_time, create_user_id, modify_user_id, del_flag
+    </sql>
+
+    <!--通过Id查询单个-->
+    <select id="getById" resultMap="TblElevatorConfigResultMap" parameterType="java.lang.String">
+        select
+        <include refid="table_field"/>
+        from tbl_elevator_config
+        where elevator_config_id = #{elevatorConfigId,jdbcType=VARCHAR}
+    </select>
+
+
+    <!--通过实体不为空的属性作为筛选条件查询列表-->
+    <select id="listByEntity" resultMap="TblElevatorConfigResultMap"
+            parameterType="com.shmashine.common.entity.TblElevatorConfig">
+        select
+        <include refid="table_field"/>
+        from tbl_elevator_config
+        <where>
+            <if test="elevatorConfigId != null">
+                and elevator_config_id = #{elevatorConfigId,jdbcType=VARCHAR}
+            </if>
+            <if test="elevatorId != null">
+                and elevator_id = #{elevatorId,jdbcType=VARCHAR}
+            </if>
+            <if test="elevatorCode != null">
+                and elevator_code = #{elevatorCode,jdbcType=VARCHAR}
+            </if>
+            <if test="volume != null">
+                and volume = #{volume,jdbcType=VARCHAR}
+            </if>
+            <if test="videoMask != null">
+                and video_mask = #{videoMask,jdbcType=VARCHAR}
+            </if>
+            <if test="voiceMask != null">
+                and voice_mask = #{voiceMask,jdbcType=VARCHAR}
+            </if>
+            <if test="videoJump != null">
+                and video_jump = #{videoJump,jdbcType=VARCHAR}
+            </if>
+            <if test="voiceJump != null">
+                and voice_jump = #{voiceJump,jdbcType=VARCHAR}
+            </if>
+            <if test="videoDoor != null">
+                and video_door = #{videoDoor,jdbcType=VARCHAR}
+            </if>
+            <if test="voiceDoor != null">
+                and voice_door = #{voiceDoor,jdbcType=VARCHAR}
+            </if>
+            <if test="loadQ != null">
+                and load_q = #{loadQ,jdbcType=VARCHAR}
+            </if>
+            <if test="ropesNum != null">
+                and ropes_num = #{ropesNum,jdbcType=VARCHAR}
+            </if>
+            <if test="acceleration != null">
+                and acceleration = #{acceleration,jdbcType=VARCHAR}
+            </if>
+            <if test="guidanceFactor != null">
+                and guidance_factor = #{guidanceFactor,jdbcType=VARCHAR}
+            </if>
+            <if test="ropeEfficiency != null">
+                and rope_efficiency = #{ropeEfficiency,jdbcType=VARCHAR}
+            </if>
+            <if test="bearingRopes != null">
+                and bearing_ropes = #{bearingRopes,jdbcType=VARCHAR}
+            </if>
+            <if test="loadSpeed != null">
+                and load_speed = #{loadSpeed,jdbcType=VARCHAR}
+            </if>
+            <if test="ropeDiameter != null">
+                and rope_diameter = #{ropeDiameter,jdbcType=VARCHAR}
+            </if>
+            <if test="sheaveDiameter != null">
+                and sheave_diameter = #{sheaveDiameter,jdbcType=VARCHAR}
+            </if>
+            <if test="tensileStrength != null">
+                and tensile_strength = #{tensileStrength,jdbcType=VARCHAR}
+            </if>
+            <if test="bendingLength != null">
+                and bending_length = #{bendingLength,jdbcType=VARCHAR}
+            </if>
+            <if test="ropeLubrication != null">
+                and rope_lubrication = #{ropeLubrication,jdbcType=VARCHAR}
+            </if>
+            <if test="ropeConstruction != null">
+                and rope_construction = #{ropeConstruction,jdbcType=VARCHAR}
+            </if>
+            <if test="grooveRadius != null">
+                and groove_radius = #{grooveRadius,jdbcType=VARCHAR}
+            </if>
+            <if test="undercutAngle != null">
+                and undercut_angle = #{undercutAngle,jdbcType=VARCHAR}
+            </if>
+            <if test="angle != null">
+                and angle = #{angle,jdbcType=VARCHAR}
+            </if>
+            <if test="sideDeflection != null">
+                and side_deflection = #{sideDeflection,jdbcType=VARCHAR}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="modifyTime != null">
+                and modify_time = #{modifyTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="createUserId != null">
+                and create_user_id = #{createUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="modifyUserId != null">
+                and modify_user_id = #{modifyUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="delFlag != null">
+                and del_flag = #{delFlag,jdbcType=INTEGER}
+            </if>
+        </where>
+    </select>
+
+    <!--通过实体不为空的属性作为筛选条件查询单个-->
+    <select id="getByEntity" resultMap="TblElevatorConfigResultMap"
+            parameterType="com.shmashine.common.entity.TblElevatorConfig">
+        select
+        <include refid="table_field"/>
+        from tbl_elevator_config
+        <where>
+            <if test="elevatorConfigId != null">
+                and elevator_config_id = #{elevatorConfigId,jdbcType=VARCHAR}
+            </if>
+            <if test="elevatorId != null">
+                and elevator_id = #{elevatorId,jdbcType=VARCHAR}
+            </if>
+            <if test="elevatorCode != null">
+                and elevator_code = #{elevatorCode,jdbcType=VARCHAR}
+            </if>
+            <if test="volume != null">
+                and volume = #{volume,jdbcType=VARCHAR}
+            </if>
+            <if test="videoMask != null">
+                and video_mask = #{videoMask,jdbcType=VARCHAR}
+            </if>
+            <if test="voiceMask != null">
+                and voice_mask = #{voiceMask,jdbcType=VARCHAR}
+            </if>
+            <if test="videoJump != null">
+                and video_jump = #{videoJump,jdbcType=VARCHAR}
+            </if>
+            <if test="voiceJump != null">
+                and voice_jump = #{voiceJump,jdbcType=VARCHAR}
+            </if>
+            <if test="videoDoor != null">
+                and video_door = #{videoDoor,jdbcType=VARCHAR}
+            </if>
+            <if test="voiceDoor != null">
+                and voice_door = #{voiceDoor,jdbcType=VARCHAR}
+            </if>
+            <if test="loadQ != null">
+                and load_q = #{loadQ,jdbcType=VARCHAR}
+            </if>
+            <if test="ropesNum != null">
+                and ropes_num = #{ropesNum,jdbcType=VARCHAR}
+            </if>
+            <if test="acceleration != null">
+                and acceleration = #{acceleration,jdbcType=VARCHAR}
+            </if>
+            <if test="guidanceFactor != null">
+                and guidance_factor = #{guidanceFactor,jdbcType=VARCHAR}
+            </if>
+            <if test="ropeEfficiency != null">
+                and rope_efficiency = #{ropeEfficiency,jdbcType=VARCHAR}
+            </if>
+            <if test="bearingRopes != null">
+                and bearing_ropes = #{bearingRopes,jdbcType=VARCHAR}
+            </if>
+            <if test="loadSpeed != null">
+                and load_speed = #{loadSpeed,jdbcType=VARCHAR}
+            </if>
+            <if test="ropeDiameter != null">
+                and rope_diameter = #{ropeDiameter,jdbcType=VARCHAR}
+            </if>
+            <if test="sheaveDiameter != null">
+                and sheave_diameter = #{sheaveDiameter,jdbcType=VARCHAR}
+            </if>
+            <if test="tensileStrength != null">
+                and tensile_strength = #{tensileStrength,jdbcType=VARCHAR}
+            </if>
+            <if test="bendingLength != null">
+                and bending_length = #{bendingLength,jdbcType=VARCHAR}
+            </if>
+            <if test="ropeLubrication != null">
+                and rope_lubrication = #{ropeLubrication,jdbcType=VARCHAR}
+            </if>
+            <if test="ropeConstruction != null">
+                and rope_construction = #{ropeConstruction,jdbcType=VARCHAR}
+            </if>
+            <if test="grooveRadius != null">
+                and groove_radius = #{grooveRadius,jdbcType=VARCHAR}
+            </if>
+            <if test="undercutAngle != null">
+                and undercut_angle = #{undercutAngle,jdbcType=VARCHAR}
+            </if>
+            <if test="angle != null">
+                and angle = #{angle,jdbcType=VARCHAR}
+            </if>
+            <if test="sideDeflection != null">
+                and side_deflection = #{sideDeflection,jdbcType=VARCHAR}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="modifyTime != null">
+                and modify_time = #{modifyTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="createUserId != null">
+                and create_user_id = #{createUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="modifyUserId != null">
+                and modify_user_id = #{modifyUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="delFlag != null">
+                and del_flag = #{delFlag,jdbcType=INTEGER}
+            </if>
+        </where>
+    </select>
+
+    <!--通过Id列表作为筛选条件查询列表，列表长度不为0-->
+    <select id="listByIds" resultMap="TblElevatorConfigResultMap" parameterType="list">
+        select
+        <include refid="table_field"/>
+        from tbl_elevator_config
+        where elevator_config_id in
+        <foreach item="item" collection="list" separator="," open="(" close=")" index="index">
+            #{item}
+        </foreach>
+    </select>
+
+    <!--新增实体属性不为null的列-->
+    <insert id="insert" keyProperty="elevatorConfigId" useGeneratedKeys="true"
+            parameterType="com.shmashine.common.entity.TblElevatorConfig">
+        insert into tbl_elevator_config
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="elevatorConfigId != null">
+                elevator_config_id,
+            </if>
+            <if test="elevatorId != null">
+                elevator_id,
+            </if>
+            <if test="elevatorCode != null">
+                elevator_code,
+            </if>
+            <if test="isOpenDetectedPeopleNums != null">
+                is_open_detected_people_nums,
+            </if>
+            <if test="volume != null">
+                volume,
+            </if>
+            <if test="videoMask != null">
+                video_mask,
+            </if>
+            <if test="voiceMask != null">
+                voice_mask,
+            </if>
+            <if test="videoJump != null">
+                video_jump,
+            </if>
+            <if test="voiceJump != null">
+                voice_jump,
+            </if>
+            <if test="videoDoor != null">
+                video_door,
+            </if>
+            <if test="voiceDoor != null">
+                voice_door,
+            </if>
+            <if test="loadQ != null">
+                load_q,
+            </if>
+            <if test="ropesNum != null">
+                ropes_num,
+            </if>
+            <if test="acceleration != null">
+                acceleration,
+            </if>
+            <if test="guidanceFactor != null">
+                guidance_factor,
+            </if>
+            <if test="ropeEfficiency != null">
+                rope_efficiency,
+            </if>
+            <if test="bearingRopes != null">
+                bearing_ropes,
+            </if>
+            <if test="loadSpeed != null">
+                load_speed,
+            </if>
+            <if test="ropeDiameter != null">
+                rope_diameter,
+            </if>
+            <if test="sheaveDiameter != null">
+                sheave_diameter,
+            </if>
+            <if test="tensileStrength != null">
+                tensile_strength,
+            </if>
+            <if test="bendingLength != null">
+                bending_length,
+            </if>
+            <if test="ropeLubrication != null">
+                rope_lubrication,
+            </if>
+            <if test="ropeConstruction != null">
+                rope_construction,
+            </if>
+            <if test="grooveRadius != null">
+                groove_radius,
+            </if>
+            <if test="undercutAngle != null">
+                undercut_angle,
+            </if>
+            <if test="angle != null">
+                angle,
+            </if>
+            <if test="sideDeflection != null">
+                side_deflection,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="modifyTime != null">
+                modify_time,
+            </if>
+            <if test="createUserId != null">
+                create_user_id,
+            </if>
+            <if test="modifyUserId != null">
+                modify_user_id,
+            </if>
+            <if test="delFlag != null">
+                del_flag,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="elevatorConfigId != null">
+                #{elevatorConfigId,jdbcType=VARCHAR},
+            </if>
+            <if test="elevatorId != null">
+                #{elevatorId,jdbcType=VARCHAR},
+            </if>
+            <if test="elevatorCode != null">
+                #{elevatorCode,jdbcType=VARCHAR},
+            </if>
+            <if test="isOpenDetectedPeopleNums != null">
+                #{isOpenDetectedPeopleNums},
+            </if>
+            <if test="volume != null">
+                #{volume,jdbcType=VARCHAR},
+            </if>
+            <if test="videoMask != null">
+                #{videoMask,jdbcType=VARCHAR},
+            </if>
+            <if test="voiceMask != null">
+                #{voiceMask,jdbcType=VARCHAR},
+            </if>
+            <if test="videoJump != null">
+                #{videoJump,jdbcType=VARCHAR},
+            </if>
+            <if test="voiceJump != null">
+                #{voiceJump,jdbcType=VARCHAR},
+            </if>
+            <if test="videoDoor != null">
+                #{videoDoor,jdbcType=VARCHAR},
+            </if>
+            <if test="voiceDoor != null">
+                #{voiceDoor,jdbcType=VARCHAR},
+            </if>
+            <if test="loadQ != null">
+                #{loadQ,jdbcType=VARCHAR},
+            </if>
+            <if test="ropesNum != null">
+                #{ropesNum,jdbcType=VARCHAR},
+            </if>
+            <if test="acceleration != null">
+                #{acceleration,jdbcType=VARCHAR},
+            </if>
+            <if test="guidanceFactor != null">
+                #{guidanceFactor,jdbcType=VARCHAR},
+            </if>
+            <if test="ropeEfficiency != null">
+                #{ropeEfficiency,jdbcType=VARCHAR},
+            </if>
+            <if test="bearingRopes != null">
+                #{bearingRopes,jdbcType=VARCHAR},
+            </if>
+            <if test="loadSpeed != null">
+                #{loadSpeed,jdbcType=VARCHAR},
+            </if>
+            <if test="ropeDiameter != null">
+                #{ropeDiameter,jdbcType=VARCHAR},
+            </if>
+            <if test="sheaveDiameter != null">
+                #{sheaveDiameter,jdbcType=VARCHAR},
+            </if>
+            <if test="tensileStrength != null">
+                #{tensileStrength,jdbcType=VARCHAR},
+            </if>
+            <if test="bendingLength != null">
+                #{bendingLength,jdbcType=VARCHAR},
+            </if>
+            <if test="ropeLubrication != null">
+                #{ropeLubrication,jdbcType=VARCHAR},
+            </if>
+            <if test="ropeConstruction != null">
+                #{ropeConstruction,jdbcType=VARCHAR},
+            </if>
+            <if test="grooveRadius != null">
+                #{grooveRadius,jdbcType=VARCHAR},
+            </if>
+            <if test="undercutAngle != null">
+                #{undercutAngle,jdbcType=VARCHAR},
+            </if>
+            <if test="angle != null">
+                #{angle,jdbcType=VARCHAR},
+            </if>
+            <if test="sideDeflection != null">
+                #{sideDeflection,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifyTime != null">
+                #{modifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createUserId != null">
+                #{createUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="modifyUserId != null">
+                #{modifyUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="delFlag != null">
+                #{delFlag,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+
+    <!--批量新增所有列，列表长度不能为0-->
+    <insert id="insertBatch" keyProperty="elevatorConfigId" useGeneratedKeys="true" parameterType="list">
+        insert into tbl_elevator_config
+        (elevator_config_id,elevator_id, elevator_code, volume, video_mask, voice_mask, video_jump, voice_jump,
+        video_door, voice_door, load_q, ropes_num, acceleration, guidance_factor, rope_efficiency, bearing_ropes,
+        load_speed, rope_diameter, sheave_diameter, tensile_strength, bending_length, rope_lubrication,
+        rope_construction, groove_radius, undercut_angle, angle, side_deflection, create_time, modify_time,
+        create_user_id, modify_user_id, del_flag)
+        values
+        <foreach item="item" collection="list" separator="," open="" close="" index="index">
+            (#{elevatorConfigId,jdbcType=VARCHAR},#{item.elevatorId,jdbcType=VARCHAR},
+            #{item.elevatorCode,jdbcType=VARCHAR}, #{item.volume,jdbcType=VARCHAR}, #{item.videoMask,jdbcType=VARCHAR},
+            #{item.voiceMask,jdbcType=VARCHAR}, #{item.videoJump,jdbcType=VARCHAR}, #{item.voiceJump,jdbcType=VARCHAR},
+            #{item.videoDoor,jdbcType=VARCHAR}, #{item.voiceDoor,jdbcType=VARCHAR}, #{item.loadQ,jdbcType=VARCHAR},
+            #{item.ropesNum,jdbcType=VARCHAR}, #{item.acceleration,jdbcType=VARCHAR},
+            #{item.guidanceFactor,jdbcType=VARCHAR}, #{item.ropeEfficiency,jdbcType=VARCHAR},
+            #{item.bearingRopes,jdbcType=VARCHAR}, #{item.loadSpeed,jdbcType=VARCHAR},
+            #{item.ropeDiameter,jdbcType=VARCHAR}, #{item.sheaveDiameter,jdbcType=VARCHAR},
+            #{item.tensileStrength,jdbcType=VARCHAR}, #{item.bendingLength,jdbcType=VARCHAR},
+            #{item.ropeLubrication,jdbcType=VARCHAR}, #{item.ropeConstruction,jdbcType=VARCHAR},
+            #{item.grooveRadius,jdbcType=VARCHAR}, #{item.undercutAngle,jdbcType=VARCHAR},
+            #{item.angle,jdbcType=VARCHAR}, #{item.sideDeflection,jdbcType=VARCHAR},
+            #{item.createTime,jdbcType=TIMESTAMP}, #{item.modifyTime,jdbcType=TIMESTAMP},
+            #{item.createUserId,jdbcType=VARCHAR}, #{item.modifyUserId,jdbcType=VARCHAR},
+            #{item.delFlag,jdbcType=INTEGER})
+        </foreach>
+    </insert>
+
+    <!--通过主键修改实体属性不为null的列-->
+    <update id="update" parameterType="com.shmashine.common.entity.TblElevatorConfig">
+        update tbl_elevator_config
+        <set>
+            <if test="elevatorId != null and elevatorId != ''">
+                elevator_id = #{elevatorId,jdbcType=VARCHAR},
+            </if>
+            <if test="elevatorCode != null and elevatorCode != ''">
+                elevator_code = #{elevatorCode,jdbcType=VARCHAR},
+            </if>
+            <if test="isOpenDetectedPeopleNums != null ">
+                is_open_detected_people_nums = #{isOpenDetectedPeopleNums},
+            </if>
+            <if test="volume != null and volume != ''">
+                volume = #{volume,jdbcType=VARCHAR},
+            </if>
+            <if test="videoMask != null and videoMask != ''">
+                video_mask = #{videoMask,jdbcType=VARCHAR},
+            </if>
+            <if test="voiceMask != null and voiceMask != ''">
+                voice_mask = #{voiceMask,jdbcType=VARCHAR},
+            </if>
+            <if test="videoJump != null and videoJump != ''">
+                video_jump = #{videoJump,jdbcType=VARCHAR},
+            </if>
+            <if test="voiceJump != null and voiceJump != ''">
+                voice_jump = #{voiceJump,jdbcType=VARCHAR},
+            </if>
+            <if test="videoDoor != null and videoDoor != ''">
+                video_door = #{videoDoor,jdbcType=VARCHAR},
+            </if>
+            <if test="voiceDoor != null and voiceDoor != ''">
+                voice_door = #{voiceDoor,jdbcType=VARCHAR},
+            </if>
+            <if test="loadQ != null and loadQ != ''">
+                load_q = #{loadQ,jdbcType=VARCHAR},
+            </if>
+            <if test="ropesNum != null and ropesNum != ''">
+                ropes_num = #{ropesNum,jdbcType=VARCHAR},
+            </if>
+            <if test="acceleration != null and acceleration != ''">
+                acceleration = #{acceleration,jdbcType=VARCHAR},
+            </if>
+            <if test="guidanceFactor != null and guidanceFactor != ''">
+                guidance_factor = #{guidanceFactor,jdbcType=VARCHAR},
+            </if>
+            <if test="ropeEfficiency != null and ropeEfficiency != ''">
+                rope_efficiency = #{ropeEfficiency,jdbcType=VARCHAR},
+            </if>
+            <if test="bearingRopes != null and bearingRopes != ''">
+                bearing_ropes = #{bearingRopes,jdbcType=VARCHAR},
+            </if>
+            <if test="loadSpeed != null and loadSpeed != ''">
+                load_speed = #{loadSpeed,jdbcType=VARCHAR},
+            </if>
+            <if test="ropeDiameter != null and ropeDiameter != ''">
+                rope_diameter = #{ropeDiameter,jdbcType=VARCHAR},
+            </if>
+            <if test="sheaveDiameter != null and sheaveDiameter != ''">
+                sheave_diameter = #{sheaveDiameter,jdbcType=VARCHAR},
+            </if>
+            <if test="tensileStrength != null and tensileStrength != ''">
+                tensile_strength = #{tensileStrength,jdbcType=VARCHAR},
+            </if>
+            <if test="bendingLength != null and bendingLength != ''">
+                bending_length = #{bendingLength,jdbcType=VARCHAR},
+            </if>
+            <if test="ropeLubrication != null and ropeLubrication != ''">
+                rope_lubrication = #{ropeLubrication,jdbcType=VARCHAR},
+            </if>
+            <if test="ropeConstruction != null and ropeConstruction != ''">
+                rope_construction = #{ropeConstruction,jdbcType=VARCHAR},
+            </if>
+            <if test="grooveRadius != null and grooveRadius != ''">
+                groove_radius = #{grooveRadius,jdbcType=VARCHAR},
+            </if>
+            <if test="undercutAngle != null and undercutAngle != ''">
+                undercut_angle = #{undercutAngle,jdbcType=VARCHAR},
+            </if>
+            <if test="angle != null and angle != ''">
+                angle = #{angle,jdbcType=VARCHAR},
+            </if>
+            <if test="sideDeflection != null and sideDeflection != ''">
+                side_deflection = #{sideDeflection,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifyTime != null">
+                modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createUserId != null and createUserId != ''">
+                create_user_id = #{createUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="modifyUserId != null and modifyUserId != ''">
+                modify_user_id = #{modifyUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="delFlag != null">
+                del_flag = #{delFlag,jdbcType=INTEGER},
+            </if>
+        </set>
+        where elevator_config_id = #{elevatorConfigId,jdbcType=VARCHAR}
+    </update>
+
+    <!--通过表字段修改实体属性不为null的列-->
+    <update id="updateByField">
+        update tbl_elevator_config
+        <set>
+            <if test="where.elevatorId == null and set.elevatorId != null and set.elevatorId != ''">
+                elevator_id = #{set.elevatorId,jdbcType=VARCHAR},
+            </if>
+            <if test="where.elevatorCode == null and set.elevatorCode != null and set.elevatorCode != ''">
+                elevator_code = #{set.elevatorCode,jdbcType=VARCHAR},
+            </if>
+            <if test="where.volume == null and set.volume != null and set.volume != ''">
+                volume = #{set.volume,jdbcType=VARCHAR},
+            </if>
+            <if test="where.videoMask == null and set.videoMask != null and set.videoMask != ''">
+                video_mask = #{set.videoMask,jdbcType=VARCHAR},
+            </if>
+            <if test="where.voiceMask == null and set.voiceMask != null and set.voiceMask != ''">
+                voice_mask = #{set.voiceMask,jdbcType=VARCHAR},
+            </if>
+            <if test="where.videoJump == null and set.videoJump != null and set.videoJump != ''">
+                video_jump = #{set.videoJump,jdbcType=VARCHAR},
+            </if>
+            <if test="where.voiceJump == null and set.voiceJump != null and set.voiceJump != ''">
+                voice_jump = #{set.voiceJump,jdbcType=VARCHAR},
+            </if>
+            <if test="where.videoDoor == null and set.videoDoor != null and set.videoDoor != ''">
+                video_door = #{set.videoDoor,jdbcType=VARCHAR},
+            </if>
+            <if test="where.voiceDoor == null and set.voiceDoor != null and set.voiceDoor != ''">
+                voice_door = #{set.voiceDoor,jdbcType=VARCHAR},
+            </if>
+            <if test="where.loadQ == null and set.loadQ != null and set.loadQ != ''">
+                load_q = #{set.load_q,jdbcType=VARCHAR},
+            </if>
+            <if test="where.ropesNum == null and set.ropesNum != null and set.ropesNum != ''">
+                ropes_num = #{set.ropesNum,jdbcType=VARCHAR},
+            </if>
+            <if test="where.acceleration == null and set.acceleration != null and set.acceleration != ''">
+                acceleration = #{set.acceleration,jdbcType=VARCHAR},
+            </if>
+            <if test="where.guidanceFactor == null and set.guidanceFactor != null and set.guidanceFactor != ''">
+                guidance_factor = #{set.guidanceFactor,jdbcType=VARCHAR},
+            </if>
+            <if test="where.ropeEfficiency == null and set.ropeEfficiency != null and set.ropeEfficiency != ''">
+                rope_efficiency = #{set.ropeEfficiency,jdbcType=VARCHAR},
+            </if>
+            <if test="where.bearingRopes == null and set.bearingRopes != null and set.bearingRopes != ''">
+                bearing_ropes = #{set.bearingRopes,jdbcType=VARCHAR},
+            </if>
+            <if test="where.loadSpeed == null and set.loadSpeed != null and set.loadSpeed != ''">
+                load_speed = #{set.loadSpeed,jdbcType=VARCHAR},
+            </if>
+            <if test="where.ropeDiameter == null and set.ropeDiameter != null and set.ropeDiameter != ''">
+                rope_diameter = #{set.ropeDiameter,jdbcType=VARCHAR},
+            </if>
+            <if test="where.sheaveDiameter == null and set.sheaveDiameter != null and set.sheaveDiameter != ''">
+                sheave_diameter = #{set.sheaveDiameter,jdbcType=VARCHAR},
+            </if>
+            <if test="where.tensileStrength == null and set.tensileStrength != null and set.tensileStrength != ''">
+                tensile_strength = #{set.tensileStrength,jdbcType=VARCHAR},
+            </if>
+            <if test="where.bendingLength == null and set.bendingLength != null and set.bendingLength != ''">
+                bending_length = #{set.bendingLength,jdbcType=VARCHAR},
+            </if>
+            <if test="where.ropeLubrication == null and set.ropeLubrication != null and set.ropeLubrication != ''">
+                rope_lubrication = #{set.ropeLubrication,jdbcType=VARCHAR},
+            </if>
+            <if test="where.ropeConstruction == null and set.ropeConstruction != null and set.ropeConstruction != ''">
+                rope_construction = #{set.ropeConstruction,jdbcType=VARCHAR},
+            </if>
+            <if test="where.grooveRadius == null and set.grooveRadius != null and set.grooveRadius != ''">
+                groove_radius = #{set.grooveRadius,jdbcType=VARCHAR},
+            </if>
+            <if test="where.undercutAngle == null and set.undercutAngle != null and set.undercutAngle != ''">
+                undercut_angle = #{set.undercutAngle,jdbcType=VARCHAR},
+            </if>
+            <if test="where.angle == null and set.angle != null and set.angle != ''">
+                angle = #{set.angle,jdbcType=VARCHAR},
+            </if>
+            <if test="where.sideDeflection == null and set.sideDeflection != null and set.sideDeflection != ''">
+                side_deflection = #{set.sideDeflection,jdbcType=VARCHAR},
+            </if>
+            <if test="where.createTime == null and set.createTime != null">
+                create_time = #{set.createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="where.modifyTime == null and set.modifyTime != null">
+                modify_time = #{set.modifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="where.createUserId == null and set.createUserId != null and set.createUserId != ''">
+                create_user_id = #{set.createUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="where.modifyUserId == null and set.modifyUserId != null and set.modifyUserId != ''">
+                modify_user_id = #{set.modifyUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="where.delFlag == null and set.delFlag != null">
+                del_flag = #{set.delFlag,jdbcType=INTEGER},
+            </if>
+        </set>
+        <where>
+            <if test="where.elevatorConfigId != null">
+                and elevator_config_id = #{where.elevatorConfigId,jdbcType=VARCHAR}
+            </if>
+            <if test="where.elevatorId != null">
+                and elevator_id = #{where.elevatorId,jdbcType=VARCHAR}
+            </if>
+            <if test="where.elevatorCode != null">
+                and elevator_code = #{where.elevatorCode,jdbcType=VARCHAR}
+            </if>
+            <if test="where.volume != null">
+                and volume = #{where.volume,jdbcType=VARCHAR}
+            </if>
+            <if test="where.videoMask != null">
+                and video_mask = #{where.videoMask,jdbcType=VARCHAR}
+            </if>
+            <if test="where.voiceMask != null">
+                and voice_mask = #{where.voiceMask,jdbcType=VARCHAR}
+            </if>
+            <if test="where.videoJump != null">
+                and video_jump = #{where.videoJump,jdbcType=VARCHAR}
+            </if>
+            <if test="where.voiceJump != null">
+                and voice_jump = #{where.voiceJump,jdbcType=VARCHAR}
+            </if>
+            <if test="where.videoDoor != null">
+                and video_door = #{where.videoDoor,jdbcType=VARCHAR}
+            </if>
+            <if test="where.voiceDoor != null">
+                and voice_door = #{where.voiceDoor,jdbcType=VARCHAR}
+            </if>
+            <if test="where.load_q != null">
+                and load_q = #{where.loadQ,jdbcType=VARCHAR}
+            </if>
+            <if test="where.ropesNum != null">
+                and ropes_num = #{where.ropesNum,jdbcType=VARCHAR}
+            </if>
+            <if test="where.acceleration != null">
+                and acceleration = #{where.acceleration,jdbcType=VARCHAR}
+            </if>
+            <if test="where.guidanceFactor != null">
+                and guidance_factor = #{where.guidanceFactor,jdbcType=VARCHAR}
+            </if>
+            <if test="where.ropeEfficiency != null">
+                and rope_efficiency = #{where.ropeEfficiency,jdbcType=VARCHAR}
+            </if>
+            <if test="where.bearingRopes != null">
+                and bearing_ropes = #{where.bearingRopes,jdbcType=VARCHAR}
+            </if>
+            <if test="where.loadSpeed != null">
+                and load_speed = #{where.loadSpeed,jdbcType=VARCHAR}
+            </if>
+            <if test="where.ropeDiameter != null">
+                and rope_diameter = #{where.ropeDiameter,jdbcType=VARCHAR}
+            </if>
+            <if test="where.sheaveDiameter != null">
+                and sheave_diameter = #{where.sheaveDiameter,jdbcType=VARCHAR}
+            </if>
+            <if test="where.tensileStrength != null">
+                and tensile_strength = #{where.tensileStrength,jdbcType=VARCHAR}
+            </if>
+            <if test="where.bendingLength != null">
+                and bending_length = #{where.bendingLength,jdbcType=VARCHAR}
+            </if>
+            <if test="where.ropeLubrication != null">
+                and rope_lubrication = #{where.ropeLubrication,jdbcType=VARCHAR}
+            </if>
+            <if test="where.ropeConstruction != null">
+                and rope_construction = #{where.ropeConstruction,jdbcType=VARCHAR}
+            </if>
+            <if test="where.grooveRadius != null">
+                and groove_radius = #{where.grooveRadius,jdbcType=VARCHAR}
+            </if>
+            <if test="where.undercutAngle != null">
+                and undercut_angle = #{where.undercutAngle,jdbcType=VARCHAR}
+            </if>
+            <if test="where.angle != null">
+                and angle = #{where.angle,jdbcType=VARCHAR}
+            </if>
+            <if test="where.sideDeflection != null">
+                and side_deflection = #{where.sideDeflection,jdbcType=VARCHAR}
+            </if>
+            <if test="where.createTime != null">
+                and create_time = #{where.createTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="where.modifyTime != null">
+                and modify_time = #{where.modifyTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="where.createUserId != null">
+                and create_user_id = #{where.createUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="where.modifyUserId != null">
+                and modify_user_id = #{where.modifyUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="where.delFlag != null">
+                and del_flag = #{where.delFlag,jdbcType=INTEGER}
+            </if>
+        </where>
+    </update>
+
+    <!--通过主键修改实体列表，列表长度不能为0，注意：当实体属性为null时，对应的列也会别更新为null-->
+    <update id="updateBatch" parameterType="list">
+        update tbl_elevator_config
+        <trim prefix="set" suffixOverrides=",">
+            <trim prefix="elevator_id = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when elevator_config_id = #{item.elevatorConfigId} then #{item.elevatorId}
+                </foreach>
+            </trim>
+            <trim prefix="elevator_code = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when elevator_config_id = #{item.elevatorConfigId} then #{item.elevatorCode}
+                </foreach>
+            </trim>
+            <trim prefix="volume = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when elevator_config_id = #{item.elevatorConfigId} then #{item.volume}
+                </foreach>
+            </trim>
+            <trim prefix="video_mask = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when elevator_config_id = #{item.elevatorConfigId} then #{item.videoMask}
+                </foreach>
+            </trim>
+            <trim prefix="voice_mask = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when elevator_config_id = #{item.elevatorConfigId} then #{item.voiceMask}
+                </foreach>
+            </trim>
+            <trim prefix="video_jump = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when elevator_config_id = #{item.elevatorConfigId} then #{item.videoJump}
+                </foreach>
+            </trim>
+            <trim prefix="voice_jump = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when elevator_config_id = #{item.elevatorConfigId} then #{item.voiceJump}
+                </foreach>
+            </trim>
+            <trim prefix="video_door = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when elevator_config_id = #{item.elevatorConfigId} then #{item.videoDoor}
+                </foreach>
+            </trim>
+            <trim prefix="voice_door = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when elevator_config_id = #{item.elevatorConfigId} then #{item.voiceDoor}
+                </foreach>
+            </trim>
+            <trim prefix="load_q = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when elevator_config_id = #{item.elevatorConfigId} then #{item.loadQ}
+                </foreach>
+            </trim>
+            <trim prefix="ropes_num = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when elevator_config_id = #{item.elevatorConfigId} then #{item.ropesNum}
+                </foreach>
+            </trim>
+            <trim prefix="acceleration = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when elevator_config_id = #{item.elevatorConfigId} then #{item.acceleration}
+                </foreach>
+            </trim>
+            <trim prefix="guidance_factor = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when elevator_config_id = #{item.elevatorConfigId} then #{item.guidanceFactor}
+                </foreach>
+            </trim>
+            <trim prefix="rope_efficiency = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when elevator_config_id = #{item.elevatorConfigId} then #{item.ropeEfficiency}
+                </foreach>
+            </trim>
+            <trim prefix="bearing_ropes = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when elevator_config_id = #{item.elevatorConfigId} then #{item.bearingRopes}
+                </foreach>
+            </trim>
+            <trim prefix="load_speed = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when elevator_config_id = #{item.elevatorConfigId} then #{item.loadSpeed}
+                </foreach>
+            </trim>
+            <trim prefix="rope_diameter = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when elevator_config_id = #{item.elevatorConfigId} then #{item.ropeDiameter}
+                </foreach>
+            </trim>
+            <trim prefix="sheave_diameter = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when elevator_config_id = #{item.elevatorConfigId} then #{item.sheaveDiameter}
+                </foreach>
+            </trim>
+            <trim prefix="tensile_strength = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when elevator_config_id = #{item.elevatorConfigId} then #{item.tensileStrength}
+                </foreach>
+            </trim>
+            <trim prefix="bending_length = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when elevator_config_id = #{item.elevatorConfigId} then #{item.bendingLength}
+                </foreach>
+            </trim>
+            <trim prefix="rope_lubrication = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when elevator_config_id = #{item.elevatorConfigId} then #{item.ropeLubrication}
+                </foreach>
+            </trim>
+            <trim prefix="rope_construction = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when elevator_config_id = #{item.elevatorConfigId} then #{item.ropeConstruction}
+                </foreach>
+            </trim>
+            <trim prefix="groove_radius = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when elevator_config_id = #{item.elevatorConfigId} then #{item.grooveRadius}
+                </foreach>
+            </trim>
+            <trim prefix="undercut_angle = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when elevator_config_id = #{item.elevatorConfigId} then #{item.undercutAngle}
+                </foreach>
+            </trim>
+            <trim prefix="angle = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when elevator_config_id = #{item.elevatorConfigId} then #{item.angle}
+                </foreach>
+            </trim>
+            <trim prefix="side_deflection = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when elevator_config_id = #{item.elevatorConfigId} then #{item.sideDeflection}
+                </foreach>
+            </trim>
+            <trim prefix="create_time = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when elevator_config_id = #{item.elevatorConfigId} then #{item.createTime}
+                </foreach>
+            </trim>
+            <trim prefix="modify_time = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when elevator_config_id = #{item.elevatorConfigId} then #{item.modifyTime}
+                </foreach>
+            </trim>
+            <trim prefix="create_user_id = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when elevator_config_id = #{item.elevatorConfigId} then #{item.createUserId}
+                </foreach>
+            </trim>
+            <trim prefix="modify_user_id = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when elevator_config_id = #{item.elevatorConfigId} then #{item.modifyUserId}
+                </foreach>
+            </trim>
+            <trim prefix="del_flag = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when elevator_config_id = #{item.elevatorConfigId} then #{item.delFlag}
+                </foreach>
+            </trim>
+        </trim>
+        where elevator_config_id in
+        <foreach collection="list" index="index" item="item" separator="," open="(" close=")">
+            #{item.elevatorConfigId,jdbcType=VARCHAR}
+        </foreach>
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById" parameterType="java.lang.String">
+        delete
+        from tbl_elevator_config
+        where elevator_config_id = #{elevatorConfigId,jdbcType=VARCHAR}
+    </delete>
+
+    <!--通过实体非空属性删除-->
+    <delete id="deleteByEntity" parameterType="com.shmashine.common.entity.TblElevatorConfig">
+        delete from tbl_elevator_config
+        <where>
+            <if test="elevatorId != null">
+                and elevator_id = #{elevatorId,jdbcType=VARCHAR}
+            </if>
+            <if test="elevatorCode != null">
+                and elevator_code = #{elevatorCode,jdbcType=VARCHAR}
+            </if>
+            <if test="volume != null">
+                and volume = #{volume,jdbcType=VARCHAR}
+            </if>
+            <if test="videoMask != null">
+                and video_mask = #{videoMask,jdbcType=VARCHAR}
+            </if>
+            <if test="voiceMask != null">
+                and voice_mask = #{voiceMask,jdbcType=VARCHAR}
+            </if>
+            <if test="videoJump != null">
+                and video_jump = #{videoJump,jdbcType=VARCHAR}
+            </if>
+            <if test="voiceJump != null">
+                and voice_jump = #{voiceJump,jdbcType=VARCHAR}
+            </if>
+            <if test="videoDoor != null">
+                and video_door = #{videoDoor,jdbcType=VARCHAR}
+            </if>
+            <if test="voiceDoor != null">
+                and voice_door = #{voiceDoor,jdbcType=VARCHAR}
+            </if>
+            <if test="load_q != null">
+                and load_q = #{loadQ,jdbcType=VARCHAR}
+            </if>
+            <if test="ropesNum != null">
+                and ropes_num = #{ropesNum,jdbcType=VARCHAR}
+            </if>
+            <if test="acceleration != null">
+                and acceleration = #{acceleration,jdbcType=VARCHAR}
+            </if>
+            <if test="guidanceFactor != null">
+                and guidance_factor = #{guidanceFactor,jdbcType=VARCHAR}
+            </if>
+            <if test="ropeEfficiency != null">
+                and rope_efficiency = #{ropeEfficiency,jdbcType=VARCHAR}
+            </if>
+            <if test="bearingRopes != null">
+                and bearing_ropes = #{bearingRopes,jdbcType=VARCHAR}
+            </if>
+            <if test="loadSpeed != null">
+                and load_speed = #{loadSpeed,jdbcType=VARCHAR}
+            </if>
+            <if test="ropeDiameter != null">
+                and rope_diameter = #{ropeDiameter,jdbcType=VARCHAR}
+            </if>
+            <if test="sheaveDiameter != null">
+                and sheave_diameter = #{sheaveDiameter,jdbcType=VARCHAR}
+            </if>
+            <if test="tensileStrength != null">
+                and tensile_strength = #{tensileStrength,jdbcType=VARCHAR}
+            </if>
+            <if test="bendingLength != null">
+                and bending_length = #{bendingLength,jdbcType=VARCHAR}
+            </if>
+            <if test="ropeLubrication != null">
+                and rope_lubrication = #{ropeLubrication,jdbcType=VARCHAR}
+            </if>
+            <if test="ropeConstruction != null">
+                and rope_construction = #{ropeConstruction,jdbcType=VARCHAR}
+            </if>
+            <if test="grooveRadius != null">
+                and groove_radius = #{grooveRadius,jdbcType=VARCHAR}
+            </if>
+            <if test="undercutAngle != null">
+                and undercut_angle = #{undercutAngle,jdbcType=VARCHAR}
+            </if>
+            <if test="angle != null">
+                and angle = #{angle,jdbcType=VARCHAR}
+            </if>
+            <if test="sideDeflection != null">
+                and side_deflection = #{sideDeflection,jdbcType=VARCHAR}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="modifyTime != null">
+                and modify_time = #{modifyTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="createUserId != null">
+                and create_user_id = #{createUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="modifyUserId != null">
+                and modify_user_id = #{modifyUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="delFlag != null">
+                and del_flag = #{delFlag,jdbcType=INTEGER}
+            </if>
+        </where>
+    </delete>
+
+    <!--通过主键列表删除，列表长度不能为0-->
+    <delete id="deleteByIds" parameterType="list">
+        delete from tbl_elevator_config where elevator_config_id in
+        <foreach item="item" collection="list" separator="," open="(" close=")" index="index">
+            #{item}
+        </foreach>
+    </delete>
+
+    <select id="countAll" resultType="int">
+        select count(elevator_config_id)
+        from tbl_elevator_config
+    </select>
+
+    <select id="countByEntity" parameterType="com.shmashine.common.entity.TblElevatorConfig" resultType="int">
+        select count(elevator_config_id) from tbl_elevator_config
+        <where>
+            <if test="elevatorConfigId != null">
+                and elevator_config_id = #{elevatorConfigId,jdbcType=VARCHAR}
+            </if>
+            <if test="elevatorId != null">
+                and elevator_id = #{elevatorId,jdbcType=VARCHAR}
+            </if>
+            <if test="elevatorCode != null">
+                and elevator_code = #{elevatorCode,jdbcType=VARCHAR}
+            </if>
+            <if test="volume != null">
+                and volume = #{volume,jdbcType=VARCHAR}
+            </if>
+            <if test="videoMask != null">
+                and video_mask = #{videoMask,jdbcType=VARCHAR}
+            </if>
+            <if test="voiceMask != null">
+                and voice_mask = #{voiceMask,jdbcType=VARCHAR}
+            </if>
+            <if test="videoJump != null">
+                and video_jump = #{videoJump,jdbcType=VARCHAR}
+            </if>
+            <if test="voiceJump != null">
+                and voice_jump = #{voiceJump,jdbcType=VARCHAR}
+            </if>
+            <if test="videoDoor != null">
+                and video_door = #{videoDoor,jdbcType=VARCHAR}
+            </if>
+            <if test="voiceDoor != null">
+                and voice_door = #{voiceDoor,jdbcType=VARCHAR}
+            </if>
+            <if test="loadQ != null">
+                and load_q = #{loadQ,jdbcType=VARCHAR}
+            </if>
+            <if test="ropesNum != null">
+                and ropes_num = #{ropesNum,jdbcType=VARCHAR}
+            </if>
+            <if test="acceleration != null">
+                and acceleration = #{acceleration,jdbcType=VARCHAR}
+            </if>
+            <if test="guidanceFactor != null">
+                and guidance_factor = #{guidanceFactor,jdbcType=VARCHAR}
+            </if>
+            <if test="ropeEfficiency != null">
+                and rope_efficiency = #{ropeEfficiency,jdbcType=VARCHAR}
+            </if>
+            <if test="bearingRopes != null">
+                and bearing_ropes = #{bearingRopes,jdbcType=VARCHAR}
+            </if>
+            <if test="loadSpeed != null">
+                and load_speed = #{loadSpeed,jdbcType=VARCHAR}
+            </if>
+            <if test="ropeDiameter != null">
+                and rope_diameter = #{ropeDiameter,jdbcType=VARCHAR}
+            </if>
+            <if test="sheaveDiameter != null">
+                and sheave_diameter = #{sheaveDiameter,jdbcType=VARCHAR}
+            </if>
+            <if test="tensileStrength != null">
+                and tensile_strength = #{tensileStrength,jdbcType=VARCHAR}
+            </if>
+            <if test="bendingLength != null">
+                and bending_length = #{bendingLength,jdbcType=VARCHAR}
+            </if>
+            <if test="ropeLubrication != null">
+                and rope_lubrication = #{ropeLubrication,jdbcType=VARCHAR}
+            </if>
+            <if test="ropeConstruction != null">
+                and rope_construction = #{ropeConstruction,jdbcType=VARCHAR}
+            </if>
+            <if test="grooveRadius != null">
+                and groove_radius = #{grooveRadius,jdbcType=VARCHAR}
+            </if>
+            <if test="undercutAngle != null">
+                and undercut_angle = #{undercutAngle,jdbcType=VARCHAR}
+            </if>
+            <if test="angle != null">
+                and angle = #{angle,jdbcType=VARCHAR}
+            </if>
+            <if test="sideDeflection != null">
+                and side_deflection = #{sideDeflection,jdbcType=VARCHAR}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="modifyTime != null">
+                and modify_time = #{modifyTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="createUserId != null">
+                and create_user_id = #{createUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="modifyUserId != null">
+                and modify_user_id = #{modifyUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="delFlag != null">
+                and del_flag = #{delFlag,jdbcType=INTEGER}
+            </if>
+        </where>
+    </select>
+
+    <!--根据电梯id查询配置-->
+    <select id="getByElevatorId" resultType="com.shmashine.common.entity.TblElevatorConfig">
+        select *
+        from tbl_elevator_config
+        where elevator_id = #{elevatorId}
+    </select>
+
+    <!--根据电梯编号查询配置-->
+    <select id="getConfigByElevatorCode" resultType="com.shmashine.common.entity.TblElevatorConfig">
+        select *
+        from tbl_elevator_config
+        where elevator_code = #{elevatorCode}
+    </select>
+
+</mapper>

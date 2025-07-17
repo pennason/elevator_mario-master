@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.api.dao.TblSysRoleMenuDao">
+
+    <resultMap type="com.shmashine.common.entity.TblSysRoleMenu" id="TblSysRoleMenuResultMap">
+        <result property="vRoleId" column="v_role_id" jdbcType="VARCHAR"/>
+        <result property="vMenuId" column="v_menu_id" jdbcType="VARCHAR"/>
+        <result property="dtCreatetime" column="dt_createTime" jdbcType="TIMESTAMP"/>
+        <result property="dtModifytime" column="dt_modifyTime" jdbcType="TIMESTAMP"/>
+        <result property="vCreateid" column="v_createid" jdbcType="VARCHAR"/>
+        <result property="vModifyid" column="v_modifyid" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="table_field">
+        v_role_id
+        , v_menu_id, dt_createTime, dt_modifyTime, v_createid, v_modifyid
+    </sql>
+
+    <!--通过Id查询单个-->
+    <select id="getById" resultMap="TblSysRoleMenuResultMap" parameterType="java.lang.String">
+        select
+        <include refid="table_field"/>
+        from tbl_sys_role_menu
+        where v_role_id = #{vRoleId,jdbcType=VARCHAR}
+        and i_del_flag = 0
+    </select>
+
+
+    <!--通过实体不为空的属性作为筛选条件查询列表-->
+    <select id="listByEntity" resultMap="TblSysRoleMenuResultMap"
+            parameterType="com.shmashine.common.entity.TblSysRoleMenu">
+        select
+        <include refid="table_field"/>
+        from tbl_sys_role_menu
+        <where>
+            <if test="vRoleId != null">
+                and v_role_id = #{vRoleId,jdbcType=VARCHAR}
+            </if>
+            <if test="vMenuId != null">
+                and v_menu_id = #{vMenuId,jdbcType=VARCHAR}
+            </if>
+            <if test="dtCreatetime != null">
+                and dt_createTime = #{dtCreatetime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="dtModifytime != null">
+                and dt_modifyTime = #{dtModifytime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="vCreateid != null">
+                and v_createid = #{vCreateid,jdbcType=VARCHAR}
+            </if>
+            <if test="vModifyid != null">
+                and v_modifyid = #{vModifyid,jdbcType=VARCHAR}
+            </if>
+            and i_del_flag = 0
+        </where>
+    </select>
+
+    <!--通过实体不为空的属性作为筛选条件查询单个-->
+    <select id="getByEntity" resultMap="TblSysRoleMenuResultMap"
+            parameterType="com.shmashine.common.entity.TblSysRoleMenu">
+        select
+        <include refid="table_field"/>
+        from tbl_sys_role_menu
+        <where>
+            <if test="vRoleId != null">
+                and v_role_id = #{vRoleId,jdbcType=VARCHAR}
+            </if>
+            <if test="vMenuId != null">
+                and v_menu_id = #{vMenuId,jdbcType=VARCHAR}
+            </if>
+            <if test="dtCreatetime != null">
+                and dt_createTime = #{dtCreatetime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="dtModifytime != null">
+                and dt_modifyTime = #{dtModifytime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="vCreateid != null">
+                and v_createid = #{vCreateid,jdbcType=VARCHAR}
+            </if>
+            <if test="vModifyid != null">
+                and v_modifyid = #{vModifyid,jdbcType=VARCHAR}
+            </if>
+            and i_del_flag = 0
+        </where>
+    </select>
+
+    <!--通过Id列表作为筛选条件查询列表，列表长度不为0-->
+    <select id="listByIds" resultMap="TblSysRoleMenuResultMap" parameterType="list">
+        select
+        <include refid="table_field"/>
+        from tbl_sys_role_menu
+        where v_role_id in
+        <foreach item="item" collection="list" separator="," open="(" close=")" index="index">
+            #{item}
+        </foreach>
+        and i_del_flag = 0
+    </select>
+
+    <!--新增实体属性不为null的列-->
+    <insert id="insert" keyProperty="vRoleId" useGeneratedKeys="true"
+            parameterType="com.shmashine.common.entity.TblSysRoleMenu">
+        insert into tbl_sys_role_menu
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="vRoleId != null">
+                v_role_id,
+            </if>
+            <if test="vMenuId != null">
+                v_menu_id,
+            </if>
+            <if test="dtCreatetime != null">
+                dt_createTime,
+            </if>
+            <if test="dtModifytime != null">
+                dt_modifyTime,
+            </if>
+            <if test="vCreateid != null">
+                v_createid,
+            </if>
+            <if test="vModifyid != null">
+                v_modifyid,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="vRoleId != null">
+                #{vRoleId,jdbcType=VARCHAR},
+            </if>
+            <if test="vMenuId != null">
+                #{vMenuId,jdbcType=VARCHAR},
+            </if>
+            <if test="dtCreatetime != null">
+                #{dtCreatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="dtModifytime != null">
+                #{dtModifytime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="vCreateid != null">
+                #{vCreateid,jdbcType=VARCHAR},
+            </if>
+            <if test="vModifyid != null">
+                #{vModifyid,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <!--批量新增所有列，列表长度不能为0-->
+    <insert id="insertBatch" keyProperty="vRoleId" useGeneratedKeys="true" parameterType="list">
+        insert into tbl_sys_role_menu
+        ( v_role_id , v_menu_id ,dt_createTime, dt_modifyTime, v_createid, v_modifyid)
+        values
+        <foreach item="item" collection="list" separator="," open="" close="" index="index">
+            (#{item.vRoleId,jdbcType=VARCHAR}, #{item.vMenuId,jdbcType=VARCHAR},#{item.dtCreatetime,jdbcType=TIMESTAMP},
+            #{item.dtModifytime,jdbcType=TIMESTAMP}, #{item.vCreateid,jdbcType=VARCHAR},
+            #{item.vModifyid,jdbcType=VARCHAR})
+        </foreach>
+    </insert>
+
+    <!--通过主键修改实体属性不为null的列-->
+    <update id="update" parameterType="com.shmashine.common.entity.TblSysRoleMenu">
+        update tbl_sys_role_menu
+        <set>
+            <if test="dtCreatetime != null">
+                dt_createTime = #{dtCreatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="dtModifytime != null">
+                dt_modifyTime = #{dtModifytime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="vCreateid != null and vCreateid != ''">
+                v_createid = #{vCreateid,jdbcType=VARCHAR},
+            </if>
+            <if test="vModifyid != null and vModifyid != ''">
+                v_modifyid = #{vModifyid,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where v_role_id = #{vRoleId,jdbcType=VARCHAR}
+    </update>
+
+    <!--通过表字段修改实体属性不为null的列-->
+    <update id="updateByField">
+        update tbl_sys_role_menu
+        <set>
+            <if test="where.dtCreatetime == null and set.dtCreatetime != null">
+                dt_createTime = #{set.dtCreatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="where.dtModifytime == null and set.dtModifytime != null">
+                dt_modifyTime = #{set.dtModifytime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="where.vCreateid == null and set.vCreateid != null and set.vCreateid != ''">
+                v_createid = #{set.vCreateid,jdbcType=VARCHAR},
+            </if>
+            <if test="where.vModifyid == null and set.vModifyid != null and set.vModifyid != ''">
+                v_modifyid = #{set.vModifyid,jdbcType=VARCHAR},
+            </if>
+        </set>
+        <where>
+            <if test="where.vRoleId != null">
+                and v_role_id = #{where.vRoleId,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vMenuId != null">
+                and v_menu_id = #{where.vMenuId,jdbcType=VARCHAR}
+            </if>
+            <if test="where.dtCreatetime != null">
+                and dt_createTime = #{where.dtCreatetime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="where.dtModifytime != null">
+                and dt_modifyTime = #{where.dtModifytime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="where.vCreateid != null">
+                and v_createid = #{where.vCreateid,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vModifyid != null">
+                and v_modifyid = #{where.vModifyid,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </update>
+
+    <!--通过主键修改实体列表，列表长度不能为0，注意：当实体属性为null时，对应的列也会别更新为null-->
+    <update id="updateBatch" parameterType="list">
+        update tbl_sys_role_menu
+        <trim prefix="set" suffixOverrides=",">
+            <trim prefix="dt_createTime = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_role_id = #{item.vRoleId} then #{item.dtCreatetime}
+                </foreach>
+            </trim>
+            <trim prefix="dt_modifyTime = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_role_id = #{item.vRoleId} then #{item.dtModifytime}
+                </foreach>
+            </trim>
+            <trim prefix="v_createid = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_role_id = #{item.vRoleId} then #{item.vCreateid}
+                </foreach>
+            </trim>
+            <trim prefix="v_modifyid = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_role_id = #{item.vRoleId} then #{item.vModifyid}
+                </foreach>
+            </trim>
+        </trim>
+        where v_role_id in
+        <foreach collection="list" index="index" item="item" separator="," open="(" close=")">
+            #{item.vRoleId,jdbcType=VARCHAR}
+        </foreach>
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById" parameterType="java.lang.String">
+        delete
+        from tbl_sys_role_menu
+        where v_role_id = #{vRoleId,jdbcType=VARCHAR}
+    </delete>
+
+    <!--通过实体非空属性删除-->
+    <delete id="deleteByEntity" parameterType="com.shmashine.common.entity.TblSysRoleMenu">
+        delete from tbl_sys_role_menu
+        <where>
+            <if test="dtCreatetime != null">
+                and dt_createTime = #{dtCreatetime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="dtModifytime != null">
+                and dt_modifyTime = #{dtModifytime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="vCreateid != null">
+                and v_createid = #{vCreateid,jdbcType=VARCHAR}
+            </if>
+            <if test="vModifyid != null">
+                and v_modifyid = #{vModifyid,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </delete>
+
+    <!--通过主键列表删除，列表长度不能为0-->
+    <delete id="deleteByIds" parameterType="list">
+        delete from tbl_sys_role_menu where v_role_id in
+        <foreach item="item" collection="list" separator="," open="(" close=")" index="index">
+            #{item}
+        </foreach>
+    </delete>
+
+    <select id="countAll" resultType="int">
+        select count(v_role_id)
+        from tbl_sys_role_menu
+    </select>
+
+    <select id="countByEntity" parameterType="com.shmashine.common.entity.TblSysRoleMenu" resultType="int">
+        select count(v_role_id) from tbl_sys_role_menu
+        <where>
+            <if test="vRoleId != null">
+                and v_role_id = #{vRoleId,jdbcType=VARCHAR}
+            </if>
+            <if test="vMenuId != null">
+                and v_menu_id = #{vMenuId,jdbcType=VARCHAR}
+            </if>
+            <if test="dtCreatetime != null">
+                and dt_createTime = #{dtCreatetime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="dtModifytime != null">
+                and dt_modifyTime = #{dtModifytime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="vCreateid != null">
+                and v_createid = #{vCreateid,jdbcType=VARCHAR}
+            </if>
+            <if test="vModifyid != null">
+                and v_modifyid = #{vModifyid,jdbcType=VARCHAR}
+            </if>
+            and i_del_flag = 0
+        </where>
+    </select>
+</mapper>

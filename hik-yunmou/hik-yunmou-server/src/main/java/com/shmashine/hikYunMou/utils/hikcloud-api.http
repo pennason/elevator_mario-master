@@ -1,0 +1,124 @@
+POST https://api2.hik-cloud.com/oauth/token
+Content-Type: application/x-www-form-urlencoded
+
+client_id = 4ef54256cd5342e88f007bd691e9372d &
+client_secret = 84dcc1d238a843f485e16da8914bd6da &
+grant_type = client_credentials
+
+###
+### Response 2f6580f9-c21e-45ec-b0e8-fafa4f1d0af0
+
+
+
+###
+GET https://api2.hik-cloud.com/api/v1/ezviz/record/query/video/file/list?taskId=ad4717b958bf46fe80c4353b2a86bcdb&
+    pageNo=0&pageSize=10
+Authorization: Bearer 2f6580f9-c21e-45ec-b0e8-fafa4f1d0af0
+
+
+
+
+### 下级查询上级
+POST https://api2.hik-cloud.com/api/v1/cascade/config/actions/getConfigPage
+Content-Type: application/json
+Authorization: Bearer 305d83f3-a68c-4454-ba50-48623d26e8e8
+
+{
+  "businessCode": "open",
+  "pageNo": 1,
+  "pageSize": 10
+}
+
+---
+{
+  "code": 200,
+  "message": "操作成功",
+  "data": {
+    "pageNo": 1,
+    "pageSize": 10,
+    "totalPage": 1,
+    "total": 1,
+    "hasNextPage": false,
+    "hasPreviousPage": false,
+    "firstPage": true,
+    "lastPage": true,
+    "rows": [
+      {
+        "configId": "8b2f355bf2174b8b94ffd079b64b376b",
+        "supPlatformName": "麦信厂商视频接入"
+      }
+    ]
+  }
+}
+
+
+### 查询平台配置的通道列表
+POST https://api2.hik-cloud.com/api/v1/cascade/config/actions/getChannelPage
+Content-Type: application/json
+Authorization: Bearer 305d83f3-a68c-4454-ba50-48623d26e8e8
+
+{
+  "configId": "8b2f355bf2174b8b94ffd079b64b376b",
+  "pageNo": 1,
+  "pageSize": 10
+}
+
+---
+{
+  "code": 200,
+  "message": "操作成功",
+  "data": {
+    "pageNo": 1,
+    "pageSize": 10,
+    "totalPage": 1,
+    "total": 1,
+    "hasNextPage": false,
+    "hasPreviousPage": false,
+    "firstPage": true,
+    "lastPage": true,
+    "rows": [
+      {
+        "channelId": "d10278369d2341888a08d1f34914f72b",
+        "deviceSerial": "L49364341",
+        "channelNo": 1,
+        "chanelCode": "31011201001321002001"
+      }
+    ]
+  }
+}
+
+### 查询通道详情
+POST https://api2.hik-cloud.com/api/v1/cascade/config/actions/getChannel
+Content-Type: application/json
+Authorization: Bearer 305d83f3-a68c-4454-ba50-48623d26e8e8
+
+{
+  "channelId": "d10278369d2341888a08d1f34914f72b"
+}
+
+---
+{
+  "code": 200,
+  "message": "操作成功",
+  "data": {
+    "channelId": "d10278369d2341888a08d1f34914f72b",
+    "deviceSerial": "L49364341",
+    "channelNo": 1,
+    "chanelCode": "31011201001321002001"
+  }
+}
+
+
+
+
+
+
+### 上级查询下级
+POST https://api2.hik-cloud.com/api/v1/carrier/cascade/config/actions/subDomainList
+Content-Type: application/json
+Authorization: Bearer 305d83f3-a68c-4454-ba50-48623d26e8e8
+
+{
+  "businessCode": "hbl",
+  "domainId": "1"
+}

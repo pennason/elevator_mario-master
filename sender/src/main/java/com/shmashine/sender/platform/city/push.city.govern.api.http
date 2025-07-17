@@ -1,0 +1,20 @@
+POST http://push.city.govern.shmashine.com/api/govern/elevator-manage/save-elevator
+
+{
+ "elevatorCode": "04SFD10-693-1",
+ "cityAreaCode": "025",
+ "elevatorId":"8238387052200140800",
+ "deviceRegisterNumber": "30103201022005048051",
+ "cityAreaName": "南京",
+ "installAddress": "123456",
+ "deviceVendor": "富士达",
+ "deviceInstallationDate": "2022-07-21 00:00:00",
+ "terminalMonitorType": "SINGLEBOX",
+ "cityName": "南京市",
+ "elevatorType": 1,
+ "maintenanceId": "8291576032986464256",
+ "maintenanceUnit": "江苏曼森电梯有限公司",
+ "mashineCube": "MX5263",
+ "mashineSensorType": "SINGLEBOX",
+ "deviceType": "MX201"
+}

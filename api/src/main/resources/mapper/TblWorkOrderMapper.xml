@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.api.dao.TblWorkOrderDao">
+
+    <resultMap type="com.shmashine.api.entity.TblWorkOrder" id="TblWorkOrderResultMap">
+        <result property="vWorkOrderId" column="v_work_order_id" jdbcType="VARCHAR"/>
+        <result property="iWorkOrderType" column="i_work_order_type" jdbcType="INTEGER"/>
+        <result property="vElevatorId" column="v_elevator_id" jdbcType="VARCHAR"/>
+        <result property="vElevatorCode" column="v_elevator_code" jdbcType="VARCHAR"/>
+        <result property="vSourceId" column="v_source_id" jdbcType="VARCHAR"/>
+        <result property="iSourceType" column="i_source_type" jdbcType="INTEGER"/>
+        <result property="iFaultType" column="i_fault_type" jdbcType="INTEGER"/>
+        <result property="iMaintenanceType" column="i_maintenance_type" jdbcType="INTEGER"/>
+        <result property="iHandleStatus" column="i_handle_status" jdbcType="INTEGER"/>
+        <result property="iHandleStatusName" column="i_handle_status_name" jdbcType="VARCHAR"/>
+        <result property="iFaultTypeName" column="i_fault_type_name" jdbcType="VARCHAR"/>
+        <result property="iHandleUserId" column="i_handle_user_id" jdbcType="VARCHAR"/>
+        <result property="vRecentDetailId" column="v_recent_detail_id" jdbcType="VARCHAR"/>
+        <result property="dtCreateTime" column="dt_create_time" jdbcType="TIMESTAMP"/>
+        <result property="dtModifyTime" column="dt_modify_time" jdbcType="TIMESTAMP"/>
+        <result property="vCreateUserId" column="v_create_user_id" jdbcType="VARCHAR"/>
+        <result property="vModifyUserId" column="v_modify_user_id" jdbcType="VARCHAR"/>
+        <result property="iDelFlag" column="i_del_flag" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="table_field">
+        v_work_order_id
+        , i_work_order_type, v_elevator_id, v_elevator_code, v_source_id, i_source_type, i_fault_type, i_maintenance_type, i_handle_status, i_handle_user_id, v_recent_detail_id, dt_create_time, dt_modify_time, v_create_user_id, v_modify_user_id, i_del_flag
+    </sql>
+
+
+    <delete id="delEventOrderById">
+        DELETE
+        FROM tbl_third_party_ruijin_envent
+        WHERE event_number = #{eventNumber}
+    </delete>
+
+
+    <select id="getWorkOrderHandlePower" resultType="java.util.Map">
+        select v_sysvalue1 as reject,  -- 驳回
+               v_sysvalue2 as assign,  -- 指派
+               v_sysvalue3 as deliver, -- 转交
+               v_sysvalue4 as cancel,  -- 取消
+               v_sysvalue5 as finish   -- 完成
+        from tbl_sys_systeminfo
+        where v_syssubid = #{handleStatus}
+          and v_sysid = '10016'
+    </select>
+
+
+    <!-- 查询代办工单列表 -->
+    <select id="searchAgencyWorkOrderList" resultType="java.util.Map">
+        SELECT
+        workOrder.*,
+        detail.v_system_remarks
+        FROM `tbl_work_order` workOrder
+        <if test="!isAdminFlag">
+            join tbl_sys_user_resource as resource
+            on workOrder.v_elevator_id = resource.v_resource_id
+            and resource.v_user_id = #{userId}
+        </if>
+        left join tbl_work_order_detail detail on workOrder.v_work_order_id = detail.v_work_order_id and
+        workOrder.v_recent_detail_id = detail.v_work_order_detail_id
+        where workOrder.i_handle_user_id = #{userId} and workOrder.i_del_flag = 0 and workOrder.i_handle_status != 7 and
+        workOrder.i_handle_status != 8
+        <if test="elevatorIds != null and elevatorIds.size() > 0">
+            and workOrder.v_elevator_id in
+            <foreach collection="elevatorIds" item="elevatorId" open="(" separator="," close=")">
+                #{elevatorId}
+            </foreach>
+        </if>
+        order by workOrder.dt_create_time desc
+    </select>
+
+
+    <!--根据电梯注册码获取电梯name-->
+    <select id="getEleNameByRegisterCode" resultType="java.lang.String">
+        SELECT v_elevator_name
+        FROM tbl_elevator
+        WHERE v_equipment_code = #{registerCode}
+    </select>
+
+    <!--根据id获取急修工单-->
+    <select id="getEventOrderById" resultType="java.util.HashMap">
+        SELECT *
+        FROM tbl_third_party_ruijin_envent
+        WHERE event_number = #{eventNumber}
+    </select>
+
+
+</mapper>

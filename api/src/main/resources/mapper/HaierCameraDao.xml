@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shmashine.api.dao.HaierCameraDao">
+
+    <!--添加海尔项目信息-->
+    <insert id="insertAndUpdataProjects" parameterType="java.util.List">
+        insert into tbl_haier_project
+        (id,name,address,imgPath,safeManMobile,
+        maintenanceName,safeMan,cityName,phone,propertyName,countryName,
+        provinceName,maintenanceType,createTime,modifyTime) VALUES
+        <foreach collection="list" item="tblHaierProject" index="index" separator=",">
+            (#{tblHaierProject.id,jdbcType=VARCHAR},
+            #{tblHaierProject.name,jdbcType=VARCHAR},
+            #{tblHaierProject.address,jdbcType=VARCHAR},
+            #{tblHaierProject.imgPath,jdbcType=VARCHAR},
+            #{tblHaierProject.safeManMobile,jdbcType=VARCHAR},
+            #{tblHaierProject.maintenanceName,jdbcType=VARCHAR},
+            #{tblHaierProject.safeMan,jdbcType=VARCHAR},
+            #{tblHaierProject.cityName,jdbcType=VARCHAR},
+            #{tblHaierProject.phone,jdbcType=VARCHAR},
+            #{tblHaierProject.propertyName,jdbcType=VARCHAR},
+            #{tblHaierProject.countryName,jdbcType=VARCHAR},
+            #{tblHaierProject.provinceName,jdbcType=VARCHAR},
+            #{tblHaierProject.maintenanceType,jdbcType=VARCHAR},
+            NOW(),NOW())
+        </foreach>
+        ON DUPLICATE KEY UPDATE
+        name = values(name),
+        address = values(address),
+        imgPath = values(imgPath),
+        safeManMobile = values(safeManMobile),
+        maintenanceName = values(maintenanceName),
+        safeMan = values(safeMan),
+        cityName = values(cityName),
+        phone = values(phone),
+        propertyName = values(propertyName),
+        countryName = values(countryName),
+        provinceName = values(provinceName),
+        maintenanceType = values(maintenanceType),
+        modifyTime = values(modifyTime)
+    </insert>
+
+    <!--添加海尔电梯信息-->
+    <insert id="insertAndUpdataLiftInfos" parameterType="java.util.List">
+        insert into tbl_haier_liftinfo
+        (id,registrationCode,liftNo,projectId,liftGate,traction,
+        principalMan,manufacturer,liftSpeed,cameraNo,registrationAuthority,
+        isInsure,haveHouse,useEntitiesNum,brandName,address,liftStand,
+        showFloor,examineDate,installationDate,deviceNo,baseFloor,liftWeight,
+        modelName,placeType,liftFloor,buildingNum,examineEntities,position,
+        emergencyPhone,principalPhone,createTime,modifyTime) VALUES
+        <foreach collection="list" item="TblHaierLiftInfo" index="index" separator=",">
+            (#{TblHaierLiftInfo.id,jdbcType=INTEGER},
+            #{TblHaierLiftInfo.registrationCode,jdbcType=VARCHAR},
+            #{TblHaierLiftInfo.liftNo,jdbcType=VARCHAR},
+            #{TblHaierLiftInfo.projectId,jdbcType=VARCHAR},
+            #{TblHaierLiftInfo.liftGate,jdbcType=VARCHAR},
+            #{TblHaierLiftInfo.traction,jdbcType=VARCHAR},
+            #{TblHaierLiftInfo.principalMan,jdbcType=VARCHAR},
+            #{TblHaierLiftInfo.manufacturer,jdbcType=VARCHAR},
+            #{TblHaierLiftInfo.liftSpeed,jdbcType=VARCHAR},
+            #{TblHaierLiftInfo.cameraNo,jdbcType=VARCHAR},
+            #{TblHaierLiftInfo.registrationAuthority,jdbcType=VARCHAR},
+            #{TblHaierLiftInfo.isInsure,jdbcType=INTEGER},
+            #{TblHaierLiftInfo.haveHouse,jdbcType=INTEGER},
+            #{TblHaierLiftInfo.useEntitiesNum,jdbcType=VARCHAR},
+            #{TblHaierLiftInfo.brandName,jdbcType=VARCHAR},
+            #{TblHaierLiftInfo.address,jdbcType=VARCHAR},
+            #{TblHaierLiftInfo.liftStand,jdbcType=VARCHAR},
+            #{TblHaierLiftInfo.showFloor,jdbcType=VARCHAR},
+            #{TblHaierLiftInfo.examineDate},
+            #{TblHaierLiftInfo.installationDate},
+            #{TblHaierLiftInfo.deviceNo,jdbcType=VARCHAR},
+            #{TblHaierLiftInfo.baseFloor,jdbcType=VARCHAR},
+            #{TblHaierLiftInfo.liftWeight,jdbcType=VARCHAR},
+            #{TblHaierLiftInfo.modelName,jdbcType=VARCHAR},
+            #{TblHaierLiftInfo.placeType,jdbcType=VARCHAR},
+            #{TblHaierLiftInfo.liftFloor,jdbcType=VARCHAR},
+            #{TblHaierLiftInfo.buildingNum,jdbcType=VARCHAR},
+            #{TblHaierLiftInfo.examineEntities,jdbcType=VARCHAR},
+            #{TblHaierLiftInfo.position,jdbcType=VARCHAR},
+            #{TblHaierLiftInfo.emergencyPhone,jdbcType=VARCHAR},
+            #{TblHaierLiftInfo.principalPhone,jdbcType=VARCHAR},
+            NOW(),NOW())
+        </foreach>
+        ON DUPLICATE KEY UPDATE
+        registrationCode = values(registrationCode),
+        liftNo = values(liftNo),
+        projectId = values(projectId),
+        liftGate = values(liftGate),
+        traction = values(traction),
+        principalMan = values(principalMan),
+        manufacturer = values(manufacturer),
+        liftSpeed = values(liftSpeed),
+        cameraNo = values(cameraNo),
+        registrationAuthority = values(registrationAuthority),
+        isInsure = values(isInsure),
+        haveHouse = values(haveHouse),
+        useEntitiesNum = values(useEntitiesNum),
+        brandName = values(brandName),
+        address = values(address),
+        liftStand = values(liftStand),
+        showFloor = values(showFloor),
+        examineDate = values(examineDate),
+        installationDate = values(installationDate),
+        deviceNo = values(deviceNo),
+        baseFloor = values(baseFloor),
+        liftWeight = values(liftWeight),
+        modelName = values(modelName),
+        placeType = values(placeType),
+        liftFloor = values(liftFloor),
+        buildingNum = values(buildingNum),
+        examineEntities = values(examineEntities),
+        position = values(position),
+        emergencyPhone = values(emergencyPhone),
+        principalPhone = values(principalPhone),
+        modifyTime = values(modifyTime)
+    </insert>
+
+    <!--根据梯唯一注册码获取物联网设备号-->
+    <select id="getDeviceNoByRegistrationCode" resultType="java.lang.String">
+        SELECT v_elevator_code
+        FROM tbl_elevator
+        WHERE v_equipment_code = #{registrationCode}
+    </select>
+
+
+    <select id="getProjectById" resultType="com.shmashine.api.entity.TblHaierProject">
+        SELECT *
+        FROM tbl_haier_project
+        WHERE id = #{projectId}
+    </select>
+
+
+</mapper>

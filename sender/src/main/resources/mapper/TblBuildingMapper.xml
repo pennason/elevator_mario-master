@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.sender.dao.TblBuildingMapper">
+
+    <!--<resultMap type="com.shmashine.common.entity.TblBuilding" id="TblBuildingResultMap">
+        <result property="vVillageId" column="v_village_id" jdbcType="VARCHAR"/>
+        <result property="vBuildingId" column="v_building_id" jdbcType="VARCHAR"/>
+        <result property="vBuildingName" column="v_building_name" jdbcType="VARCHAR"/>
+        <result property="dtCreateTime" column="dt_create_time" jdbcType="TIMESTAMP"/>
+        <result property="dtModifyTime" column="dt_modify_time" jdbcType="TIMESTAMP"/>
+        <result property="vCreateUserId" column="v_create_user_id" jdbcType="VARCHAR"/>
+        <result property="vModifyUserId" column="v_modify_user_id" jdbcType="VARCHAR"/>
+        <result property="iDelFlag" column="i_del_flag" jdbcType="INTEGER"/>
+    </resultMap>-->
+
+    <sql id="TABLE_NAME">
+        tbl_building
+    </sql>
+    <sql id="ALL_COLUMNS">
+        v_village_id
+        , v_building_id, v_building_name, x, y, dt_create_time, dt_modify_time, v_create_user_id, v_modify_user_id, i_del_flag
+    </sql>
+
+
+    <select id="getOneByVillageAndBuildingId" resultType="com.shmashine.common.entity.TblBuilding">
+        SELECT v_village_id AS vVillageId,
+        v_building_id AS vBuildingId,
+        v_building_name AS vBuildingName
+        FROM
+        <include refid="TABLE_NAME"/>
+        WHERE v_village_id = #{villageId} AND v_building_id = #{buildingId} AND i_del_flag = 0
+    </select>
+</mapper>

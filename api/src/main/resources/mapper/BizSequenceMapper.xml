@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shmashine.api.dao.BizSequenceDao">
+
+    <!--获取最新采番号-->
+    <select id="selectKey" resultType="java.util.Map" parameterType="java.lang.String">
+        SELECT
+        i_seq_no AS seqNo
+        FROM tbl_sys_sequencemanager
+        <where>
+            1 = 1
+            <if test="keyName != null and keyName != ''">
+                AND v_seq_id = #{keyName}
+            </if>
+        </where>
+    </select>
+
+    <!--生成采番号-->
+    <insert id="insertKey" parameterType="java.lang.String">
+        INSERT INTO tbl_sys_sequencemanager(v_seq_id, i_seq_no)
+        VALUES (#{keyName}, 1)
+    </insert>
+
+    <insert id="insertKeyIDRange" parameterType="java.lang.String">
+        INSERT INTO tbl_sys_sequencemanager(v_seq_id, i_seq_no)
+        VALUES (#{keyName}, MAX(i_seq_no) + ${count})
+    </insert>
+
+    <!--更新采番号-->
+    <update id="updateKey" parameterType="java.lang.String">
+        UPDATE tbl_sys_sequencemanager
+        SET i_seq_no = i_seq_no + 1
+        WHERE v_seq_id = #{keyName}
+    </update>
+
+    <!--更新采番号(多个)-->
+    <update id="updateKeyIDRange">
+        UPDATE tbl_sys_sequencemanager
+        SET i_seq_no = i_seq_no + ${count}
+        WHERE v_seq_id = #{keyName}
+    </update>
+
+    <!--查询多个编号(多个)-->
+    <select id="selectKeyIDRange" resultType="com.shmashine.api.entity.base.SequenceRange">
+        SELECT i_seq_no - #{count} AS fromId,
+               i_seq_no            AS toId
+        FROM tbl_sys_sequencemanager
+        WHERE v_seq_id = #{keyName}
+    </select>
+</mapper>

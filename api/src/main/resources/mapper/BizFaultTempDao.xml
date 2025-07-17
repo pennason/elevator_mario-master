@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shmashine.api.dao.BizFaultTempDao">
+
+    <!-- 查询故障列表 -->
+    <select id="searchFaultList" resultType="java.util.Map">
+        select
+        distinct
+        ifnull(device.eType, 'MX201') as e_type,
+        fault.v_elevator_id,
+        fault.v_fault_id,
+        fault.v_elevator_code,
+        fault.i_level,
+        fault.i_level_name,
+        fault.v_address,
+        fault.dt_report_time,
+        fault.i_fault_type,
+        fault.v_fault_name,
+        fault.i_fault_num,
+        fault.i_mode_status,
+        sysinfo.v_name_zh_cn AS i_mode_status_name,
+        fault.i_status,
+        ele.v_village_id AS villageId,
+        sysinfo2.v_name_zh_cn AS i_status_name,
+        fault.i_confirm_status,
+        fault.recognitionResult,
+        sysinfo3.v_name_zh_cn AS i_confirm_status_name
+        from
+        tbl_fault_temp fault
+        <if test="!isAdminFlag">
+            join tbl_sys_user_resource resource on fault.v_elevator_id = resource.v_resource_id and v_user_id =
+            #{userId}
+        </if>
+        left join tbl_elevator ele on ele.v_elevator_id = fault.v_elevator_id
+        left join tbl_device device on device.v_elevator_id = fault.v_elevator_id
+        left join tbl_sys_systeminfo sysinfo on sysinfo.v_sysvalue5 = fault.i_mode_status and sysinfo.v_sysid = '10009'
+        left join tbl_sys_systeminfo sysinfo2 on sysinfo2.v_sysvalue5 = fault.i_status and sysinfo2.v_sysid = '10010'
+        left join tbl_sys_systeminfo sysinfo3 on sysinfo3.v_sysvalue5 = fault.i_confirm_status and sysinfo3.v_sysid =
+        '10021'
+        <where>
+            <if test="vElevatorCode != null and vElevatorCode != ''">
+                and fault.v_elevator_code like CONCAT('%',#{vElevatorCode},'%')
+            </if>
+            <if test="dtReportTime != null and dtReportTime != ''">
+                <![CDATA[  and fault.dt_report_time >= #{dtReportTime} ]]>
+            </if>
+            <if test="dtEndTime != null and dtEndTime != ''">
+                <![CDATA[ and fault.dt_report_time <=  #{dtEndTime} ]]>
+            </if>
+            <if test="iStatus != null">
+                and fault.i_status = #{iStatus}
+            </if>
+            <if test="iConfirmStatus != null">
+                and fault.i_confirm_status = #{iConfirmStatus}
+            </if>
+            <if test="iFaultType != null and iFaultType != ''">
+                and fault.i_fault_type = #{iFaultType}
+            </if>
+            <if test="iElevatorType != null and iElevatorType != ''">
+                and ele.i_elevator_type = #{iElevatorType}
+            </if>
+            <if test="iUncivilizedBehaviorFlag != null and iUncivilizedBehaviorFlag != ''">
+                and fault.i_uncivilized_behavior_flag = #{iUncivilizedBehaviorFlag}
+            </if>
+            <if test="recognitionResult != null ">
+                and fault.recognitionResult = #{recognitionResult}
+            </if>
+            <if test="eType != null and eType.contains('201')">
+                and (device.eType = #{eType} or device.eType is null)
+            </if>
+            <if test="eType != null and eType != '' and !eType.contains('201')">
+                and device.eType = #{eType}
+            </if>
+            <if test="vProjectId != null and vProjectId != ''">
+                and ele.v_project_id = #{vProjectId}
+            </if>
+            <if test="villageId != null and villageId != ''">
+                and ele.v_village_id = #{villageId}
+            </if>
+        </where>
+        order by dt_report_time desc
+    </select>
+
+    <!--查询单个-->
+    <select id="queryById" resultType="com.shmashine.common.entity.TblFaultTemp">
+        select *
+        from tbl_fault_temp
+        where v_fault_id = #{vFaultId}
+    </select>
+
+    <!--获取故障审核角色的电话-->
+    <select id="getSeatsTel" resultType="java.lang.String">
+        select `user`.v_mobile
+        from tbl_sys_user `user`
+                 join tbl_sys_user_role `roleuser` on `roleuser`.v_user_id = `user`.v_user_id
+                 join tbl_sys_role `role` on `role`.v_role_id = `roleuser`.v_role_id
+        WHERE `role`.v_role_id = '1285876340913999872'
+          and user.i_send_message_status = 0;
+    </select>
+
+    <!--查询待确认的电动车乘梯-->
+    <select id="queryElectricMobileById" resultType="com.shmashine.common.entity.TblFaultTemp">
+        select *
+        from tbl_fault_uncivilized_behavior37
+        where v_fault_id = #{faultId}
+    </select>
+
+    <!-- 查找电梯故障 -->
+    <select id="getFaultDetail" resultType="java.util.Map">
+        select fault.v_fault_id
+             , fault.i_level
+             , fault.v_elevator_code
+             , fault.i_level_name
+             , fault.v_address
+             , fault.v_floor
+             , fault.dt_report_time
+             , fault.dt_end_time
+             , fault.i_fault_type
+             , fault.v_fault_name
+             , fault.i_fault_num
+             , fault.i_mode_status
+             , sysinfo.v_name_zh_cn  AS i_mode_status_name
+             , fault.i_status
+             , fault.i_confirm_status
+             , sysinfo2.v_name_zh_cn AS i_status_name
+             , sysinfo3.v_name_zh_cn AS i_confirm_status_name
+        from tbl_fault_temp fault
+                 left join tbl_sys_systeminfo sysinfo
+                           on sysinfo.v_sysvalue5 = fault.i_mode_status and sysinfo.v_sysid = '10009'
+                 left join tbl_sys_systeminfo sysinfo2
+                           on sysinfo2.v_sysvalue5 = fault.i_status and sysinfo2.v_sysid = '10010'
+                 left join tbl_sys_systeminfo sysinfo3
+                           on sysinfo3.v_sysvalue5 = fault.i_confirm_status and sysinfo3.v_sysid = '10021'
+        where fault.v_fault_id = #{faultId}
+    </select>
+
+    <!--是否推送三方平台-->
+    <select id="checkToSend" resultType="java.lang.Integer">
+        SELECT i_fault_type
+        FROM tbl_fault_shield
+        WHERE v_elevator_code = #{elevatorCode}
+          AND i_fault_type = #{faultType}
+          AND i_is_report = 0
+    </select>
+
+    <!--通过主键修改数据-->
+    <update id="update" parameterType="com.shmashine.common.entity.TblFaultTemp">
+        update tbl_fault_temp
+        <set>
+            <if test="dtEndTime != null">
+                dt_end_time = #{dtEndTime},
+            </if>
+            <if test="iFaultNum != null">
+                i_fault_num = #{iFaultNum},
+            </if>
+            <if test="iStatus != null">
+                i_status = #{iStatus},
+            </if>
+            <if test="iConfirmStatus != null">
+                i_confirm_status = #{iConfirmStatus},
+            </if>
+            <if test="iManualClear != null">
+                i_manual_clear = #{iManualClear},
+            </if>
+            <if test="dtModifyTime != null">
+                dt_modify_time = #{dtModifyTime},
+            </if>
+            <if test="vModifyUserId != null and vModifyUserId != ''">
+                v_modify_user_id = #{vModifyUserId},
+            </if>
+            <if test="recognitionResult != null and recognitionResult != ''">
+                recognitionResult = #{recognitionResult},
+            </if>
+            <if test="iDelFlag != null">
+                i_del_flag = #{iDelFlag},
+            </if>
+        </set>
+        where v_fault_id = #{vFaultId}
+    </update>
+
+    <!--通过主键修改数据-->
+    <update id="updateElectricMobile" parameterType="com.shmashine.common.entity.TblFaultTemp">
+        update tbl_fault_uncivilized_behavior37
+        <set>
+            <if test="dtEndTime != null">
+                dt_end_time = #{dtEndTime},
+            </if>
+            <if test="iFaultNum != null">
+                i_fault_num = #{iFaultNum},
+            </if>
+            <if test="iStatus != null">
+                i_status = #{iStatus},
+            </if>
+            <if test="iConfirmStatus != null">
+                i_confirm_status = #{iConfirmStatus},
+            </if>
+            <if test="iManualClear != null">
+                i_manual_clear = #{iManualClear},
+            </if>
+            <if test="dtModifyTime != null">
+                dt_modify_time = #{dtModifyTime},
+            </if>
+            <if test="vModifyUserId != null and vModifyUserId != ''">
+                v_modify_user_id = #{vModifyUserId},
+            </if>
+            <if test="iDelFlag != null">
+                i_del_flag = #{iDelFlag},
+            </if>
+        </set>
+        where v_fault_id = #{vFaultId}
+    </update>
+
+    <!-- 通过主键修改标注状态 -->
+    <update id="updateMarkLabel">
+        update tbl_fault_uncivilized_behavior37
+        set has_mark_label = #{hasMarkLabel},
+            dt_modify_time = now()
+        where v_fault_id = #{faultId}
+    </update>
+
+    <!-- 每日凌晨恢复困人临时表中故障 -->
+    <update id="recoverPeopleTrappedFault">
+        UPDATE tbl_fault_temp
+        SET i_status = 1
+        WHERE dt_report_time &gt;= #{yesterday}
+          AND dt_report_time &lt; #{today}
+          AND i_status = 0
+    </update>
+
+</mapper>

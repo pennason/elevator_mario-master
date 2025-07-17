@@ -1,0 +1,296 @@
+package com.shmashine.api.entity;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.io.Serializable;
+import java.util.Date;
+
+/**
+ * 麦信故障定义表(TblFaultDefinition0902)实体类
+ *
+ * @author makejava
+ * @since 2020-09-02 18:39:07
+ */
+public class TblFaultDefinition0902 implements Serializable {
+    private static final long serialVersionUID = 995710824539018933L;
+    /**
+     * 故障定义唯一ID
+     */
+    private String faultDefinitionId;
+    /**
+     * 故障主类型
+     */
+    private String faultType;
+    /**
+     * 故障名称
+     */
+    private String faultName;
+    /**
+     * 故障子类型
+     */
+    private String faultSecondType;
+    /**
+     * 故障子类型名称
+     */
+    private String faultSecondName;
+    /**
+     * 故障解决方式
+     */
+    private String resolve;
+    /**
+     * 备注
+     */
+    private String remark;
+    /**
+     * 故障等级
+     */
+    private Integer level;
+    /**
+     * 故障等级名称
+     */
+    private String levelName;
+    /**
+     * 是否保存故障视频 0：不保存，1：保存
+     */
+    private Integer saveVideo;
+    /**
+     * 是否保存故障图片 0：不保存，1：保存
+     */
+    private Integer saveImage;
+    /**
+     * 是否拦截确认 0：不拦截-直接生成故障，1：拦截-人工确认故障， 2：拦截-延迟1分钟自动确认故障
+     */
+    private Object filterFlag;
+    /**
+     * 不文明行为标识，0：故障，1：不文明行为
+     */
+    private Integer uncivilizedBehaviorFlag;
+    /**
+     * 平台类型
+     */
+    private String platformType;
+    /**
+     * 电梯类型 1 直梯; 2 扶梯
+     */
+    private Integer elevatorType;
+    /**
+     * 设备类型，1：后装设备，2：前装设备
+     */
+    private Integer sensorType;
+    /**
+     * 创建时间
+     */
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
+    private Date createTime;
+    /**
+     * 修改时间
+     */
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
+    private Date modifyTime;
+    /**
+     * 创建记录用户
+     */
+    private String createUserId;
+    /**
+     * 修改记录用户
+     */
+    private String modifyUserId;
+    /**
+     * 删除标识 0-未删除，1-已删除
+     */
+    private Integer delFlag;
+
+    @JsonProperty("faultDefinitionId")
+    public String getFaultDefinitionId() {
+        return faultDefinitionId;
+    }
+
+    public void setFaultDefinitionId(String faultDefinitionId) {
+        this.faultDefinitionId = faultDefinitionId;
+    }
+
+    @JsonProperty("faultType")
+    public String getFaultType() {
+        return faultType;
+    }
+
+    public void setFaultType(String faultType) {
+        this.faultType = faultType;
+    }
+
+    @JsonProperty("faultName")
+    public String getFaultName() {
+        return faultName;
+    }
+
+    public void setFaultName(String faultName) {
+        this.faultName = faultName;
+    }
+
+    @JsonProperty("faultSecondType")
+    public String getFaultSecondType() {
+        return faultSecondType;
+    }
+
+    public void setFaultSecondType(String faultSecondType) {
+        this.faultSecondType = faultSecondType;
+    }
+
+    @JsonProperty("faultSecondName")
+    public String getFaultSecondName() {
+        return faultSecondName;
+    }
+
+    public void setFaultSecondName(String faultSecondName) {
+        this.faultSecondName = faultSecondName;
+    }
+
+    @JsonProperty("resolve")
+    public String getResolve() {
+        return resolve;
+    }
+
+    public void setResolve(String resolve) {
+        this.resolve = resolve;
+    }
+
+    @JsonProperty("remark")
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
+    @JsonProperty("level")
+    public Integer getLevel() {
+        return level;
+    }
+
+    public void setLevel(Integer level) {
+        this.level = level;
+    }
+
+    @JsonProperty("levelName")
+    public String getLevelName() {
+        return levelName;
+    }
+
+    public void setLevelName(String levelName) {
+        this.levelName = levelName;
+    }
+
+    @JsonProperty("saveVideo")
+    public Integer getSaveVideo() {
+        return saveVideo;
+    }
+
+    public void setSaveVideo(Integer saveVideo) {
+        this.saveVideo = saveVideo;
+    }
+
+    @JsonProperty("saveImage")
+    public Integer getSaveImage() {
+        return saveImage;
+    }
+
+    public void setSaveImage(Integer saveImage) {
+        this.saveImage = saveImage;
+    }
+
+    @JsonProperty("filterFlag")
+    public Object getFilterFlag() {
+        return filterFlag;
+    }
+
+    public void setFilterFlag(Object filterFlag) {
+        this.filterFlag = filterFlag;
+    }
+
+    @JsonProperty("uncivilizedBehaviorFlag")
+    public Integer getUncivilizedBehaviorFlag() {
+        return uncivilizedBehaviorFlag;
+    }
+
+    public void setUncivilizedBehaviorFlag(Integer uncivilizedBehaviorFlag) {
+        this.uncivilizedBehaviorFlag = uncivilizedBehaviorFlag;
+    }
+
+    @JsonProperty("platformType")
+    public String getPlatformType() {
+        return platformType;
+    }
+
+    public void setPlatformType(String platformType) {
+        this.platformType = platformType;
+    }
+
+    @JsonProperty("elevatorType")
+    public Integer getElevatorType() {
+        return elevatorType;
+    }
+
+    public void setElevatorType(Integer elevatorType) {
+        this.elevatorType = elevatorType;
+    }
+
+    @JsonProperty("sensorType")
+    public Integer getSensorType() {
+        return sensorType;
+    }
+
+    public void setSensorType(Integer sensorType) {
+        this.sensorType = sensorType;
+    }
+
+    @JsonProperty("createTime")
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    @JsonProperty("modifyTime")
+    public Date getModifyTime() {
+        return modifyTime;
+    }
+
+    public void setModifyTime(Date modifyTime) {
+        this.modifyTime = modifyTime;
+    }
+
+    @JsonProperty("createUserId")
+    public String getCreateUserId() {
+        return createUserId;
+    }
+
+    public void setCreateUserId(String createUserId) {
+        this.createUserId = createUserId;
+    }
+
+    @JsonProperty("modifyUserId")
+    public String getModifyUserId() {
+        return modifyUserId;
+    }
+
+    public void setModifyUserId(String modifyUserId) {
+        this.modifyUserId = modifyUserId;
+    }
+
+    @JsonProperty("delFlag")
+    public Integer getDelFlag() {
+        return delFlag;
+    }
+
+    public void setDelFlag(Integer delFlag) {
+        this.delFlag = delFlag;
+    }
+
+}

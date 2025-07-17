@@ -1,0 +1,1 @@
+package com.shmashine.camera.kafka;

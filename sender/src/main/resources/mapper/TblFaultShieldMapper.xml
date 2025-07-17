@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.sender.dao.TblFaultShieldDao">
+
+    <resultMap type="com.shmashine.sender.entity.TblFaultShield" id="TblFaultShieldMap">
+        <result column="v_elevator_id" property="vElevatorId"></result>
+        <result column="v_elevator_code" property="vElevatorCode"></result>
+        <result column="i_fault_type" property="iFaultType"></result>
+        <result column="v_fault_name" property="vFaultName"></result>
+        <result column="i_is_user_visible" property="iIsUserVisible"></result>
+        <result column="i_is_report" property="iIsReport"></result>
+    </resultMap>
+
+    <sql id="table_field">
+        v_elevator_id
+        ,v_elevator_code,i_fault_type,v_fault_name,i_is_user_visible,i_is_report
+    </sql>
+
+
+    <select id="getFaultShieldByElevatorCode" resultMap="TblFaultShieldMap" parameterType="java.lang.String">
+        select
+        <include refid="table_field"/>
+        from tbl_fault_shield
+        where v_elevator_code = #{elevatorCode} and i_is_report = 0
+    </select>
+
+</mapper>

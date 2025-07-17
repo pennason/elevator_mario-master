@@ -1,0 +1,385 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.pm.api.dao.TblInvestigateOnceBillDao">
+    <resultMap type="com.shmashine.pm.api.entity.TblInvestigateOnceBill" id="TblInvestigateOnceBillResultMap">
+        <result property="vInvestigateOnceBillId" column="v_investigate_once_bill_id" jdbcType="VARCHAR"/>
+        <result property="vInvestigateTaskId" column="v_investigate_task_id" jdbcType="VARCHAR"/>
+        <result property="iWellHoleFourMeter" column="i_well_hole_four_meter" jdbcType="INTEGER"/>
+        <result property="iMachRoom220" column="i_mach_room_220" jdbcType="INTEGER"/>
+        <result property="iBackupCable" column="i_backup_cable" jdbcType="INTEGER"/>
+        <result property="iStraightDoorElevator" column="i_straight_door_elevator" jdbcType="INTEGER"/>
+        <result property="iElevatorCount" column="i_elevator_count" jdbcType="INTEGER"/>
+        <result property="vRealInvestigator" column="v_real_investigator" jdbcType="VARCHAR"/>
+        <result property="vRealInvestigatorPhone" column="v_real_investigator_phone" jdbcType="VARCHAR"/>
+        <result property="iMachRoom" column="i_mach_room" jdbcType="INTEGER"/>
+        <result property="dtCreateTime" column="dt_create_time" jdbcType="TIMESTAMP"/>
+        <result property="dtModifyTime" column="dt_modify_time" jdbcType="TIMESTAMP"/>
+        <result property="vCreateUserId" column="v_create_user_id" jdbcType="VARCHAR"/>
+        <result property="vModifyUserId" column="v_modify_user_id" jdbcType="VARCHAR"/>
+        <result property="vElevatorId" column="v_elevator_id" jdbcType="VARCHAR"/>
+        <result property="iStatus" column="i_status" jdbcType="INTEGER"/>
+        <result property="iDelFlag" column="i_del_flag" jdbcType="INTEGER"/>
+        <result property="vProjectId" column="v_project_id" jdbcType="VARCHAR"/>
+        <result property="vVillageId" column="v_village_id" jdbcType="VARCHAR"/>
+        <result property="vDevicePosition" column="v_device_position" jdbcType="VARCHAR"/>
+        <result property="iMachRoomY" column="i_mach_room_y" jdbcType="INTEGER"/>
+        <result property="iMachRoomN" column="i_mach_room_n" jdbcType="INTEGER"/>
+        <result property="vElevatorBrand" column="v_elevator_brand" jdbcType="VARCHAR"/>
+        <collection property="greenCodeImages" ofType="com.shmashine.pm.api.entity.TblPmImage"
+                    select="selectGreenCodeImages" column="v_investigate_once_bill_id">
+        </collection>
+        <collection property="floorImages" ofType="com.shmashine.pm.api.entity.TblPmImage" select="selectFloorImages"
+                    column="v_investigate_once_bill_id">
+        </collection>
+        <collection property="machRoomSignalImages" ofType="com.shmashine.pm.api.entity.TblPmImage"
+                    select="selectMachRoomSignalImages" column="v_investigate_once_bill_id">
+        </collection>
+        <collection property="equipmentCodeImages" ofType="com.shmashine.pm.api.entity.TblPmImage"
+                    select="selectEquipmentCodeImages" column="v_investigate_once_bill_id">
+        </collection>
+        <collection property="elevatorDoorBtnInsideImages" ofType="com.shmashine.pm.api.entity.TblPmImage"
+                    select="selectElevatorDoorBtnInsideImages" column="v_investigate_once_bill_id">
+        </collection>
+    </resultMap>
+
+    <sql id="table_field">
+        v_investigate_once_bill_id
+        , v_investigate_task_id, i_well_hole_four_meter, i_mach_room_220, i_backup_cable, i_straight_door_elevator, i_elevator_count, v_real_investigator,  v_real_investigator_phone, i_mach_room, dt_create_time, dt_modify_time, v_create_user_id, v_modify_user_id, v_elevator_id, i_status,
+        i_del_flag, v_project_id, v_village_id, v_device_position, i_mach_room_y, i_mach_room_n, v_elevator_brand,i_straight_door_elevator_y,i_straight_door_elevator_n,v_remark
+    </sql>
+
+    <!--通过Id查询单个-->
+    <select id="getById" resultMap="TblInvestigateOnceBillResultMap" parameterType="java.lang.String">
+        select
+        <include refid="table_field"/>
+        from
+        tbl_investigate_once_bill
+        where
+        v_investigate_once_bill_id = #{vInvestigateOnceBillId,jdbcType=VARCHAR}
+    </select>
+
+    <!--通过taskId查找-->
+    <select id="getByTaskId" parameterType="java.lang.String" resultMap="TblInvestigateOnceBillResultMap">
+        select
+        <include refid="table_field"/>
+        from
+        tbl_investigate_once_bill
+        where
+        v_investigate_task_id = #{vInvestigateTaskId,jdbcType=VARCHAR}
+        limit 0, 1
+    </select>
+
+    <!--通过电梯code查找-->
+    <select id="getByElevatorCode" parameterType="java.lang.String">
+        select
+        <include refid="table_field"/>
+        from
+        tbl_investigate_once_bill
+        where
+        v_elevator_code = #{vElevatorCode,jdbcType=VARCHAR}
+        limit 0, 1
+    </select>
+
+    <!--新增实体属性不为null的列-->
+    <insert id="insert" keyProperty="vInvestigateOnceBillId" useGeneratedKeys="true"
+            parameterType="com.shmashine.pm.api.entity.TblInvestigateOnceBill">
+        insert into tbl_investigate_once_bill
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="vInvestigateOnceBillId != null">
+                v_investigate_once_bill_id,
+            </if>
+            <if test="vInvestigateTaskId != null">
+                v_investigate_task_id,
+            </if>
+            <if test="iWellHoleFourMeter != null">
+                i_well_hole_four_meter,
+            </if>
+            <if test="iMachRoom220 != null">
+                i_mach_room_220,
+            </if>
+            <if test="iBackupCable != null">
+                i_backup_cable,
+            </if>
+            <if test="iStraightDoorElevator != null">
+                i_straight_door_elevator,
+            </if>
+            <if test="iElevatorCount != null">
+                i_elevator_count,
+            </if>
+            <if test="vRealInvestigator != null">
+                v_real_investigator,
+            </if>
+            <if test="vRealInvestigatorPhone != null">
+                v_real_investigator_phone,
+            </if>
+            <if test="iMachRoom != null">
+                i_mach_room,
+            </if>
+            <if test="dtCreateTime != null">
+                dt_create_time,
+            </if>
+            <if test="dtModifyTime != null">
+                dt_modify_time,
+            </if>
+            <if test="vCreateUserId != null">
+                v_create_user_id,
+            </if>
+            <if test="vModifyUserId != null">
+                v_modify_user_id,
+            </if>
+            <if test="vElevatorId != null and vElevatorId != ''">
+                v_elevator_id,
+            </if>
+            <if test="iStatus != null">
+                i_status,
+            </if>
+            <if test="iDelFlag != null">
+                i_del_flag,
+            </if>
+            <if test="vProjectId != null and vProjectId != ''">
+                v_project_id,
+            </if>
+            <if test="vVillageId != null and vVillageId != ''">
+                v_village_id,
+            </if>
+            <if test="vDevicePosition != null and vDevicePosition != ''">
+                v_device_position,
+            </if>
+            <if test="iMachRoomY != null">
+                i_mach_room_y,
+            </if>
+            <if test="iMachRoomN != null">
+                i_mach_room_n,
+            </if>
+            <if test="vElevatorBrand != null and vElevatorBrand != ''">
+                v_elevator_brand,
+            </if>
+            <if test="iStraightDoorElevatorY != null">
+                i_straight_door_elevator_y,
+            </if>
+            <if test="iStraightDoorElevatorN != null">
+                i_straight_door_elevator_n,
+            </if>
+            <if test="vRemark != null">
+                v_remark,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="vInvestigateOnceBillId != null">
+                #{vInvestigateOnceBillId,jdbcType=VARCHAR},
+            </if>
+            <if test="vInvestigateTaskId != null">
+                #{vInvestigateTaskId,jdbcType=VARCHAR},
+            </if>
+            <if test="iWellHoleFourMeter != null">
+                #{iWellHoleFourMeter,jdbcType=INTEGER},
+            </if>
+            <if test="iMachRoom220 != null">
+                #{iMachRoom220,jdbcType=INTEGER},
+            </if>
+            <if test="iBackupCable != null">
+                #{iBackupCable,jdbcType=INTEGER},
+            </if>
+            <if test="iStraightDoorElevator != null">
+                #{iStraightDoorElevator,jdbcType=INTEGER},
+            </if>
+            <if test="iElevatorCount != null">
+                #{iElevatorCount,jdbcType=INTEGER},
+            </if>
+            <if test="vRealInvestigator != null">
+                #{vRealInvestigator,jdbcType=VARCHAR},
+            </if>
+            <if test="vRealInvestigatorPhone != null">
+                #{vRealInvestigatorPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="iMachRoom != null">
+                #{iMachRoom,jdbcType=INTEGER},
+            </if>
+            <if test="dtCreateTime != null">
+                #{dtCreateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="dtModifyTime != null">
+                #{dtModifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="vCreateUserId != null">
+                #{vCreateUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="vModifyUserId != null">
+                #{vModifyUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="vElevatorId != null and vElevatorId != ''">
+                #{vElevatorId,jdbcType=VARCHAR},
+            </if>
+            <if test="iStatus != null">
+                #{iStatus,jdbcType=INTEGER},
+            </if>
+            <if test="iDelFlag != null">
+                #{iDelFlag,jdbcType=INTEGER},
+            </if>
+            <if test="vProjectId != null and vProjectId != ''">
+                #{vProjectId,jdbcType=VARCHAR},
+            </if>
+            <if test="vVillageId != null and vVillageId != ''">
+                #{vVillageId,jdbcType=VARCHAR},
+            </if>
+            <if test="vDevicePosition != null and vDevicePosition != ''">
+                #{vDevicePosition, jdbcType=VARCHAR},
+            </if>
+            <if test="iMachRoomY != null">
+                #{iMachRoomY, jdbcType=INTEGER},
+            </if>
+            <if test="iMachRoomN != null">
+                #{iMachRoomN, jdbcType=INTEGER},
+            </if>
+            <if test="vElevatorBrand != null and vElevatorBrand != ''">
+                #{vElevatorBrand, jdbcType=VARCHAR},
+            </if>
+            <if test="iStraightDoorElevatorY != null">
+                #{iStraightDoorElevatorY, jdbcType=INTEGER},
+            </if>
+            <if test="iStraightDoorElevatorN != null">
+                #{iStraightDoorElevatorN, jdbcType=INTEGER},
+            </if>
+            <if test="vRemark != null and vRemark != ''">
+                #{vRemark, jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <!--通过主键修改实体属性不为null的列-->
+    <update id="update" parameterType="com.shmashine.pm.api.entity.TblInvestigateOnceBill">
+        update tbl_investigate_once_bill
+        <set>
+            <if test="vInvestigateOnceBillId != null">
+                v_investigate_once_bill_id = #{vInvestigateOnceBillId,jdbcType=VARCHAR},
+            </if>
+            <if test="vInvestigateTaskId != null">
+                v_investigate_task_id = #{vInvestigateTaskId,jdbcType=VARCHAR},
+            </if>
+            <if test="iWellHoleFourMeter != null">
+                i_well_hole_four_meter = #{iWellHoleFourMeter,jdbcType=INTEGER},
+            </if>
+            <if test="iMachRoom220 != null">
+                i_mach_room_220 = #{iMachRoom220,jdbcType=INTEGER},
+            </if>
+            <if test="iBackupCable != null">
+                i_backup_cable = #{iBackupCable,jdbcType=INTEGER},
+            </if>
+            <if test="iStraightDoorElevator != null">
+                i_straight_door_elevator = #{iStraightDoorElevator,jdbcType=INTEGER},
+            </if>
+            <if test="iElevatorCount != null">
+                i_elevator_count = #{iElevatorCount,jdbcType=INTEGER},
+            </if>
+            <if test="vRealInvestigator != null">
+                v_real_investigator = #{vRealInvestigator,jdbcType=VARCHAR},
+            </if>
+            <if test="vRealInvestigatorPhone != null">
+                v_real_investigator_phone = #{vRealInvestigatorPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="iMachRoom != null">
+                i_mach_room = #{iMachRoom,jdbcType=INTEGER},
+            </if>
+            <if test="dtCreateTime != null">
+                dt_create_time = #{dtCreateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="dtModifyTime != null">
+                dt_modify_time = #{dtModifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="vCreateUserId != null and vCreateUserId != ''">
+                v_create_user_id = #{vCreateUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="vModifyUserId != null and vModifyUserId != ''">
+                v_modify_user_id = #{vModifyUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="vElevatorId != null and vElevatorId != ''">
+                v_elevator_id = #{vElevatorId,jdbcType=VARCHAR},
+            </if>
+            <if test="iStatus != null">
+                i_status = #{iStatus,jdbcType=INTEGER},
+            </if>
+            <if test="iDelFlag != null">
+                i_del_flag = #{iDelFlag,jdbcType=INTEGER},
+            </if>
+            <if test="vProjectId != null and vProjectId != ''">
+                v_project_id = #{vProjectId,jdbcType=VARCHAR},
+            </if>
+            <if test="vVillageId != null and vVillageId != ''">
+                v_village_id = #{vVillageId,jdbcType=VARCHAR},
+            </if>
+            <if test="vDevicePosition != null and vDevicePosition != ''">
+                v_device_position = #{vDevicePosition,jdbcType=VARCHAR},
+            </if>
+            <if test="iMachRoomY != null">
+                i_mach_room_y = #{iMachRoomY, jdbcType=INTEGER},
+            </if>
+            <if test="iMachRoomN != null">
+                i_mach_room_n = #{iMachRoomN, jdbcType=INTEGER},
+            </if>
+            <if test="vElevatorBrand != null and vElevatorBrand != ''">
+                v_elevator_brand = #{vElevatorBrand, jdbcType=VARCHAR},
+            </if>
+        </set>
+        <where>
+            <if test="vInvestigateOnceBillId != null and vInvestigateOnceBillId != ''">
+                and v_investigate_once_bill_id = #{vInvestigateOnceBillId, jdbcType=VARCHAR}
+            </if>
+            <if test="vInvestigateTaskId != null and vInvestigateTaskId != ''">
+                and v_investigate_task_id = #{vInvestigateTaskId, jdbcType=VARCHAR}
+            </if>
+            <if test="vElevatorId != null and vElevatorId != ''">
+                and v_elevator_id = #{vElevatorId, jdbcType=VARCHAR}
+            </if>
+            <if test="vElevatorCode != null and vElevatorCode != ''">
+                and v_elevator_code = #{vElevatorCode, jdbcType=VARCHAR}
+            </if>
+        </where>
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById" parameterType="java.lang.String">
+        delete
+        from tbl_investigate_once_bill
+        where v_investigate_once_bill_id = #{vInvestigateOnceBillId,jdbcType=VARCHAR}
+    </delete>
+
+    <select id="selectGreenCodeImages" resultMap="com.shmashine.pm.api.dao.TblPmImageDao.TblPmImageResultMap"
+            parameterType="java.lang.String">
+        select *
+        from tbl_pm_image
+        where v_target_id = #{v_investigate_once_bill_id, jdbcType=VARCHAR}
+          and i_image_type = 1
+    </select>
+
+    <select id="selectFloorImages" resultMap="com.shmashine.pm.api.dao.TblPmImageDao.TblPmImageResultMap"
+            parameterType="java.lang.String">
+        select *
+        from tbl_pm_image
+        where v_target_id = #{v_investigate_once_bill_id, jdbcType=VARCHAR}
+          and i_image_type = 2
+    </select>
+
+    <select id="selectMachRoomSignalImages" resultMap="com.shmashine.pm.api.dao.TblPmImageDao.TblPmImageResultMap"
+            parameterType="java.lang.String">
+        select *
+        from tbl_pm_image
+        where v_target_id = #{v_investigate_once_bill_id, jdbcType=VARCHAR}
+          and i_image_type = 3
+    </select>
+
+    <select id="selectEquipmentCodeImages" resultMap="com.shmashine.pm.api.dao.TblPmImageDao.TblPmImageResultMap"
+            parameterType="java.lang.String">
+        select *
+        from tbl_pm_image
+        where v_target_id = #{v_investigate_once_bill_id, jdbcType=VARCHAR}
+          and i_image_type = 7
+    </select>
+
+    <select id="selectElevatorDoorBtnInsideImages"
+            resultMap="com.shmashine.pm.api.dao.TblPmImageDao.TblPmImageResultMap" parameterType="java.lang.String">
+        select *
+        from tbl_pm_image
+        where v_target_id = #{v_investigate_once_bill_id, jdbcType=VARCHAR}
+          and i_image_type = 8
+    </select>
+</mapper>

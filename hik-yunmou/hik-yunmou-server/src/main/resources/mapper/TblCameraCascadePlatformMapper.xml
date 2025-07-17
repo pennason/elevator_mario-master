@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.hikYunMou.dao.TblCameraCascadePlatformMapper">
+    <sql id="TABLE_NAME">
+        tbl_camera_cascade_platform
+    </sql>
+
+    <sql id="ALL_COLUMNS">
+        id
+        , cloud_number, platform_id, platform_name, sup_or_sub, elevator_code, camera_type, channel_id, channel_no, channel_code, create_time, modify_time
+    </sql>
+
+    <!-- 添加 -->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true"
+            parameterType="com.shmashine.common.entity.TblCameraCascadePlatformEntity">
+        INSERT INTO
+        <include refid="TABLE_NAME"/>
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            cloud_number, platform_id,
+            <if test="entity.platformName != null and entity.platformName != ''">platform_name,</if>
+            <if test="entity.supOrSub != null">sup_or_sub,</if>
+            <if test="entity.elevatorCode != null and entity.elevatorCode != ''">elevator_code,</if>
+            <if test="entity.cameraType != null">camera_type,</if>
+            <if test="entity.channelId != null and entity.channelId != ''">channel_id,</if>
+            <if test="entity.channelNo != null">channel_no,</if>
+            <if test="entity.channelCode != null and entity.channelCode != ''">channel_code,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            #{entity.cloudNumber}, #{entity.platformId},
+            <if test="entity.platformName != null and entity.platformName != ''">#{entity.platformName},</if>
+            <if test="entity.supOrSub != null">#{entity.supOrSub},</if>
+            <if test="entity.elevatorCode != null and entity.elevatorCode != ''">#{entity.elevatorCode},</if>
+            <if test="entity.cameraType != null">#{entity.cameraType},</if>
+            <if test="entity.channelId != null and entity.channelId != ''">#{entity.channelId},</if>
+            <if test="entity.channelNo != null">#{entity.channelNo},</if>
+            <if test="entity.channelCode != null and entity.channelCode != ''">#{entity.channelCode},</if>
+        </trim>
+        ON DUPLICATE KEY UPDATE
+        <trim suffixOverrides=",">
+            <if test="entity.elevatorCode != null and entity.elevatorCode != ''">elevator_code =
+                #{entity.elevatorCode},
+            </if>
+            <if test="entity.cameraType != null">camera_type = #{entity.cameraType},</if>
+            <if test="entity.channelId != null and entity.channelId != ''">channel_id = #{entity.channelId},</if>
+            <if test="entity.channelNo != null">channel_no = #{entity.channelNo},</if>
+            <if test="entity.channelCode != null and entity.channelCode != ''">channel_code = #{entity.channelCode},
+            </if>
+        </trim>
+    </insert>
+
+</mapper>

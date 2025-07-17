@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shmashine.pm.api.dao.BizCheckingTaskDao">
+
+    <resultMap id="TblCheckingTaskDtoResultMap" type="com.shmashine.pm.api.entity.dto.TblCheckingTaskDto">
+        <result property="vCheckingTaskId" column="v_checking_task_id" jdbcType="VARCHAR"/>
+        <result property="vProjectId" column="v_project_id" jdbcType="VARCHAR"/>
+        <result property="vVillageId" column="v_village_id" jdbcType="VARCHAR"/>
+        <result property="vPrincipalId" column="v_principal_id" jdbcType="VARCHAR"/>
+        <result property="dCheckDate" column="d_check_date" jdbcType="DATE"/>
+        <result property="iElevatorCount" column="i_elevator_count" jdbcType="INTEGER"/>
+        <result property="iStatus" column="i_status" jdbcType="INTEGER"/>
+        <result property="dtCreateTime" column="dt_create_time" jdbcType="TIMESTAMP"/>
+        <result property="dtModifyTime" column="dt_modify_time" jdbcType="TIMESTAMP"/>
+        <result property="vCreateUserId" column="v_create_user_id" jdbcType="VARCHAR"/>
+        <result property="vModifyUserId" column="v_modify_user_id" jdbcType="VARCHAR"/>
+        <result property="iDelFlag" column="i_del_flag" jdbcType="INTEGER"/>
+        <result property="vAddress" column="v_address" jdbcType="VARCHAR"/>
+        <result property="vProjectName" column="v_project_name" jdbcType="VARCHAR"/>
+        <result property="vVillageName" column="v_village_name" jdbcType="VARCHAR"/>
+        <result property="iStatusName" column="i_status_name" jdbcType="VARCHAR"/>
+        <result property="vRemark" column="v_remark" jdbcType="VARCHAR"/>
+        <result property="vPrincipalName" column="v_principal_name" jdbcType="VARCHAR"/>
+        <result property="vPrincipalMobile" column="v_principal_mobile" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="table_field">
+        v_checking_task_id
+        , v_project_id, v_village_id, v_address, v_principal_id, d_check_date, i_elevator_count, i_status, v_remark, dt_create_time, dt_modify_time, v_create_user_id, v_modify_user_id, i_del_flag
+    </sql>
+
+    <!-- 小区列表 -->
+    <select id="searchCheckingTaskList" resultType="java.util.Map">
+        select
+        tbl.v_checking_task_id,
+        tbl.v_project_id,
+        tbl.v_village_id,
+        tbl.v_address,
+        tbl.v_principal_id,
+        tbl.d_check_date,
+        tbl.i_elevator_count,
+        tbl.i_status,
+        case
+        when tbl.i_status = 1 then '未验收'
+        when tbl.i_status = 2 then '验收中'
+        when tbl.i_status = 3 then '完成'
+        when tbl.i_status = 11 then '需调整'
+        when tbl.i_status = -1 then '已取消'
+        else '无'
+        end as i_status_name,
+        tbl.dt_create_time,
+        tbl.dt_modify_time,
+        tbl.v_create_user_id,
+        tbl.v_modify_user_id,
+        tbl.i_del_flag,
+        village.v_village_name,
+        project.v_project_name,
+        sysinfo.v_name_zh_cn AS i_del_flag_name,
+        u.v_name as v_principal_name,
+        dept.v_dept_name
+        from tbl_checking_task tbl
+        left join tbl_sys_user as u
+        on u.v_user_id = tbl.v_principal_id
+        left join tbl_project project on project.v_project_id = tbl.v_project_id
+        left join tbl_sys_dept dept on dept.v_dept_id = project.v_dept_id
+        left join tbl_village village on village.v_village_id = tbl.v_village_id
+        left join tbl_sys_systeminfo sysinfo on sysinfo.v_sysvalue5 = tbl.i_del_flag and sysinfo.v_sysid = '10012'
+        <where>
+            <if test="vCheckingTaskId != null and vCheckingTaskId != ''">
+                and tbl.v_checking_task_id = #{vCheckingTaskId,jdbcType=VARCHAR}
+            </if>
+            <if test="vProjectId != null and vProjectId != ''">
+                and tbl.v_project_id = #{vProjectId,jdbcType=VARCHAR}
+            </if>
+            <if test="vVillageId != null and vVillageId != ''">
+                and tbl.v_village_id = #{vVillageId,jdbcType=VARCHAR}
+            </if>
+            <if test="vAddress != null and vAddress != ''">
+                and tbl.v_address like CONCAT('%',#{vAddress,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="iDelFlag != null">
+                and tbl.i_del_flag = #{iDelFlag, jdbcType=INTEGER}
+            </if>
+            <if test="!isAdminFlag">
+                and tbl.v_principal_id = #{userId, jdbcType=VARCHAR}
+            </if>
+        </where>
+        order by tbl.dt_create_time desc
+    </select>
+
+    <select id="getTaskDetail" parameterType="java.lang.String" resultMap="TblCheckingTaskDtoResultMap">
+        select tbl.v_checking_task_id,
+               tbl.v_project_id,
+               tbl.v_village_id,
+               tbl.v_address,
+               tbl.v_principal_id,
+               tbl.d_check_date,
+               tbl.i_elevator_count,
+               tbl.i_status,
+               case
+                   when tbl.i_status = 1 then '未验收'
+                   when tbl.i_status = 2 then '验收中'
+                   when tbl.i_status = 3 then '完成'
+                   when tbl.i_status = 11 then '需调整'
+                   when tbl.i_status = -1 then '已取消'
+                   else '无'
+                   end              as i_status_name,
+               tbl.v_remark,
+               tbl.dt_create_time,
+               tbl.dt_modify_time,
+               tbl.v_create_user_id,
+               tbl.v_modify_user_id,
+               tbl.i_del_flag,
+               village.v_village_name,
+               project.v_project_name,
+               sysinfo.v_name_zh_cn AS i_del_flag_name,
+               u.v_name             as v_principal_name,
+               u.v_mobile           as v_principal_mobile
+        from tbl_checking_task tbl
+                 left join tbl_sys_user as u
+                           on u.v_user_id = tbl.v_principal_id
+                 join tbl_project project on project.v_project_id = tbl.v_project_id
+                 join tbl_sys_dept dept on dept.v_dept_id = project.v_dept_id
+                 join tbl_village village on village.v_village_id = tbl.v_village_id
+                 left join tbl_sys_systeminfo sysinfo
+                           on sysinfo.v_sysvalue5 = tbl.i_del_flag and sysinfo.v_sysid = '10012'
+        where tbl.v_checking_task_id = #{vCheckingTaskId, jdbcType=VARCHAR} limit 0,1
+    </select>
+
+    <!-- 获取小区下拉框 -->
+    <select id="searchCheckingTaskSelectList" resultType="java.util.Map">
+        select
+        v_checking_task_id,
+        v_project_id,
+        v_village_id,
+        v_address
+        from tbl_checking_task
+        <where>
+            v_checking_task_id = #{investigateTaskId}
+        </where>
+    </select>
+
+    <!-- 获取小区下拉框 -->
+    <select id="getByVillageId" resultType="com.shmashine.pm.api.entity.TblCheckingTask">
+        select
+        <include refid="table_field"/>
+        from tbl_checking_task
+        <where>
+            v_village_id = #{vVillageId}
+        </where>
+        limit 0, 1
+    </select>
+</mapper>

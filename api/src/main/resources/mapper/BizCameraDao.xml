@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.api.dao.BizCameraDao">
+
+    <resultMap type="com.shmashine.common.entity.TblCamera" id="TblCameraResultMap">
+        <result property="vCameraId" column="v_camera_id" jdbcType="VARCHAR"/>
+        <result property="vElevatorId" column="v_elevator_id" jdbcType="VARCHAR"/>
+        <result property="vElevatorCode" column="v_elevator_code" jdbcType="VARCHAR"/>
+        <result property="iCameraType" column="i_camera_type" jdbcType="INTEGER"/>
+        <result property="vSerialNumber" column="v_serial_number" jdbcType="VARCHAR"/>
+        <result property="vUsername" column="v_username" jdbcType="VARCHAR"/>
+        <result property="vPassword" column="v_password" jdbcType="VARCHAR"/>
+        <result property="vCloudNumber" column="v_cloud_number" jdbcType="VARCHAR"/>
+        <result property="vHlsUrl" column="v_hls_url" jdbcType="VARCHAR"/>
+        <result property="vRtmpUrl" column="v_rtmp_url" jdbcType="VARCHAR"/>
+        <result property="vPrivateUrl" column="v_private_url" jdbcType="VARCHAR"/>
+        <result property="dtCreateTime" column="dt_create_time" jdbcType="TIMESTAMP"/>
+        <result property="dtModifyTime" column="dt_modify_time" jdbcType="TIMESTAMP"/>
+        <result property="vCreateUserId" column="v_create_user_id" jdbcType="VARCHAR"/>
+        <result property="vModifyUserId" column="v_modify_user_id" jdbcType="VARCHAR"/>
+        <result property="iDelFlag" column="i_del_flag" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="table_field">
+        v_camera_id
+        , v_elevator_id, v_elevator_code, i_camera_type, v_serial_number, v_username, v_password, v_cloud_number, v_hls_url, v_rtmp_url, v_private_url, dt_create_time, dt_modify_time, v_create_user_id, v_modify_user_id, i_del_flag
+    </sql>
+
+
+    <select id="getByElevatorId" resultType="com.shmashine.common.entity.TblCamera">
+        select tc.v_camera_id,
+               tc.v_elevator_id,
+               tc.v_elevator_code,
+               tc.i_camera_type,
+               tc.v_serial_number,
+               tc.v_username,
+               tc.v_password,
+               tc.v_cloud_number,
+               tc.v_hls_url,
+               tc.v_rtmp_url,
+               tc.v_private_url,
+               tc.dt_create_time,
+               tc.dt_modify_time,
+               tc.v_create_user_id,
+               tc.v_modify_user_id,
+               tc.i_del_flag
+        FROM tbl_camera tc
+                 inner join tbl_elevator ele on tc.v_elevator_id = ele.v_elevator_id
+        where ele.v_elevator_id = #{elevatorId,jdbcType=VARCHAR}
+           or ele.v_equipment_code = #{elevatorId,jdbcType=VARCHAR}
+    </select>
+
+    <select id="getByElevatorCode" resultType="com.shmashine.common.entity.TblCamera">
+        select
+        <include refid="table_field"/>
+        from tbl_camera
+        where
+        v_elevator_code = #{elevatorCode,jdbcType=VARCHAR}
+    </select>
+
+    <select id="getHkCameraInfo" resultType="java.util.HashMap">
+        select *
+        from tbl_hk_camera
+        where v_camera_id = #{vCameraId,jdbcType=VARCHAR}
+    </select>
+
+    <!--上海智慧电梯平台-摄像头基本信息-->
+    <select id="getCameraInfoByRegisterNumbers" resultType="com.shmashine.api.module.camera.CameraInfoResult">
+        select
+        ele.v_equipment_code AS registerNumber,
+        if(tc.v_camera_id is null,0,1) AS cameraStatus,
+        if(tc.v_camera_id is null,0,ele.i_on_line) AS onlineStatus
+        from
+        tbl_elevator ele
+        left join tbl_camera tc on ele.v_elevator_code = tc.v_elevator_code
+        where
+        ele.i_del_flag = 0
+        and ele.v_equipment_code IN
+        <foreach collection="list" item="registerNumber" index="registerNumbers" open="(" close=")" separator=",">
+            #{registerNumber}
+        </foreach>
+    </select>
+
+
+    <!-- 获取摄像头总数列表， 按项目分组 -->
+
+    <select id="countCameraGroupByProject" resultType="com.shmashine.api.entity.KpiProjectElevatorCountEntity">
+        select v_project_id as projectId,
+               count(*)     as total
+        from (SELECT c.v_camera_id,
+                     c.v_elevator_id,
+                     c.v_elevator_code,
+                     c.i_camera_type,
+                     c.v_serial_number,
+                     c.v_cloud_number,
+                     c.v_is_activate,
+                     c.online_status,
+                     e.v_project_id
+              FROM tbl_camera AS c
+                       INNER JOIN tbl_elevator AS e
+                                  ON c.v_elevator_id = e.v_elevator_id AND e.i_install_status = 1
+              WHERE e.i_del_flag = 0
+                AND c.i_del_flag = 0
+                AND c.v_cloud_number IS NOT NULL
+                AND c.v_cloud_number != '') AS t
+        group by v_project_id
+    </select>
+
+    <select id="countOfflineCameraGroupByProject" resultType="com.shmashine.api.entity.KpiProjectElevatorCountEntity">
+        select v_project_id as projectId,
+               count(*)     as total
+        from (SELECT c.v_camera_id,
+                     c.v_elevator_id,
+                     c.v_elevator_code,
+                     c.i_camera_type,
+                     c.v_serial_number,
+                     c.v_cloud_number,
+                     c.v_is_activate,
+                     c.online_status,
+                     e.v_project_id
+              FROM tbl_camera AS c
+                       INNER JOIN tbl_elevator AS e
+                                  ON c.v_elevator_id = e.v_elevator_id AND e.i_install_status = 1
+              WHERE e.i_del_flag = 0
+                AND c.i_del_flag = 0
+                AND c.v_cloud_number IS NOT NULL
+                AND c.v_cloud_number != ''
+               AND c.online_status = 0) AS t
+        group by v_project_id
+    </select>
+</mapper>

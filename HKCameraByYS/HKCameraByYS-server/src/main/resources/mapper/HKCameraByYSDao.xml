@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.hkcamerabyys.dao.HKCameraByYSDao">
+
+
+    <!--添加故障取证文件-->
+    <insert id="addTblSysFile">
+        insert into tbl_sys_file (v_file_id, v_file_type, v_file_name, v_business_id,
+                                  i_business_type, v_url, dt_create_time) VALUE
+            (#{fileId,jdbcType=VARCHAR},
+            #{fileType,jdbcType=VARCHAR},
+            #{fileName,jdbcType=VARCHAR},
+            #{businessId,jdbcType=VARCHAR},
+            #{businessType,jdbcType=INTEGER},
+            #{url,jdbcType=VARCHAR},
+            #{createTime,jdbcType=TIMESTAMP})
+        ON DUPLICATE KEY
+        UPDATE
+            v_business_id = #{businessId}, v_url = #{url}
+
+    </insert>
+
+    <!--海康萤石云历史视频下载记录 tbl_HKCamera_download_report -->
+    <insert id="insertHKCameraDownload">
+        insert into tbl_HKCamera_download_report
+        (id, fileType, fileStatus, elevatorCode, faultType, faultId, serialNumber, startTime, endTime,
+         uploadFailedNum, requestFailedNum, returnCode, err_message, createTime, modifyTime) VALUE
+            (#{id},#{fileType},#{fileStatus},#{elevatorCode},#{faultType},#{faultId},#{serialNumber},
+            #{startTime},#{endTime},#{uploadFailedNum},#{requestFailedNum},#{returnCode},#{errMessage},
+            #{createTime},#{modifyTime})
+        ON DUPLICATE KEY
+        UPDATE
+            fileStatus = #{fileStatus},
+            uploadFailedNum = #{uploadFailedNum},
+            requestFailedNum = #{requestFailedNum},
+            returnCode = #{returnCode},
+            err_message = #{errMessage},
+            modifyTime = #{modifyTime}
+    </insert>
+
+    <!--添加摄像头上下线记录-->
+    <insert id="insertCameraStatusRecord">
+        insert into camera_status_record
+        (id, message_id, serial_number, occur_time, device_name, status, create_time)
+            VALUE
+            (#{id},#{messageId},#{serialNumber},#{occurTime},#{deviceName},#{status},#{createTime})
+    </insert>
+
+    <!--更新记录表-->
+    <update id="updateDownloadReport">
+        update tbl_HKCamera_download_report
+        <set>
+            <if test="fileStatus != null">
+                fileStatus = #{fileStatus},
+            </if>
+            <if test="startTime != null">
+                startTime = #{startTime},
+            </if>
+            <if test="endTime != null">
+                endTime = #{endTime},
+            </if>
+            <if test="uploadFailedNum != null">
+                uploadFailedNum = #{uploadFailedNum},
+            </if>
+            <if test="requestFailedNum != null">
+                requestFailedNum = #{requestFailedNum},
+            </if>
+            <if test="returnCode != null">
+                returnCode = #{returnCode},
+            </if>
+            <if test="modifyTime != null">
+                modifyTime = #{modifyTime}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--凌晨录制失败重新录制-->
+    <update id="freeTimeRetryDownload">
+        UPDATE tbl_HKCamera_download_report
+        SET requestFailedNum = 0,
+            uploadFailedNum  = 0,
+            modifyTime       = NOW()
+        where fileType = 1
+          AND createTime &gt;= DATE_SUB(CURDATE(), INTERVAL 1 DAY)
+          AND createTime &lt; CURDATE()
+          AND (fileStatus = 3 or fileStatus = 4)
+    </update>
+
+    <update id="updateCameraStatus">
+        UPDATE tbl_camera
+        SET online_status  = #{status},
+            dt_modify_time = NOW()
+        where v_cloud_number = #{serialNumber}
+           OR v_elevator_code = #{deviceName}
+    </update>
+
+    <!--根据故障id删除取证文件记录-->
+    <delete id="delSysFileById">
+        DELETE
+        FROM tbl_sys_file
+        WHERE v_business_id = #{faultId}
+          AND v_file_type = #{fileType}
+    </delete>
+
+    <!--获取需要下载上传的取证文件记录-->
+    <select id="findNeedDownloadFileList" resultType="com.shmashine.hkcamerabyys.client.entity.TblHKCameraDownload">
+        select *
+        from tbl_HKCamera_download_report
+        WHERE createTime &gt; DATE_SUB(NOW(), INTERVAL 15 DAY)
+          AND uploadFailedNum &lt; 3
+          AND <![CDATA[ endTime < DATE_SUB(NOW(), INTERVAL 10 SECOND ) ]]>
+        AND (fileStatus = 2 or fileStatus = 4)
+        ORDER BY createTime DESC
+    </select>
+
+    <!--获取需要重新下载的文件记录-->
+    <select id="retryDownloadFailReportTask" resultType="com.shmashine.hkcamerabyys.client.entity.TblHKCameraDownload">
+        SELECT *
+        from tbl_HKCamera_download_report
+        WHERE createTime &gt; DATE_SUB(NOW(), INTERVAL 7 DAY)
+          AND (fileStatus = 0 OR fileStatus = 3)
+          AND requestFailedNum &lt; 5
+          AND uploadFailedNum &lt; 3
+          AND (endTime &lt; DATE_SUB(NOW(), INTERVAL 2 MINUTE) OR fileType = 0)
+        ORDER BY createTime DESC
+    </select>
+
+    <!--根据故障id获取海康取证记录-->
+    <select id="queryHkDownloadReportById" resultType="com.shmashine.hkcamerabyys.client.entity.TblHKCameraDownload">
+        select *
+        from tbl_HKCamera_download_report
+        where faultId = #{faultId}
+          AND fileType = #{fileType}
+    </select>
+
+    <!--获取取证基本信息-->
+    <select id="queryDownloadInfoById" resultType="java.util.HashMap">
+        SELECT tc.i_camera_type   AS cameraType,
+               tc.v_cloud_number  AS deviceSerial,
+               tf.v_elevator_code AS elevatorCode,
+               tf.i_fault_type    AS faultType,
+               ts.v_url           AS url
+        FROM tbl_fault tf
+                 INNER JOIN tbl_camera tc ON tf.v_elevator_code = tc.v_elevator_code
+                 LEFT JOIN tbl_sys_file ts ON ts.v_business_id = tf.v_fault_id AND ts.v_file_type = 1
+        WHERE tf.v_fault_id = #{faultId}
+    </select>
+
+    <!--电梯安装状态-->
+    <select id="isNeedDownVideo" resultType="java.lang.Boolean">
+        SELECT i_install_status
+        FROM tbl_elevator
+        WHERE v_elevator_code = #{elevatorCode}
+    </select>
+
+
+    <select id="getFiledFileList" resultType="com.shmashine.hkcamerabyys.client.entity.TblHKCameraDownload">
+        SELECT *
+        FROM tbl_HKCamera_download_report
+        where fileType = 1
+          AND createTime &gt;= DATE_SUB(CURDATE(), INTERVAL 1 DAY)
+          AND createTime &lt; CURDATE()
+          AND fileStatus = 4
+    </select>
+
+    <select id="getCameraInfoByElevatorCode" resultType="com.shmashine.common.dto.TblCameraDTO">
+        SELECT v_camera_id     AS cameraId,
+               v_elevator_id   AS elevatorId,
+               v_elevator_code AS elevatorCode,
+               i_camera_type   AS cameraType,
+               v_serial_number AS serialNumber,
+               v_username      AS username,
+               v_password      AS password,
+               v_cloud_number  AS cloudNumber,
+               v_hls_url       AS hlsUrl,
+               v_rtmp_url      AS rtmpUrl,
+               v_private_url   AS privateUrl,
+               v_is_activate   AS activate,
+               online_status   AS onlineStatus,
+               device_code     AS deviceCode,
+               i_del_flag      AS delFlag
+        FROM tbl_camera
+        WHERE v_elevator_code = #{elevatorCode}
+    </select>
+
+    <!--根据摄像头序列号获取电梯id-->
+    <select id="getElevatorIdBySerialNumber" resultType="java.lang.String">
+        SELECT v_elevator_id
+        FROM tbl_camera
+        WHERE v_cloud_number = #{serialNumber}
+    </select>
+
+</mapper>

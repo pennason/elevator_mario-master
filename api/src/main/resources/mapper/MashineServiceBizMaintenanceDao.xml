@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.api.dao.MashineServiceBizMaintenanceDao">
+    <resultMap id="MashineServiceBizMaintenanceResult"
+               type="com.shmashine.common.entity.TblThirdPartyRuijinMaintenance">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="registerNumber" column="register_number" jdbcType="VARCHAR"/>
+        <result property="address" column="address" jdbcType="VARCHAR"/>
+        <result property="internalNumber" column="internal_number" jdbcType="VARCHAR"/>
+        <result property="maintenanceCompanyCode" column="maintenance_company_code" jdbcType="VARCHAR"/>
+        <result property="maintenanceCompanyName" column="maintenance_company_name" jdbcType="VARCHAR"/>
+        <result property="maintenancePrinciple" column="maintenance_principle" jdbcType="VARCHAR"/>
+        <result property="maintenancePrincipleTel" column="maintenance_principle_tel" jdbcType="VARCHAR"/>
+        <result property="maintenancePeriod" column="maintenance_period" jdbcType="INTEGER"/>
+        <result property="certNumber" column="cert_number" jdbcType="VARCHAR"/>
+        <result property="qualificationScope" column="qualification_scope" jdbcType="VARCHAR"/>
+        <result property="registerAddress" column="register_address" jdbcType="VARCHAR"/>
+        <result property="officeAddress" column="office_address" jdbcType="VARCHAR"/>
+        <result property="maintenanceStation" column="maintenance_station" jdbcType="VARCHAR"/>
+        <result property="stationAddress" column="station_address" jdbcType="VARCHAR"/>
+        <result property="stationTel" column="station_tel" jdbcType="VARCHAR"/>
+        <result property="stationPrinciple" column="station_principle" jdbcType="VARCHAR"/>
+        <result property="driver" column="driver" jdbcType="VARCHAR"/>
+        <result property="rescueTel" column="rescue_tel" jdbcType="VARCHAR"/>
+        <result property="checkDate" column="check_date" jdbcType="TIMESTAMP"/>
+        <result property="checkCompanyName" column="check_company_name" jdbcType="VARCHAR"/>
+        <result property="nextCheckDate" column="next_check_date" jdbcType="TIMESTAMP"/>
+        <result property="contractUseCompanyName" column="contract_use_company_name" jdbcType="VARCHAR"/>
+        <result property="useCompanyCode" column="use_company_code" jdbcType="VARCHAR"/>
+        <result property="useCompanyPrinciple" column="use_company_principle" jdbcType="VARCHAR"/>
+        <result property="useCompanyPrincipleTel" column="use_company_principle_tel" jdbcType="VARCHAR"/>
+        <result property="usePlaceName" column="use_place_name" jdbcType="VARCHAR"/>
+        <result property="usePlaceAreaCode" column="use_place_area_code" jdbcType="VARCHAR"/>
+        <result property="usePlaceTownCode" column="use_place_town_code" jdbcType="VARCHAR"/>
+        <result property="usePlaceAddress" column="use_place_address" jdbcType="VARCHAR"/>
+        <result property="usePlaceType" column="use_place_type" jdbcType="VARCHAR"/>
+        <result property="safetyAdministrator" column="safety_administrator" jdbcType="VARCHAR"/>
+        <result property="safetyAdminTel" column="safety_admin_tel" jdbcType="VARCHAR"/>
+        <result property="firstMaintainerName" column="first_maintainer_name" jdbcType="VARCHAR"/>
+        <result property="firstMaintainerIdNumber" column="first_maintainer_id_number" jdbcType="VARCHAR"/>
+        <result property="firstMaintainerTel" column="first_maintainer_tel" jdbcType="VARCHAR"/>
+        <result property="secondMaintainerName" column="second_maintainer_name" jdbcType="VARCHAR"/>
+        <result property="secondMaintainerIdNumber" column="second_maintainer_id_number" jdbcType="VARCHAR"/>
+        <result property="secondMaintainerTel" column="second_maintainer_tel" jdbcType="VARCHAR"/>
+        <result property="dtCreateTime" column="dt_create_time" jdbcType="TIMESTAMP"/>
+        <result property="dtModifyTime" column="dt_modify_time" jdbcType="TIMESTAMP"/>
+        <result property="vCreateUserId" column="v_create_user_id" jdbcType="VARCHAR"/>
+        <result property="vModifyUserId" column="v_modify_user_id" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="list" resultMap="MashineServiceBizMaintenanceResult"
+            parameterType="com.shmashine.api.module.mashineService.MashineServiceBizMaintenanceModule">
+        select tbl_third_party_ruijin_maintenance.* from tbl_third_party_ruijin_maintenance
+        join tbl_elevator on tbl_third_party_ruijin_maintenance.register_number = tbl_elevator.v_equipment_code
+        <if test="!mashineServiceBizMaintenanceModule.isAdminFlag">
+            join tbl_sys_user_resource resource on tbl_elevator.v_elevator_id = resource.v_resource_id and
+            resource.v_user_id =
+            #{mashineServiceBizMaintenanceModule.userId}
+        </if>
+        order by tbl_third_party_ruijin_maintenance.id desc
+    </select>
+</mapper>

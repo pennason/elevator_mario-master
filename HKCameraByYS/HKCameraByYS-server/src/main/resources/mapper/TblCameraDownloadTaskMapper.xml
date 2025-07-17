@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.hkcamerabyys.dao.TblCameraDownloadTaskMapper">
+
+    <sql id="TABLE_NAME">
+        tbl_camera_download_task
+    </sql>
+    <sql id="BASE_COLUMNS">
+        elevator_code
+        , task_type, task_custom_id, media_type, camera_type, cloud_number, task_custom_type, collect_time, start_time,
+        end_time, floor, file_status, cloud_task_id, extend_info
+    </sql>
+    <sql id="ALL_COLUMNS">
+        <include refid="BASE_COLUMNS"/>,
+        id, request_failed_count, upload_failed_count, return_code, err_message, source_url, oss_url, create_time,
+        modify_time
+    </sql>
+    <sql id="SET_COLUMNS">
+        <if test="entity.mediaType != null and entity.mediaType != ''">media_type = #{entity.mediaType},</if>
+        <if test="entity.cameraType != null">camera_type = #{entity.cameraType},</if>
+        <if test="entity.cloudNumber != null and entity.cloudNumber != ''">cloud_number = #{entity.cloudNumber},</if>
+        <if test="entity.taskCustomType != null">task_custom_type = #{entity.taskCustomType},</if>
+        <if test="entity.collectTime != null and entity.collectTime != ''">collect_time = #{entity.collectTime},</if>
+        <if test="entity.startTime != null and entity.startTime != ''">start_time = #{entity.startTime},</if>
+        <if test="entity.endTime != null and entity.endTime != ''">end_time = #{entity.endTime},</if>
+        <if test="entity.floor != null and entity.floor != ''">floor = #{entity.floor},</if>
+        <if test="entity.fileStatus != null">file_status = #{entity.fileStatus},</if>
+        <if test="entity.cloudTaskId != null and entity.cloudTaskId != ''">cloud_task_id = #{entity.cloudTaskId},</if>
+        <if test="entity.requestFailedCount != null">request_failed_count = #{entity.requestFailedCount},</if>
+        <if test="entity.uploadFailedCount != null">upload_failed_count = #{entity.uploadFailedCount},</if>
+        <if test="entity.returnCode != null">return_code = #{entity.returnCode},</if>
+        <if test="entity.errMessage != null and entity.errMessage != ''">err_message = #{entity.errMessage},</if>
+        <if test="entity.sourceUrl != null and entity.sourceUrl != ''">source_url = #{entity.sourceUrl},</if>
+        <if test="entity.ossUrl != null and entity.ossUrl != ''">oss_url = #{entity.ossUrl},</if>
+        <if test="entity.extendInfo != null and entity.extendInfo != ''">extend_info = #{entity.extendInfo},</if>
+    </sql>
+
+    <!-- 查询 -->
+    <select id="getNeedDownloadTask" resultType="com.shmashine.common.entity.TblCameraDownloadTaskEntity">
+        SELECT
+        <include refid="ALL_COLUMNS"/>
+        FROM
+        <include refid="TABLE_NAME"/>
+        WHERE file_status = 0 AND create_time &gt;= DATE_SUB(CURDATE(), INTERVAL 3 DAY)
+    </select>
+    <select id="getByFileStatus" resultType="com.shmashine.common.entity.TblCameraDownloadTaskEntity">
+        SELECT
+        <include refid="ALL_COLUMNS"/>
+        FROM
+        <include refid="TABLE_NAME"/>
+        WHERE file_status in
+        <foreach item="item" collection="fileStatusList" separator="," open="(" close=")" index="index">
+            #{item}
+        </foreach>
+        AND create_time &gt;= DATE_SUB(CURDATE(), INTERVAL 7 DAY)
+        ORDER BY create_time DESC
+    </select>
+
+    <select id="getByFileStatusAndFailedCount" resultType="com.shmashine.common.entity.TblCameraDownloadTaskEntity">
+        SELECT
+        <include refid="ALL_COLUMNS"/>
+        FROM
+        <include refid="TABLE_NAME"/>
+        WHERE file_status in
+        <foreach item="item" collection="fileStatusList" separator="," open="(" close=")" index="index">
+            #{item}
+        </foreach>
+        AND create_time &gt;= DATE_SUB(CURDATE(), INTERVAL 7 DAY)
+        AND request_failed_count BETWEEN #{start} AND #{end}
+        ORDER BY create_time DESC
+    </select>
+
+    <select id="getById" resultType="com.shmashine.common.entity.TblCameraDownloadTaskEntity">
+        SELECT
+        <include refid="ALL_COLUMNS"/>
+        FROM
+        <include refid="TABLE_NAME"/>
+        WHERE id = #{id}
+    </select>
+
+    <select id="getFileStatusById" resultType="java.lang.Integer">
+        SELECT file_status
+        FROM
+        <include refid="TABLE_NAME"/>
+        WHERE id = #{id}
+    </select>
+
+    <select id="listTaskTypeExpiredRecords" resultType="com.shmashine.common.entity.TblCameraDownloadTaskEntity">
+        SELECT
+        <include refid="ALL_COLUMNS"/>
+        FROM
+        <include refid="TABLE_NAME"/>
+        WHERE task_type = #{taskType}
+        AND create_time &lt; #{expireDate}
+    </select>
+
+    <select id="findByEntity" resultType="com.shmashine.common.entity.TblCameraDownloadTaskEntity">
+        SELECT
+        <include refid="ALL_COLUMNS"/>
+        FROM
+        <include refid="TABLE_NAME"/>
+        <where>
+            <if test="entity.id != null">
+                and id = #{entity.id}
+            </if>
+            <if test="entity.elevatorCode != null and entity.elevatorCode != ''">
+                and elevator_code = #{entity.elevatorCode}
+            </if>
+            <if test="entity.taskType != null">
+                and task_type = #{entity.taskType}
+            </if>
+            <if test="entity.taskCustomId != null and entity.taskCustomId != ''">
+                and task_custom_id = #{entity.taskCustomId}
+            </if>
+            <if test="entity.mediaType != null and entity.mediaType != ''">
+                and media_type = #{entity.mediaType}
+            </if>
+            <if test="entity.cameraType != null">
+                and camera_type = #{entity.cameraType}
+            </if>
+            <if test="entity.cloudNumber != null and entity.cloudNumber != ''">
+                and cloud_number = #{entity.cloudNumber}
+            </if>
+            <if test="entity.taskCustomType != null">
+                and task_custom_type = #{entity.taskCustomType}
+            </if>
+            <if test="entity.floor != null and entity.floor != ''">
+                and floor = #{entity.floor}
+            </if>
+            <if test="entity.fileStatus != null">
+                and file_status = #{entity.fileStatus}
+            </if>
+        </where>
+    </select>
+
+    <!--根据taskID获取任务记录-->
+    <select id="getByByTaskId" resultType="com.shmashine.common.entity.TblCameraDownloadTaskEntity">
+        SELECT
+        <include refid="ALL_COLUMNS"/>
+        FROM
+        <include refid="TABLE_NAME"/>
+        WHERE cloud_task_id = #{taskId} LIMIT 1
+    </select>
+
+    <!-- 添加 -->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true"
+            parameterType="com.shmashine.common.entity.TblCameraDownloadTaskEntity">
+        INSERT IGNORE INTO
+        <include refid="TABLE_NAME"/>
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="entity.elevatorCode != null and entity.elevatorCode != ''">elevator_code,</if>
+            <if test="entity.taskType != null">task_type,</if>
+            <if test="entity.taskCustomId != null and entity.taskCustomId != ''">task_custom_id,</if>
+            <if test="entity.mediaType != null and entity.mediaType != ''">media_type,</if>
+            <if test="entity.cameraType != null">camera_type,</if>
+            <if test="entity.cloudNumber != null and entity.cloudNumber != ''">cloud_number,</if>
+            <if test="entity.taskCustomType != null">task_custom_type,</if>
+            <if test="entity.collectTime != null and entity.collectTime != ''">collect_time,</if>
+            <if test="entity.startTime != null and entity.startTime != ''">start_time,</if>
+            <if test="entity.endTime != null and entity.endTime != ''">end_time,</if>
+            <if test="entity.floor != null and entity.floor != ''">floor,</if>
+            <if test="entity.fileStatus != null">file_status,</if>
+            <if test="entity.extendInfo != null and entity.extendInfo != ''">extend_info,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="entity.elevatorCode != null and entity.elevatorCode != ''">#{entity.elevatorCode},</if>
+            <if test="entity.taskType != null">#{entity.taskType},</if>
+            <if test="entity.taskCustomId != null and entity.taskCustomId != ''">#{entity.taskCustomId},</if>
+            <if test="entity.mediaType != null and entity.mediaType != ''">#{entity.mediaType},</if>
+            <if test="entity.cameraType != null">#{entity.cameraType},</if>
+            <if test="entity.cloudNumber != null and entity.cloudNumber != ''">#{entity.cloudNumber},</if>
+            <if test="entity.taskCustomType != null">#{entity.taskCustomType},</if>
+            <if test="entity.collectTime != null and entity.collectTime != ''">#{entity.collectTime},</if>
+            <if test="entity.startTime != null and entity.startTime != ''">#{entity.startTime},</if>
+            <if test="entity.endTime != null and entity.endTime != ''">#{entity.endTime},</if>
+            <if test="entity.floor != null and entity.floor != ''">#{entity.floor},</if>
+            <if test="entity.fileStatus != null">#{entity.fileStatus},</if>
+            <if test="entity.extendInfo != null and entity.extendInfo != ''">#{entity.extendInfo},</if>
+        </trim>
+    </insert>
+
+    <!-- 删除 -->
+    <delete id="deleteById">
+        DELETE
+        FROM
+        <include refid="TABLE_NAME"/>
+        WHERE id = #{id}
+    </delete>
+
+    <!-- 更新 -->
+    <update id="updateById" parameterType="com.shmashine.common.entity.TblCameraDownloadTaskEntity">
+        UPDATE
+        <include refid="TABLE_NAME"/>
+        <set>
+            <if test="entity.elevatorCode != null and entity.elevatorCode != ''">elevator_code =
+                #{entity.elevatorCode},
+            </if>
+            <if test="entity.taskType != null">task_type = #{entity.taskType},</if>
+            <if test="entity.taskCustomId != null and entity.taskCustomId != ''">task_custom_id =
+                #{entity.taskCustomId},
+            </if>
+            <include refid="SET_COLUMNS"/>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <update id="updateByUnique" parameterType="com.shmashine.common.entity.TblCameraDownloadTaskEntity">
+        UPDATE
+        <include refid="TABLE_NAME"/>
+        <set>
+            <include refid="SET_COLUMNS"/>
+        </set>
+        WHERE
+        <choose>
+            <when test="entity.id != null">
+                id = #{entity.id}
+            </when>
+            <otherwise>
+                elevator_code = #{entity.elevatorCode} and task_type = #{entity.taskType} and task_custom_id =
+                #{entity.taskCustomId}
+            </otherwise>
+        </choose>
+    </update>
+
+    <update id="updateFileStatusById">
+        UPDATE
+        <include refid="TABLE_NAME"/>
+        SET file_status = #{fileStatus}
+        WHERE id = #{id}
+    </update>
+
+
+    <update id="increaseRequestFailedCount">
+        UPDATE
+        <include refid="TABLE_NAME"/>
+        SET request_failed_count = request_failed_count + 1
+        WHERE id = #{id}
+    </update>
+
+    <update id="increaseUploadFailedCount">
+        UPDATE
+        <include refid="TABLE_NAME"/>
+        SET upload_failed_count = upload_failed_count + 1
+        WHERE id = #{id}
+    </update>
+</mapper>

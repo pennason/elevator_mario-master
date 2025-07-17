@@ -1,0 +1,143 @@
+package com.shmashine.common.entity;
+
+
+import java.io.Serial;
+import java.io.Serializable;
+import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+
+/**
+ * 电梯品牌表(TblElevatorBrand)实体类
+ *
+ * @author makejava
+ * @since 2020-07-02 12:50:54
+ */
+
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
+public class TblElevatorBrand implements Serializable {
+    @Serial
+    private static final long serialVersionUID = -13944153518983112L;
+    /**
+     * 电梯品牌id
+     */
+    private String vElevatorBrandId;
+    /**
+     * 电梯品牌名称
+     */
+    private String vElevatorBrandName;
+    /**
+     * 备注
+     */
+    private String vRemarks;
+    /**
+     * 创建时间
+     */
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
+    private Date dtCreateTime;
+    /**
+     * 修改时间
+     */
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
+    private Date dtModifyTime;
+    /**
+     * 创建记录用户
+     */
+    private String vCreateUserId;
+    /**
+     * 修改记录用户
+     */
+    private String vModifyUserId;
+    /**
+     * 删除标识 0-未删除，1-已删除
+     */
+    private Integer iDelFlag;
+
+    @JsonProperty("vElevatorBrandId")
+    public String getVElevatorBrandId() {
+        return vElevatorBrandId;
+    }
+
+    public void setVElevatorBrandId(String vElevatorBrandId) {
+        this.vElevatorBrandId = vElevatorBrandId;
+    }
+
+    @JsonProperty("vElevatorBrandName")
+    public String getVElevatorBrandName() {
+        return vElevatorBrandName;
+    }
+
+    public void setVElevatorBrandName(String vElevatorBrandName) {
+        this.vElevatorBrandName = vElevatorBrandName;
+    }
+
+    @JsonProperty("vRemarks")
+    public String getVRemarks() {
+        return vRemarks;
+    }
+
+    public void setVRemarks(String vRemarks) {
+        this.vRemarks = vRemarks;
+    }
+
+    @JsonProperty("dtCreateTime")
+    public Date getDtCreateTime() {
+        return dtCreateTime;
+    }
+
+    public void setDtCreateTime(Date dtCreateTime) {
+        this.dtCreateTime = dtCreateTime;
+    }
+
+    @JsonProperty("dtModifyTime")
+    public Date getDtModifyTime() {
+        return dtModifyTime;
+    }
+
+    public void setDtModifyTime(Date dtModifyTime) {
+        this.dtModifyTime = dtModifyTime;
+    }
+
+    @JsonProperty("vCreateUserId")
+    public String getVCreateUserId() {
+        return vCreateUserId;
+    }
+
+    public void setVCreateUserId(String vCreateUserId) {
+        this.vCreateUserId = vCreateUserId;
+    }
+
+    @JsonProperty("vModifyUserId")
+    public String getVModifyUserId() {
+        return vModifyUserId;
+    }
+
+    public void setVModifyUserId(String vModifyUserId) {
+        this.vModifyUserId = vModifyUserId;
+    }
+
+    @JsonProperty("iDelFlag")
+    public Integer getIDelFlag() {
+        return iDelFlag;
+    }
+
+    public void setIDelFlag(Integer iDelFlag) {
+        this.iDelFlag = iDelFlag;
+    }
+
+}

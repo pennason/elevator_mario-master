@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.api.dao.TblMaterialAttributeDao">
+
+    <resultMap type="com.shmashine.common.entity.TblMaterialAttribute" id="TblMaterialAttributeResultMap">
+        <result property="vMaterialAttributeId" column="v_material_attribute_id" jdbcType="VARCHAR"/>
+        <result property="vMaterialAttributeName" column="v_material_name" jdbcType="VARCHAR"/>
+        <result property="vMaterialId" column="dt_create_at" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="table_field">
+        v_material_attribute_id
+        , v_material_attribute_content, v_material_id
+    </sql>
+
+    <select id="getMaterialAttributesByMaterId" resultMap="TblMaterialAttributeResultMap">
+        select
+        <include refid="table_field"/>
+        from tbl_material_attribute
+    </select>
+</mapper>

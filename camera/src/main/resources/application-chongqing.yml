@@ -1,0 +1,59 @@
+eureka:
+  client:
+    service-url:
+      defaultZone: http://chongqing-eureka:8080/eureka/
+  instance:
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+    # 优先使用IP地址方式进行注册服务
+    prefer-ip-address: true
+
+spring:
+  application:
+    name: chongqing-camera
+  redis:
+    database: 3
+    host: 10.0.0.113
+    port: 6379
+    password: shmashine@666
+    timeout: 5000
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://10.0.0.113:3306/elevator_master?useSSL=false&useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&autoReconnect=true&failOverReadOnly=false&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+    username: root
+    password: shmashine@666
+
+  kafka:
+    producer:
+      bootstrap-servers: 10.0.0.113:29092
+      retries: 0
+      batch-size: 16384
+      buffer-memory: 33554432
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      properties:
+        security.protocol: SASL_PLAINTEXT
+        sasl.mechanism: PLAIN
+        sasl.jaas.config: org.apache.kafka.common.security.plain.PlainLoginModule required username="producer" password="secret20190219";
+    consumer:
+      bootstrap-servers: 10.0.0.113:29092
+      group-id: chongqing-camera
+      auto-offset-reset: latest
+      enable-auto-commit: true
+      auto-commit-interval: 1000
+      #max-poll-records: 800
+      heartbeat-interval: 3000
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      properties:
+        security.protocol: SASL_PLAINTEXT
+        sasl.mechanism: PLAIN
+        sasl.jaas.config: org.apache.kafka.common.security.plain.PlainLoginModule required username="producer" password="secret20190219";
+  boot:
+    admin:
+      client:
+        url: http://spring-boot-admin:8080
+        username: shmashine
+        password: shmashine
+        instance:
+          service-url: http://chongqing-camera:8080

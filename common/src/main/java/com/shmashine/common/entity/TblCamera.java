@@ -1,0 +1,287 @@
+package com.shmashine.common.entity;
+
+import java.io.Serial;
+import java.io.Serializable;
+import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+
+/**
+ * (TblCamera)实体类
+ *
+ * @author makejava
+ * @since 2020-06-19 17:42:59
+ */
+
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
+public class TblCamera implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 656673885428575835L;
+    private String vCameraId;
+    /**
+     * 所属电梯id
+     */
+    private String vElevatorId;
+    /**
+     * 所属电梯编号
+     */
+    private String vElevatorCode;
+    /**
+     * 摄像头类型 1：海康萤石，2：雄迈， 3：海尔， 4：海康云眸, 5:天翼云眼， 6：天翼中兴
+     */
+    private Integer iCameraType;
+    /**
+     * 摄像头序列号
+     */
+    private String vSerialNumber;
+    /**
+     * 用户名
+     */
+    private String vUsername;
+    /**
+     * 密码
+     */
+    private String vPassword;
+    /**
+     * 云平台序列号
+     */
+    private String vCloudNumber;
+    private String vHlsUrl;
+    private String vRtmpUrl;
+    private String vPrivateUrl;
+
+    /**
+     * 云眼国标号
+     */
+    private String deviceCode;
+
+    /**
+     * 创建时间
+     */
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
+    private Date dtCreateTime;
+    /**
+     * 修改时间
+     */
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
+    private Date dtModifyTime;
+    /**
+     * 创建记录用户
+     */
+    private String vCreateUserId;
+    /**
+     * 修改记录用户
+     */
+    private String vModifyUserId;
+
+    /**
+     * 是否绑定
+     */
+    private String isBound;
+
+    /**
+     * 摄像头是否激活
+     * 1为已激活，0为未激活，默认为0
+     */
+    private Integer isActivate;
+    /**
+     * 在线状态
+     */
+    private Integer onlineStatus;
+
+    /**
+     * 是否推送困人语音
+     */
+    private Integer pushTrappedPeopleVoice;
+
+    /**
+     * 删除标识 0-未删除，1-已删除
+     */
+    private Integer iDelFlag;
+
+    @JsonProperty("vCameraId")
+    public String getVCameraId() {
+        return vCameraId;
+    }
+
+    public void setVCameraId(String vCameraId) {
+        this.vCameraId = vCameraId;
+    }
+
+    @JsonProperty("vElevatorId")
+    public String getVElevatorId() {
+        return vElevatorId;
+    }
+
+    public void setVElevatorId(String vElevatorId) {
+        this.vElevatorId = vElevatorId;
+    }
+
+    @JsonProperty("vElevatorCode")
+    public String getVElevatorCode() {
+        return vElevatorCode;
+    }
+
+    public void setVElevatorCode(String vElevatorCode) {
+        this.vElevatorCode = vElevatorCode;
+    }
+
+    @JsonProperty("iCameraType")
+    public Integer getICameraType() {
+        return iCameraType;
+    }
+
+    public void setICameraType(Integer iCameraType) {
+        this.iCameraType = iCameraType;
+    }
+
+    @JsonProperty("vSerialNumber")
+    public String getVSerialNumber() {
+        return vSerialNumber;
+    }
+
+    public void setVSerialNumber(String vSerialNumber) {
+        this.vSerialNumber = vSerialNumber;
+    }
+
+    @JsonProperty("vUsername")
+    public String getVUsername() {
+        return vUsername;
+    }
+
+    public void setVUsername(String vUsername) {
+        this.vUsername = vUsername;
+    }
+
+    @JsonProperty("vPassword")
+    public String getVPassword() {
+        return vPassword;
+    }
+
+    public void setVPassword(String vPassword) {
+        this.vPassword = vPassword;
+    }
+
+    @JsonProperty("isBound")
+    public String getIsBound() {
+        return isBound;
+    }
+
+    @JsonProperty("isBound")
+    public void setIsBound(String isBound) {
+        this.isBound = isBound;
+    }
+
+    @JsonProperty("vCloudNumber")
+    public String getVCloudNumber() {
+        return vCloudNumber;
+    }
+
+    public void setVCloudNumber(String vCloudNumber) {
+        this.vCloudNumber = vCloudNumber;
+    }
+
+    @JsonProperty("vHlsUrl")
+    public String getVHlsUrl() {
+        return vHlsUrl;
+    }
+
+    public void setVHlsUrl(String vHlsUrl) {
+        this.vHlsUrl = vHlsUrl;
+    }
+
+    @JsonProperty("vRtmpUrl")
+    public String getVRtmpUrl() {
+        return vRtmpUrl;
+    }
+
+    public void setVRtmpUrl(String vRtmpUrl) {
+        this.vRtmpUrl = vRtmpUrl;
+    }
+
+    @JsonProperty("vPrivateUrl")
+    public String getVPrivateUrl() {
+        return vPrivateUrl;
+    }
+
+    public void setVPrivateUrl(String vPrivateUrl) {
+        this.vPrivateUrl = vPrivateUrl;
+    }
+
+    @JsonProperty("dtCreateTime")
+    public Date getDtCreateTime() {
+        return dtCreateTime;
+    }
+
+    public void setDtCreateTime(Date dtCreateTime) {
+        this.dtCreateTime = dtCreateTime;
+    }
+
+    @JsonProperty("dtModifyTime")
+    public Date getDtModifyTime() {
+        return dtModifyTime;
+    }
+
+    public void setDtModifyTime(Date dtModifyTime) {
+        this.dtModifyTime = dtModifyTime;
+    }
+
+    @JsonProperty("vCreateUserId")
+    public String getVCreateUserId() {
+        return vCreateUserId;
+    }
+
+    public void setVCreateUserId(String vCreateUserId) {
+        this.vCreateUserId = vCreateUserId;
+    }
+
+    @JsonProperty("vModifyUserId")
+    public String getVModifyUserId() {
+        return vModifyUserId;
+    }
+
+    public void setVModifyUserId(String vModifyUserId) {
+        this.vModifyUserId = vModifyUserId;
+    }
+
+
+    public Integer getIsActivate() {
+        return isActivate;
+    }
+
+    public void setIsActivate(Integer isActivate) {
+        this.isActivate = isActivate;
+    }
+
+    @JsonProperty("iDelFlag")
+    public Integer getIDelFlag() {
+        return iDelFlag;
+    }
+
+    public void setIDelFlag(Integer iDelFlag) {
+        this.iDelFlag = iDelFlag;
+    }
+
+    public String getDeviceCode() {
+        return deviceCode;
+    }
+
+    public void setDeviceCode(String deviceCode) {
+        this.deviceCode = deviceCode;
+    }
+}

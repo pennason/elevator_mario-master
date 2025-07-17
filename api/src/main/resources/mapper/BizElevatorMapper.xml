@@ -1,0 +1,2701 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shmashine.api.dao.BizElevatorDao">
+    <resultMap type="com.shmashine.api.module.elevator.ElevatorDetailResModule" id="ElevatorDetailResModuleMap">
+        <result property="vElevatorId" column="v_elevator_id" jdbcType="VARCHAR"/>
+        <result property="vElevatorCode" column="v_elevator_code" jdbcType="VARCHAR"/>
+        <result property="iProvinceId" column="i_province_id" jdbcType="INTEGER"/>
+        <result property="iProvinceIdName" column="i_province_id_name" jdbcType="VARCHAR"/>
+        <result property="iCityId" column="i_city_id" jdbcType="INTEGER"/>
+        <result property="iCityIdName" column="i_city_id_name" jdbcType="VARCHAR"/>
+        <result property="iAreaId" column="i_area_id" jdbcType="INTEGER"/>
+        <result property="iAreaIdName" column="i_area_id_name" jdbcType="VARCHAR"/>
+        <result property="vAddress" column="v_address" jdbcType="VARCHAR"/>
+        <result property="iElevatorType" column="i_elevator_type" jdbcType="INTEGER"/>
+        <result property="iElevatorTypeName" column="i_elevator_type_name" jdbcType="VARCHAR"/>
+        <result property="iElevatorUseType" column="i_elevator_use_type" jdbcType="INTEGER"/>
+        <result property="iElevatorUseTypeName" column="i_elevator_use_type_name" jdbcType="VARCHAR"/>
+        <result property="iElevatorPlaceType" column="i_elevator_place_type" jdbcType="INTEGER"/>
+        <result property="vElevatorBrandId" column="v_elevator_brand_id" jdbcType="VARCHAR"/>
+        <result property="vElevatorBrandIdName" column="v_elevator_brand_id_name" jdbcType="VARCHAR"/>
+        <result property="iMaintainDays" column="i_maintain_days" jdbcType="INTEGER"/>
+        <result property="dLastMaintainDate" column="d_last_maintain_date" jdbcType="OTHER"/>
+        <result property="dNextMaintainDate" column="d_next_maintain_date" jdbcType="OTHER"/>
+        <result property="dLastInspectDate" column="d_last_inspect_date" jdbcType="OTHER"/>
+        <result property="dNextInspectDate" column="d_next_inspect_date" jdbcType="OTHER"/>
+        <result property="vMaintainCompanyId" column="v_maintain_company_id" jdbcType="VARCHAR"/>
+        <result property="vMaintainCompanyIdName" column="v_maintain_company_id_name" jdbcType="VARCHAR"/>
+        <result property="vPropertyCompanyId" column="v_property_company_id" jdbcType="VARCHAR"/>
+        <result property="vPropertyCompanyIdName" column="v_property_company_id_name" jdbcType="VARCHAR"/>
+        <result property="iGovernmentId" column="i_government_id" jdbcType="VARCHAR"/>
+        <result property="iGovernmentIdName" column="i_government_id_name" jdbcType="VARCHAR"/>
+        <result property="vMaintainPersonName" column="v_maintain_person_name" jdbcType="VARCHAR"/>
+        <result property="vMaintainPersonTel" column="v_maintain_person_tel" jdbcType="INTEGER"/>
+        <result property="vEmergencyPersonName" column="v_emergency_person_name" jdbcType="VARCHAR"/>
+        <result property="vEmergencyPersonTel" column="v_emergency_person_tel" jdbcType="INTEGER"/>
+        <result property="vHttpPtCodes" column="v_http_pt_codes" jdbcType="VARCHAR"/>
+        <result property="vLongitude" column="v_longitude" jdbcType="VARCHAR"/>
+        <result property="vLatitude" column="v_latitude" jdbcType="VARCHAR"/>
+        <result property="iCoordinateType" column="i_coordinate_type" jdbcType="INTEGER"/>
+        <result property="vProjectId" column="v_project_id" jdbcType="VARCHAR"/>
+        <result property="vProjectIdName" column="v_project_id_name" jdbcType="VARCHAR"/>
+        <result property="vVillageId" column="v_village_id" jdbcType="VARCHAR"/>
+        <result property="vVillageIdName" column="v_village_id_name" jdbcType="VARCHAR"/>
+        <result property="vBuildingId" column="v_building_id" jdbcType="VARCHAR"/>
+        <result property="buildingType" column="building_type" jdbcType="INTEGER"/>
+        <result property="doorType" column="v_door_type" jdbcType="INTEGER"/>
+        <result property="iInstallStatus" column="i_install_status" jdbcType="INTEGER"/>
+        <result property="iInstallStatusName" column="i_install_status_name" jdbcType="VARCHAR"/>
+        <result property="dtInstallTime" column="dt_install_time" jdbcType="TIMESTAMP"/>
+        <result property="iOnLine" column="i_on_line" jdbcType="INTEGER"/>
+        <result property="iOnLineName" column="i_on_line_name" jdbcType="VARCHAR"/>
+        <result property="iModeStatus" column="i_mode_status" jdbcType="INTEGER"/>
+        <result property="iModeStatusName" column="i_mode_status_name" jdbcType="VARCHAR"/>
+        <result property="iFaultStatus" column="i_fault_status" jdbcType="INTEGER"/>
+        <result property="iFaultStatusName" column="i_fault_status_name" jdbcType="VARCHAR"/>
+        <result property="iMaxFloor" column="i_max_floor" jdbcType="INTEGER"/>
+        <result property="iMinFloor" column="i_min_floor" jdbcType="INTEGER"/>
+        <result property="floorCount" column="floor_count" jdbcType="INTEGER"/>
+        <result property="stationCount" column="station_count" jdbcType="INTEGER"/>
+        <result property="baseStation" column="base_station" jdbcType="VARCHAR"/>
+        <result property="vFloorDetail" column="v_floor_detail" jdbcType="VARCHAR"/>
+        <result property="vFloorSettingStatus" column="v_floor_setting_status" jdbcType="VARCHAR"/>
+        <result property="dcSpeed" column="dc_speed" jdbcType="NUMERIC"/>
+        <result property="nominalSpeedUp" column="nominal_speed_up" jdbcType="NUMERIC"/>
+        <result property="nominalSpeedDown" column="nominal_speed_down" jdbcType="NUMERIC"/>
+        <result property="nominalLoadCapacity" column="nominal_load_capacity" jdbcType="VARCHAR"/>
+        <result property="biRunTime" column="bi_run_time" jdbcType="INTEGER"/>
+        <result property="biRunCount" column="bi_run_count" jdbcType="INTEGER"/>
+        <result property="biDoorCount" column="bi_door_count" jdbcType="INTEGER"/>
+        <result property="biBendCount" column="bi_bend_count" jdbcType="INTEGER"/>
+        <result property="biLevelTriggerCount" column="bi_level_trigger_count" jdbcType="INTEGER"/>
+        <result property="biRunDistanceCount" column="bi_run_distance_count" jdbcType="INTEGER"/>
+        <result property="backAndForthCount" column="back_and_forth_count" jdbcType="INTEGER"/>
+        <result property="iDt" column="i_dt" jdbcType="INTEGER"/>
+        <result property="iDt1" column="i_dt1" jdbcType="INTEGER"/>
+        <result property="iDt2" column="i_dt2" jdbcType="INTEGER"/>
+        <result property="iNps" column="i_nps" jdbcType="INTEGER"/>
+        <result property="iNpr" column="i_npr" jdbcType="INTEGER"/>
+        <result property="dcNdaj" column="dc_ndaj" jdbcType="NUMERIC"/>
+        <result property="iAngle" column="i_angle" jdbcType="INTEGER"/>
+        <result property="iAngleType" column="i_angle_type" jdbcType="INTEGER"/>
+        <result property="vSglnCode" column="v_sgln_code" jdbcType="VARCHAR"/>
+        <result property="vUnitCode" column="v_unit_code" jdbcType="VARCHAR"/>
+        <result property="vLeaveFactoryNumber" column="v_leave_factory_number" jdbcType="VARCHAR"/>
+        <result property="vManufacturerCode" column="v_manufacturer_code" jdbcType="VARCHAR"/>
+        <result property="vEquipmentCode" column="v_equipment_code" jdbcType="VARCHAR"/>
+        <result property="equCode" column="equ_code" jdbcType="VARCHAR"/>
+        <result property="identificationNumber" column="identification_number" jdbcType="VARCHAR"/>
+        <result property="vRegistrationAuthority" column="v_registration_authority" jdbcType="VARCHAR"/>
+        <result property="vRegistrationMechanism" column="v_registration_mechanism" jdbcType="VARCHAR"/>
+        <result property="platformType" column="platform_type" jdbcType="INTEGER"/>
+        <result property="vRegistrationCertificateNo" column="v_registration_certificate_no" jdbcType="VARCHAR"/>
+        <result property="dtCreateTime" column="dt_create_time" jdbcType="TIMESTAMP"/>
+        <result property="dtModifyTime" column="dt_modify_time" jdbcType="TIMESTAMP"/>
+        <result property="vCreateUserId" column="v_create_user_id" jdbcType="VARCHAR"/>
+        <result property="vModifyUserId" column="v_modify_user_id" jdbcType="VARCHAR"/>
+        <result property="iDelFlag" column="i_del_flag" jdbcType="INTEGER"/>
+        <result property="filterFlag" column="i_filter_flag" jdbcType="INTEGER"/>
+        <result property="pmStatus" column="i_pm_status" jdbcType="INTEGER"/>
+
+        <result property="nightWatchStatus" column="night_watch_status" jdbcType="INTEGER"/>
+        <result property="nightWatchStartTime" column="night_watch_start_time" jdbcType="TIME"/>
+        <result property="nightWatchEndTime" column="night_watch_end_time" jdbcType="TIME"/>
+
+        <result property="propertySafeMan" column="property_safe_man" jdbcType="VARCHAR"/>
+        <result property="propertySafePhone" column="property_safe_phone" jdbcType="VARCHAR"/>
+        <result property="maintainPrincipalPerson" column="maintain_principal_person" jdbcType="VARCHAR"/>
+        <result property="maintainPrincipalPhone" column="maintain_principal_phone" jdbcType="VARCHAR"/>
+        <result property="maintainSubordinatePerson" column="maintain_subordinate_person" jdbcType="VARCHAR"/>
+        <result property="maintainSubordinatePhone" column="maintain_subordinate_phone" jdbcType="VARCHAR"/>
+        <result property="maintainEquInsuranceInfo" column="maintain_equ_insurance_info" jdbcType="VARCHAR"/>
+        <result property="maintainEmergencyPhone" column="maintain_emergency_phone" jdbcType="VARCHAR"/>
+        <result property="gcj02Longitude" column="gcj02_longitude" jdbcType="VARCHAR"/>
+        <result property="gcj02Latitude" column="gcj02_latitude" jdbcType="VARCHAR"/>
+
+        <result property="liftGate" column="lift_gate" jdbcType="VARCHAR"/>
+        <result property="showFloor" column="show_floor" jdbcType="VARCHAR"/>
+        <result property="traction" column="traction" jdbcType="VARCHAR"/>
+        <result property="hasInsurance" column="has_insurance" jdbcType="INTEGER"/>
+        <result property="haveHouse" column="have_house" jdbcType="INTEGER"/>
+        <result property="examineDate" column="examine_date" jdbcType="OTHER"/>
+        <result property="installationDate" column="installation_date" jdbcType="OTHER"/>
+        <result property="modelName" column="model_name" jdbcType="VARCHAR"/>
+        <result property="examineEntities" column="examine_entities" jdbcType="VARCHAR"/>
+        <result property="maintenanceParticipateInDate" column="maintenance_participate_in_date" jdbcType="OTHER"/>
+        <result property="useUnitPhone" column="use_unit_phone" jdbcType="VARCHAR"/>
+        <result property="nextInspectionDate" column="next_inspection_date" jdbcType="OTHER"/>
+        <result property="inspectionUnit" column="inspection_unit" jdbcType="VARCHAR"/>
+        <result property="insuranceStatus" column="insurance_status" jdbcType="VARCHAR"/>
+        <result property="insuranceType" column="insurance_type" jdbcType="VARCHAR"/>
+        <result property="contractor" column="contractor" jdbcType="VARCHAR"/>
+        <result property="contractorStart" column="contractor_start" jdbcType="OTHER"/>
+        <result property="contractorEnd" column="contractor_end" jdbcType="OTHER"/>
+        <result property="controlMode" column="control_mode" jdbcType="VARCHAR"/>
+        <result property="normalRiseHeight" column="normal_rise_height" jdbcType="VARCHAR"/>
+        <result property="normalAngle" column="normal_angle" jdbcType="VARCHAR"/>
+        <result property="normalWidth" column="normal_width" jdbcType="VARCHAR"/>
+        <result property="normalLength" column="normal_length" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="searchElevatorModuleWhere">
+        <trim>
+            <!--<if test="searchElevatorModule.vElevatorCode != null and searchElevatorModule.vElevatorCode != ''">
+                and ele.v_elevator_code like CONCAT('%',#{searchElevatorModule.vElevatorCode},'%')
+            </if>-->
+            <if test="searchElevatorModule.vElevatorCode != null and searchElevatorModule.vElevatorCode != ''">
+                and (ele.v_elevator_code like CONCAT('%',#{searchElevatorModule.vElevatorCode},'%')
+                or v_equipment_code like CONCAT('%',#{searchElevatorModule.vElevatorCode},'%')
+                or v_elevator_name like CONCAT('%',#{searchElevatorModule.vElevatorCode},'%'))
+            </if>
+            <if test="searchElevatorModule.vCodeOrAddress != null and searchElevatorModule.vCodeOrAddress != ''">
+                and (ele.v_elevator_code like CONCAT('%',#{searchElevatorModule.vCodeOrAddress},'%')
+                or ele.v_equipment_code like CONCAT('%',#{searchElevatorModule.vCodeOrAddress},'%')
+                or ele.v_elevator_name like CONCAT('%',#{searchElevatorModule.vCodeOrAddress},'%')
+                or ele.v_address like CONCAT('%',#{searchElevatorModule.vCodeOrAddress},'%'))
+            </if>
+            <if test="searchElevatorModule.iElevatorType != null">
+                and ele.i_elevator_type = #{searchElevatorModule.iElevatorType}
+            </if>
+            <if test="searchElevatorModule.iInstallStatus != null">
+                and ele.i_install_status = #{searchElevatorModule.iInstallStatus}
+            </if>
+            <if test="searchElevatorModule.iOnLine != null">
+                and ele.i_on_line = #{searchElevatorModule.iOnLine}
+            </if>
+            <if test="searchElevatorModule.iFaultStatus != null">
+                and ele.i_fault_status = #{searchElevatorModule.iFaultStatus}
+            </if>
+            <if test="searchElevatorModule.iModeStatus != null">
+                and ele.i_mode_status = #{searchElevatorModule.iModeStatus}
+            </if>
+            <if test="searchElevatorModule.vProjectId != null and searchElevatorModule.vProjectId != ''">
+                and ele.v_project_id = #{searchElevatorModule.vProjectId}
+            </if>
+            <if test="searchElevatorModule.projectIds != null and searchElevatorModule.projectIds.size() > 0">
+                and ele.v_project_id in
+                <foreach item="item" collection="searchElevatorModule.projectIds" separator="," open="(" close=")"
+                         index="index">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="searchElevatorModule.vVillageId != null and searchElevatorModule.vVillageId != ''">
+                and ele.v_village_id = #{searchElevatorModule.vVillageId}
+            </if>
+            <if test="searchElevatorModule.villageIds != null and searchElevatorModule.villageIds.size() > 0">
+                and ele.v_village_id in
+                <foreach item="item" collection="searchElevatorModule.villageIds" separator="," open="(" close=")"
+                         index="index">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="searchElevatorModule.iProvinceId != null and searchElevatorModule.iProvinceId != ''">
+                and ele.i_province_id = #{searchElevatorModule.iProvinceId}
+            </if>
+            <if test="searchElevatorModule.iCityId != null and searchElevatorModule.iCityId != ''">
+                and ele.i_city_id = #{searchElevatorModule.iCityId}
+            </if>
+            <if test="searchElevatorModule.iAreaId != null and searchElevatorModule.iAreaId != ''">
+                and ele.i_area_id = #{searchElevatorModule.iAreaId}
+            </if>
+            <if test="searchElevatorModule.vHttpPtCode != null and searchElevatorModule.vHttpPtCode != ''">
+                and ele.v_http_pt_codes like CONCAT('%',#{searchElevatorModule.vHttpPtCode},'%')
+            </if>
+            <if test="searchElevatorModule.vBuildingId != null and searchElevatorModule.vBuildingId != ''">
+                and ele.v_building_id = #{searchElevatorModule.vBuildingId}
+            </if>
+        </trim>
+    </sql>
+
+    <sql id="ELEVATOR_TABLE_NAME">
+        tbl_elevator
+        AS ele
+    </sql>
+
+    <sql id="ELEVATOR_COLUMNS">
+        ele
+        .
+        v_elevator_id
+        , ele.v_elevator_code
+        , ele.v_elevator_name
+        , ele.i_province_id
+        , ele.i_city_id
+        , ele.i_area_id
+        , ele.v_address
+        , ele.i_elevator_type
+        , ele.i_elevator_use_type
+        , ele.i_elevator_place_type
+        , ele.v_elevator_brand_id
+        , ele.i_maintain_days
+        , ele.d_last_maintain_date
+        , ele.d_next_maintain_date
+        , ele.d_last_inspect_date
+        , ele.d_next_inspect_date
+        , ele.v_maintain_company_id
+        , ele.v_property_company_id
+        , ele.i_government_id
+        , ele.v_maintain_person_name
+        , ele.v_maintain_person_tel
+        , ele.v_emergency_person_name
+        , ele.v_emergency_person_tel
+        , ele.v_http_pt_codes
+        , ele.v_longitude
+        , ele.v_latitude
+        , ele.i_coordinate_type
+        , ele.v_project_id
+        , ele.v_village_id
+        , ele.v_building_id
+        , ele.building_type
+        , ele.v_door_type
+        , ele.i_install_status
+        , ele.dt_install_time
+        , ele.i_on_line
+        , ele.i_mode_status
+        , ele.i_fault_status
+        , ele.i_max_floor
+        , ele.i_min_floor
+        , ele.floor_count
+        , ele.station_count
+        , ele.base_station
+        , ele.v_floor_detail
+        , ele.v_floor_setting_status
+        , ele.dc_speed
+        , ele.nominal_speed_up
+        , ele.nominal_speed_down
+        , ele.nominal_load_capacity
+        , ele.bi_run_time
+        , ele.bi_run_count
+        , ele.bi_door_count
+        , ele.bi_bend_count
+        , ele.bi_level_trigger_count
+        , ele.bi_run_distance_count
+        , ele.back_and_forth_count
+        , ele.i_dt
+        , ele.i_dt1
+        , ele.i_dt2
+        , ele.i_nps
+        , ele.i_npr
+        , ele.dc_ndaj
+        , ele.i_angle
+        , ele.i_angle_type
+        , ele.v_sgln_code
+        , ele.v_unit_code
+        , ele.v_leave_factory_number
+        , ele.v_manufacturer_code
+        , ele.v_equipment_code
+        , ele.equ_code
+        , ele.identification_number
+        , ele.v_registration_authority
+        , ele.v_registration_mechanism
+        , ele.platform_type
+        , ele.v_registration_certificate_no
+        , ele.dt_create_time
+        , ele.dt_modify_time
+        , ele.v_create_user_id
+        , ele.v_modify_user_id
+        , ele.i_del_flag
+        , ele.i_filter_flag
+        , ele.i_pm_status
+        , ele.night_watch_status
+        , ele.night_watch_start_time
+        , ele.night_watch_end_time
+        , ele.property_safe_man
+        , ele.property_safe_phone
+        , ele.maintain_principal_person
+        , ele.maintain_principal_phone
+        , ele.maintain_subordinate_person
+        , ele.maintain_subordinate_phone
+        , ele.maintain_equ_insurance_info
+        , ele.maintain_emergency_phone
+        , ele.gcj02_longitude
+        , ele.gcj02_latitude
+        , ele.lift_gate
+        , ele.show_floor
+        , ele.traction
+        , ele.has_insurance
+        , ele.have_house
+        , ele.examine_date
+        , ele.installation_date
+        , ele.model_name
+        , ele.examine_entities
+        , ele.maintenance_participate_in_date
+        , ele.use_unit_phone
+        , ele.next_inspection_date
+        , ele.inspection_unit
+        , ele.insurance_status
+        , ele.insurance_type
+        , ele.contractor
+        , ele.contractor_start
+        , ele.contractor_end
+        , ele.control_mode
+        , ele.normal_rise_height
+        , ele.normal_angle
+        , ele.normal_width
+        , ele.normal_length
+    </sql>
+
+    <sql id="ELEVATOR_COLUMNS_ALIAS_NAME">
+        ele
+        .
+        v_elevator_id
+        AS elevatorId
+        , ele.v_elevator_code AS elevatorCode
+        , ele.v_elevator_name AS elevatorName
+        , ele.i_province_id AS provinceId
+        , ele.i_city_id AS cityId
+        , ele.i_area_id AS areaId
+        , ele.v_address AS address
+        , ele.i_elevator_type AS elevatorType
+        , ele.i_elevator_use_type AS elevatorUseType
+        , ele.i_elevator_place_type AS elevatorPlaceType
+        , ele.v_elevator_brand_id AS elevatorBrandId
+        , ele.i_maintain_days AS maintainDays
+        , ele.d_last_maintain_date AS lastMaintainDate
+        , ele.d_next_maintain_date AS nextMaintainDate
+        , ele.d_last_inspect_date AS lastInspectDate
+        , ele.d_next_inspect_date AS nextInspectDate
+        , ele.v_maintain_company_id AS maintainCompanyId
+        , ele.v_property_company_id AS propertyCompanyId
+        , ele.i_government_id AS governmentId
+        , ele.v_maintain_person_name AS maintainPersonName
+        , ele.v_maintain_person_tel AS maintainPersonTel
+        , ele.v_emergency_person_name AS emergencyPersonName
+        , ele.v_emergency_person_tel AS emergencyPersonTel
+        , ele.v_http_pt_codes AS httpPtCodes
+        , ele.v_longitude AS longitude
+        , ele.v_latitude AS latitude
+        , ele.dt_install_time AS installTime
+        , ele.i_coordinate_type AS coordinateType
+        , ele.v_project_id AS projectId
+        , ele.v_village_id AS villageId
+        , ele.v_building_id AS buildingId
+        , ele.building_type AS buildingType
+        , ele.v_door_type AS doorType
+        , ele.i_install_status AS installStatus
+        , ele.dt_install_time AS installTime
+        , ele.i_on_line AS onLine
+        , ele.i_mode_status AS modeStatus
+        , ele.i_fault_status AS faultStatus
+        , ele.i_max_floor AS maxFloor
+        , ele.i_min_floor AS minFloor
+        , ele.floor_count AS floorCount
+        , ele.station_count AS stationCount
+        , ele.base_station AS baseStation
+        , ele.v_floor_detail AS floorDetail
+        , ele.v_floor_setting_status AS floorSettingStatus
+        , ele.dc_speed AS speed
+        , ele.nominal_speed_up AS nominalSpeedUp
+        , ele.nominal_speed_down AS nominalSpeedDown
+        , ele.nominal_load_capacity AS nominalLoadCapacity
+        , ele.bi_run_time AS runTime
+        , ele.bi_run_count AS runCount
+        , ele.bi_door_count AS doorCount
+        , ele.bi_bend_count AS bendCount
+        , ele.bi_level_trigger_count AS levelTriggerCount
+        , ele.bi_run_distance_count AS runDistanceCount
+        , ele.back_and_forth_count AS backAndForthCount
+        , ele.d_last_maintain_date AS lastMaintainDate
+        , ele.d_next_maintain_date AS nextMaintainDate
+        , ele.d_last_inspect_date AS lastInspectDate
+        , ele.d_next_inspect_date AS nextInspectDate
+        , ele.v_equipment_code AS equipmentCode
+        , ele.i_dt AS dt
+        , ele.i_dt1 AS dt1
+        , ele.i_dt2 AS dt2
+        , ele.i_nps AS nps
+        , ele.i_npr AS npr
+        , ele.dc_ndaj AS ndaj
+        , ele.i_angle AS angle
+        , ele.i_angle_type AS angleType
+        , ele.v_sgln_code AS saganCode
+        , ele.v_unit_code AS unitCode
+        , ele.v_leave_factory_number AS leaveFactoryNumber
+        , ele.v_manufacturer_code AS manufacturerCode
+        , ele.equ_code AS equCode
+        , ele.identification_number AS identificationNumber
+        , ele.v_registration_authority AS registrationAuthority
+        , ele.v_registration_mechanism AS registrationMechanism
+        , ele.platform_type AS platformType
+        , ele.v_registration_certificate_no AS registrationCertificateNo
+        , ele.dt_create_time AS createTime
+        , ele.dt_modify_time AS modifyTime
+        , ele.v_create_user_id AS createUserId
+        , ele.v_modify_user_id AS modifyUserId
+        , ele.i_del_flag AS delFlag
+        , ele.i_filter_flag AS filterFlag
+        , ele.i_pm_status AS pmStatus
+        , ele.night_watch_status AS nightWatchStatus
+        , ele.night_watch_start_time AS nightWatchStartTime
+        , ele.night_watch_end_time AS nightWatchEndTime
+        , ele.property_safe_man AS propertySafeMan
+        , ele.property_safe_phone AS propertySafePhone
+        , ele.maintain_principal_person AS maintainPrincipalPerson
+        , ele.maintain_principal_phone AS maintainPrincipalPhone
+        , ele.maintain_subordinate_person AS maintainSubordinatePerson
+        , ele.maintain_subordinate_phone AS maintainSubordinatePhone
+        , ele.maintain_equ_insurance_info AS maintainEquInsuranceInfo
+        , ele.maintain_emergency_phone AS maintainEmergencyPhone
+        , ele.gcj02_longitude
+        , ele.gcj02_latitude
+        , ele.lift_gate
+        , ele.show_floor
+        , ele.traction
+        , ele.has_insurance
+        , ele.have_house
+        , ele.examine_date
+        , ele.installation_date
+        , ele.model_name
+        , ele.examine_entities
+        , ele.maintenance_participate_in_date
+        , ele.use_unit_phone
+        , ele.next_inspection_date
+        , ele.inspection_unit
+        , ele.insurance_status
+        , ele.insurance_type
+        , ele.contractor
+        , ele.contractor_start
+        , ele.contractor_end
+        , ele.control_mode
+        , ele.normal_rise_height
+        , ele.normal_angle
+        , ele.normal_width
+        , ele.normal_length
+
+    </sql>
+
+
+    <!-- 导出Excel  -->
+    <resultMap type="com.shmashine.api.module.elevator.ElevatorDetailDownloadModuleMap"
+               id="ElevatorDetailDownloadModuleMap">
+        <result property="elevatorRegister" column="v_equipment_code" jdbcType="VARCHAR"/>
+        <result property="elevatorCode" column="v_elevator_code" jdbcType="VARCHAR"/>
+        <result property="provinceIdName" column="province_name" jdbcType="VARCHAR"/>
+        <result property="cityIdName" column="city_name" jdbcType="VARCHAR"/>
+        <result property="areaIdName" column="area_name" jdbcType="VARCHAR"/>
+        <result property="address" column="v_address" jdbcType="VARCHAR"/>
+        <result property="maintainCompanyIdName" column="v_maintain_company_name" jdbcType="VARCHAR"/>
+        <result property="elevatorTypeName" column="i_elevator_type_name" jdbcType="VARCHAR"/>
+        <result property="installStatusName" column="i_install_status_name" jdbcType="VARCHAR"/>
+        <result property="onLineName" column="i_online_status_name" jdbcType="VARCHAR"/>
+        <result property="faultStatusName" column="i_fault_status_name" jdbcType="VARCHAR"/>
+        <result property="modeStatusName" column="i_mode_status_name" jdbcType="VARCHAR"/>
+        <result property="projectName" column="v_project_name" jdbcType="VARCHAR"/>
+        <result property="villageName" column="village_name" jdbcType="VARCHAR"/>
+        <result property="sw_version" column="v_sw_version" jdbcType="VARCHAR"/>
+        <result property="hw_version" column="v_hw_version" jdbcType="VARCHAR"/>
+        <result property="fw_version" column="v_fw_version" jdbcType="VARCHAR"/>
+        <result property="b_sw_version" column="b_sw_version" jdbcType="VARCHAR"/>
+        <result property="b_hw_version" column="b_hw_version" jdbcType="VARCHAR"/>
+        <result property="b_fw_version" column="b_fw_version" jdbcType="VARCHAR"/>
+    </resultMap>
+    <!-- 导出Excel sql -->
+    <select id="searchElevatorListDownload" resultMap="ElevatorDetailDownloadModuleMap">
+        select
+        ele.v_equipment_code AS v_equipment_code,
+        ele.v_elevator_code AS v_elevator_code,
+        ele.v_village_id AS villageId,
+        ele.v_elevator_name AS v_elevator_name,
+        city1.v_areaName AS province_name,
+        city2.v_areaName AS city_name,
+        city3.v_areaName AS area_name,
+        ele.v_address AS v_address,
+        dept.v_dept_name AS v_maintain_company_name,
+        sysinfo.v_name_zh_cn AS i_elevator_type_name,
+        sysinfo2.v_name_zh_cn AS i_install_status_name,
+        sysinfo3.v_name_zh_cn AS i_mode_status_name,
+        sysinfo4.v_name_zh_cn AS i_online_status_name,
+        sysinfo5.v_name_zh_cn AS i_fault_status_name,
+        project.v_project_name AS v_project_name,
+        village.v_village_name AS village_name,
+        device1.v_hw_version AS v_hw_version,
+        device1.v_sw_version AS v_sw_version,
+        device1.v_fw_version AS v_fw_version,
+        device2.v_sw_version AS b_sw_version,
+        device2.v_hw_version AS b_hw_version,
+        device2.v_fw_version AS b_fw_version
+        from tbl_elevator ele
+        <if test="!searchElevatorModule.isAdminFlag">
+            join tbl_sys_user_resource resource on ele.v_elevator_id = resource.v_resource_id and v_user_id =
+            #{searchElevatorModule.userId}
+        </if>
+        left join tbl_device device1 on ele.v_elevator_id = device1.v_elevator_id AND device1.v_sensor_type = "CarRoof"
+        left join tbl_device device2 on ele.v_elevator_id = device2.v_elevator_id AND device2.v_sensor_type =
+        "MotorRoom"
+        left join tbl_project project on ele.v_project_id = project.v_project_id
+        left join tbl_village village on ele.v_village_id = village.v_village_id
+        left join tbl_sys_dept dept on ele.v_maintain_company_id = dept.v_dept_id
+        left join tbl_sys_provincial_city city1 on city1.i_areaId = ele.i_province_id
+        left join tbl_sys_provincial_city city2 on city2.i_areaId = ele.i_city_id
+        left join tbl_sys_provincial_city city3 on city3.i_areaId = ele.i_area_id
+        left join tbl_sys_systeminfo sysinfo on sysinfo.v_sysvalue5 = ele.i_elevator_type and sysinfo.v_sysid = '10002'
+        left join tbl_sys_systeminfo sysinfo2 on sysinfo2.v_sysvalue5 = ele.i_install_status and sysinfo2.v_sysid =
+        '10008'
+        left join tbl_sys_systeminfo sysinfo3 on sysinfo3.v_sysvalue5 = ele.i_mode_status and sysinfo3.v_sysid = '10009'
+        left join tbl_sys_systeminfo sysinfo4 on sysinfo4.v_sysvalue5 = ele.i_on_line and sysinfo4.v_sysid = '10007'
+        left join tbl_sys_systeminfo sysinfo5 on sysinfo5.v_sysvalue5 = ele.i_fault_status and sysinfo5.v_sysid =
+        '10018'
+        <where>
+            <include refid="searchElevatorModuleWhere"/>
+            <if test="searchElevatorModule.vHwVersion != null and searchElevatorModule.vHwVersion != ''">
+                <choose>
+                    <when test="searchElevatorModule.vHwVersion != '0.0'">
+                        and device1.v_hw_version = #{searchElevatorModule.vHwVersion}
+                        and device2.v_hw_version = #{searchElevatorModule.vHwVersion}
+                    </when>
+                    <otherwise>
+                        and device1.v_hw_version is null
+                        and device2.v_hw_version is null
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="searchElevatorModule.installStatusArray != null and searchElevatorModule.installStatusArray.size() > 0">
+                and ele.i_install_status in
+                <foreach collection="searchElevatorModule.installStatusArray" item="install" open="(" separator=","
+                         close=")">
+                    #{install}
+                </foreach>
+            </if>
+            <!--<if test="searchElevatorModule.vElevatorCode != null and searchElevatorModule.vElevatorCode != ''">
+                and ele.v_elevator_code like CONCAT('%',#{searchElevatorModule.vElevatorCode},'%')
+            </if>
+            <if test="searchElevatorModule.iElevatorType != null">
+                and ele.i_elevator_type = #{searchElevatorModule.iElevatorType}
+            </if>
+            <if test="searchElevatorModule.iInstallStatus != null">
+                and ele.i_install_status = #{searchElevatorModule.iInstallStatus}
+            </if>
+            <if test="searchElevatorModule.iOnLine != null">
+                and ele.i_on_line = #{searchElevatorModule.iOnLine}
+            </if>
+            <if test="searchElevatorModule.iFaultStatus != null">
+                and ele.i_fault_status = #{searchElevatorModule.iFaultStatus}
+            </if>
+            <if test="searchElevatorModule.iModeStatus != null">
+                and ele.i_mode_status = #{searchElevatorModule.iModeStatus}
+            </if>
+            <if test="searchElevatorModule.vProjectId != null and searchElevatorModule.vProjectId != ''">
+                and ele.v_project_id = #{searchElevatorModule.vProjectId}
+            </if>
+            <if test="searchElevatorModule.vVillageId != null and searchElevatorModule.vVillageId != ''">
+                and ele.v_village_id = #{searchElevatorModule.vVillageId}
+            </if>
+            <if test="searchElevatorModule.iProvinceId != null and searchElevatorModule.iProvinceId != ''">
+                and ele.i_province_id = #{searchElevatorModule.iProvinceId}
+            </if>
+            <if test="searchElevatorModule.iCityId != null and searchElevatorModule.iCityId != ''">
+                and ele.i_city_id = #{searchElevatorModule.iCityId}
+            </if>
+            <if test="searchElevatorModule.iAreaId != null and searchElevatorModule.iAreaId != ''">
+                and ele.i_area_id = #{searchElevatorModule.iAreaId}
+            </if>
+            <if test="searchElevatorModule.vHttpPtCode != null and searchElevatorModule.vHttpPtCode != ''">
+                and ele.v_http_pt_codes like CONCAT('%',#{searchElevatorModule.vHttpPtCode},'%')
+            </if>-->
+        </where>
+        group by ele.v_elevator_id
+        order by ele.dt_create_time desc
+    </select>
+    <!-- 电梯列表数据查询 -->
+    <select id="searchElevatorList" resultType="java.util.Map">
+        select
+        ele.v_elevator_id AS v_elevator_id,
+        ele.v_elevator_code AS v_elevator_code,
+        ele.v_elevator_name AS v_elevator_name,
+        ele.v_address AS v_address,
+        dept.v_dept_name AS v_maintain_company_name,
+        ele.i_elevator_type AS i_elevator_type,
+        sysinfo.v_name_zh_cn AS i_elevator_type_name,
+        ele.i_install_status AS i_install_status,
+        sysinfo2.v_name_zh_cn AS i_install_status_name,
+        ele.i_mode_status AS i_mode_status,
+        sysinfo3.v_name_zh_cn AS i_mode_status_name,
+        ele.i_on_line AS i_online_status,
+        sysinfo4.v_name_zh_cn AS i_online_status_name,
+        ele.i_fault_status AS i_fault_status,
+        sysinfo5.v_name_zh_cn AS i_fault_status_name,
+        ele.v_longitude,
+        ele.v_latitude,
+        ele.v_equipment_code AS register_number,
+        ele.v_village_id AS villageId,
+        GROUP_CONCAT(device.v_hw_version) AS v_hw_version
+        from tbl_elevator ele
+        <if test="!searchElevatorModule.isAdminFlag">
+            join tbl_sys_user_resource resource on ele.v_elevator_id = resource.v_resource_id and v_user_id =
+            #{searchElevatorModule.userId}
+        </if>
+        LEFT JOIN tbl_device device ON ele.v_elevator_id = device.v_elevator_id and ele.v_elevator_code =
+        device.v_elevator_code
+        left join tbl_sys_dept dept on ele.v_maintain_company_id = dept.v_dept_id
+        left join tbl_sys_systeminfo sysinfo on sysinfo.v_sysvalue5 = ele.i_elevator_type and sysinfo.v_sysid = '10002'
+        left join tbl_sys_systeminfo sysinfo2 on sysinfo2.v_sysvalue5 = ele.i_install_status and sysinfo2.v_sysid =
+        '10008'
+        left join tbl_sys_systeminfo sysinfo3 on sysinfo3.v_sysvalue5 = ele.i_mode_status and sysinfo3.v_sysid = '10009'
+        left join tbl_sys_systeminfo sysinfo4 on sysinfo4.v_sysvalue5 = ele.i_on_line and sysinfo4.v_sysid = '10007'
+        left join tbl_sys_systeminfo sysinfo5 on sysinfo5.v_sysvalue5 = ele.i_fault_status and sysinfo5.v_sysid =
+        '10018'
+        <where>
+            <include refid="searchElevatorModuleWhere"/>
+            <if test="searchElevatorModule.vHwVersion != null and searchElevatorModule.vHwVersion != ''">
+                <choose>
+                    <when test="searchElevatorModule.vHwVersion != '0.0'">
+                        and device.v_hw_version = #{searchElevatorModule.vHwVersion}
+                    </when>
+                    <otherwise>
+                        and device.v_hw_version is null
+                    </otherwise>
+                </choose>
+            </if>
+            <!--<if test="searchElevatorModule.vElevatorCode != null and searchElevatorModule.vElevatorCode != ''">
+                and (ele.v_elevator_code like CONCAT('%',#{searchElevatorModule.vElevatorCode},'%')
+                or v_equipment_code like CONCAT('%',#{searchElevatorModule.vElevatorCode},'%')
+                or v_elevator_name like CONCAT('%',#{searchElevatorModule.vElevatorCode},'%'))
+            </if>
+            <if test="searchElevatorModule.vCodeOrAddress != null and searchElevatorModule.vCodeOrAddress != ''">
+                and (ele.v_elevator_code like CONCAT('%',#{searchElevatorModule.vCodeOrAddress},'%')
+                or ele.v_equipment_code like CONCAT('%',#{searchElevatorModule.vCodeOrAddress},'%')
+                or ele.v_elevator_name like CONCAT('%',#{searchElevatorModule.vCodeOrAddress},'%')
+                or ele.v_address like CONCAT('%',#{searchElevatorModule.vCodeOrAddress},'%'))
+            </if>
+            <if test="searchElevatorModule.iElevatorType != null">
+                and ele.i_elevator_type = #{searchElevatorModule.iElevatorType}
+            </if>
+            <if test="searchElevatorModule.iInstallStatus != null">
+                and ele.i_install_status = #{searchElevatorModule.iInstallStatus}
+            </if>
+            <if test="searchElevatorModule.iOnLine != null">
+                and ele.i_on_line = #{searchElevatorModule.iOnLine}
+            </if>
+            <if test="searchElevatorModule.iFaultStatus != null">
+                and ele.i_fault_status = #{searchElevatorModule.iFaultStatus}
+            </if>
+            <if test="searchElevatorModule.iModeStatus != null">
+                and ele.i_mode_status = #{searchElevatorModule.iModeStatus}
+            </if>
+            <if test="searchElevatorModule.vProjectId != null and searchElevatorModule.vProjectId != ''">
+                and ele.v_project_id = #{searchElevatorModule.vProjectId}
+            </if>
+            <if test="searchElevatorModule.vVillageId != null and searchElevatorModule.vVillageId != ''">
+                and ele.v_village_id = #{searchElevatorModule.vVillageId}
+            </if>
+            <if test="searchElevatorModule.villageIds != null">
+                and ele.v_village_id in
+                <foreach item="item" collection="searchElevatorModule.villageIds" separator="," open="(" close=")" index="index">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="searchElevatorModule.iProvinceId != null and searchElevatorModule.iProvinceId != ''">
+                and ele.i_province_id = #{searchElevatorModule.iProvinceId}
+            </if>
+            <if test="searchElevatorModule.iCityId != null and searchElevatorModule.iCityId != ''">
+                and ele.i_city_id = #{searchElevatorModule.iCityId}
+            </if>
+            <if test="searchElevatorModule.iAreaId != null and searchElevatorModule.iAreaId != ''">
+                and ele.i_area_id = #{searchElevatorModule.iAreaId}
+            </if>
+            <if test="searchElevatorModule.vBuildingId != null and searchElevatorModule.vBuildingId != ''">
+                and ele.v_building_id = #{searchElevatorModule.vBuildingId}
+            </if>-->
+        </where>
+        GROUP BY ele.v_elevator_id,ele.v_elevator_code
+        order by ele.v_elevator_name
+    </select>
+    <select id="getDeptByUserId" resultType="com.shmashine.common.entity.TblSysDept">
+        SELECT sd.*
+        FROM tbl_sys_dept_user sdu
+                 LEFT JOIN tbl_sys_dept sd ON sdu.v_dept_id = sd.v_dept_id
+        WHERE v_user_id = #{vUserId};
+    </select>
+    <!-- 根据部门id获取->项目信息-->
+    <select id="getProdectByDeptId" resultType="com.shmashine.common.entity.TblProject">
+        select *
+        from tbl_project
+        WHERE v_dept_id = #{vDeptId};
+    </select>
+    <!-- 迭代获取部门信息-->
+    <select id="getDeptidList" resultType="com.shmashine.common.entity.TblSysDept">
+        SELECT v_dept_id,
+               v_dept_name,
+               v_parent_id
+        FROM (SELECT t1.v_dept_id,
+                     t1.v_dept_name,
+                     v_parent_id,
+                     IF
+                     (find_in_set(v_parent_id, @pids) > 0, @pids := concat( @pids, ',', v_dept_id ),
+                      0) AS ischild
+              FROM (SELECT v_dept_id, v_parent_id, v_dept_name
+                    FROM tbl_sys_dept t
+                    ORDER BY v_parent_id, v_dept_id) t1,
+                   (SELECT @pids := #{vDeptId}) t2) t3
+        where ischild != 0
+    </select>
+    <select id="searchElevatorListByProjectId" resultType="java.util.Map">
+        select
+        distinct
+        ifnull(device.eType, 'MX201') as e_type,
+        device.v_device_position as v_device_position,
+        ele.v_elevator_id AS v_elevator_id,
+        ele.v_elevator_code AS v_elevator_code,
+        ele.v_elevator_name AS v_elevator_name,
+        ele.v_project_id AS v_project_id,
+        elebd.v_elevator_brand_name AS brandName,
+        proj.v_project_name AS v_project_name,
+        ele.v_address AS v_address,
+        dept.v_dept_name AS v_maintain_company_name,
+        ele.i_elevator_type AS i_elevator_type,
+        sysinfo.v_name_zh_cn AS i_elevator_type_name,
+        ele.i_install_status AS i_install_status,
+        sysinfo2.v_name_zh_cn AS i_install_status_name,
+        ele.i_mode_status AS i_mode_status,
+        sysinfo3.v_name_zh_cn AS i_mode_status_name,
+        ele.i_on_line AS i_online_status,
+        sysinfo4.v_name_zh_cn AS i_online_status_name,
+        ele.i_fault_status AS i_fault_status,
+        ele.i_max_floor AS maxFloor,
+        ele.i_min_floor AS minFloor,
+        sysinfo5.v_name_zh_cn AS i_fault_status_name,
+        ele.v_longitude,
+        ele.v_latitude,
+        ele.v_equipment_code AS register_number,
+        ele.v_village_id AS villageId,
+        ele.v_door_type AS doorType,
+        ele.night_watch_status AS nightWatchStatus,
+        ele.d_last_maintain_date AS lastMaintainDate,
+        ele.d_next_maintain_date AS nextMaintainDate,
+        ele.d_last_inspect_date AS lastInspectDate,
+        ele.d_next_inspect_date AS nextInspectDate,
+        GROUP_CONCAT(device.v_hw_version) AS v_hw_version
+        from tbl_elevator ele
+        <if test="!searchElevatorModule.isAdminFlag">
+            join tbl_sys_user_resource resource on ele.v_elevator_id = resource.v_resource_id and v_user_id =
+            #{searchElevatorModule.userId}
+        </if>
+        LEFT JOIN tbl_elevator_brand elebd on ele.v_elevator_brand_id = elebd.v_elevator_brand_id
+        LEFT JOIN tbl_device device ON ele.v_elevator_id = device.v_elevator_id and ele.v_elevator_code =
+        device.v_elevator_code
+        left join tbl_sys_dept dept on ele.v_maintain_company_id = dept.v_dept_id
+        left join tbl_project proj on proj.v_project_id = ele.v_project_id
+        left join tbl_sys_systeminfo sysinfo on sysinfo.v_sysvalue5 = ele.i_elevator_type and sysinfo.v_sysid = '10002'
+        left join tbl_sys_systeminfo sysinfo2 on sysinfo2.v_sysvalue5 = ele.i_install_status and sysinfo2.v_sysid =
+        '10008'
+        left join tbl_sys_systeminfo sysinfo3 on sysinfo3.v_sysvalue5 = ele.i_mode_status and sysinfo3.v_sysid = '10009'
+        left join tbl_sys_systeminfo sysinfo4 on sysinfo4.v_sysvalue5 = ele.i_on_line and sysinfo4.v_sysid = '10007'
+        left join tbl_sys_systeminfo sysinfo5 on sysinfo5.v_sysvalue5 = ele.i_fault_status and sysinfo5.v_sysid =
+        '10018'
+        <where>
+            <include refid="searchElevatorModuleWhere"/>
+            <if test="searchElevatorModule.vHwVersion != null and searchElevatorModule.vHwVersion != ''">
+                <choose>
+                    <when test="searchElevatorModule.vHwVersion != '0.0'">
+                        and device.v_hw_version = #{searchElevatorModule.vHwVersion}
+                    </when>
+                    <otherwise>
+                        and device.v_hw_version is null
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="searchElevatorModule.installStatusArray != null and searchElevatorModule.installStatusArray.size() > 0">
+                and ele.i_install_status in
+                <foreach collection="searchElevatorModule.installStatusArray" item="install" open="(" separator=","
+                         close=")">
+                    #{install}
+                </foreach>
+            </if>
+            <if test="searchElevatorModule.eType != null and searchElevatorModule.eType.contains('MX201')">
+                and (device.eType = #{searchElevatorModule.eType} or device.eType is null)
+            </if>
+            <if test="searchElevatorModule.eType != null and !searchElevatorModule.eType.contains('MX201')">
+                and device.eType = #{searchElevatorModule.eType}
+            </if>
+            <if test="searchElevatorModule.masterVersion != null and searchElevatorModule.masterVersion != ''">
+                and device.v_master_version = #{searchElevatorModule.masterVersion}
+            </if>
+            <if test="searchElevatorModule.vDevicePosition != null and searchElevatorModule.vDevicePosition != ''">
+                and device.v_device_position = #{searchElevatorModule.vDevicePosition}
+            </if>
+        </where>
+        GROUP BY ele.v_elevator_id,ele.v_elevator_code
+        ORDER by ele.i_on_line DESC, ele.v_elevator_name ASC
+    </select>
+    <!-- 获取电梯详情 -->
+    <select id="getElevatorByElevatorId" resultType="com.shmashine.api.module.elevator.ElevatorDetailModule">
+        select
+        <include refid="ELEVATOR_COLUMNS_ALIAS_NAME"/>,
+        sysinfo.v_name_zh_cn AS elevatorTypeName,
+        brand.v_elevator_brand_name AS elevatorBrandName,
+        dept.v_dept_name AS maintainCompanyName,
+        dept2.v_dept_name AS propertyCompanyName,
+        dept3.v_dept_name AS governmentName,
+        camera.i_camera_type AS cameraType,
+        camera.v_hls_url AS hlsUrl,
+        camera.v_serial_number AS serialNumber,
+        camera.v_cloud_number AS cloudNumber,
+        sysinfo2.v_name_zh_cn AS elevatorUseType,
+        IFNULL(rj.first_maintainer_name,'暂无') AS firstMaintainerName,
+        IFNULL(rj.second_maintainer_name,'暂无') AS secondMaintainerName,
+        IFNULL(rj.safety_administrator,'暂无') AS safetyAdministrator,
+        rj.first_maintainer_tel AS firstMaintainerTel,
+        ifnull(device.eType, 'MX201') as eType
+        from tbl_elevator ele
+        left join tbl_device device on device.v_elevator_id = ele.v_elevator_id
+        left join tbl_third_party_ruijin_maintenance rj on ele.v_equipment_code = rj.register_number
+        left join tbl_sys_dept dept on ele.v_maintain_company_id = dept.v_dept_id
+        left join tbl_camera camera on ele.v_elevator_id = camera.v_elevator_id
+        left join tbl_sys_dept dept2 on ele.v_property_company_id = dept2.v_dept_id
+        left join tbl_sys_dept dept3 on ele.i_government_id = dept3.v_dept_id
+        left join tbl_elevator_brand brand on ele.v_elevator_brand_id = brand.v_elevator_brand_id
+        left join tbl_sys_systeminfo sysinfo on sysinfo.v_sysvalue5 = ele.i_elevator_type and sysinfo.v_sysid = '10002'
+        left join tbl_sys_systeminfo sysinfo2 on sysinfo2.v_sysvalue5 = ele.i_elevator_use_type and sysinfo2.v_sysid =
+        '10023'
+        where ele.v_elevator_id = #{elevatorId} or ele.v_equipment_code = #{elevatorId}
+        limit 0, 1
+    </select>
+    <!-- 电梯列表数据查询 对外调用 -->
+    <select id="searchElevatorListThirdParty" resultType="com.shmashine.api.module.elevator.ElevatorThirdPartyList">
+        SELECT
+        ele.v_elevator_id AS elevatorId,
+        ele.v_elevator_code AS elevatorCode,
+        ele.i_province_id AS provinceId,
+        provincial_city.v_areaName AS provinceName,
+        ele.i_city_id AS cityId,
+        provincial_city.v_areaName AS cityName,
+        ele.i_area_id AS areaId,
+        provincial_city.v_areaName AS areaName,
+        ele.v_address AS address,
+        ele.i_elevator_type AS elevatorType,
+        sysinfo.v_name_zh_cn AS elevatorTypeName,
+        ele.i_elevator_use_type AS elevatorUseType,
+        ele.i_elevator_place_type AS elevatorPlaceType,
+        ele.v_elevator_brand_id AS elevatorBrandId,
+        brand.v_elevator_brand_name AS elevatorBrandName,
+        ele.i_maintain_days AS maintainDays,
+        ele.d_last_maintain_date AS lastMaintainDate,
+        ele.d_next_maintain_date AS nextMaintainDate,
+        ele.d_last_inspect_date AS lastInspectDate,
+        ele.d_next_inspect_date AS nextInspectDate,
+        ele.v_maintain_person_name AS maintainPersonName,
+        ele.v_maintain_person_tel AS maintainPersonTel,
+        ele.v_emergency_person_name AS emergencyPersonName,
+        ele.v_emergency_person_tel AS emergencyPersonTel,
+        ele.v_longitude AS longitude,
+        ele.v_latitude AS latitude,
+        ele.v_sgln_code AS sglnCode,
+        ele.v_unit_code AS unitCode,
+        ele.v_equipment_code AS equipmentCode,
+        ele.v_registration_authority AS registrationAuthority,
+        ele.v_registration_mechanism AS registrationMechanism,
+        ele.v_registration_certificate_no AS registrationCertificateNo,
+        ele.i_del_flag AS delFlag,
+        ele.v_village_id AS villageId,
+        ele.night_watch_status AS nightWatchStatus
+        FROM
+        tbl_elevator ele
+        <if test="!searchElevatorModule.isAdminFlag">
+            join tbl_sys_user_resource resource on ele.v_elevator_id = resource.v_resource_id and v_user_id =
+            #{searchElevatorModule.userId}
+        </if>
+        left join tbl_sys_provincial_city provincial_city on provincial_city.i_areaId = ele.i_province_id
+        left join tbl_sys_provincial_city provincial_city2 on provincial_city2.i_areaId = ele.i_city_id
+        left join tbl_sys_provincial_city provincial_city3 on provincial_city3.i_areaId = ele.i_area_id
+        left join tbl_elevator_brand brand on brand.v_elevator_brand_id = ele.v_elevator_brand_id
+        left join tbl_sys_systeminfo sysinfo on sysinfo.v_sysvalue5 = ele.i_elevator_type and sysinfo.v_sysid = '10002'
+        GROUP BY ele.v_elevator_id,ele.v_elevator_code
+        order by ele.dt_create_time desc
+    </select>
+    <!-- 获取电梯详情 对外调用 -->
+    <select id="getElevatorByElevatorIdThirdParty"
+            resultType="com.shmashine.api.module.elevator.ElevatorThirdPartyDetail">
+        SELECT ele.v_elevator_id                 AS elevatorId,
+               ele.v_elevator_code               AS elevatorCode,
+               ele.i_province_id                 AS provinceId,
+               provincial_city.v_areaName        AS provinceName,
+               ele.i_city_id                     AS i_city_id,
+               provincial_city.v_areaName        AS cityName,
+               ele.i_area_id                     AS i_area_id,
+               provincial_city.v_areaName        AS areaName,
+               ele.v_address                     AS address,
+               ele.i_elevator_type               AS elevatorType,
+               sysinfo.v_name_zh_cn              AS elevatorTypeName,
+               ele.i_elevator_use_type           AS elevatorUseType,
+               ele.i_elevator_place_type         AS elevatorPlaceType,
+               ele.v_elevator_brand_id           AS elevatorBrandId,
+               brand.v_elevator_brand_name       AS elevatorBrandName,
+               ele.i_maintain_days               AS maintainDays,
+               ele.d_last_maintain_date          AS lastMaintainDate,
+               ele.d_next_maintain_date          AS nextMaintainDate,
+               ele.d_last_inspect_date           AS lastInspectDate,
+               ele.d_next_inspect_date           AS nextInspectDate,
+               ele.v_maintain_company_id         AS maintainCompanyId,
+               dept.v_dept_name                  AS maintainCompanyName,
+               ele.v_property_company_id         AS propertyCompanyId,
+               dept2.v_dept_name                 AS propertyCompanyName,
+               ele.i_government_id               AS governmentId,
+               dept3.v_dept_name                 AS governmentName,
+               ele.v_maintain_person_name        AS maintainPersonName,
+               ele.v_maintain_person_tel         AS maintainPersonTel,
+               ele.v_emergency_person_name       AS emergencyPersonName,
+               ele.v_emergency_person_tel        AS emergencyPersonTel,
+               ele.v_http_pt_codes               AS httpPtCodes,
+               ele.v_longitude                   AS longitude,
+               ele.v_latitude                    AS latitude,
+               ele.i_coordinate_type             AS coordinateType,
+               ele.v_project_id                  AS projectId,
+               project.v_project_name            AS projectName,
+               ele.v_village_id                  AS villageId,
+               village.v_village_name            AS villageName,
+               ele.i_install_status              AS installStatus,
+               sysinfo2.v_name_zh_cn             AS installStatusName,
+               ele.dt_install_time               AS installTime,
+               ele.i_on_line                     AS i_on_line,
+               sysinfo3.v_name_zh_cn             AS onLineName,
+               ele.i_mode_status                 AS modeStatus,
+               sysinfo4.v_name_zh_cn             AS modeStatusName,
+               ele.i_fault_status                AS faultStatus,
+               sysinfo5.v_name_zh_cn             AS faultStatusName,
+               ele.i_max_floor                   AS maxFloor,
+               ele.i_min_floor                   AS minFloor,
+               ele.v_floor_detail                AS floorDetail,
+               ele.v_floor_setting_status        AS floorSettingStatus,
+               ele.dc_speed                      AS speed,
+               ele.bi_run_count                  AS biRunCount,
+               ele.bi_door_count                 AS biDoorCount,
+               ele.bi_bend_count                 AS biBendCount,
+               ele.bi_level_trigger_count        AS biLevelTriggerCount,
+               ele.bi_run_distance_count         AS biRunDistanceCount,
+               ele.i_dt                          AS dt,
+               ele.i_dt1                         AS dt1,
+               ele.i_dt2                         AS dt2,
+               ele.i_nps                         AS nps,
+               ele.i_npr                         AS npr,
+               ele.dc_ndaj                       AS ndaj,
+               ele.i_angle                       AS angle,
+               ele.i_angle_type                  AS angleType,
+               ele.v_sgln_code                   AS sglnCode,
+               ele.v_unit_code                   AS unitCode,
+               ele.v_equipment_code              AS equipmentCode,
+               ele.v_registration_authority      AS registrationAuthority,
+               ele.v_registration_mechanism      AS registrationMechanism,
+               ele.v_registration_certificate_no AS registrationCertificateNo,
+               ele.dt_create_time                AS createTime,
+               ele.dt_modify_time                AS modifyTime,
+               ele.v_create_user_id              AS createUserId,
+               ele.v_modify_user_id              AS modifyUserId,
+               ele.i_del_flag                    AS delFlag,
+               ele.night_watch_status            AS nightWatchStatus
+        FROM tbl_elevator ele
+                 left join tbl_sys_provincial_city provincial_city on provincial_city.i_areaId = ele.i_province_id
+                 left join tbl_sys_provincial_city provincial_city2 on provincial_city2.i_areaId = ele.i_city_id
+                 left join tbl_sys_provincial_city provincial_city3 on provincial_city3.i_areaId = ele.i_area_id
+                 left join tbl_elevator_brand brand on brand.v_elevator_brand_id = ele.v_elevator_brand_id
+                 left join tbl_sys_dept dept on dept.v_dept_id = ele.v_maintain_company_id and dept.i_dept_type_id = '1'
+                 left join tbl_sys_dept dept2
+                           on dept2.v_dept_id = ele.v_property_company_id and dept2.i_dept_type_id = '2'
+                 left join tbl_sys_dept dept3 on dept3.v_dept_id = ele.i_government_id and dept3.i_dept_type_id = '3'
+                 left join tbl_project project on project.v_project_id = ele.v_project_id
+                 left join tbl_village village on village.v_village_id = ele.v_village_id
+                 left join tbl_sys_systeminfo sysinfo
+                           on sysinfo.v_sysvalue5 = ele.i_elevator_type and sysinfo.v_sysid = '10002'
+                 left join tbl_sys_systeminfo sysinfo2
+                           on sysinfo2.v_sysvalue5 = ele.i_elevator_type and sysinfo2.v_sysid = '10008'
+                 left join tbl_sys_systeminfo sysinfo3
+                           on sysinfo3.v_sysvalue5 = ele.i_elevator_type and sysinfo3.v_sysid = '10007'
+                 left join tbl_sys_systeminfo sysinfo4
+                           on sysinfo4.v_sysvalue5 = ele.i_elevator_type and sysinfo4.v_sysid = '10009'
+                 left join tbl_sys_systeminfo sysinfo5
+                           on sysinfo5.v_sysvalue5 = ele.i_elevator_type and sysinfo5.v_sysid = '10010'
+        where ele.v_equipment_code = #{equipmentCode}
+    </select>
+    <!-- 获取电梯详情 -->
+    <select id="getElevatorByEquipmentCode" resultType="com.shmashine.api.module.elevator.ElevatorDetailModule">
+        select ele.v_elevator_id                 AS elevatorId,
+               ele.v_elevator_code               AS elevatorCode,
+               ele.v_elevator_name               AS elevatorName,
+               ele.v_address                     AS address,
+               ele.i_elevator_type               AS elevatorType,
+               ele.v_longitude                   AS longitude,
+               ele.v_latitude                    AS latitude,
+               sysinfo.v_name_zh_cn              AS elevatorTypeName,
+               brand.v_elevator_brand_name       AS elevatorBrandName,
+               dept.v_dept_name                  AS maintainCompanyName,
+               dept2.v_dept_name                 AS propertyCompanyName,
+               dept3.v_dept_name                 AS governmentName,
+               ele.v_maintain_person_name        AS maintainPersonName,
+               ele.v_maintain_person_tel         AS maintainPersonTel,
+               ele.v_emergency_person_name       AS emergencyPersonName,
+               ele.v_emergency_person_tel        AS emergencyPersonTel,
+               ele.dt_install_time               AS installTime,
+               ele.i_on_line                     AS onLine,
+               ele.bi_run_count                  AS runCount,
+               ele.bi_door_count                 AS doorCount,
+               ele.bi_bend_count                 AS bendCount,
+               ele.bi_level_trigger_count        AS levelTriggerCount,
+               ele.bi_run_distance_count         AS runDistanceCount,
+               ele.d_last_maintain_date          AS lastMaintainDate,
+               ele.d_next_maintain_date          AS nextMaintainDate,
+               ele.d_last_inspect_date           AS lastInspectDate,
+               ele.d_next_inspect_date           AS nextInspectDate,
+               camera.i_camera_type              AS cameraType,
+               camera.v_hls_url                  AS hlsUrl,
+               camera.v_serial_number            AS serialNumber,
+               camera.v_cloud_number             AS cloudNumber,
+               sysinfo2.v_name_zh_cn             AS elevatorUseType,
+               ele.v_equipment_code              AS equipmentCode,
+               ele.v_sgln_code                   AS saganCode,
+               ele.v_registration_authority      AS registrationAuthority,
+               ele.v_registration_authority      AS registrationMechanism,
+               ele.v_registration_certificate_no AS registrationCertificateNo,
+               ele.night_watch_status            AS nightWatchStatus
+        from tbl_elevator ele
+                 left join tbl_sys_dept dept on ele.v_maintain_company_id = dept.v_dept_id
+                 left join tbl_camera camera on ele.v_elevator_id = camera.v_elevator_id
+                 left join tbl_sys_dept dept2 on ele.v_property_company_id = dept2.v_dept_id
+                 left join tbl_sys_dept dept3 on ele.i_government_id = dept3.v_dept_id
+                 left join tbl_elevator_brand brand on ele.v_elevator_brand_id = brand.v_elevator_brand_id
+                 left join tbl_sys_systeminfo sysinfo
+                           on sysinfo.v_sysvalue5 = ele.i_elevator_type and sysinfo.v_sysid = '10002'
+                 left join tbl_sys_systeminfo sysinfo2
+                           on sysinfo2.v_sysvalue5 = ele.i_elevator_use_type and sysinfo2.v_sysid = '10023'
+        where ele.v_equipment_code = #{equipmentCode}
+    </select>
+
+    <!-- 获取电梯详情 -->
+    <select id="getElevatorByEquipmentCodeS" resultType="com.shmashine.api.module.elevator.ElevatorDetailModule">
+        select ele.v_elevator_id                 AS elevatorId,
+               ele.v_elevator_code               AS elevatorCode,
+               ele.v_elevator_name               AS elevatorName,
+               ele.v_address                     AS address,
+               ele.i_elevator_type               AS elevatorType,
+               ele.v_longitude                   AS longitude,
+               ele.v_latitude                    AS latitude,
+               sysinfo.v_name_zh_cn              AS elevatorTypeName,
+               brand.v_elevator_brand_name       AS elevatorBrandName,
+               dept.v_dept_name                  AS maintainCompanyName,
+               dept2.v_dept_name                 AS propertyCompanyName,
+               dept3.v_dept_name                 AS governmentName,
+               ele.v_maintain_person_name        AS maintainPersonName,
+               ele.v_maintain_person_tel         AS maintainPersonTel,
+               ele.v_emergency_person_name       AS emergencyPersonName,
+               ele.v_emergency_person_tel        AS emergencyPersonTel,
+               ele.dt_install_time               AS installTime,
+               ele.i_on_line                     AS onLine,
+               ele.bi_run_count                  AS runCount,
+               ele.bi_door_count                 AS doorCount,
+               ele.bi_bend_count                 AS bendCount,
+               ele.bi_level_trigger_count        AS levelTriggerCount,
+               ele.bi_run_distance_count         AS runDistanceCount,
+               ele.d_last_maintain_date          AS lastMaintainDate,
+               ele.d_next_maintain_date          AS nextMaintainDate,
+               ele.d_last_inspect_date           AS lastInspectDate,
+               ele.d_next_inspect_date           AS nextInspectDate,
+               camera.i_camera_type              AS cameraType,
+               camera.v_hls_url                  AS hlsUrl,
+               camera.v_serial_number            AS serialNumber,
+               camera.v_cloud_number             AS cloudNumber,
+               sysinfo2.v_name_zh_cn             AS elevatorUseType,
+               ele.v_equipment_code              AS equipmentCode,
+               ele.v_sgln_code                   AS saganCode,
+               ele.v_registration_authority      AS registrationAuthority,
+               ele.v_registration_authority      AS registrationMechanism,
+               ele.v_registration_certificate_no AS registrationCertificateNo,
+               ele.night_watch_status            AS nightWatchStatus
+        from tbl_elevator ele
+                 left join tbl_sys_dept dept on ele.v_maintain_company_id = dept.v_dept_id
+                 left join tbl_camera camera on ele.v_elevator_id = camera.v_elevator_id
+                 left join tbl_sys_dept dept2 on ele.v_property_company_id = dept2.v_dept_id
+                 left join tbl_sys_dept dept3 on ele.i_government_id = dept3.v_dept_id
+                 left join tbl_elevator_brand brand on ele.v_elevator_brand_id = brand.v_elevator_brand_id
+                 left join tbl_sys_systeminfo sysinfo
+                           on sysinfo.v_sysvalue5 = ele.i_elevator_type and sysinfo.v_sysid = '10002'
+                 left join tbl_sys_systeminfo sysinfo2
+                           on sysinfo2.v_sysvalue5 = ele.i_elevator_use_type and sysinfo2.v_sysid = '10023'
+                 inner join tbl_sys_user_resource r
+                            on r.v_resource_code = ele.v_elevator_code AND r.v_user_id = 'ruijin1'
+        where ele.v_equipment_code = #{equipmentCode}
+    </select>
+
+    <select id="getElevatorDetail" resultMap="ElevatorDetailResModuleMap" parameterType="java.lang.String">
+        SELECT
+        distinct
+        <include refid="ELEVATOR_COLUMNS"/>,
+        ifnull(device.eType, 'MX201'),
+        provincial_city.v_areaName AS i_province_id_name,
+        provincial_city2.v_areaName AS i_city_id_name,
+        provincial_city3.v_areaName AS i_area_id_name,
+        sysinfo.v_name_zh_cn AS i_elevator_type_name,
+        brand.v_elevator_brand_name AS v_elevator_brand_id_name,
+        dept.v_dept_name AS v_maintain_company_id_name,
+        dept2.v_dept_name AS v_property_company_id_name,
+        dept3.v_dept_name AS i_government_id_name,
+        project.v_project_name AS v_project_id_name,
+        village.v_village_name AS v_village_id_name,
+        sysinfo2.v_name_zh_cn AS i_install_status_name,
+        sysinfo3.v_name_zh_cn AS i_on_line_name,
+        sysinfo4.v_name_zh_cn AS i_mode_status_name,
+        sysinfo5.v_name_zh_cn AS i_fault_status_name,
+        ele.v_door_type AS doorType
+        FROM
+        <include refid="ELEVATOR_TABLE_NAME"/>
+        left join tbl_device device on device.v_elevator_id = ele.v_elevator_id
+        left join tbl_sys_provincial_city provincial_city on provincial_city.i_areaId = ele.i_province_id
+        left join tbl_sys_provincial_city provincial_city2 on provincial_city2.i_areaId = ele.i_city_id
+        left join tbl_sys_provincial_city provincial_city3 on provincial_city3.i_areaId = ele.i_area_id
+        left join tbl_elevator_brand brand on brand.v_elevator_brand_id = ele.v_elevator_brand_id
+        left join tbl_sys_dept dept on dept.v_dept_id = ele.v_maintain_company_id and dept.i_dept_type_id = '1'
+        left join tbl_sys_dept dept2 on dept2.v_dept_id = ele.v_property_company_id and dept2.i_dept_type_id = '2'
+        left join tbl_sys_dept dept3 on dept3.v_dept_id = ele.i_government_id and dept3.i_dept_type_id = '3'
+        left join tbl_project project on project.v_project_id = ele.v_project_id
+        left join tbl_village village on village.v_village_id = ele.v_village_id
+        left join tbl_sys_systeminfo sysinfo on sysinfo.v_sysvalue5 = ele.i_elevator_type and sysinfo.v_sysid = '10002'
+        left join tbl_sys_systeminfo sysinfo2 on sysinfo2.v_sysvalue5 = ele.i_elevator_type and sysinfo2.v_sysid =
+        '10008'
+        left join tbl_sys_systeminfo sysinfo3 on sysinfo3.v_sysvalue5 = ele.i_elevator_type and sysinfo3.v_sysid =
+        '10007'
+        left join tbl_sys_systeminfo sysinfo4 on sysinfo4.v_sysvalue5 = ele.i_elevator_type and sysinfo4.v_sysid =
+        '10009'
+        left join tbl_sys_systeminfo sysinfo5 on sysinfo5.v_sysvalue5 = ele.i_elevator_type and sysinfo5.v_sysid =
+        '10010'
+        WHERE
+        ele.v_elevator_id = #{elevatorId,jdbcType=VARCHAR}
+    </select>
+    <!-- 获取电梯数量接口 -->
+    <select id="countElevator" resultType="java.util.Map">
+        SELECT
+        ele.v_elevator_id,
+        ele.v_elevator_name,
+        ele.i_on_line AS i_on_line,
+        ele.v_equipment_code as register_number,
+        ele.v_village_id as villageId,
+        ele.v_elevator_code,
+        ele.v_building_id,
+        ele.v_address,
+        ele.i_mode_status
+        FROM tbl_elevator ele
+        <if test="!isAdminFlag">
+            INNER JOIN tbl_sys_user_resource resource on ele.v_elevator_id = resource.v_resource_id and v_user_id =
+            #{userId}
+        </if>
+        <where>
+            <if test="villageIds != null and villageIds.size() > 0">
+                and ele.v_village_id in
+                <foreach collection="villageIds" item="villageId" open="(" separator="," close=")">
+                    #{villageId}
+                </foreach>
+            </if>
+            <if test="projectIds != null and projectIds.size() > 0">
+                and ele.v_project_id in
+                <foreach collection="projectIds" item="projectId" open="(" separator="," close=")">
+                    #{projectId}
+                </foreach>
+            </if>
+            AND ele.i_install_status &lt;&gt; 0
+        </where>
+        GROUP BY ele.v_elevator_id
+    </select>
+
+    <!-- 按项目分组统计电梯故障数量，实时故障中的 -->
+    <select id="countFaultElevatorGroupByProject" resultType="com.shmashine.api.entity.KpiProjectElevatorCountEntity">
+
+        SELECT v_project_id AS projectId,
+               count(*)     AS total
+        FROM (SELECT ele.v_elevator_id, ele.v_project_id
+              FROM tbl_fault AS fault
+                       INNER JOIN tbl_elevator AS ele ON ele.v_elevator_id = fault.v_elevator_id
+                       LEFT JOIN tbl_sys_systeminfo AS sysinfo
+                                 ON sysinfo.v_sysvalue5 = fault.i_mode_status and sysinfo.v_sysid = '10009'
+                       LEFT JOIN tbl_sys_systeminfo AS sysinfo2
+                                 ON sysinfo2.v_sysvalue5 = fault.i_status and sysinfo2.v_sysid = '10010'
+              where fault.i_status = '0'
+                and ele.i_elevator_type in ('1', '2')
+                and ele.i_install_status in (1, 3)
+                and fault.i_uncivilized_behavior_flag = '0') AS t
+        GROUP BY v_project_id
+    </select>
+
+    <!-- 按项目分组统计电梯故障数量, 当日故障发生但是已经恢复的也算 -->
+    <select id="countMaxFaultElevatorGroupByProject"
+            resultType="com.shmashine.api.entity.KpiProjectElevatorCountEntity">
+
+        SELECT v_project_id AS projectId,
+               count(*)     AS total
+        FROM (SELECT ele.v_elevator_id, ele.v_project_id
+              FROM tbl_fault AS fault
+                       INNER JOIN tbl_elevator AS ele ON ele.v_elevator_id = fault.v_elevator_id
+                       LEFT JOIN tbl_sys_systeminfo AS sysinfo
+                                 ON sysinfo.v_sysvalue5 = fault.i_mode_status and sysinfo.v_sysid = '10009'
+                       LEFT JOIN tbl_sys_systeminfo AS sysinfo2
+                                 ON sysinfo2.v_sysvalue5 = fault.i_status and sysinfo2.v_sysid = '10010'
+              where fault.i_status = '0'
+                and ele.i_elevator_type in ('1', '2')
+                and ele.i_install_status in (1, 3)
+                and fault.i_uncivilized_behavior_flag = '0'
+              UNION
+              SELECT ele.v_elevator_id, ele.v_project_id
+              FROM tbl_fault AS fault
+                       INNER JOIN tbl_elevator AS ele ON ele.v_elevator_id = fault.v_elevator_id
+                       LEFT JOIN tbl_sys_systeminfo AS sysinfo
+                                 ON sysinfo.v_sysvalue5 = fault.i_mode_status and sysinfo.v_sysid = '10009'
+                       LEFT JOIN tbl_sys_systeminfo AS sysinfo2
+                                 ON sysinfo2.v_sysvalue5 = fault.i_status and sysinfo2.v_sysid = '10010'
+              where fault.i_status = '1'
+                and ele.i_elevator_type in ('1', '2')
+                and ele.i_install_status in (1, 3)
+                and fault.i_uncivilized_behavior_flag = '0'
+                AND fault.dt_report_time &gt;= CONCAT(curdate(), ' 00:00:00')) AS t
+        GROUP BY v_project_id
+    </select>
+
+
+    <select id="getElevatorScreenInfo" resultType="com.shmashine.api.module.elevator.ElevatorScreenModule">
+        select ele.v_address              as address,
+               ele.d_last_maintain_date   as lastMaintainDate,
+               ele.d_last_inspect_date    as lastInspectDate,
+               ele.d_next_inspect_date    as nextInspectDate,
+               ele.v_maintain_person_tel  as maintainPersonTel,
+               ele.v_emergency_person_tel as emergencyPersonTel,
+               ele.v_sgln_code            as sglnCode,
+               ele.v_equipment_code       as equipmentCode,
+               dept.v_dept_name           AS maintainCompanyName,
+               dept2.v_dept_name          AS propertyCompanyName
+        from tbl_elevator ele
+                 left join
+             tbl_sys_dept dept on ele.v_maintain_company_id = dept.v_dept_id
+                 left join
+             tbl_sys_dept dept2 on ele.v_property_company_id = dept2.v_dept_id
+        where v_elevator_code = #{elevatorCode}
+    </select>
+    <select id="getAllElevatorCodeByInstallTimeIsNull" resultType="java.lang.String">
+        SELECT v_elevator_code,
+               v_address,
+               dt_install_time
+        FROM tbl_elevator
+        WHERE dt_install_time IS NULL
+           OR dt_install_time = ''
+    </select>
+    <select id="getDeviceEventRecordByFirstRecord" resultType="java.util.Date">
+        SELECT min(dt_happen_time)
+        FROM tbl_device_event_record
+        WHERE v_elevator_code = #{elevatorCode}
+          AND i_type = 1
+        ORDER BY dt_happen_time LIMIT
+        0,1
+    </select>
+    <update id="updateInstallTime">
+        update
+            tbl_elevator
+        set dt_install_time = #{installTime}
+        where v_elevator_code = #{elevatorCode}
+    </update>
+    <update id="updateNextInspectDate">
+        update
+            tbl_elevator
+        set d_next_inspect_date = #{nextInspectDate}
+        where v_elevator_code = #{elevatorCode}
+    </update>
+    <update id="cancelFaultByElevatorId">
+        update
+            tbl_elevator
+        set i_fault_status = '0'
+        where v_elevator_id = #{elevatorId}
+    </update>
+    <select id="getElevatorIdByCode" resultType="com.shmashine.common.entity.TblElevator">
+        select v_elevator_id, v_village_id
+        from tbl_elevator
+        where v_elevator_code = #{elevatorCode}
+    </select>
+    <select id="getElevatorTypeByElevatorCode" resultType="java.lang.Integer">
+        select i_elevator_type
+        from tbl_elevator
+        where v_elevator_code = #{elevatorCode}
+    </select>
+
+
+    <!--获取该电梯安装状态-->
+    <select id="getElevatorInstallStatusById" resultType="java.lang.Integer">
+        select i_install_status
+        from tbl_elevator
+        where v_elevator_id = #{elevatorId}
+    </select>
+
+    <select id="getElevatorDeviceDetailList" resultType="com.shmashine.common.entity.TblDevice">
+        select *
+        from tbl_device
+        where v_elevator_id = #{elevatorId}
+    </select>
+    <select id="searchDeviceByHWVersion" resultType="java.util.Map">
+        select
+        device.v_device_id AS deviceId,
+        device.v_elevator_id AS elevatorId,
+        device.v_elevator_code AS elevatorCode,
+        device.v_sensor_type AS sensorType,
+        IFNULL(device.v_master_version,"") AS masterVersion,
+        device.v_update_method AS updateMethod
+        from tbl_device device
+        <if test="!searchElevatorModule.isAdminFlag">
+            join tbl_sys_user_resource resource on device.v_elevator_id = resource.v_resource_id and v_user_id =
+            #{searchElevatorModule.userId}
+        </if>
+        INNER JOIN tbl_elevator ele ON ele.v_elevator_id = device.v_elevator_id and ele.v_elevator_code =
+        device.v_elevator_code
+        <where>
+            <if test="searchElevatorModule.vHwVersion != null and searchElevatorModule.vHwVersion != ''">
+                <choose>
+                    <when test="searchElevatorModule.vHwVersion != '0.0'">
+                        and device.v_hw_version = #{searchElevatorModule.vHwVersion}
+                    </when>
+                    <otherwise>
+                        and device.v_hw_version is null
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="searchElevatorModule.vElevatorCode != null and searchElevatorModule.vElevatorCode != ''">
+                and device.v_elevator_code like CONCAT('%',#{searchElevatorModule.vElevatorCode},'%')
+            </if>
+            <if test="searchElevatorModule.vVillageId != null and searchElevatorModule.vVillageId != ''">
+                and ele.v_village_id = #{searchElevatorModule.vVillageId}
+            </if>
+            <if test="searchElevatorModule.vMasterVersion != null and searchElevatorModule.vMasterVersion != ''">
+                and device.v_master_version like CONCAT('%', #{searchElevatorModule.vMasterVersion} ,'%')
+            </if>
+            <choose>
+                <when test="searchElevatorModule.vProjectId != null and searchElevatorModule.vProjectId != ''">
+                    and ele.v_project_id = #{searchElevatorModule.vProjectId}
+                </when>
+                <otherwise>
+                    and ele.v_project_id in
+                    <foreach collection="projectIdList" index="index" item="item" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </otherwise>
+            </choose>
+        </where>
+        order by device.v_elevator_code
+    </select>
+
+
+    <update id="update" parameterType="com.shmashine.common.entity.TblElevator">
+        update tbl_elevator
+        <set>
+            <if test="vElevatorCode != null and vElevatorCode != ''">
+                v_elevator_code = #{vElevatorCode,jdbcType=VARCHAR},
+            </if>
+            <if test="vElevatorName != null and vElevatorName != ''">
+                v_elevator_name = #{vElevatorName,jdbcType=VARCHAR},
+            </if>
+            <if test="iProvinceId != null">
+                i_province_id = #{iProvinceId,jdbcType=INTEGER},
+            </if>
+            <if test="iCityId != null">
+                i_city_id = #{iCityId,jdbcType=INTEGER},
+            </if>
+            <if test="iAreaId != null">
+                i_area_id = #{iAreaId,jdbcType=INTEGER},
+            </if>
+            <if test="vAddress != null and vAddress != ''">
+                v_address = #{vAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="iElevatorType != null">
+                i_elevator_type = #{iElevatorType,jdbcType=INTEGER},
+            </if>
+            <if test="iElevatorUseType != null">
+                i_elevator_use_type = #{iElevatorUseType,jdbcType=INTEGER},
+            </if>
+            <if test="iElevatorPlaceType != null">
+                i_elevator_place_type = #{iElevatorPlaceType,jdbcType=INTEGER},
+            </if>
+            <if test="vElevatorBrandId != null and vElevatorBrandId != ''">
+                v_elevator_brand_id = #{vElevatorBrandId,jdbcType=VARCHAR},
+            </if>
+            <if test="iMaintainDays != null">
+                i_maintain_days = #{iMaintainDays,jdbcType=INTEGER},
+            </if>
+            <if test="dLastMaintainDate != null and dLastMaintainDate != ''">
+                d_last_maintain_date = #{dLastMaintainDate,jdbcType=OTHER},
+            </if>
+            <if test="dNextMaintainDate != null and dNextMaintainDate != ''">
+                d_next_maintain_date = #{dNextMaintainDate,jdbcType=OTHER},
+            </if>
+            <if test="dLastInspectDate != null and dLastInspectDate != ''">
+                d_last_inspect_date = #{dLastInspectDate,jdbcType=OTHER},
+            </if>
+            <if test="dNextInspectDate != null and dNextInspectDate != ''">
+                d_next_inspect_date = #{dNextInspectDate,jdbcType=OTHER},
+            </if>
+            <if test="vMaintainCompanyId != null and vMaintainCompanyId != ''">
+                v_maintain_company_id = #{vMaintainCompanyId,jdbcType=VARCHAR},
+            </if>
+            <if test="vPropertyCompanyId != null and vPropertyCompanyId != ''">
+                v_property_company_id = #{vPropertyCompanyId,jdbcType=VARCHAR},
+            </if>
+            <if test="iGovernmentId != null and iGovernmentId != ''">
+                i_government_id = #{iGovernmentId,jdbcType=VARCHAR},
+            </if>
+            <if test="vMaintainPersonName != null and vMaintainPersonName != ''">
+                v_maintain_person_name = #{vMaintainPersonName,jdbcType=VARCHAR},
+            </if>
+            <if test="vMaintainPersonTel != null and vMaintainPersonTel != ''">
+                v_maintain_person_tel = #{vMaintainPersonTel,jdbcType=VARCHAR},
+            </if>
+            <if test="vEmergencyPersonName != null and vEmergencyPersonName != ''">
+                v_emergency_person_name = #{vEmergencyPersonName,jdbcType=VARCHAR},
+            </if>
+            <if test="vEmergencyPersonTel != null and vEmergencyPersonTel != ''">
+                v_emergency_person_tel = #{vEmergencyPersonTel,jdbcType=VARCHAR},
+            </if>
+            <if test="vHttpPtCodes != null and vHttpPtCodes != ''">
+                v_http_pt_codes = #{vHttpPtCodes,jdbcType=VARCHAR},
+            </if>
+            <if test="vLongitude != null and vLongitude != ''">
+                v_longitude = #{vLongitude,jdbcType=VARCHAR},
+            </if>
+            <if test="vLatitude != null and vLatitude != ''">
+                v_latitude = #{vLatitude,jdbcType=VARCHAR},
+            </if>
+            <if test="iCoordinateType != null">
+                i_coordinate_type = #{iCoordinateType,jdbcType=INTEGER},
+            </if>
+            <if test="vProjectId != null and vProjectId != ''">
+                v_project_id = #{vProjectId,jdbcType=VARCHAR},
+            </if>
+            <if test="vVillageId != null and vVillageId != ''">
+                v_village_id = #{vVillageId,jdbcType=VARCHAR},
+            </if>
+            <if test="vBuildingId != null and vBuildingId != ''">
+                v_building_id = #{vBuildingId,jdbcType=VARCHAR},
+            </if>
+            <if test="buildingType != null">
+                building_type = #{buildingType,jdbcType=INTEGER},
+            </if>
+            <if test="doorType != null">
+                v_door_type = #{doorType,jdbcType=INTEGER},
+            </if>
+            <if test="iInstallStatus != null">
+                i_install_status = #{iInstallStatus,jdbcType=INTEGER},
+            </if>
+            dt_install_time = #{dtInstallTime,jdbcType=OTHER},
+            <if test="iOnLine != null">
+                i_on_line = #{iOnLine,jdbcType=INTEGER},
+            </if>
+            <if test="iModeStatus != null">
+                i_mode_status = #{iModeStatus,jdbcType=INTEGER},
+            </if>
+            <if test="iFaultStatus != null">
+                i_fault_status = #{iFaultStatus,jdbcType=INTEGER},
+            </if>
+            <if test="iMaxFloor != null">
+                i_max_floor = #{iMaxFloor,jdbcType=INTEGER},
+            </if>
+            <if test="iMinFloor != null">
+                i_min_floor = #{iMinFloor,jdbcType=INTEGER},
+            </if>
+            <if test="floorCount != null">
+                floor_count = #{floorCount,jdbcType=INTEGER},
+            </if>
+            <if test="stationCount != null">
+                station_count = #{stationCount,jdbcType=INTEGER},
+            </if>
+            <if test="baseStation != null">
+                base_station = #{baseStation,jdbcType=VARCHAR},
+            </if>
+            <if test="vFloorDetail != null and vFloorDetail != ''">
+                v_floor_detail = #{vFloorDetail,jdbcType=VARCHAR},
+            </if>
+            <if test="vFloorSettingStatus != null and vFloorSettingStatus != ''">
+                v_floor_setting_status = #{vFloorSettingStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="dcSpeed != null">
+                dc_speed = #{dcSpeed,jdbcType=NUMERIC},
+            </if>
+            <if test="nominalSpeedUp != null">
+                nominal_speed_up = #{nominalSpeedUp,jdbcType=NUMERIC},
+            </if>
+            <if test="nominalSpeedDown != null">
+                nominal_speed_down = #{nominalSpeedDown,jdbcType=NUMERIC},
+            </if>
+            <if test="nominalLoadCapacity != null">
+                nominal_load_capacity = #{nominalLoadCapacity,jdbcType=VARCHAR},
+            </if>
+            <if test="biRunTime != null">
+                bi_run_time = #{biRunTime},
+            </if>
+            <if test="biRunCount != null">
+                bi_run_count = #{biRunCount,jdbcType=INTEGER},
+            </if>
+            <if test="biDoorCount != null">
+                bi_door_count = #{biDoorCount,jdbcType=INTEGER},
+            </if>
+            <if test="biBendCount != null">
+                bi_bend_count = #{biBendCount,jdbcType=INTEGER},
+            </if>
+            <if test="biLevelTriggerCount != null">
+                bi_level_trigger_count = #{biLevelTriggerCount,jdbcType=INTEGER},
+            </if>
+            <if test="biRunDistanceCount != null">
+                bi_run_distance_count = #{biRunDistanceCount,jdbcType=INTEGER},
+            </if>
+            <if test="backAndForthCount != null">
+                back_and_forth_count = #{backAndForthCount},
+            </if>
+            <if test="iDt != null">
+                i_dt = #{iDt,jdbcType=INTEGER},
+            </if>
+            <if test="iDt1 != null">
+                i_dt1 = #{iDt1,jdbcType=INTEGER},
+            </if>
+            <if test="iDt2 != null">
+                i_dt2 = #{iDt2,jdbcType=INTEGER},
+            </if>
+            <if test="iNps != null">
+                i_nps = #{iNps,jdbcType=INTEGER},
+            </if>
+            <if test="iNpr != null">
+                i_npr = #{iNpr,jdbcType=INTEGER},
+            </if>
+            <if test="dcNdaj != null">
+                dc_ndaj = #{dcNdaj,jdbcType=NUMERIC},
+            </if>
+            <if test="iAngle != null">
+                i_angle = #{iAngle,jdbcType=INTEGER},
+            </if>
+            <if test="iAngleType != null">
+                i_angle_type = #{iAngleType,jdbcType=INTEGER},
+            </if>
+            <if test="vSglnCode != null and vSglnCode != ''">
+                v_sgln_code = #{vSglnCode,jdbcType=VARCHAR},
+            </if>
+            <if test="vUnitCode != null and vUnitCode != ''">
+                v_unit_code = #{vUnitCode,jdbcType=VARCHAR},
+            </if>
+            <if test="vLeaveFactoryNumber != null and vLeaveFactoryNumber != ''">
+                v_leave_factory_number = #{vLeaveFactoryNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="vManufacturerCode != null and vManufacturerCode != ''">
+                v_manufacturer_code = #{vManufacturerCode,jdbcType=VARCHAR},
+            </if>
+            <if test="vEquipmentCode != null and vEquipmentCode != ''">
+                v_equipment_code = #{vEquipmentCode,jdbcType=VARCHAR},
+            </if>
+            <if test="equCode != null and equCode != ''">
+                equ_code = #{equCode,jdbcType=VARCHAR},
+            </if>
+            <if test="identificationNumber != null and identificationNumber != ''">
+                identification_number = #{identificationNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="vRegistrationAuthority != null and vRegistrationAuthority != ''">
+                v_registration_authority = #{vRegistrationAuthority,jdbcType=VARCHAR},
+            </if>
+            <if test="vRegistrationMechanism != null and vRegistrationMechanism != ''">
+                v_registration_mechanism = #{vRegistrationMechanism,jdbcType=VARCHAR},
+            </if>
+            <if test="platformType != null">
+                platform_type = #{platformType,jdbcType=INTEGER},
+            </if>
+            <if test="vRegistrationCertificateNo != null and vRegistrationCertificateNo != ''">
+                v_registration_certificate_no = #{vRegistrationCertificateNo,jdbcType=VARCHAR},
+            </if>
+            <if test="dtCreateTime != null and dtCreateTime != ''">
+                dt_create_time = #{dtCreateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="dtModifyTime != null and dtModifyTime != ''">
+                dt_modify_time = #{dtModifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="vCreateUserId != null and vCreateUserId != ''">
+                v_create_user_id = #{vCreateUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="vModifyUserId != null and vModifyUserId != ''">
+                v_modify_user_id = #{vModifyUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="iDelFlag != null">
+                i_del_flag = #{iDelFlag,jdbcType=INTEGER},
+            </if>
+            <if test="filterFlag != null">
+                i_filter_flag = #{filterFlag},
+            </if>
+            <if test="pmStatus != null">
+                i_pm_status = #{pmStatus},
+            </if>
+            <if test="nightWatchStatus != null">
+                night_watch_status = #{nightWatchStatus},
+            </if>
+            <if test="nightWatchStartTime != null">
+                night_watch_start_time = #{nightWatchStartTime},
+            </if>
+            <if test="nightWatchEndTime != null">
+                night_watch_end_time = #{nightWatchEndTime},
+            </if>
+            <if test="propertySafeMan != null">
+                property_safe_man = #{propertySafeMan},
+            </if>
+            <if test="propertySafePhone != null">
+                property_safe_phone = #{propertySafePhone},
+            </if>
+            <if test="maintainPrincipalPerson != null">
+                maintain_principal_person = #{maintainPrincipalPerson},
+            </if>
+            <if test="maintainPrincipalPhone != null">
+                maintain_principal_phone = #{maintainPrincipalPhone},
+            </if>
+            <if test="maintainSubordinatePerson != null">
+                maintain_subordinate_person = #{maintainSubordinatePerson},
+            </if>
+            <if test="maintainSubordinatePhone != null">
+                maintain_subordinate_phone = #{maintainSubordinatePhone},
+            </if>
+            <if test="maintainEquInsuranceInfo != null">
+                maintain_equ_insurance_info = #{maintainEquInsuranceInfo},
+            </if>
+            <if test="maintainEmergencyPhone != null">
+                maintain_emergency_phone = #{maintainEmergencyPhone},
+            </if>
+            <if test="gcj02Longitude != null">
+                gcj02_longitude = #{gcj02Longitude},
+            </if>
+            <if test="gcj02Latitude != null">
+                gcj02_latitude = #{gcj02Latitude},
+            </if>
+        </set>
+        where v_elevator_id = #{vElevatorId,jdbcType=VARCHAR}
+    </update>
+    <update id="initInstallTime">
+        update tbl_elevator
+        set dt_install_time        = now(),
+            bi_run_count           = 0,
+            bi_door_count          = 0,
+            bi_bend_count          = 0,
+            bi_level_trigger_count = 0,
+            bi_run_distance_count  = 0
+        where v_elevator_id = #{elevatorId}
+    </update>
+    <update id="initElevator1">
+        DELETE
+        FROM tbl_sys_file
+        WHERE v_business_id = #{elevatorId};
+    </update>
+    <update id="initElevator2">
+        DELETE
+        FROM tbl_sys_file
+        WHERE v_business_id IN (SELECT v_fault_id FROM tbl_fault WHERE v_elevator_id = #{elevatorId});
+    </update>
+    <update id="initElevator3">
+        DELETE
+        FROM tbl_sys_file
+        WHERE v_business_id IN (SELECT v_work_order_id FROM tbl_work_order WHERE v_elevator_id = #{elevatorId});
+    </update>
+    <update id="initElevator4">
+        DELETE
+        FROM tbl_work_order_detail
+        WHERE v_work_order_id IN (SELECT v_work_order_id FROM tbl_work_order WHERE v_elevator_id = #{elevatorId});
+    </update>
+    <update id="initElevator5">
+        DELETE
+        FROM tbl_work_order
+        WHERE v_elevator_id = #{elevatorId};
+    </update>
+    <update id="initElevator6">
+        DELETE
+        FROM tbl_fault
+        WHERE v_elevator_id = #{elevatorId};
+    </update>
+    <update id="initElevator7">
+        DELETE
+        FROM tbl_device_dlog
+        WHERE elevator_code = (SELECT v_elevator_code FROM tbl_elevator WHERE v_elevator_id = #{elevatorId})
+    </update>
+    <delete id="initElevator8">
+        DELETE
+        FROM tbl_device_event_record
+        WHERE v_elevator_code = (SELECT v_elevator_code FROM tbl_elevator WHERE v_elevator_id = #{elevatorId})
+    </delete>
+    <delete id="initElevator9">
+        DELETE
+        FROM tbl_response_xm_report
+        WHERE elevator_code = (SELECT v_elevator_code FROM tbl_elevator WHERE v_elevator_id = #{elevatorId})
+    </delete>
+    <delete id="initElevator10">
+        DELETE
+        FROM tbl_fault_temp
+        WHERE v_elevator_id = #{elevatorId}
+    </delete>
+    <delete id="deleteElevatorInfoByElevatorCode" parameterType="String">
+        delete
+        from tbl_elevator
+        where v_elevator_code = #{elevatorCode}
+    </delete>
+    <select id="getAllOnlineElevatorCode" resultType="java.lang.String">
+        select v_elevator_code as elevatorCode
+        from tbl_elevator
+        where i_on_line = 1
+    </select>
+    <select id="searchAllElevatorList" resultType="java.lang.String">
+        select v_elevator_code as elevatorCode
+        from tbl_elevator
+        group by v_elevator_code
+    </select>
+    <insert id="addElevatorByExcel" parameterType="java.util.List">
+        insert into tbl_elevator(v_elevator_id,v_elevator_code,v_project_id,
+        dt_create_time,v_create_user_id,v_address,v_elevator_brand_id,i_elevator_type,
+        i_install_status,v_maintain_company_id) values
+        <foreach collection="elevatorList" item="elevator" separator=",">
+            (#{elevator.vElevatorId},#{elevator.vElevatorCode},#{elevator.vProjectId},
+            #{elevator.dtCreateTime},#{elevator.vCreateUserId},#{elevator.vAddress},
+            #{elevator.vElevatorBrandId},#{elevator.iElevatorType},#{elevator.iInstallStatus},#{elevator.vMaintainCompanyId})
+        </foreach>
+    </insert>
+    <!--添加电梯负责人-->
+    <insert id="addElevatorPrincipal" parameterType="com.shmashine.api.entity.TblElevatorPrincipal">
+        insert into tbl_elevator_principal (v_principal_id, v_elevator_id,
+                                            principal_id, principal_label) VALUE
+            (#{elevatorPrincipal.vPrincipalId,jdbcType=VARCHAR},
+            #{elevatorPrincipal.vElevatorId,jdbcType=VARCHAR},
+            #{elevatorPrincipal.principalId,jdbcType=VARCHAR},
+            #{elevatorPrincipal.principalLabel,jdbcType=INTEGER})
+    </insert>
+
+    <!--批量添加电梯流量卡-->
+    <insert id="save" parameterType="java.util.List">
+        insert into tbl_iotcard(id,v_elevator_code,iccid) values
+        <foreach collection="iotCardList" item="iotCard" separator=",">
+            (#{iotCard.id},#{iotCard.vElevatorCode},#{iotCard.iccid})
+        </foreach>
+    </insert>
+
+    <!--更新流量卡信息-->
+    <update id="upDateIotInfo" parameterType="java.util.List">
+        update tbl_iotcard
+        <trim prefix="set" suffixOverrides=",">
+
+            <trim prefix="flowPackageName =case" suffix="end,">
+                <foreach collection="iotCards" item="iotCard" index="index">
+                    <if test="iotCard.flowPackageName!=null and iotCard.flowPackageName!=''">
+                        when iccid=#{iotCard.iccid} then #{iotCard.flowPackageName}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="startTime =case" suffix="end,">
+                <foreach collection="iotCards" item="iotCard" index="index">
+                    <if test="iotCard.startTime!=null ">
+                        when iccid=#{iotCard.iccid} then #{iotCard.startTime}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="endTime =case" suffix="end,">
+                <foreach collection="iotCards" item="iotCard" index="index">
+                    <if test="iotCard.endTime!=null ">
+                        when iccid=#{iotCard.iccid} then #{iotCard.endTime}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="packagePrice =case" suffix="end,">
+                <foreach collection="iotCards" item="iotCard" index="index">
+                    <if test="iotCard.packagePrice!=null">
+                        when iccid=#{iotCard.iccid} then #{iotCard.packagePrice}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="operatorStatus =case" suffix="end,">
+                <foreach collection="iotCards" item="iotCard" index="index">
+                    <if test="iotCard.operatorStatus!=null and iotCard.operatorStatus!=''">
+                        when iccid=#{iotCard.iccid} then #{iotCard.operatorStatus}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="operatorActiveTime =case" suffix="end,">
+                <foreach collection="iotCards" item="iotCard" index="index">
+                    <if test="iotCard.operatorActiveTime!=null ">
+                        when iccid=#{iotCard.iccid} then #{iotCard.operatorActiveTime}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="stopGprs =case" suffix="end,">
+                <foreach collection="iotCards" item="iotCard" index="index">
+                    <if test="iotCard.stopGprs!=null">
+                        when iccid=#{iotCard.iccid} then #{iotCard.stopGprs}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="usedFlow =case" suffix="end,">
+                <foreach collection="iotCards" item="iotCard" index="index">
+                    <if test="iotCard.usedFlow!=null">
+                        when iccid=#{iotCard.iccid} then #{iotCard.usedFlow}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="packageSize =case" suffix="end,">
+                <foreach collection="iotCards" item="iotCard" index="index">
+                    <if test="iotCard.packageSize!=null">
+                        when iccid=#{iotCard.iccid} then #{iotCard.packageSize}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="createTime =case" suffix="end,">
+                <foreach collection="iotCards" item="iotCard" index="index">
+                    <if test="iotCard.createTime!=null ">
+                        when iccid=#{iotCard.iccid} then #{iotCard.createTime}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="updateTime =case" suffix="end,">
+                <foreach collection="iotCards" item="iotCard" index="index">
+                    <if test="iotCard.updateTime!=null ">
+                        when iccid=#{iotCard.iccid} then #{iotCard.updateTime}
+                    </if>
+                </foreach>
+            </trim>
+
+        </trim>
+        where iccid in
+        <foreach collection="iotCards" item="iotCard" index="index" separator="," open="(" close=")">
+            #{iotCard.iccid}
+        </foreach>
+    </update>
+
+    <!--手动更新流量卡信息-->
+    <update id="iotCardBind">
+        update tbl_iotcard
+        <set>
+            <if test="iotCard.vElevatorCode != null and iotCard.vElevatorCode != ''">
+                v_elevator_code = #{iotCard.vElevatorCode,jdbcType=VARCHAR},
+            </if>
+            <if test="iotCard.flowPackageName != null and iotCard.flowPackageName != ''">
+                flowPackageName = #{iotCard.flowPackageName,jdbcType=VARCHAR},
+            </if>
+            <if test="iotCard.packagePrice != null and iotCard.packagePrice != ''">
+                packagePrice = #{iotCard.packagePrice,jdbcType=INTEGER},
+            </if>
+            <if test="iotCard.operatorStatus != null and iotCard.operatorStatus != ''">
+                operatorStatus = #{iotCard.operatorStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="iotCard.operatorActiveTime != null and iotCard.operatorActiveTime != ''">
+                operatorActiveTime = #{iotCard.operatorActiveTime},
+            </if>
+            <if test="iotCard.stopGprs != null and iotCard.stopGprs != ''">
+                stopGprs = #{iotCard.stopGprs},
+            </if>
+            <if test="iotCard.packageSize != null and iotCard.packageSize != ''">
+                packageSize = #{iotCard.packageSize}
+            </if>
+        </set>
+        where iccid = #{iotCard.iccid,jdbcType=VARCHAR}
+    </update>
+
+    <!--统计电梯每小时系数表-->
+    <insert id="updateElevatorConf">
+        insert into elevator_run_count_load_factor
+            (v_elevator_id, v_elevator_code, load_factor, create_date)
+        VALUES (#{elevatorId},
+                #{elevatorCode},
+                #{loadFactor}, NOW())
+    </insert>
+
+    <insert id="addRunCount" parameterType="java.util.List">
+        insert into tbl_elevator_run_count
+        (id,v_elevator_code,v_project_id,
+        bi_run_count,last_run_count,
+        bi_door_count,last_door_count,
+        bi_bend_count,last_bend_count,
+        bi_level_trigger_count,last_level_trigger_count,
+        bi_run_distance_count,last_run_distance_count,
+        back_and_forth_count,last_back_and_forth_count,
+        passenger_flow,dt_report_date,create_time) VALUES
+        <foreach collection="list" item="elevatorRunCount" index="index" separator=",">
+            (
+            #{elevatorRunCount.id},
+            #{elevatorRunCount.vElevatorCode},
+            #{elevatorRunCount.vProjectId},
+            #{elevatorRunCount.biRunCount},#{elevatorRunCount.lastRunCount},
+            #{elevatorRunCount.biDoorCount},#{elevatorRunCount.lastDoorCount},
+            #{elevatorRunCount.biBendCount},#{elevatorRunCount.lastBendCount},
+            #{elevatorRunCount.biLevelTriggerCount},#{elevatorRunCount.lastLevelTriggerCount},
+            #{elevatorRunCount.biRunDistanceCount},#{elevatorRunCount.lastRunDistanceCount},
+            #{elevatorRunCount.backAndForthCount},#{elevatorRunCount.lastBackAndForthCount},
+            #{elevatorRunCount.passengerFlow},#{elevatorRunCount.dReportDate},
+            #{elevatorRunCount.dtCreateTime})
+        </foreach>
+    </insert>
+
+    <!--创建配置电梯图像识别抠图区域-->
+    <insert id="insertImageRecognitionMattingConfig">
+        insert into image_recognition_matting_config
+        (id, elevator_id, elevator_code, fault_types, width, height, coordinates, creator, create_time)
+        VALUES (#{id}, #{elevatorId}, #{elevatorCode}, #{faultTypes}, #{width}, #{height}, #{coordinates}, #{creator},
+                #{create_time})
+    </insert>
+
+    <!--获取电梯图像识别抠图区域配置-->
+    <select id="getImageRecognitionMattingConfigByEleIdAndFault"
+            resultType="com.shmashine.api.service.elevator.DO.ImageRecognitionMattingConfigDO">
+        SELECT *
+        FROM image_recognition_matting_config
+        WHERE elevator_id = #{elevatorId}
+          AND fault_types = #{faultTypes}
+    </select>
+
+    <!--获取配置电梯图像识别抠图区域配置-->
+    <select id="getImageRecognitionMattingConfigPage"
+            resultType="com.shmashine.api.controller.elevator.VO.ImageRecognitionMattingRespVO">
+        SELECT
+        ele.v_elevator_id AS elevatorId,
+        ele.v_elevator_code AS elevatorCode,
+        ele.v_project_id AS projectId,
+        tp.v_project_name AS projectName,
+        ele.v_village_id AS villageId,
+        tv.v_village_name AS villageName,
+        tc.online_status AS cameraOnlineStatus,
+        im.coordinates AS coordinates,
+        im.width AS width,
+        im.height AS height,
+        im.update_time AS updateTime
+        FROM tbl_elevator ele
+        INNER JOIN tbl_project tp ON ele.v_project_id = tp.v_project_id
+        INNER JOIN tbl_village tv ON ele.v_village_id = tv.v_village_id
+        INNER JOIN tbl_camera tc ON ele.v_elevator_code = tc.v_elevator_code
+        INNER JOIN image_recognition_matting_config im on ele.v_elevator_id = im.elevator_id
+        <where>
+            <if test="elevatorCode != null and elevatorCode != ''">
+                AND ele.v_elevator_code = #{elevatorCode}
+            </if>
+            <if test="villageId != null and villageId != ''">
+                AND ele.v_village_id = #{villageId}
+            </if>
+            <if test="projectId != null and projectId != ''">
+                AND ele.v_project_id = #{projectId}
+            </if>
+            <if test="cameraOnlineStatus != null">
+                AND tc.online_status = #{cameraOnlineStatus}
+            </if>
+            <if test="imageMatting != null and imageMatting == 1">
+                AND im.coordinates IS NOT NULL AND im.coordinates != ' '
+            </if>
+            <if test="imageMatting != null and imageMatting == 0">
+                AND (im.coordinates IS NULL OR im.coordinates = '')
+            </if>
+        </where>
+        ORDER BY im.coordinates DESC
+    </select>
+
+    <!--更新电梯图像识别抠图区域配置-->
+    <update id="updateImageRecognitionMattingConfig">
+        update
+            image_recognition_matting_config
+        set coordinates      = #{coordinates},
+            real_coordinates = null,
+            width            = #{width},
+            height           = #{height}
+        where elevator_id = #{elevatorId}
+    </update>
+
+    <update id="updateRunCount" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            update tbl_elevator_run_count
+            <set>
+
+                <if test="item.biRunCount != null and item.biRunCount != ''">
+                    bi_run_count = bi_run_count + #{item.biRunCount},
+                </if>
+                <if test="item.lastRunCount != null and item.lastRunCount != ''">
+                    last_run_count = #{item.lastRunCount},
+                </if>
+
+                <if test="item.biDoorCount != null and item.biDoorCount != ''">
+                    bi_door_count = bi_door_count + #{item.biDoorCount},
+                </if>
+                <if test="item.lastDoorCount != null and item.lastDoorCount != ''">
+                    last_door_count = #{item.lastDoorCount},
+                </if>
+
+                <if test="item.biBendCount != null and item.biBendCount != ''">
+                    bi_bend_count = bi_bend_count + #{item.biBendCount},
+                </if>
+                <if test="item.lastBendCount != null and item.lastBendCount != ''">
+                    last_bend_count = #{item.lastBendCount},
+                </if>
+
+                <if test="item.biLevelTriggerCount != null and item.biLevelTriggerCount != ''">
+                    bi_level_trigger_count = bi_level_trigger_count + #{item.biLevelTriggerCount},
+                </if>
+                <if test="item.lastLevelTriggerCount != null and item.lastLevelTriggerCount != ''">
+                    last_level_trigger_count = #{item.lastLevelTriggerCount},
+                </if>
+
+                <if test="item.biRunDistanceCount != null and item.biRunDistanceCount != ''">
+                    bi_run_distance_count = bi_run_distance_count + #{item.biRunDistanceCount},
+                </if>
+                <if test="item.lastRunDistanceCount != null and item.lastRunDistanceCount != ''">
+                    last_run_distance_count = #{item.lastRunDistanceCount},
+                </if>
+
+                <if test="item.backAndForthCount != null and item.backAndForthCount != ''">
+                    back_and_forth_count = back_and_forth_count + #{item.backAndForthCount},
+                </if>
+                <if test="item.lastBackAndForthCount != null and item.lastBackAndForthCount != ''">
+                    last_back_and_forth_count = #{item.lastBackAndForthCount},
+                </if>
+
+                <if test="item.passengerFlow != null and item.passengerFlow != ''">
+                    passenger_flow = passenger_flow + #{item.passengerFlow},
+                </if>
+                update_time = #{item.updateTime}
+            </set>
+            where v_elevator_code = #{item.vElevatorCode} and dt_report_date = CURDATE()
+        </foreach>
+    </update>
+
+    <!-- 删除用户 -->
+    <delete id="delElevatorPrincipal" parameterType="com.shmashine.api.entity.TblElevatorPrincipal">
+        delete
+        from tbl_elevator_principal
+        where v_elevator_id = #{elevatorPrincipal.vElevatorId,jdbcType=VARCHAR}
+          and principal_label = #{elevatorPrincipal.principalLabel,jdbcType=INTEGER}
+    </delete>
+
+    <!--根据iccid删除流量卡-->
+    <delete id="delIotCardInfoById">
+        delete
+        from tbl_iotcard
+        where iccid = #{iccid}
+    </delete>
+
+    <!--删除电梯统计数据-->
+    <update id="delStatisticsByElevatorCode">
+        update
+            tbl_elevator
+        set bi_run_time            = 0,
+            bi_run_count           =0,
+            bi_door_count          = 0,
+            bi_bend_count          = 0,
+            bi_level_trigger_count = 0,
+            bi_run_distance_count  = 0,
+            back_and_forth_count   = 0
+        where v_elevator_code = #{elevatorCode}
+    </update>
+
+    <!--更新电梯最低最高楼层-->
+    <update id="updateFloorByElevatorCode">
+        update tbl_elevator
+        set i_min_floor = #{minFloor},
+            i_max_floor = #{maxFloor}
+        where v_elevator_code = #{elevatorCode}
+    </update>
+
+    <!--更新电梯表设备配置状态-->
+    <update id="updateDeviceConfStatusByCode">
+        update tbl_elevator
+        set device_conf_status = #{status}
+        where v_elevator_code = #{elevatorCode}
+    </update>
+
+    <select id="getHKCameraByTYInfo" resultType="java.util.HashMap">
+        select *
+        from tbl_hk_camera
+        where v_elevator_id = #{elevatorId,jdbcType=VARCHAR}
+    </select>
+
+    <select id="getElevatorOnlineRate" resultType="java.util.Map">
+        SELECT '在线' AS `name`, count(ele.v_elevator_id) AS `value` FROM `tbl_elevator` ele
+        where ele.i_on_line = '1' and i_install_status in (1, 3)
+        <if test="projectId != null and projectId != ''">
+            and ele.v_project_id = #{projectId}
+        </if>
+        UNION
+        SELECT '离线' AS `name`, count(ele.v_elevator_id) AS `value` FROM `tbl_elevator` ele
+        where ele.i_on_line = '0' and i_install_status in (1, 3)
+        <if test="projectId != null and projectId != ''">
+            and ele.v_project_id = #{projectId}
+        </if>
+    </select>
+
+    <!--查询电梯对应的流量卡信息-->
+    <select id="searchElevatorIotCardByUserId" resultType="java.util.HashMap">
+        select iot.*,ele.v_address,ele.i_on_line, ele.v_village_id AS villageId
+        from tbl_iotcard iot
+        left join tbl_elevator ele on iot.v_elevator_code = ele.v_elevator_code
+        <where>
+            <if test="iotCard.vElevatorCode != null and iotCard.vElevatorCode != ''">
+                and iot.v_elevator_code like CONCAT('%',#{iotCard.vElevatorCode},'%')
+            </if>
+            <if test="iotCard.projectId != null and iotCard.projectId != ''">
+                and ele.v_project_id = #{iotCard.projectId}
+            </if>
+            <if test="iotCard.villageId != null and iotCard.villageId != ''">
+                and ele.v_village_id = #{iotCard.villageId}
+            </if>
+            <if test="iotCard.installStatus != null and iotCard.installStatus != ''">
+                and ele.i_install_status = #{iotCard.installStatus}
+            </if>
+            <if test="iotCard.iccid != null and iotCard.iccid != ''">
+                and iot.iccid = #{iotCard.iccid}
+            </if>
+            <if test="iotCard.operatorStatus != null and iotCard.operatorStatus != ''">
+                and iot.operatorStatus = #{iotCard.operatorStatus}
+            </if>
+            <if test="iotCard.stopGprs != null and iotCard.stopGprs != ''">
+                and iot.stopGprs = #{iotCard.stopGprs}
+            </if>
+        </where>
+        order by iot.usedFlow desc
+    </select>
+
+    <!--获取物联网卡iccid-->
+    <select id="searchAllIotCardIccid" resultType="java.lang.String">
+        select iot.iccid
+        from tbl_iotcard iot
+        where updateTime &lt; DATE_FORMAT(NOW(), '%Y-%m-%d 00:00:00')
+    </select>
+
+    <!--获取物联网卡流量预警统计-->
+    <select id="getIotCardRate" resultType="com.shmashine.api.entity.IotCard">
+        select iot.v_elevator_code AS vElevatorCode,iot.packageSize,iot.usedFlow
+        from tbl_iotcard iot
+        INNER join tbl_elevator ele on iot.v_elevator_code = ele.v_elevator_code
+        WHERE iot.usedFlow*2 > iot.packageSize
+        <if test="projectId != null and projectId != ''">
+            and ele.v_project_id = #{projectId}
+        </if>
+        order by iot.usedFlow desc
+    </select>
+
+    <!--查询需要统计的电梯-->
+    <select id="searchAllRunCount" resultType="com.shmashine.api.entity.TblElevatorConf">
+        SELECT te.v_elevator_id,
+               te.v_elevator_code,
+               te.v_project_id,
+               te.bi_run_count,
+               te.bi_door_count,
+               te.bi_bend_count,
+               te.bi_level_trigger_count,
+               te.bi_run_distance_count,
+               te.back_and_forth_count,
+               te.i_max_floor,
+               te.i_min_floor,
+               ef.largest_passengers,
+               ef.load_factor
+        FROM tbl_elevator te
+                 LEFT JOIN elevator_configuration ef ON te.v_elevator_id = ef.v_elevator_id
+        WHERE i_install_status IN (1, 3)
+    </select>
+
+    <!--查询昨日运行统计-->
+    <select id="searchElevatorRunCountY" resultType="com.shmashine.api.entity.ElevatorRunCount">
+        SELECT *
+        FROM tbl_elevator_run_count
+        WHERE dt_report_date = DATE_SUB(CURDATE(), INTERVAL 1 DAY)
+        ORDER BY create_time DESC
+    </select>
+
+    <!--查询今日运行统计-->
+    <select id="searchElevatorRunCount" resultType="com.shmashine.api.entity.ElevatorRunCount">
+        SELECT *
+        FROM tbl_elevator_run_count
+        WHERE dt_report_date = CURDATE()
+        ORDER BY create_time DESC
+    </select>
+
+    <!--在线率-->
+    <select id="online" resultType="java.util.Map">
+        SELECT (SELECT count(ele.v_elevator_id) FROM `tbl_elevator` ele
+        where i_install_status in (1, 3)
+        <if test="projectId != null and projectId != ''">
+            and ele.v_project_id = #{projectId}
+        </if>) as 'max',
+        (SELECT count(ele.v_elevator_id) FROM `tbl_elevator` ele
+        where ele.i_on_line = '1' and i_install_status in (1, 3)
+        <if test="projectId != null and projectId != ''">
+            and ele.v_project_id = #{projectId}
+        </if>) as 'value'
+    </select>
+
+    <!--设备完好率-->
+    <select id="device" resultType="java.util.Map">
+        SELECT (SELECT count(ele.v_elevator_id) FROM `tbl_elevator` ele
+        where i_install_status in (1, 3)
+        <if test="projectId != null and projectId != ''">
+            and ele.v_project_id = #{projectId}
+        </if>) as 'max',
+        (SELECT count(e.v_elevator_code) as 's' FROM (SELECT ele.v_elevator_code FROM `tbl_sensor_fault` ts
+        INNER JOIN `tbl_elevator` ele
+        ON ts.v_elevator_id = ele.v_elevator_id
+        where ts.i_status = 0
+        AND ele.i_install_status in (1, 3)
+        and DATE_FORMAT(dt_report_time,'%T') &gt;= '07:00:00'
+        and DATE_FORMAT(dt_report_time,'%T') &lt;= '19:00:00'
+        <if test="projectId != null and projectId != ''">
+            and ele.v_project_id = #{projectId}
+        </if>
+        GROUP BY ts.v_elevator_code) e) as 'value'
+    </select>
+
+    <!-- 流量卡正常率,流量不超80%-->
+    <select id="iotCard" resultType="java.util.Map">
+        SELECT
+        (SELECT count(1) FROM tbl_iotcard iot
+        INNER join tbl_elevator ele on iot.v_elevator_code = ele.v_elevator_code
+        <if test="projectId != null and projectId != ''">
+            where ele.v_project_id = #{projectId}
+        </if>) as 'max',
+        (select count(iot.v_elevator_code)
+        FROM tbl_iotcard iot
+        INNER join tbl_elevator ele on iot.v_elevator_code = ele.v_elevator_code
+        WHERE iot.usedFlow &lt;= iot.packageSize*0.8
+        <if test="projectId != null and projectId != ''">
+            and ele.v_project_id = #{projectId}
+        </if>
+        ) as 'value'
+    </select>
+
+    <!--电梯正常率-->
+    <!--<select id="normal" resultType="java.util.Map">
+        SELECT
+        (SELECT sum(ele.bi_run_count) FROM `tbl_elevator_run_count` ele
+        where ele.dt_report_date = DATE_FORMAT(DATE_SUB(NOW(), INTERVAL 1 DAY), '%Y-%m-%d')
+            <if test="projectId != null and projectId != ''">
+                and ele.v_project_id = #{projectId}
+            </if>) as 'max',
+        (SELECT sum(tf.i_fault_num) FROM tbl_fault tf INNER JOIN `tbl_elevator` ele
+        ON tf.v_elevator_id = ele.v_elevator_id
+        WHERE tf.d_report_date = DATE_FORMAT(DATE_SUB(NOW(), INTERVAL 1 DAY), '%Y-%m-%d')
+        and tf.i_uncivilized_behavior_flag = 0
+            <if test="projectId != null and projectId != ''">
+                and ele.v_project_id = #{projectId}
+            </if>) as 'value'
+    </select>-->
+    <select id="normal" resultType="java.util.Map">
+        SELECT
+        (SELECT sum(ele.bi_run_count) FROM `tbl_elevator_run_count` ele
+        where ele.dt_report_date = #{reportDate}
+        <if test="projectId != null and projectId != ''">
+            and ele.v_project_id = #{projectId}
+        </if>) as 'max',
+        (SELECT sum(tf.i_fault_num) FROM tbl_fault tf INNER JOIN `tbl_elevator` ele
+        ON tf.v_elevator_id = ele.v_elevator_id
+        WHERE tf.d_report_date = #{reportDate}
+        and tf.i_uncivilized_behavior_flag = 0
+        <if test="projectId != null and projectId != ''">
+            and ele.v_project_id = #{projectId}
+        </if>) as 'value'
+    </select>
+
+    <!--获取电梯日运行数据统计 按日期统计 -->
+    <select id="getRunDataStatisticsByDateDimension" resultType="java.util.Map">
+        SELECT SUM(tr.bi_run_count) AS runCount,SUM(tr.bi_door_count) AS doorCount,
+        SUM(tr.bi_bend_count) AS bendCount,SUM(tr.bi_level_trigger_count) AS triggerCount,
+        SUM(tr.bi_run_distance_count) AS distanceCount,tr.dt_report_date time
+        FROM tbl_elevator_run_count tr
+        inner join tbl_elevator te on tr.v_elevator_code = te.v_elevator_code
+        <if test="!isAdminFlag">
+            join tbl_sys_user_resource resource on te.v_elevator_id = resource.v_resource_id and v_user_id =
+            #{userId}
+        </if>
+        <where>
+            <if test="projectId != null and projectId != '' ">
+                and te.v_project_id = #{projectId}
+            </if>
+            <if test="elevatorType != null">
+                and te.i_elevator_type = #{elevatorType}
+            </if>
+            <if test="elevatorCode != null and elevatorCode != '' ">
+                and te.v_elevator_code like CONCAT('%',#{elevatorCode},'%')
+            </if>
+            <if test="startTime != null  and startTime != '' ">
+                and tr.dt_report_date &gt;= #{startTime}
+            </if>
+            <if test="endTime != null  and endTime != '' ">
+                and tr.dt_report_date &lt;= #{endTime}
+            </if>
+            <if test="villageId != null and villageId != ''">
+                and te.v_village_id = #{villageId}
+            </if>
+            <if test="projectIds != null and projectIds.size() > 0">
+                and te.v_project_id in
+                <foreach collection="projectIds" item="projectId" open="(" separator="," close=")">
+                    #{projectId}
+                </foreach>
+            </if>
+        </where>
+        GROUP BY tr.dt_report_date
+    </select>
+
+    <!--获取电梯日运行数据统计 按电梯统计-->
+    <select id="getRunDataStatisticsByElevatorDimension" resultType="java.util.Map">
+        SELECT SUM(tr.bi_run_count) AS runCount,SUM(tr.bi_door_count) AS doorCount,
+        SUM(tr.bi_bend_count) AS bendCount,SUM(tr.bi_level_trigger_count) AS triggerCount,
+        SUM(tr.bi_run_distance_count) AS distanceCount,tr.v_elevator_code AS elevatorCode
+        FROM tbl_elevator_run_count tr
+        inner join tbl_elevator te on tr.v_elevator_code = te.v_elevator_code
+        <if test="!isAdminFlag">
+            join tbl_sys_user_resource resource on te.v_elevator_id = resource.v_resource_id and v_user_id =
+            #{userId}
+        </if>
+        <where>
+            <if test="projectId != null and projectId != '' ">
+                and te.v_project_id = #{projectId}
+            </if>
+            <if test="elevatorType != null">
+                and te.i_elevator_type = #{elevatorType}
+            </if>
+            <if test="elevatorCode != null and elevatorCode != '' ">
+                and te.v_elevator_code like CONCAT('%',#{elevatorCode},'%')
+            </if>
+            <if test="startTime != null  and startTime != '' ">
+                and tr.dt_report_date &gt;= #{startTime}
+            </if>
+            <if test="endTime != null  and endTime != '' ">
+                and tr.dt_report_date &lt;= #{endTime}
+            </if>
+            <if test="villageId != null and villageId != ''">
+                and te.v_village_id = #{villageId}
+            </if>
+            <if test="projectIds != null and projectIds.size() > 0">
+                and te.v_project_id in
+                <foreach collection="projectIds" item="projectId" open="(" separator="," close=")">
+                    #{projectId}
+                </foreach>
+            </if>
+        </where>
+        GROUP BY tr.v_elevator_code
+    </select>
+
+
+    <resultMap id="ElevatorStatisticsMap" type="com.shmashine.api.module.elevator.ElevatorDetailResModule">
+        <result property="vLeaveFactoryNumber" column="v_leave_factory_number"/>
+        <result property="vEquipmentCode" column="v_equipment_code"/>
+        <result property="biRunCount" column="bi_run_count"/>
+        <result property="biRunDistanceCount" column="bi_run_distance_count"/>
+        <result property="biBendCount" column="bi_bend_count"/>
+        <result property="dtInstallTime" column="dt_install_time"/>
+        <result property="biDoorCount" column="bi_door_count"/>
+    </resultMap>
+
+    <select id="getElevatorStatisticsInfo" parameterType="java.lang.String" resultMap="ElevatorStatisticsMap">
+        select
+        v_equipment_code,
+        bi_run_count,
+        bi_run_distance_count,
+        bi_bend_count,
+        dt_install_time,
+        bi_door_count
+        from tbl_elevator
+        <where>
+            <if test="  leaveFactoryNumber !='' and leaveFactoryNumber !=null">v_leave_factory_number =
+                #{leaveFactoryNumber}
+            </if>
+            <if test="  equipmentCode !='' and equipmentCode !=null">and v_equipment_code = #{equipmentCode}</if>
+        </where>
+    </select>
+
+
+    <select id="searchElevatorByUserId" resultType="java.util.Map">
+        select
+        ele.v_elevator_code AS v_elevator_code,
+        ele.v_elevator_name AS v_elevator_name,
+        ele.v_address AS v_address,
+        ele.d_next_inspect_date AS d_next_inspect_date,
+        ele.v_maintain_person_name AS v_maintain_person_name,
+        ele.v_maintain_person_tel AS v_maintain_person_tel,
+        ele.i_on_line AS i_online_status,
+        ele.v_equipment_code AS register_number
+        from tbl_elevator ele
+        <if test="!isAdminFlag">
+            join tbl_sys_user_resource resource on ele.v_elevator_id = resource.v_resource_id and v_user_id =
+            #{userId}
+        </if>
+    </select>
+
+    <!--电梯每日运行统计导出-->
+    <select id="exportElevatorRunDataStatistics"
+            resultType="com.shmashine.api.module.elevator.ElevatorRunDataStatisticsDownload">
+        SELECT
+        tr.v_elevator_code AS elevatorCode,
+        tr.bi_run_count AS runCount,
+        tr.bi_door_count AS doorCount,
+        tr.bi_bend_count AS bendCount,
+        tr.bi_level_trigger_count AS levelTriggerCount,
+        tr.bi_run_distance_count AS runDistanceCount,
+        tr.dt_report_date AS reportDate
+        FROM tbl_elevator_run_count tr
+        inner join tbl_elevator te on tr.v_elevator_code = te.v_elevator_code
+        inner join tbl_device device on tr.v_elevator_code = device.v_elevator_code
+        <if test="!isAdminFlag">
+            join tbl_sys_user_resource resource on te.v_elevator_id = resource.v_resource_id and v_user_id =
+            #{userId}
+        </if>
+        <where>
+            <if test="projectId != null and projectId != '' ">
+                and te.v_project_id = #{projectId}
+            </if>
+            <if test="elevatorType != null">
+                and te.i_elevator_type = #{elevatorType}
+            </if>
+            <if test="elevatorCode != null and elevatorCode != '' ">
+                and te.v_elevator_code like CONCAT('%',#{elevatorCode},'%')
+            </if>
+            <if test="startTime != null  and startTime != '' ">
+                and tr.dt_report_date &gt;= #{startTime}
+            </if>
+            <if test="endTime != null  and endTime != '' ">
+                and tr.dt_report_date &lt;= #{endTime}
+            </if>
+            <if test="villageId != null and villageId != ''">
+                and te.v_village_id = #{villageId}
+            </if>
+            <if test="eType != null and eType.contains('201')">
+                and (device.eType = #{eType} or device.eType is null)
+            </if>
+            <if test="eType != null and eType != '' and !eType.contains('201')">
+                and device.eType = #{eType}
+            </if>
+        </where>
+        GROUP BY tr.v_elevator_code, tr.dt_report_date desc
+    </select>
+
+    <select id="getElevatorPassengerFlow" resultType="com.shmashine.api.entity.ElevatorRunCount">
+        SELECT v_elevator_code,
+               dt_report_date as dReportDate,
+               passenger_flow
+        FROM tbl_elevator_run_count
+        WHERE v_elevator_code = #{elevatorCode}
+          AND dt_report_date &gt;= #{startTime}
+          AND dt_report_date &lt;= #{endTime}
+        ORDER BY dt_report_date DESC
+    </select>
+
+    <!--获取用户授权电梯列表-->
+    <select id="searchUserElevators" resultType="com.shmashine.api.service.elevator.DO.UserElevatorsDO">
+        SELECT a.*,IF(resourceB.v_resource_id IS NULL, 0, 1) AS userFlag FROM
+        (SELECT
+        ele.v_elevator_id AS elevatorId,
+        ele.v_elevator_code AS elevatorCode,
+        ele.v_elevator_name AS elevatorName,
+        ele.v_project_id AS projectId,
+        ele.v_address AS address,
+        ele.i_elevator_type AS elevatorType,
+        ele.i_on_line AS online,
+        ele.v_village_id AS villageId,
+        tv.v_village_name AS villageName
+        FROM tbl_elevator ele
+        INNER JOIN tbl_village tv ON tv.v_village_id = ele.v_village_id
+        <if test="!admin">
+            INNER JOIN tbl_sys_user_resource resourceA on ele.v_elevator_id = resourceA.v_resource_id and v_user_id
+            =#{adminUserId}
+        </if>
+        WHERE i_install_status IN (1,3) ) AS a
+        LEFT JOIN tbl_sys_user_resource resourceB on a.elevatorId = resourceB.v_resource_id and v_user_id = #{userId}
+    </select>
+
+    <!-- 根据用户ID获取其维护的项目ID列表-->
+    <select id="getProjectIdsByUserId" resultType="java.lang.String">
+        SELECT
+        DISTINCT ele.v_project_id
+        FROM tbl_elevator AS ele
+        <if test="!isAdmin">
+            INNER JOIN tbl_sys_user_resource AS resource ON ele.v_elevator_id = resource.v_resource_id AND
+            resource.v_user_id = #{userId} AND resource.i_del_flag = 0
+        </if>
+        WHERE ele.i_install_status IN (1,3) AND ele.i_del_flag = 0
+    </select>
+
+    <!--获取用户对应小区授权的电梯列表-->
+    <select id="searchVillageUserElevators" resultType="com.shmashine.api.service.elevator.DO.UserElevatorsDO">
+        SELECT a.*,IF(resourceB.v_resource_id IS NULL, 0, 1) AS userFlag FROM
+        (SELECT
+        ele.v_elevator_id AS elevatorId,
+        ele.v_elevator_code AS elevatorCode,
+        ele.v_elevator_name AS elevatorName,
+        ele.v_project_id AS projectId,
+        ele.v_address AS address,
+        ele.i_elevator_type AS elevatorType,
+        ele.i_on_line AS online
+        FROM tbl_elevator ele
+        <if test="!admin">
+            INNER JOIN tbl_sys_user_resource resourceA on ele.v_elevator_id = resourceA.v_resource_id and v_user_id
+            =#{adminUserId}
+        </if>
+        WHERE ele.v_village_id = #{villageId} ) AS a
+        LEFT JOIN tbl_sys_user_resource resourceB on a.elevatorId = resourceB.v_resource_id and v_user_id = #{userId}
+    </select>
+
+    <select id="getElevatorByElevatorIdOrCode" resultType="com.shmashine.common.entity.TblElevator">
+        SELECT te.v_elevator_id,
+               te.v_elevator_code,
+               te.v_elevator_name,
+               te.i_province_id,
+               te.i_city_id,
+               te.i_area_id,
+               te.v_address,
+               te.i_elevator_type,
+               te.i_elevator_use_type,
+               te.i_elevator_place_type,
+               te.v_elevator_brand_id,
+               te.i_maintain_days,
+               te.d_last_maintain_date,
+               te.d_next_maintain_date,
+               te.d_last_inspect_date,
+               te.d_next_inspect_date,
+               te.v_maintain_company_id,
+               te.v_property_company_id,
+               te.i_government_id,
+               te.v_maintain_person_name,
+               te.v_maintain_person_tel,
+               te.v_emergency_person_name,
+               te.v_emergency_person_tel,
+               te.v_http_pt_codes,
+               te.v_longitude,
+               te.v_latitude,
+               te.i_coordinate_type,
+               te.v_project_id,
+               te.v_village_id,
+               tv.v_village_name,
+               te.i_install_status,
+               te.dt_install_time,
+               te.i_on_line,
+               te.i_mode_status,
+               te.i_fault_status,
+               te.i_filter_flag,
+               te.i_max_floor,
+               te.i_min_floor,
+               te.v_floor_detail,
+               te.v_floor_setting_status,
+               te.dc_speed,
+               te.bi_run_count,
+               te.bi_door_count,
+               te.bi_bend_count,
+               te.bi_level_trigger_count,
+               te.bi_run_distance_count,
+               te.i_dt,
+               te.i_dt1,
+               te.i_dt2,
+               te.i_nps,
+               te.i_npr,
+               te.dc_ndaj,
+               te.i_angle,
+               te.i_angle_type,
+               te.v_sgln_code,
+               te.v_unit_code,
+               te.v_equipment_code,
+               te.v_registration_authority,
+               te.v_registration_mechanism,
+               te.v_registration_certificate_no,
+               te.dt_create_time,
+               te.dt_modify_time,
+               te.v_create_user_id,
+               te.v_modify_user_id,
+               te.i_del_flag
+        FROM tbl_elevator te
+                 LEFT JOIN tbl_village tv ON te.v_village_id = tv.v_village_id
+        WHERE te.v_elevator_code = #{elevatorIdOrCode}
+           OR te.v_elevator_id = #{elevatorIdOrCode}
+    </select>
+
+    <!--获取该电梯当日运行次数-->
+    <select id="getTodayRunCount" resultType="java.lang.Integer">
+        SELECT bi_run_count
+        FROM tbl_elevator_run_count
+        WHERE v_elevator_code = #{elevatorCode}
+          AND dt_report_date = CURRENT_DATE
+    </select>
+
+    <!--获取指定时间内电梯运行次数-->
+    <select id="getRunCountByElevatorCodeAndTime" resultType="java.lang.Long">
+        SELECT SUM(bi_run_count)
+        FROM tbl_elevator_run_count
+        WHERE v_elevator_code = #{elevatorCode}
+          AND dt_report_date &gt;= #{startTime}
+          AND dt_report_date &lt; #{endTime}
+    </select>
+
+    <!--电梯编号获取电梯信息-->
+    <select id="getByCode" resultType="com.shmashine.common.entity.TblElevator">
+        SELECT *
+        FROM tbl_elevator
+        WHERE v_elevator_code = #{elevatorCode}
+    </select>
+
+    <!--查询电梯配置列表-->
+    <select id="searchElevatorListWithConfStatus" resultType="java.util.Map">
+        select
+        distinct
+        ifnull(device.eType, 'MX201') as e_type,
+        device.v_device_position as v_device_position,
+        ele.v_elevator_id AS v_elevator_id,
+        ele.v_elevator_code AS v_elevator_code,
+        ele.v_elevator_name AS v_elevator_name,
+        ele.v_project_id AS v_project_id,
+        ele.i_fault_status AS i_fault_status,
+        proj.v_project_name AS v_project_name,
+        ele.v_address AS v_address,
+        dept.v_dept_name AS v_maintain_company_name,
+        ele.i_elevator_type AS i_elevator_type,
+        sysinfo.v_name_zh_cn AS i_elevator_type_name,
+        ele.i_install_status AS i_install_status,
+        sysinfo2.v_name_zh_cn AS i_install_status_name,
+        ele.i_mode_status AS i_mode_status,
+        sysinfo3.v_name_zh_cn AS i_mode_status_name,
+        ele.i_on_line AS i_online_status,
+        ele.device_conf_status AS deviceConfStatus,
+        sysinfo4.v_name_zh_cn AS i_online_status_name,
+        sysinfo5.v_name_zh_cn AS i_fault_status_name,
+        ele.v_equipment_code AS register_number,
+        ele.v_village_id AS villageId,
+        ele.v_door_type AS doorType
+        from tbl_elevator ele
+        <if test="!searchElevatorModule.isAdminFlag">
+            join tbl_sys_user_resource resource on ele.v_elevator_id = resource.v_resource_id and v_user_id =
+            #{searchElevatorModule.userId}
+        </if>
+        LEFT JOIN tbl_elevator_brand elebd on ele.v_elevator_brand_id = elebd.v_elevator_brand_id
+        LEFT JOIN tbl_device device ON ele.v_elevator_id = device.v_elevator_id and ele.v_elevator_code =
+        device.v_elevator_code
+        left join tbl_sys_dept dept on ele.v_maintain_company_id = dept.v_dept_id
+        left join tbl_project proj on proj.v_project_id = ele.v_project_id
+        left join tbl_sys_systeminfo sysinfo on sysinfo.v_sysvalue5 = ele.i_elevator_type and sysinfo.v_sysid = '10002'
+        left join tbl_sys_systeminfo sysinfo2 on sysinfo2.v_sysvalue5 = ele.i_install_status and sysinfo2.v_sysid =
+        '10008'
+        left join tbl_sys_systeminfo sysinfo3 on sysinfo3.v_sysvalue5 = ele.i_mode_status and sysinfo3.v_sysid = '10009'
+        left join tbl_sys_systeminfo sysinfo4 on sysinfo4.v_sysvalue5 = ele.i_on_line and sysinfo4.v_sysid = '10007'
+        left join tbl_sys_systeminfo sysinfo5 on sysinfo5.v_sysvalue5 = ele.i_fault_status and sysinfo5.v_sysid =
+        '10018'
+        <where>
+            <include refid="searchElevatorModuleWhere"/>
+            <if test="searchElevatorModule.deviceConfStatus != null">
+                and ele.device_conf_status = #{searchElevatorModule.deviceConfStatus}
+            </if>
+            <if test="searchElevatorModule.vHwVersion != null and searchElevatorModule.vHwVersion != ''">
+                <choose>
+                    <when test="searchElevatorModule.vHwVersion != '0.0'">
+                        and device.v_hw_version = #{searchElevatorModule.vHwVersion}
+                    </when>
+                    <otherwise>
+                        and device.v_hw_version is null
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="searchElevatorModule.eType != null and searchElevatorModule.eType.contains('MX201')">
+                and (device.eType = #{searchElevatorModule.eType} or device.eType is null)
+            </if>
+            <if test="searchElevatorModule.eType != null and !searchElevatorModule.eType.contains('MX201')">
+                and device.eType = #{searchElevatorModule.eType}
+            </if>
+            <if test="searchElevatorModule.masterVersion != null and searchElevatorModule.masterVersion != ''">
+                and device.v_master_version = #{searchElevatorModule.masterVersion}
+            </if>
+            <if test="searchElevatorModule.vDevicePosition != null and searchElevatorModule.vDevicePosition != ''">
+                and device.v_device_position = #{searchElevatorModule.vDevicePosition}
+            </if>
+        </where>
+        GROUP BY ele.v_elevator_id,ele.v_elevator_code
+        ORDER by ele.i_on_line DESC, ele.v_elevator_name ASC
+    </select>
+
+    <!--获取已安装且在线的电梯-->
+    <select id="getFaultElevatorList" resultType="java.lang.String">
+        SELECT
+        te.v_elevator_id
+        FROM
+        tbl_elevator te
+        <if test="!isAdminFlag">
+            INNER JOIN tbl_sys_user_resource resource on te.v_elevator_id = resource.v_resource_id and v_user_id =
+            #{userId}
+        </if>
+        WHERE te.i_fault_status = 1
+        AND te.i_install_status = 1
+        AND te.i_on_line = 1
+    </select>
+
+</mapper>

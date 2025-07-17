@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.sender.dao.TblCameraMapper">
+    <sql id="TABLE_NAME">
+        tbl_camera
+    </sql>
+    <!-- 查询 -->
+
+    <select id="getCameraByElevatorCode" resultType="com.shmashine.common.dto.TblCameraDTO">
+        SELECT v_camera_id AS cameraId, i_camera_type AS cameraType, v_cloud_number AS cloudNumber, device_code AS
+        deviceCode
+        FROM
+        <include refid="TABLE_NAME"/>
+        WHERE v_elevator_code = #{elevatorCode}
+    </select>
+</mapper>

@@ -1,0 +1,2054 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.api.dao.TblDeviceDao">
+
+    <resultMap type="com.shmashine.common.entity.TblDevice" id="TblDeviceResultMap">
+        <result property="vDeviceId" column="v_device_id" jdbcType="VARCHAR"/>
+        <result property="vDeviceCode" column="v_device_code" jdbcType="VARCHAR"/>
+        <result property="vSensorType" column="v_sensor_type" jdbcType="VARCHAR"/>
+        <result property="vElevatorId" column="v_elevator_id" jdbcType="VARCHAR"/>
+        <result property="vElevatorCode" column="v_elevator_code" jdbcType="VARCHAR"/>
+        <result property="vElevatorAddress" column="v_elevator_address" jdbcType="VARCHAR"/>
+        <result property="iInstallStatus" column="i_install_status" jdbcType="INTEGER"/>
+        <result property="dtStartRunTime" column="dt_start_run_time" jdbcType="TIMESTAMP"/>
+        <result property="iOnlineStatus" column="i_online_status" jdbcType="INTEGER"/>
+        <result property="dtOnlineTime" column="dt_online_time" jdbcType="TIMESTAMP"/>
+        <result property="dtOfflineTime" column="dt_offline_time" jdbcType="TIMESTAMP"/>
+        <result property="dtRebootTime" column="dt_reboot_time" jdbcType="TIMESTAMP"/>
+        <result property="vServerIp" column="v_server_ip" jdbcType="VARCHAR"/>
+        <result property="iBattery" column="i_battery" jdbcType="INTEGER"/>
+        <result property="vHwVersion" column="v_hw_version" jdbcType="VARCHAR"/>
+        <result property="vSwVersion" column="v_sw_version" jdbcType="VARCHAR"/>
+        <result property="vFwVersion" column="v_fw_version" jdbcType="VARCHAR"/>
+        <result property="vMasterVersion" column="v_master_version" jdbcType="VARCHAR"/>
+        <result property="vSlaveVersion" column="v_slave_version" jdbcType="VARCHAR"/>
+        <result property="vUpdateMethod" column="v_update_method" jdbcType="VARCHAR"/>
+        <result property="vCcid" column="v_ccid" jdbcType="VARCHAR"/>
+        <result property="vImei" column="v_imei" jdbcType="VARCHAR"/>
+        <result property="iNetworkType" column="i_network_type" jdbcType="INTEGER"/>
+        <result property="vDeviceUsername" column="v_device_username" jdbcType="VARCHAR"/>
+        <result property="vDevicePassword" column="v_device_password" jdbcType="VARCHAR"/>
+        <result property="vAliiotKey" column="v_aliiot_key" jdbcType="VARCHAR"/>
+        <result property="vAliiotSecret" column="v_aliiot_secret" jdbcType="VARCHAR"/>
+        <result property="vAliiotTopic" column="v_aliiot_topic" jdbcType="VARCHAR"/>
+        <result property="vXhnbToUsr" column="v_xhnb_to_usr" jdbcType="VARCHAR"/>
+        <result property="vXhnbBrakeStartTime" column="v_xhnb_brake_start_time" jdbcType="VARCHAR"/>
+        <result property="vXhnbBrakeStopTime" column="v_xhnb_brake_stop_time" jdbcType="VARCHAR"/>
+        <result property="vXhnbBrakeDelayTime" column="v_xhnb_brake_delay_time" jdbcType="VARCHAR"/>
+        <result property="vXhnbBrakeContinueTime" column="v_xhnb_brake_continue_time" jdbcType="VARCHAR"/>
+        <result property="dtCreateTime" column="dt_create_time" jdbcType="TIMESTAMP"/>
+        <result property="dtModifyTime" column="dt_modify_time" jdbcType="TIMESTAMP"/>
+        <result property="vCreateUserId" column="v_create_user_id" jdbcType="VARCHAR"/>
+        <result property="vModifyUserId" column="v_modify_user_id" jdbcType="VARCHAR"/>
+        <result property="iDelFlag" column="i_del_flag" jdbcType="INTEGER"/>
+        <result property="eType" column="eType" jdbcType="VARCHAR"/>
+        <result property="protocalVersion" column="protocalVersion" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="table_field">
+        v_device_id
+        , v_device_code, v_sensor_type, v_elevator_id, v_elevator_code, v_elevator_address, i_install_status, dt_start_run_time, i_online_status, dt_online_time, dt_offline_time, dt_reboot_time, v_server_ip, i_battery, v_hw_version, v_sw_version, v_fw_version, v_master_version, v_slave_version, v_update_method, v_ccid, v_imei, i_network_type, v_device_username, v_device_password, v_aliiot_key, v_aliiot_secret, v_aliiot_topic, v_xhnb_to_usr, v_xhnb_brake_start_time, v_xhnb_brake_stop_time, v_xhnb_brake_delay_time, v_xhnb_brake_continue_time, dt_create_time, dt_modify_time, v_create_user_id, v_modify_user_id, i_del_flag, eType, protocalVersion
+    </sql>
+
+    <!--通过Id查询单个-->
+    <select id="getById" resultMap="TblDeviceResultMap" parameterType="java.lang.String">
+        select
+        <include refid="table_field"/>
+        from tbl_device
+        where v_device_id = #{vDeviceId,jdbcType=VARCHAR}
+    </select>
+
+
+    <!--通过实体不为空的属性作为筛选条件查询列表-->
+    <select id="listByEntity" resultMap="TblDeviceResultMap" parameterType="com.shmashine.common.entity.TblDevice">
+        select
+        <include refid="table_field"/>
+        from tbl_device
+        <where>
+            <if test="vDeviceId != null">
+                and v_device_id = #{vDeviceId,jdbcType=VARCHAR}
+            </if>
+            <if test="vDeviceCode != null">
+                and v_device_code = #{vDeviceCode,jdbcType=VARCHAR}
+            </if>
+            <if test="vSensorType != null">
+                and v_sensor_type = #{vSensorType,jdbcType=VARCHAR}
+            </if>
+            <if test="vElevatorId != null">
+                and v_elevator_id = #{vElevatorId,jdbcType=VARCHAR}
+            </if>
+            <if test="vElevatorCode != null">
+                and v_elevator_code = #{vElevatorCode,jdbcType=VARCHAR}
+            </if>
+            <if test="vElevatorAddress != null">
+                and v_elevator_address = #{vElevatorAddress,jdbcType=VARCHAR}
+            </if>
+            <if test="iInstallStatus != null">
+                and i_install_status = #{iInstallStatus,jdbcType=INTEGER}
+            </if>
+            <if test="dtStartRunTime != null">
+                and dt_start_run_time = #{dtStartRunTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="iOnlineStatus != null">
+                and i_online_status = #{iOnlineStatus,jdbcType=INTEGER}
+            </if>
+            <if test="dtOnlineTime != null">
+                and dt_online_time = #{dtOnlineTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="dtOfflineTime != null">
+                and dt_offline_time = #{dtOfflineTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="dtRebootTime != null">
+                and dt_reboot_time = #{dtRebootTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="vServerIp != null">
+                and v_server_ip = #{vServerIp,jdbcType=VARCHAR}
+            </if>
+            <if test="iBattery != null">
+                and i_battery = #{iBattery,jdbcType=INTEGER}
+            </if>
+            <if test="vHwVersion != null">
+                and v_hw_version = #{vHwVersion,jdbcType=VARCHAR}
+            </if>
+            <if test="vSwVersion != null">
+                and v_sw_version = #{vSwVersion,jdbcType=VARCHAR}
+            </if>
+            <if test="vFwVersion != null">
+                and v_fw_version = #{vFwVersion,jdbcType=VARCHAR}
+            </if>
+            <if test="vMasterVersion != null">
+                and v_master_version = #{vMasterVersion,jdbcType=VARCHAR}
+            </if>
+            <if test="vSlaveVersion != null">
+                and v_slave_version = #{vSlaveVersion,jdbcType=VARCHAR}
+            </if>
+            <if test="vUpdateMethod != null">
+                and v_update_method = #{vUpdateMethod,jdbcType=VARCHAR}
+            </if>
+            <if test="vCcid != null">
+                and v_ccid = #{vCcid,jdbcType=VARCHAR}
+            </if>
+            <if test="vImei != null">
+                and v_imei = #{vImei,jdbcType=VARCHAR}
+            </if>
+            <if test="iNetworkType != null">
+                and i_network_type = #{iNetworkType,jdbcType=INTEGER}
+            </if>
+            <if test="vDeviceUsername != null">
+                and v_device_username = #{vDeviceUsername,jdbcType=VARCHAR}
+            </if>
+            <if test="vDevicePassword != null">
+                and v_device_password = #{vDevicePassword,jdbcType=VARCHAR}
+            </if>
+            <if test="vAliiotKey != null">
+                and v_aliiot_key = #{vAliiotKey,jdbcType=VARCHAR}
+            </if>
+            <if test="vAliiotSecret != null">
+                and v_aliiot_secret = #{vAliiotSecret,jdbcType=VARCHAR}
+            </if>
+            <if test="vAliiotTopic != null">
+                and v_aliiot_topic = #{vAliiotTopic,jdbcType=VARCHAR}
+            </if>
+            <if test="vXhnbToUsr != null">
+                and v_xhnb_to_usr = #{vXhnbToUsr,jdbcType=VARCHAR}
+            </if>
+            <if test="vXhnbBrakeStartTime != null">
+                and v_xhnb_brake_start_time = #{vXhnbBrakeStartTime,jdbcType=VARCHAR}
+            </if>
+            <if test="vXhnbBrakeStopTime != null">
+                and v_xhnb_brake_stop_time = #{vXhnbBrakeStopTime,jdbcType=VARCHAR}
+            </if>
+            <if test="vXhnbBrakeDelayTime != null">
+                and v_xhnb_brake_delay_time = #{vXhnbBrakeDelayTime,jdbcType=VARCHAR}
+            </if>
+            <if test="vXhnbBrakeContinueTime != null">
+                and v_xhnb_brake_continue_time = #{vXhnbBrakeContinueTime,jdbcType=VARCHAR}
+            </if>
+            <if test="dtCreateTime != null">
+                and dt_create_time = #{dtCreateTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="dtModifyTime != null">
+                and dt_modify_time = #{dtModifyTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="vCreateUserId != null">
+                and v_create_user_id = #{vCreateUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="vModifyUserId != null">
+                and v_modify_user_id = #{vModifyUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="iDelFlag != null">
+                and i_del_flag = #{iDelFlag,jdbcType=INTEGER}
+            </if>
+        </where>
+    </select>
+
+    <!--通过实体不为空的属性作为筛选条件查询单个-->
+    <select id="getByEntity" resultMap="TblDeviceResultMap" parameterType="com.shmashine.common.entity.TblDevice">
+        select
+        <include refid="table_field"/>
+        from tbl_device
+        <where>
+            <if test="vDeviceId != null">
+                and v_device_id = #{vDeviceId,jdbcType=VARCHAR}
+            </if>
+            <if test="vDeviceCode != null">
+                and v_device_code = #{vDeviceCode,jdbcType=VARCHAR}
+            </if>
+            <if test="vSensorType != null">
+                and v_sensor_type = #{vSensorType,jdbcType=VARCHAR}
+            </if>
+            <if test="vElevatorId != null">
+                and v_elevator_id = #{vElevatorId,jdbcType=VARCHAR}
+            </if>
+            <if test="vElevatorCode != null">
+                and v_elevator_code = #{vElevatorCode,jdbcType=VARCHAR}
+            </if>
+            <if test="vElevatorAddress != null">
+                and v_elevator_address = #{vElevatorAddress,jdbcType=VARCHAR}
+            </if>
+            <if test="iInstallStatus != null">
+                and i_install_status = #{iInstallStatus,jdbcType=INTEGER}
+            </if>
+            <if test="dtStartRunTime != null">
+                and dt_start_run_time = #{dtStartRunTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="iOnlineStatus != null">
+                and i_online_status = #{iOnlineStatus,jdbcType=INTEGER}
+            </if>
+            <if test="dtOnlineTime != null">
+                and dt_online_time = #{dtOnlineTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="dtOfflineTime != null">
+                and dt_offline_time = #{dtOfflineTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="dtRebootTime != null">
+                and dt_reboot_time = #{dtRebootTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="vServerIp != null">
+                and v_server_ip = #{vServerIp,jdbcType=VARCHAR}
+            </if>
+            <if test="iBattery != null">
+                and i_battery = #{iBattery,jdbcType=INTEGER}
+            </if>
+            <if test="vHwVersion != null">
+                and v_hw_version = #{vHwVersion,jdbcType=VARCHAR}
+            </if>
+            <if test="vSwVersion != null">
+                and v_sw_version = #{vSwVersion,jdbcType=VARCHAR}
+            </if>
+            <if test="vFwVersion != null">
+                and v_fw_version = #{vFwVersion,jdbcType=VARCHAR}
+            </if>
+            <if test="vMasterVersion != null">
+                and v_master_version = #{vMasterVersion,jdbcType=VARCHAR}
+            </if>
+            <if test="vSlaveVersion != null">
+                and v_slave_version = #{vSlaveVersion,jdbcType=VARCHAR}
+            </if>
+            <if test="vUpdateMethod != null">
+                and v_update_method = #{vUpdateMethod,jdbcType=VARCHAR}
+            </if>
+            <if test="vCcid != null">
+                and v_ccid = #{vCcid,jdbcType=VARCHAR}
+            </if>
+            <if test="vImei != null">
+                and v_imei = #{vImei,jdbcType=VARCHAR}
+            </if>
+            <if test="iNetworkType != null">
+                and i_network_type = #{iNetworkType,jdbcType=INTEGER}
+            </if>
+            <if test="vDeviceUsername != null">
+                and v_device_username = #{vDeviceUsername,jdbcType=VARCHAR}
+            </if>
+            <if test="vDevicePassword != null">
+                and v_device_password = #{vDevicePassword,jdbcType=VARCHAR}
+            </if>
+            <if test="vAliiotKey != null">
+                and v_aliiot_key = #{vAliiotKey,jdbcType=VARCHAR}
+            </if>
+            <if test="vAliiotSecret != null">
+                and v_aliiot_secret = #{vAliiotSecret,jdbcType=VARCHAR}
+            </if>
+            <if test="vAliiotTopic != null">
+                and v_aliiot_topic = #{vAliiotTopic,jdbcType=VARCHAR}
+            </if>
+            <if test="vXhnbToUsr != null">
+                and v_xhnb_to_usr = #{vXhnbToUsr,jdbcType=VARCHAR}
+            </if>
+            <if test="vXhnbBrakeStartTime != null">
+                and v_xhnb_brake_start_time = #{vXhnbBrakeStartTime,jdbcType=VARCHAR}
+            </if>
+            <if test="vXhnbBrakeStopTime != null">
+                and v_xhnb_brake_stop_time = #{vXhnbBrakeStopTime,jdbcType=VARCHAR}
+            </if>
+            <if test="vXhnbBrakeDelayTime != null">
+                and v_xhnb_brake_delay_time = #{vXhnbBrakeDelayTime,jdbcType=VARCHAR}
+            </if>
+            <if test="vXhnbBrakeContinueTime != null">
+                and v_xhnb_brake_continue_time = #{vXhnbBrakeContinueTime,jdbcType=VARCHAR}
+            </if>
+            <if test="dtCreateTime != null">
+                and dt_create_time = #{dtCreateTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="dtModifyTime != null">
+                and dt_modify_time = #{dtModifyTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="vCreateUserId != null">
+                and v_create_user_id = #{vCreateUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="vModifyUserId != null">
+                and v_modify_user_id = #{vModifyUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="iDelFlag != null">
+                and i_del_flag = #{iDelFlag,jdbcType=INTEGER}
+            </if>
+        </where>
+    </select>
+
+    <!--通过Id列表作为筛选条件查询列表，列表长度不为0-->
+    <select id="listByIds" resultMap="TblDeviceResultMap" parameterType="list">
+        select
+        <include refid="table_field"/>
+        from tbl_device
+        where v_device_id in
+        <foreach item="item" collection="list" separator="," open="(" close=")" index="index">
+            #{item}
+        </foreach>
+    </select>
+
+    <!--新增实体属性不为null的列-->
+    <insert id="insert" keyProperty="vDeviceId" useGeneratedKeys="true"
+            parameterType="com.shmashine.common.entity.TblDevice">
+        insert into tbl_device
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="vDeviceId != null">
+                v_device_id,
+            </if>
+            <if test="vDeviceCode != null">
+                v_device_code,
+            </if>
+            <if test="vSensorType != null">
+                v_sensor_type,
+            </if>
+            <if test="vElevatorId != null">
+                v_elevator_id,
+            </if>
+            <if test="vElevatorCode != null">
+                v_elevator_code,
+            </if>
+            <if test="vElevatorAddress != null">
+                v_elevator_address,
+            </if>
+            <if test="iInstallStatus != null">
+                i_install_status,
+            </if>
+            <if test="dtStartRunTime != null">
+                dt_start_run_time,
+            </if>
+            <if test="iOnlineStatus != null">
+                i_online_status,
+            </if>
+            <if test="dtOnlineTime != null">
+                dt_online_time,
+            </if>
+            <if test="dtOfflineTime != null">
+                dt_offline_time,
+            </if>
+            <if test="dtRebootTime != null">
+                dt_reboot_time,
+            </if>
+            <if test="vServerIp != null">
+                v_server_ip,
+            </if>
+            <if test="iBattery != null">
+                i_battery,
+            </if>
+            <if test="vHwVersion != null">
+                v_hw_version,
+            </if>
+            <if test="vSwVersion != null">
+                v_sw_version,
+            </if>
+            <if test="vFwVersion != null">
+                v_fw_version,
+            </if>
+            <if test="vMasterVersion != null">
+                v_master_version,
+            </if>
+            <if test="vSlaveVersion != null">
+                v_slave_version,
+            </if>
+            <if test="vUpdateMethod != null">
+                v_update_method,
+            </if>
+            <if test="vCcid != null">
+                v_ccid,
+            </if>
+            <if test="vImei != null">
+                v_imei,
+            </if>
+            <if test="iNetworkType != null">
+                i_network_type,
+            </if>
+            <if test="vDeviceUsername != null">
+                v_device_username,
+            </if>
+            <if test="vDevicePassword != null">
+                v_device_password,
+            </if>
+            <if test="vAliiotKey != null">
+                v_aliiot_key,
+            </if>
+            <if test="vAliiotSecret != null">
+                v_aliiot_secret,
+            </if>
+            <if test="vAliiotTopic != null">
+                v_aliiot_topic,
+            </if>
+            <if test="vXhnbToUsr != null">
+                v_xhnb_to_usr,
+            </if>
+            <if test="vXhnbBrakeStartTime != null">
+                v_xhnb_brake_start_time,
+            </if>
+            <if test="vXhnbBrakeStopTime != null">
+                v_xhnb_brake_stop_time,
+            </if>
+            <if test="vXhnbBrakeDelayTime != null">
+                v_xhnb_brake_delay_time,
+            </if>
+            <if test="vXhnbBrakeContinueTime != null">
+                v_xhnb_brake_continue_time,
+            </if>
+            <if test="dtCreateTime != null">
+                dt_create_time,
+            </if>
+            <if test="dtModifyTime != null">
+                dt_modify_time,
+            </if>
+            <if test="vCreateUserId != null">
+                v_create_user_id,
+            </if>
+            <if test="vModifyUserId != null">
+                v_modify_user_id,
+            </if>
+            <if test="eType != null and eType != ''">
+                eType,
+            </if>
+            <if test="iDelFlag != null">
+                i_del_flag,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="vDeviceId != null">
+                #{vDeviceId,jdbcType=VARCHAR},
+            </if>
+            <if test="vDeviceCode != null">
+                #{vDeviceCode,jdbcType=VARCHAR},
+            </if>
+            <if test="vSensorType != null">
+                #{vSensorType,jdbcType=VARCHAR},
+            </if>
+            <if test="vElevatorId != null">
+                #{vElevatorId,jdbcType=VARCHAR},
+            </if>
+            <if test="vElevatorCode != null">
+                #{vElevatorCode,jdbcType=VARCHAR},
+            </if>
+            <if test="vElevatorAddress != null">
+                #{vElevatorAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="iInstallStatus != null">
+                #{iInstallStatus,jdbcType=INTEGER},
+            </if>
+            <if test="dtStartRunTime != null">
+                #{dtStartRunTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="iOnlineStatus != null">
+                #{iOnlineStatus,jdbcType=INTEGER},
+            </if>
+            <if test="dtOnlineTime != null">
+                #{dtOnlineTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="dtOfflineTime != null">
+                #{dtOfflineTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="dtRebootTime != null">
+                #{dtRebootTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="vServerIp != null">
+                #{vServerIp,jdbcType=VARCHAR},
+            </if>
+            <if test="iBattery != null">
+                #{iBattery,jdbcType=INTEGER},
+            </if>
+            <if test="vHwVersion != null">
+                #{vHwVersion,jdbcType=VARCHAR},
+            </if>
+            <if test="vSwVersion != null">
+                #{vSwVersion,jdbcType=VARCHAR},
+            </if>
+            <if test="vFwVersion != null">
+                #{vFwVersion,jdbcType=VARCHAR},
+            </if>
+            <if test="vMasterVersion != null">
+                #{vMasterVersion,jdbcType=VARCHAR},
+            </if>
+            <if test="vSlaveVersion != null">
+                #{vSlaveVersion,jdbcType=VARCHAR},
+            </if>
+            <if test="vUpdateMethod != null">
+                #{vUpdateMethod,jdbcType=VARCHAR},
+            </if>
+            <if test="vCcid != null">
+                #{vCcid,jdbcType=VARCHAR},
+            </if>
+            <if test="vImei != null">
+                #{vImei,jdbcType=VARCHAR},
+            </if>
+            <if test="iNetworkType != null">
+                #{iNetworkType,jdbcType=INTEGER},
+            </if>
+            <if test="vDeviceUsername != null">
+                #{vDeviceUsername,jdbcType=VARCHAR},
+            </if>
+            <if test="vDevicePassword != null">
+                #{vDevicePassword,jdbcType=VARCHAR},
+            </if>
+            <if test="vAliiotKey != null">
+                #{vAliiotKey,jdbcType=VARCHAR},
+            </if>
+            <if test="vAliiotSecret != null">
+                #{vAliiotSecret,jdbcType=VARCHAR},
+            </if>
+            <if test="vAliiotTopic != null">
+                #{vAliiotTopic,jdbcType=VARCHAR},
+            </if>
+            <if test="vXhnbToUsr != null">
+                #{vXhnbToUsr,jdbcType=VARCHAR},
+            </if>
+            <if test="vXhnbBrakeStartTime != null">
+                #{vXhnbBrakeStartTime,jdbcType=VARCHAR},
+            </if>
+            <if test="vXhnbBrakeStopTime != null">
+                #{vXhnbBrakeStopTime,jdbcType=VARCHAR},
+            </if>
+            <if test="vXhnbBrakeDelayTime != null">
+                #{vXhnbBrakeDelayTime,jdbcType=VARCHAR},
+            </if>
+            <if test="vXhnbBrakeContinueTime != null">
+                #{vXhnbBrakeContinueTime,jdbcType=VARCHAR},
+            </if>
+            <if test="dtCreateTime != null">
+                #{dtCreateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="dtModifyTime != null">
+                #{dtModifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="vCreateUserId != null">
+                #{vCreateUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="vModifyUserId != null">
+                #{vModifyUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="eType != null and eType != '' ">
+                #{eType,jdbcType=VARCHAR},
+            </if>
+            <if test="iDelFlag != null">
+                #{iDelFlag,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+
+    <!--批量新增所有列，列表长度不能为0-->
+    <insert id="insertBatch" keyProperty="vDeviceId" useGeneratedKeys="true" parameterType="list">
+        insert into tbl_device
+        ( v_device_id ,v_device_code, v_sensor_type, v_elevator_id, v_elevator_code, v_elevator_address,
+        i_install_status, dt_start_run_time, i_online_status, dt_online_time, dt_offline_time, dt_reboot_time,
+        v_server_ip, i_battery, v_hw_version, v_sw_version, v_fw_version,
+        v_master_version, v_slave_version, v_update_method, v_ccid, v_imei, i_network_type, v_device_username,
+        v_device_password, v_aliiot_key, v_aliiot_secret, v_aliiot_topic, v_xhnb_to_usr, v_xhnb_brake_start_time,
+        v_xhnb_brake_stop_time, v_xhnb_brake_delay_time, v_xhnb_brake_continue_time, dt_create_time, dt_modify_time,
+        v_create_user_id, v_modify_user_id, eType, i_del_flag)
+        values
+        <foreach item="item" collection="list" separator="," open="" close="" index="index">
+            (#{item.vDeviceId,jdbcType=VARCHAR},#{item.vDeviceCode,jdbcType=VARCHAR},
+            #{item.vSensorType,jdbcType=VARCHAR}, #{item.vElevatorId,jdbcType=VARCHAR},
+            #{item.vElevatorCode,jdbcType=VARCHAR}, #{item.vElevatorAddress,jdbcType=VARCHAR},
+            #{item.iInstallStatus,jdbcType=INTEGER}, #{item.dtStartRunTime,jdbcType=TIMESTAMP},
+            #{item.iOnlineStatus,jdbcType=INTEGER}, #{item.dtOnlineTime,jdbcType=TIMESTAMP},
+            #{item.dtOfflineTime,jdbcType=TIMESTAMP}, #{item.dtRebootTime,jdbcType=TIMESTAMP},
+            #{item.vServerIp,jdbcType=VARCHAR}, #{item.iBattery,jdbcType=INTEGER},
+            #{item.vHwVersion,jdbcType=VARCHAR}, #{item.vSwVersion,jdbcType=VARCHAR},
+            #{item.vFwVersion,jdbcType=VARCHAR}, #{item.vMasterVersion,jdbcType=VARCHAR},
+            #{item.vSlaveVersion,jdbcType=VARCHAR}, #{item.vUpdateMethod,jdbcType=VARCHAR},
+            #{item.vCcid,jdbcType=VARCHAR}, #{item.vImei,jdbcType=VARCHAR}, #{item.iNetworkType,jdbcType=INTEGER},
+            #{item.vDeviceUsername,jdbcType=VARCHAR}, #{item.vDevicePassword,jdbcType=VARCHAR},
+            #{item.vAliiotKey,jdbcType=VARCHAR}, #{item.vAliiotSecret,jdbcType=VARCHAR},
+            #{item.vAliiotTopic,jdbcType=VARCHAR}, #{item.vXhnbToUsr,jdbcType=VARCHAR},
+            #{item.vXhnbBrakeStartTime,jdbcType=VARCHAR}, #{item.vXhnbBrakeStopTime,jdbcType=VARCHAR},
+            #{item.vXhnbBrakeDelayTime,jdbcType=VARCHAR}, #{item.vXhnbBrakeContinueTime,jdbcType=VARCHAR},
+            #{item.dtCreateTime,jdbcType=TIMESTAMP}, #{item.dtModifyTime,jdbcType=TIMESTAMP},
+            #{item.vCreateUserId,jdbcType=VARCHAR}, #{item.vModifyUserId,jdbcType=VARCHAR},
+            #{item.eType,jdbcType=VARCHAR},
+            #{item.iDelFlag,jdbcType=INTEGER})
+        </foreach>
+    </insert>
+
+    <!--通过主键修改实体属性不为null的列-->
+    <update id="update" parameterType="com.shmashine.common.entity.TblDevice">
+        update tbl_device
+        <set>
+            <if test="vDeviceCode != null and vDeviceCode != ''">
+                v_device_code = #{vDeviceCode,jdbcType=VARCHAR},
+            </if>
+            <if test="vSensorType != null and vSensorType != ''">
+                v_sensor_type = #{vSensorType,jdbcType=VARCHAR},
+            </if>
+            <if test="vElevatorId != null and vElevatorId != ''">
+                v_elevator_id = #{vElevatorId,jdbcType=VARCHAR},
+            </if>
+            <if test="vElevatorCode != null and vElevatorCode != ''">
+                v_elevator_code = #{vElevatorCode,jdbcType=VARCHAR},
+            </if>
+            <if test="vElevatorAddress != null and vElevatorAddress != ''">
+                v_elevator_address = #{vElevatorAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="iInstallStatus != null">
+                i_install_status = #{iInstallStatus,jdbcType=INTEGER},
+            </if>
+            <if test="dtStartRunTime != null">
+                dt_start_run_time = #{dtStartRunTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="iOnlineStatus != null">
+                i_online_status = #{iOnlineStatus,jdbcType=INTEGER},
+            </if>
+            <if test="dtOnlineTime != null">
+                dt_online_time = #{dtOnlineTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="dtOfflineTime != null">
+                dt_offline_time = #{dtOfflineTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="dtRebootTime != null">
+                dt_reboot_time = #{dtRebootTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="vServerIp != null and vServerIp != ''">
+                v_server_ip = #{vServerIp,jdbcType=VARCHAR},
+            </if>
+            <if test="iBattery != null">
+                i_battery = #{iBattery,jdbcType=INTEGER},
+            </if>
+            <if test="vHwVersion != null and vHwVersion != ''">
+                v_hw_version = #{vHwVersion,jdbcType=VARCHAR},
+            </if>
+            <if test="vSwVersion != null and vSwVersion != ''">
+                v_sw_version = #{vSwVersion,jdbcType=VARCHAR},
+            </if>
+            <if test="vFwVersion != null and vFwVersion != ''">
+                v_fw_version = #{vFwVersion,jdbcType=VARCHAR},
+            </if>
+            <if test="vMasterVersion != null and vMasterVersion != ''">
+                v_master_version = #{vMasterVersion,jdbcType=VARCHAR},
+            </if>
+            <if test="vSlaveVersion != null and vSlaveVersion != ''">
+                v_slave_version = #{vSlaveVersion,jdbcType=VARCHAR},
+            </if>
+            <if test="vUpdateMethod != null and vUpdateMethod != ''">
+                v_update_method = #{vUpdateMethod,jdbcType=VARCHAR},
+            </if>
+            <if test="vCcid != null and vCcid != ''">
+                v_ccid = #{vCcid,jdbcType=VARCHAR},
+            </if>
+            <if test="vImei != null and vImei != ''">
+                v_imei = #{vImei,jdbcType=VARCHAR},
+            </if>
+            <if test="iNetworkType != null">
+                i_network_type = #{iNetworkType,jdbcType=INTEGER},
+            </if>
+            <if test="vDeviceUsername != null and vDeviceUsername != ''">
+                v_device_username = #{vDeviceUsername,jdbcType=VARCHAR},
+            </if>
+            <if test="vDevicePassword != null and vDevicePassword != ''">
+                v_device_password = #{vDevicePassword,jdbcType=VARCHAR},
+            </if>
+            <if test="vAliiotKey != null and vAliiotKey != ''">
+                v_aliiot_key = #{vAliiotKey,jdbcType=VARCHAR},
+            </if>
+            <if test="vAliiotSecret != null and vAliiotSecret != ''">
+                v_aliiot_secret = #{vAliiotSecret,jdbcType=VARCHAR},
+            </if>
+            <if test="vAliiotTopic != null and vAliiotTopic != ''">
+                v_aliiot_topic = #{vAliiotTopic,jdbcType=VARCHAR},
+            </if>
+            <if test="vXhnbToUsr != null and vXhnbToUsr != ''">
+                v_xhnb_to_usr = #{vXhnbToUsr,jdbcType=VARCHAR},
+            </if>
+            <if test="vXhnbBrakeStartTime != null and vXhnbBrakeStartTime != ''">
+                v_xhnb_brake_start_time = #{vXhnbBrakeStartTime,jdbcType=VARCHAR},
+            </if>
+            <if test="vXhnbBrakeStopTime != null and vXhnbBrakeStopTime != ''">
+                v_xhnb_brake_stop_time = #{vXhnbBrakeStopTime,jdbcType=VARCHAR},
+            </if>
+            <if test="vXhnbBrakeDelayTime != null and vXhnbBrakeDelayTime != ''">
+                v_xhnb_brake_delay_time = #{vXhnbBrakeDelayTime,jdbcType=VARCHAR},
+            </if>
+            <if test="vXhnbBrakeContinueTime != null and vXhnbBrakeContinueTime != ''">
+                v_xhnb_brake_continue_time = #{vXhnbBrakeContinueTime,jdbcType=VARCHAR},
+            </if>
+            <if test="dtCreateTime != null">
+                dt_create_time = #{dtCreateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="dtModifyTime != null">
+                dt_modify_time = #{dtModifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="vCreateUserId != null and vCreateUserId != ''">
+                v_create_user_id = #{vCreateUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="vModifyUserId != null and vModifyUserId != ''">
+                v_modify_user_id = #{vModifyUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="eType != null and eType != ''">
+                eType = #{eType,jdbcType=VARCHAR},
+            </if>
+            <if test="iDelFlag != null">
+                i_del_flag = #{iDelFlag,jdbcType=INTEGER},
+            </if>
+        </set>
+        where v_device_id = #{vDeviceId,jdbcType=VARCHAR}
+    </update>
+
+    <!--通过表字段修改实体属性不为null的列-->
+    <update id="updateByField">
+        update tbl_device
+        <set>
+            <if test="where.vDeviceCode == null and set.vDeviceCode != null and set.vDeviceCode != ''">
+                v_device_code = #{set.vDeviceCode,jdbcType=VARCHAR},
+            </if>
+            <if test="where.vSensorType == null and set.vSensorType != null and set.vSensorType != ''">
+                v_sensor_type = #{set.vSensorType,jdbcType=VARCHAR},
+            </if>
+            <if test="where.vElevatorId == null and set.vElevatorId != null and set.vElevatorId != ''">
+                v_elevator_id = #{set.vElevatorId,jdbcType=VARCHAR},
+            </if>
+            <if test="where.vElevatorCode == null and set.vElevatorCode != null and set.vElevatorCode != ''">
+                v_elevator_code = #{set.vElevatorCode,jdbcType=VARCHAR},
+            </if>
+            <if test="where.vElevatorAddress == null and set.vElevatorAddress != null and set.vElevatorAddress != ''">
+                v_elevator_address = #{set.vElevatorAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="where.iInstallStatus == null and set.iInstallStatus != null">
+                i_install_status = #{set.iInstallStatus,jdbcType=INTEGER},
+            </if>
+            <if test="where.dtStartRunTime == null and set.dtStartRunTime != null">
+                dt_start_run_time = #{set.dtStartRunTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="where.iOnlineStatus == null and set.iOnlineStatus != null">
+                i_online_status = #{set.iOnlineStatus,jdbcType=INTEGER},
+            </if>
+            <if test="where.dtOnlineTime == null and set.dtOnlineTime != null">
+                dt_online_time = #{set.dtOnlineTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="where.dtOfflineTime == null and set.dtOfflineTime != null">
+                dt_offline_time = #{set.dtOfflineTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="where.dtRebootTime == null and set.dtRebootTime != null">
+                dt_reboot_time = #{set.dtRebootTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="where.vServerIp == null and set.vServerIp != null and set.vServerIp != ''">
+                v_server_ip = #{set.vServerIp,jdbcType=VARCHAR},
+            </if>
+            <if test="where.iBattery == null and set.iBattery != null">
+                i_battery = #{set.iBattery,jdbcType=INTEGER},
+            </if>
+            <if test="where.vHwVersion == null and set.vHwVersion != null and set.vHwVersion != ''">
+                v_hw_version = #{set.vHwVersion,jdbcType=VARCHAR},
+            </if>
+            <if test="where.vSwVersion == null and set.vSwVersion != null and set.vSwVersion != ''">
+                v_sw_version = #{set.vSwVersion,jdbcType=VARCHAR},
+            </if>
+            <if test="where.vFwVersion == null and set.vFwVersion != null and set.vFwVersion != ''">
+                v_fw_version = #{set.vFwVersion,jdbcType=VARCHAR},
+            </if>
+            <if test="where.vMasterVersion == null and set.vMasterVersion != null and set.vMasterVersion != ''">
+                v_master_version = #{set.vMasterVersion,jdbcType=VARCHAR},
+            </if>
+            <if test="where.vSlaveVersion == null and set.vSlaveVersion != null and set.vSlaveVersion != ''">
+                v_slave_version = #{set.vSlaveVersion,jdbcType=VARCHAR},
+            </if>
+            <if test="where.vUpdateMethod == null and set.vUpdateMethod != null and set.vUpdateMethod != ''">
+                v_update_method = #{set.vUpdateMethod,jdbcType=VARCHAR},
+            </if>
+            <if test="where.vCcid == null and set.vCcid != null and set.vCcid != ''">
+                v_ccid = #{set.vCcid,jdbcType=VARCHAR},
+            </if>
+            <if test="where.vImei == null and set.vImei != null and set.vImei != ''">
+                v_imei = #{set.vImei,jdbcType=VARCHAR},
+            </if>
+            <if test="where.iNetworkType == null and set.iNetworkType != null">
+                i_network_type = #{set.iNetworkType,jdbcType=INTEGER},
+            </if>
+            <if test="where.vDeviceUsername == null and set.vDeviceUsername != null and set.vDeviceUsername != ''">
+                v_device_username = #{set.vDeviceUsername,jdbcType=VARCHAR},
+            </if>
+            <if test="where.vDevicePassword == null and set.vDevicePassword != null and set.vDevicePassword != ''">
+                v_device_password = #{set.vDevicePassword,jdbcType=VARCHAR},
+            </if>
+            <if test="where.vAliiotKey == null and set.vAliiotKey != null and set.vAliiotKey != ''">
+                v_aliiot_key = #{set.vAliiotKey,jdbcType=VARCHAR},
+            </if>
+            <if test="where.vAliiotSecret == null and set.vAliiotSecret != null and set.vAliiotSecret != ''">
+                v_aliiot_secret = #{set.vAliiotSecret,jdbcType=VARCHAR},
+            </if>
+            <if test="where.vAliiotTopic == null and set.vAliiotTopic != null and set.vAliiotTopic != ''">
+                v_aliiot_topic = #{set.vAliiotTopic,jdbcType=VARCHAR},
+            </if>
+            <if test="where.vXhnbToUsr == null and set.vXhnbToUsr != null and set.vXhnbToUsr != ''">
+                v_xhnb_to_usr = #{set.vXhnbToUsr,jdbcType=VARCHAR},
+            </if>
+            <if test="where.vXhnbBrakeStartTime == null and set.vXhnbBrakeStartTime != null and set.vXhnbBrakeStartTime != ''">
+                v_xhnb_brake_start_time = #{set.vXhnbBrakeStartTime,jdbcType=VARCHAR},
+            </if>
+            <if test="where.vXhnbBrakeStopTime == null and set.vXhnbBrakeStopTime != null and set.vXhnbBrakeStopTime != ''">
+                v_xhnb_brake_stop_time = #{set.vXhnbBrakeStopTime,jdbcType=VARCHAR},
+            </if>
+            <if test="where.vXhnbBrakeDelayTime == null and set.vXhnbBrakeDelayTime != null and set.vXhnbBrakeDelayTime != ''">
+                v_xhnb_brake_delay_time = #{set.vXhnbBrakeDelayTime,jdbcType=VARCHAR},
+            </if>
+            <if test="where.vXhnbBrakeContinueTime == null and set.vXhnbBrakeContinueTime != null and set.vXhnbBrakeContinueTime != ''">
+                v_xhnb_brake_continue_time = #{set.vXhnbBrakeContinueTime,jdbcType=VARCHAR},
+            </if>
+            <if test="where.dtCreateTime == null and set.dtCreateTime != null">
+                dt_create_time = #{set.dtCreateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="where.dtModifyTime == null and set.dtModifyTime != null">
+                dt_modify_time = #{set.dtModifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="where.vCreateUserId == null and set.vCreateUserId != null and set.vCreateUserId != ''">
+                v_create_user_id = #{set.vCreateUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="where.vModifyUserId == null and set.vModifyUserId != null and set.vModifyUserId != ''">
+                v_modify_user_id = #{set.vModifyUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="where.iDelFlag == null and set.iDelFlag != null">
+                i_del_flag = #{set.iDelFlag,jdbcType=INTEGER},
+            </if>
+            <if test="where.vDevicePosition == null and set.vDevicePosition != null and set.vDevicePosition != ''">
+                v_device_position = #{set.vDevicePosition,jdbcType=VARCHAR},
+            </if>
+        </set>
+        <where>
+            <if test="where.vDeviceId != null">
+                and v_device_id = #{where.vDeviceId,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vDeviceCode != null">
+                and v_device_code = #{where.vDeviceCode,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vSensorType != null">
+                and v_sensor_type = #{where.vSensorType,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vElevatorId != null">
+                and v_elevator_id = #{where.vElevatorId,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vElevatorCode != null">
+                and v_elevator_code = #{where.vElevatorCode,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vElevatorAddress != null">
+                and v_elevator_address = #{where.vElevatorAddress,jdbcType=VARCHAR}
+            </if>
+            <if test="where.iInstallStatus != null">
+                and i_install_status = #{where.iInstallStatus,jdbcType=INTEGER}
+            </if>
+            <if test="where.dtStartRunTime != null">
+                and dt_start_run_time = #{where.dtStartRunTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="where.iOnlineStatus != null">
+                and i_online_status = #{where.iOnlineStatus,jdbcType=INTEGER}
+            </if>
+            <if test="where.dtOnlineTime != null">
+                and dt_online_time = #{where.dtOnlineTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="where.dtOfflineTime != null">
+                and dt_offline_time = #{where.dtOfflineTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="where.dtRebootTime != null">
+                and dt_reboot_time = #{where.dtRebootTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="where.vServerIp != null">
+                and v_server_ip = #{where.vServerIp,jdbcType=VARCHAR}
+            </if>
+            <if test="where.iBattery != null">
+                and i_battery = #{where.iBattery,jdbcType=INTEGER}
+            </if>
+            <if test="where.vHwVersion != null">
+                and v_hw_version = #{where.vHwVersion,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vSwVersion != null">
+                and v_sw_version = #{where.vSwVersion,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vFwVersion != null">
+                and v_fw_version = #{where.vFwVersion,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vMasterVersion != null">
+                and v_master_version = #{where.vMasterVersion,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vSlaveVersion != null">
+                and v_slave_version = #{where.vSlaveVersion,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vUpdateMethod != null">
+                and v_update_method = #{where.vUpdateMethod,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vCcid != null">
+                and v_ccid = #{where.vCcid,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vImei != null">
+                and v_imei = #{where.vImei,jdbcType=VARCHAR}
+            </if>
+            <if test="where.iNetworkType != null">
+                and i_network_type = #{where.iNetworkType,jdbcType=INTEGER}
+            </if>
+            <if test="where.vDeviceUsername != null">
+                and v_device_username = #{where.vDeviceUsername,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vDevicePassword != null">
+                and v_device_password = #{where.vDevicePassword,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vAliiotKey != null">
+                and v_aliiot_key = #{where.vAliiotKey,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vAliiotSecret != null">
+                and v_aliiot_secret = #{where.vAliiotSecret,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vAliiotTopic != null">
+                and v_aliiot_topic = #{where.vAliiotTopic,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vXhnbToUsr != null">
+                and v_xhnb_to_usr = #{where.vXhnbToUsr,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vXhnbBrakeStartTime != null">
+                and v_xhnb_brake_start_time = #{where.vXhnbBrakeStartTime,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vXhnbBrakeStopTime != null">
+                and v_xhnb_brake_stop_time = #{where.vXhnbBrakeStopTime,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vXhnbBrakeDelayTime != null">
+                and v_xhnb_brake_delay_time = #{where.vXhnbBrakeDelayTime,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vXhnbBrakeContinueTime != null">
+                and v_xhnb_brake_continue_time = #{where.vXhnbBrakeContinueTime,jdbcType=VARCHAR}
+            </if>
+            <if test="where.dtCreateTime != null">
+                and dt_create_time = #{where.dtCreateTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="where.dtModifyTime != null">
+                and dt_modify_time = #{where.dtModifyTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="where.vCreateUserId != null">
+                and v_create_user_id = #{where.vCreateUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vModifyUserId != null">
+                and v_modify_user_id = #{where.vModifyUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="where.iDelFlag != null">
+                and i_del_flag = #{where.iDelFlag,jdbcType=INTEGER}
+            </if>
+        </where>
+    </update>
+
+    <!--通过主键修改实体列表，列表长度不能为0，注意：当实体属性为null时，对应的列也会别更新为null-->
+    <update id="updateBatch" parameterType="list">
+        update tbl_device
+        <trim prefix="set" suffixOverrides=",">
+            <trim prefix="v_device_code = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_device_id = #{item.vDeviceId} then #{item.vDeviceCode}
+                </foreach>
+            </trim>
+            <trim prefix="v_sensor_type = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_device_id = #{item.vDeviceId} then #{item.vSensorType}
+                </foreach>
+            </trim>
+            <trim prefix="v_elevator_id = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_device_id = #{item.vDeviceId} then #{item.vElevatorId}
+                </foreach>
+            </trim>
+            <trim prefix="v_elevator_code = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_device_id = #{item.vDeviceId} then #{item.vElevatorCode}
+                </foreach>
+            </trim>
+            <trim prefix="v_elevator_address = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_device_id = #{item.vDeviceId} then #{item.vElevatorAddress}
+                </foreach>
+            </trim>
+            <trim prefix="i_install_status = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_device_id = #{item.vDeviceId} then #{item.iInstallStatus}
+                </foreach>
+            </trim>
+            <trim prefix="dt_start_run_time = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_device_id = #{item.vDeviceId} then #{item.dtStartRunTime}
+                </foreach>
+            </trim>
+            <trim prefix="i_online_status = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_device_id = #{item.vDeviceId} then #{item.iOnlineStatus}
+                </foreach>
+            </trim>
+            <trim prefix="dt_online_time = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_device_id = #{item.vDeviceId} then #{item.dtOnlineTime}
+                </foreach>
+            </trim>
+            <trim prefix="dt_offline_time = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_device_id = #{item.vDeviceId} then #{item.dtOfflineTime}
+                </foreach>
+            </trim>
+            <trim prefix="dt_reboot_time = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_device_id = #{item.vDeviceId} then #{item.dtRebootTime}
+                </foreach>
+            </trim>
+            <trim prefix="v_server_ip = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_device_id = #{item.vDeviceId} then #{item.vServerIp}
+                </foreach>
+            </trim>
+            <trim prefix="i_battery = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_device_id = #{item.vDeviceId} then #{item.iBattery}
+                </foreach>
+            </trim>
+            <trim prefix="v_hw_version = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_device_id = #{item.vDeviceId} then #{item.vHwVersion}
+                </foreach>
+            </trim>
+            <trim prefix="v_sw_version = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_device_id = #{item.vDeviceId} then #{item.vSwVersion}
+                </foreach>
+            </trim>
+            <trim prefix="v_fw_version = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_device_id = #{item.vDeviceId} then #{item.vFwVersion}
+                </foreach>
+            </trim>
+            <trim prefix="v_master_version = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_device_id = #{item.vDeviceId} then #{item.vMasterVersion}
+                </foreach>
+            </trim>
+            <trim prefix="v_slave_version = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_device_id = #{item.vDeviceId} then #{item.vSlaveVersion}
+                </foreach>
+            </trim>
+            <trim prefix="v_update_method = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_device_id = #{item.vDeviceId} then #{item.vUpdateMethod}
+                </foreach>
+            </trim>
+            <trim prefix="v_ccid = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_device_id = #{item.vDeviceId} then #{item.vCcid}
+                </foreach>
+            </trim>
+            <trim prefix="v_imei = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_device_id = #{item.vDeviceId} then #{item.vImei}
+                </foreach>
+            </trim>
+            <trim prefix="i_network_type = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_device_id = #{item.vDeviceId} then #{item.iNetworkType}
+                </foreach>
+            </trim>
+            <trim prefix="v_device_username = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_device_id = #{item.vDeviceId} then #{item.vDeviceUsername}
+                </foreach>
+            </trim>
+            <trim prefix="v_device_password = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_device_id = #{item.vDeviceId} then #{item.vDevicePassword}
+                </foreach>
+            </trim>
+            <trim prefix="v_aliiot_key = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_device_id = #{item.vDeviceId} then #{item.vAliiotKey}
+                </foreach>
+            </trim>
+            <trim prefix="v_aliiot_secret = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_device_id = #{item.vDeviceId} then #{item.vAliiotSecret}
+                </foreach>
+            </trim>
+            <trim prefix="v_aliiot_topic = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_device_id = #{item.vDeviceId} then #{item.vAliiotTopic}
+                </foreach>
+            </trim>
+            <trim prefix="v_xhnb_to_usr = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_device_id = #{item.vDeviceId} then #{item.vXhnbToUsr}
+                </foreach>
+            </trim>
+            <trim prefix="v_xhnb_brake_start_time = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_device_id = #{item.vDeviceId} then #{item.vXhnbBrakeStartTime}
+                </foreach>
+            </trim>
+            <trim prefix="v_xhnb_brake_stop_time = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_device_id = #{item.vDeviceId} then #{item.vXhnbBrakeStopTime}
+                </foreach>
+            </trim>
+            <trim prefix="v_xhnb_brake_delay_time = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_device_id = #{item.vDeviceId} then #{item.vXhnbBrakeDelayTime}
+                </foreach>
+            </trim>
+            <trim prefix="v_xhnb_brake_continue_time = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_device_id = #{item.vDeviceId} then #{item.vXhnbBrakeContinueTime}
+                </foreach>
+            </trim>
+            <trim prefix="dt_create_time = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_device_id = #{item.vDeviceId} then #{item.dtCreateTime}
+                </foreach>
+            </trim>
+            <trim prefix="dt_modify_time = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_device_id = #{item.vDeviceId} then #{item.dtModifyTime}
+                </foreach>
+            </trim>
+            <trim prefix="v_create_user_id = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_device_id = #{item.vDeviceId} then #{item.vCreateUserId}
+                </foreach>
+            </trim>
+            <trim prefix="v_modify_user_id = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_device_id = #{item.vDeviceId} then #{item.vModifyUserId}
+                </foreach>
+            </trim>
+            <trim prefix="i_del_flag = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_device_id = #{item.vDeviceId} then #{item.iDelFlag}
+                </foreach>
+            </trim>
+        </trim>
+        where v_device_id in
+        <foreach collection="list" index="index" item="item" separator="," open="(" close=")">
+            #{item.vDeviceId,jdbcType=VARCHAR}
+        </foreach>
+    </update>
+
+    <!--更新设备参数配置-->
+    <update id="updateDeviceParamConf">
+        update tbl_device_param_conf
+        <set>
+            <if test="serverIpPort != null and serverIpPort != '' ">
+                server_ip_port = #{serverIpPort},
+                server_ip_port_status = 1,
+                server_ip_port_send_time = now(),
+            </if>
+            <if test="dlogIpPort != null and dlogIpPort != '' ">
+                dlog_ip_port = #{dlogIpPort},
+                dlog_ip_port_status = 1,
+                dlog_ip_port_send_time = now(),
+            </if>
+            <if test="floor != null and floor != '' ">
+                floor = #{floor},
+                floor_status = 1,
+                floor_send_time = now(),
+            </if>
+            <if test="doorNum != null and doorNum != '' ">
+                door_num = #{doorNum},
+                door_num_status = 1,
+                door_num_send_time = now(),
+            </if>
+            <if test="baseFloor != null ">
+                base_floor = #{baseFloor},
+                base_floor_status = 1,
+                base_floor_send_time = now(),
+            </if>
+            <if test="peopleRptTm != null ">
+                people_rpt_tm = #{peopleRptTm},
+                people_rpt_tm_status = 1,
+                people_rpt_tm_send_time = now(),
+            </if>
+            <if test="statData != null and statData != '' ">
+                stat_data = #{statData},
+                stat_data_status = 1,
+                stat_data_send_time = now(),
+            </if>
+            <if test="overSpeed != null and overSpeed != '' ">
+                over_speed = #{overSpeed},
+                over_speed_status = 1,
+                over_speed_send_time = now(),
+            </if>
+            <if test="sensorCfg != null and sensorCfg != '' ">
+                sensor_cfg = #{sensorCfg},
+                sensor_cfg_status = 1,
+                sensor_cfg_send_time = now(),
+            </if>
+            <if test="sensorInvertCfg != null and sensorInvertCfg != '' ">
+                sensor_invert_cfg = #{sensorInvertCfg},
+                sensor_invert_cfg_status = 1,
+                sensor_invert_cfg_send_time = now(),
+            </if>
+            <if test="humanType != null ">
+                human_type = #{humanType},
+                human_type_status = 1,
+                human_type_send_time = now(),
+            </if>
+            <if test="mode != null  ">
+                mode = #{mode},
+                mode_status = 1,
+                mode_send_time = now(),
+            </if>
+            <if test="normalDlog != null ">
+                normal_dlog = #{normalDlog},
+            </if>
+            <if test="abortDlog != null ">
+                abort_dlog = #{abortDlog},
+            </if>
+            <if test="aiDlog != null ">
+                ai_dlog = #{aiDlog},
+            </if>
+            <if test="normalDlog != null or abortDlog != null or aiDlog != null">
+                dlog_status = 1,
+                dlog_send_time = now(),
+            </if>
+            <if test="openWaitingTime != null ">
+                open_waiting_time = #{openWaitingTime},
+            </if>
+            <if test="closeWaitingTime != null ">
+                close_waiting_time = #{closeWaitingTime},
+            </if>
+            <if test="closeRepeatCount != null ">
+                close_repeat_count = #{closeRepeatCount},
+            </if>
+            <if test="openWaitingTime != null or closeWaitingTime != null or closeRepeatCount != null">
+                door_fault_status = 1,
+                door_fault_send_time = now(),
+            </if>
+            <if test="devIpType != null and devIpType != '' ">
+                dev_ip_type = #{devIpType},
+            </if>
+            <if test="devIp != null and devIp != '' ">
+                dev_ip = #{devIp},
+            </if>
+            <if test="devNetmask != null and devNetmask != '' ">
+                dev_netmask = #{devNetmask},
+            </if>
+            <if test="devGateway != null and devGateway != '' ">
+                dev_gateway = #{devGateway},
+            </if>
+            <if test="devIpType != null or devIp != null or devNetmask != null or devGateway != null ">
+                dev_ip_status = 1,
+                dev_ip_send_time = now(),
+            </if>
+            device_conf_status = 1,
+            last_conf_time = now()
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--新增设备参数配置-->
+    <insert id="insertDeviceParamConf">
+        INSERT INTO tbl_device_param_conf
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null and id != '' ">
+                id,
+            </if>
+            <if test="elevatorId != null and elevatorId != '' ">
+                elevator_id,
+            </if>
+            <if test="elevatorCode != null and elevatorCode != '' ">
+                elevator_code,
+            </if>
+            <if test="deviceId != null and deviceId != '' ">
+                device_id,
+            </if>
+            <if test="sensorType != null and sensorType != '' ">
+                sensor_type,
+            </if>
+            <if test="serverIpPort != null and serverIpPort != '' ">
+                server_ip_port,
+                server_ip_port_status,
+                server_ip_port_send_time,
+            </if>
+            <if test="dlogIpPort != null and dlogIpPort != '' ">
+                dlog_ip_port,
+                dlog_ip_port_status,
+                dlog_ip_port_send_time,
+            </if>
+            <if test="floor != null and floor != '' ">
+                floor,
+                floor_status,
+                floor_send_time,
+            </if>
+            <if test="doorNum != null and doorNum != '' ">
+                door_num,
+                door_num_status,
+                door_num_send_time,
+            </if>
+            <if test="baseFloor != null ">
+                base_floor,
+                base_floor_status,
+                base_floor_send_time
+            </if>
+            <if test="peopleRptTm != null ">
+                people_rpt_tm,
+                people_rpt_tm_status,
+                people_rpt_tm_send_time,
+            </if>
+            <if test="statData != null and statData != '' ">
+                stat_data,
+                stat_data_status,
+                stat_data_send_time,
+            </if>
+            <if test="overSpeed != null and overSpeed != '' ">
+                over_speed,
+                over_speed_status,
+                over_speed_send_time,
+            </if>
+            <if test="sensorCfg != null and sensorCfg != '' ">
+                sensor_cfg,
+                sensor_cfg_status,
+                sensor_cfg_send_time,
+            </if>
+            <if test="sensorInvertCfg != null and sensorInvertCfg != '' ">
+                sensor_invert_cfg,
+                sensor_invert_cfg_status,
+                sensor_invert_cfg_send_time,
+            </if>
+            <if test="humanType != null ">
+                human_type,
+                human_type_status,
+                human_type_send_time,
+            </if>
+            <if test="mode != null  ">
+                mode,
+                mode_status,
+                mode_send_time,
+            </if>
+            <if test="normalDlog != null  ">
+                normal_dlog,
+            </if>
+            <if test="abortDlog != null ">
+                abort_dlog,
+            </if>
+            <if test="aiDlog != null ">
+                ai_dlog,
+            </if>
+            <if test="normalDlog != null or abortDlog != null or aiDlog != null">
+                dlog_status,
+                dlog_send_time,
+            </if>
+            <if test="openWaitingTime != null  ">
+                open_waiting_time,
+            </if>
+            <if test="closeWaitingTime != null  ">
+                close_waiting_time,
+            </if>
+            <if test="closeRepeatCount != null  ">
+                close_repeat_count,
+            </if>
+            <if test="openWaitingTime != null or closeWaitingTime != null or closeRepeatCount != null">
+                door_fault_status,
+                door_fault_send_time,
+            </if>
+            <if test="devIpType != null and devIpType != '' ">
+                dev_ip_type,
+            </if>
+            <if test="devIp != null and devIp != '' ">
+                dev_ip,
+            </if>
+            <if test="devNetmask != null and devNetmask != '' ">
+                dev_netmask,
+            </if>
+            <if test="devGateway != null and devGateway != '' ">
+                dev_gateway,
+            </if>
+            <if test="devIpType != null or devIp != null or devNetmask != null or devGateway != null ">
+                dev_ip_status,
+                dev_ip_send_time,
+            </if>
+            device_conf_status,
+            last_conf_time,
+            create_time
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null and id != '' ">
+                #{id},
+            </if>
+            <if test="elevatorId != null and elevatorId != '' ">
+                #{elevatorId},
+            </if>
+            <if test="elevatorCode != null and elevatorCode != '' ">
+                #{elevatorCode},
+            </if>
+            <if test="deviceId != null and deviceId != '' ">
+                #{deviceId},
+            </if>
+            <if test="sensorType != null and sensorType != '' ">
+                #{sensorType},
+            </if>
+            <if test="serverIpPort != null and serverIpPort != '' ">
+                #{serverIpPort},1,now(),
+            </if>
+            <if test="dlogIpPort != null and dlogIpPort != '' ">
+                #{dlogIpPort},1,now(),
+            </if>
+            <if test="floor != null and floor != '' ">
+                #{floor},1,now(),
+            </if>
+            <if test="doorNum != null and doorNum != '' ">
+                #{doorNum},1,now(),
+            </if>
+            <if test="baseFloor != null ">
+                #{baseFloor},1,now(),
+            </if>
+            <if test="peopleRptTm != null ">
+                #{peopleRptTm},1,now(),
+            </if>
+            <if test="statData != null and statData != '' ">
+                #{statData}, 1,now(),
+            </if>
+            <if test="overSpeed != null and overSpeed != '' ">
+                #{overSpeed}, 1,now(),
+            </if>
+            <if test="sensorCfg != null and sensorCfg != '' ">
+                #{sensorCfg},1,now(),
+            </if>
+            <if test="sensorInvertCfg != null and sensorInvertCfg != '' ">
+                #{sensorInvertCfg},1,now(),
+            </if>
+            <if test="humanType != null ">
+                #{humanType},1,now(),
+            </if>
+            <if test="mode != null  ">
+                #{mode},1,now(),
+            </if>
+            <if test="normalDlog != null  ">
+                #{normalDlog},
+            </if>
+            <if test="abortDlog != null ">
+                #{abortDlog},
+            </if>
+            <if test="aiDlog != null ">
+                #{aiDlog},
+            </if>
+            <if test="normalDlog!= null or abortDlog != null or aiDlog != null">
+                1,now(),
+            </if>
+            <if test="openWaitingTime != null  ">
+                #{openWaitingTime},
+            </if>
+            <if test="closeWaitingTime != null  ">
+                #{closeWaitingTime},
+            </if>
+            <if test="closeRepeatCount != null  ">
+                #{closeRepeatCount},
+            </if>
+            <if test="openWaitingTime != null or closeWaitingTime != null or closeRepeatCount != null">
+                1,now(),
+            </if>
+            <if test="devIpType != null and devIpType != '' ">
+                #{devIpType},
+            </if>
+            <if test="devIp != null and devIp != '' ">
+                #{devIp},
+            </if>
+            <if test="devNetmask != null and devNetmask != '' ">
+                #{devNetmask},
+            </if>
+            <if test="devGateway != null and devGateway != '' ">
+                #{devGateway},
+            </if>
+            <if test="devIpType != null or devIp != null or devNetmask != null or devGateway != null ">
+                1,now(),
+            </if>
+            1,now(),now()
+        </trim>
+    </insert>
+
+    <!--通过主键删除-->
+    <delete id="deleteById" parameterType="java.lang.String">
+        delete
+        from tbl_device
+        where v_device_id = #{vDeviceId,jdbcType=VARCHAR}
+    </delete>
+
+    <delete id="deleteByElevatorCode" parameterType="java.lang.String">
+        delete
+        from tbl_device
+        where v_elevator_code = #{elevatorCode}
+    </delete>
+
+
+    <!--通过实体非空属性删除-->
+    <delete id="deleteByEntity" parameterType="com.shmashine.common.entity.TblDevice">
+        delete from tbl_device
+        <where>
+            <if test="vDeviceCode != null">
+                and v_device_code = #{vDeviceCode,jdbcType=VARCHAR}
+            </if>
+            <if test="vSensorType != null">
+                and v_sensor_type = #{vSensorType,jdbcType=VARCHAR}
+            </if>
+            <if test="vElevatorId != null">
+                and v_elevator_id = #{vElevatorId,jdbcType=VARCHAR}
+            </if>
+            <if test="vElevatorCode != null">
+                and v_elevator_code = #{vElevatorCode,jdbcType=VARCHAR}
+            </if>
+            <if test="vElevatorAddress != null">
+                and v_elevator_address = #{vElevatorAddress,jdbcType=VARCHAR}
+            </if>
+            <if test="iInstallStatus != null">
+                and i_install_status = #{iInstallStatus,jdbcType=INTEGER}
+            </if>
+            <if test="dtStartRunTime != null">
+                and dt_start_run_time = #{dtStartRunTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="iOnlineStatus != null">
+                and i_online_status = #{iOnlineStatus,jdbcType=INTEGER}
+            </if>
+            <if test="dtOnlineTime != null">
+                and dt_online_time = #{dtOnlineTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="dtOfflineTime != null">
+                and dt_offline_time = #{dtOfflineTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="dtRebootTime != null">
+                and dt_reboot_time = #{dtRebootTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="vServerIp != null">
+                and v_server_ip = #{vServerIp,jdbcType=VARCHAR}
+            </if>
+            <if test="iBattery != null">
+                and i_battery = #{iBattery,jdbcType=INTEGER}
+            </if>
+            <if test="vHwVersion != null">
+                and v_hw_version = #{vHwVersion,jdbcType=VARCHAR}
+            </if>
+            <if test="vSwVersion != null">
+                and v_sw_version = #{vSwVersion,jdbcType=VARCHAR}
+            </if>
+            <if test="vFwVersion != null">
+                and v_fw_version = #{vFwVersion,jdbcType=VARCHAR}
+            </if>
+            <if test="vMasterVersion != null">
+                and v_master_version = #{vMasterVersion,jdbcType=VARCHAR}
+            </if>
+            <if test="vSlaveVersion != null">
+                and v_slave_version = #{vSlaveVersion,jdbcType=VARCHAR}
+            </if>
+            <if test="vUpdateMethod != null">
+                and v_update_method = #{vUpdateMethod,jdbcType=VARCHAR}
+            </if>
+            <if test="vCcid != null">
+                and v_ccid = #{vCcid,jdbcType=VARCHAR}
+            </if>
+            <if test="vImei != null">
+                and v_imei = #{vImei,jdbcType=VARCHAR}
+            </if>
+            <if test="iNetworkType != null">
+                and i_network_type = #{iNetworkType,jdbcType=INTEGER}
+            </if>
+            <if test="vDeviceUsername != null">
+                and v_device_username = #{vDeviceUsername,jdbcType=VARCHAR}
+            </if>
+            <if test="vDevicePassword != null">
+                and v_device_password = #{vDevicePassword,jdbcType=VARCHAR}
+            </if>
+            <if test="vAliiotKey != null">
+                and v_aliiot_key = #{vAliiotKey,jdbcType=VARCHAR}
+            </if>
+            <if test="vAliiotSecret != null">
+                and v_aliiot_secret = #{vAliiotSecret,jdbcType=VARCHAR}
+            </if>
+            <if test="vAliiotTopic != null">
+                and v_aliiot_topic = #{vAliiotTopic,jdbcType=VARCHAR}
+            </if>
+            <if test="vXhnbToUsr != null">
+                and v_xhnb_to_usr = #{vXhnbToUsr,jdbcType=VARCHAR}
+            </if>
+            <if test="vXhnbBrakeStartTime != null">
+                and v_xhnb_brake_start_time = #{vXhnbBrakeStartTime,jdbcType=VARCHAR}
+            </if>
+            <if test="vXhnbBrakeStopTime != null">
+                and v_xhnb_brake_stop_time = #{vXhnbBrakeStopTime,jdbcType=VARCHAR}
+            </if>
+            <if test="vXhnbBrakeDelayTime != null">
+                and v_xhnb_brake_delay_time = #{vXhnbBrakeDelayTime,jdbcType=VARCHAR}
+            </if>
+            <if test="vXhnbBrakeContinueTime != null">
+                and v_xhnb_brake_continue_time = #{vXhnbBrakeContinueTime,jdbcType=VARCHAR}
+            </if>
+            <if test="dtCreateTime != null">
+                and dt_create_time = #{dtCreateTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="dtModifyTime != null">
+                and dt_modify_time = #{dtModifyTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="vCreateUserId != null">
+                and v_create_user_id = #{vCreateUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="vModifyUserId != null">
+                and v_modify_user_id = #{vModifyUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="iDelFlag != null">
+                and i_del_flag = #{iDelFlag,jdbcType=INTEGER}
+            </if>
+        </where>
+    </delete>
+
+    <!--通过主键列表删除，列表长度不能为0-->
+    <delete id="deleteByIds" parameterType="list">
+        delete from tbl_device where v_device_id in
+        <foreach item="item" collection="list" separator="," open="(" close=")" index="index">
+            #{item}
+        </foreach>
+    </delete>
+
+    <select id="countAll" resultType="int">
+        select count(v_device_id)
+        from tbl_device
+    </select>
+
+    <select id="countByEntity" parameterType="com.shmashine.common.entity.TblDevice" resultType="int">
+        select count(v_device_id) from tbl_device
+        <where>
+            <if test="vDeviceId != null">
+                and v_device_id = #{vDeviceId,jdbcType=VARCHAR}
+            </if>
+            <if test="vDeviceCode != null">
+                and v_device_code = #{vDeviceCode,jdbcType=VARCHAR}
+            </if>
+            <if test="vSensorType != null">
+                and v_sensor_type = #{vSensorType,jdbcType=VARCHAR}
+            </if>
+            <if test="vElevatorId != null">
+                and v_elevator_id = #{vElevatorId,jdbcType=VARCHAR}
+            </if>
+            <if test="vElevatorCode != null">
+                and v_elevator_code = #{vElevatorCode,jdbcType=VARCHAR}
+            </if>
+            <if test="vElevatorAddress != null">
+                and v_elevator_address = #{vElevatorAddress,jdbcType=VARCHAR}
+            </if>
+            <if test="iInstallStatus != null">
+                and i_install_status = #{iInstallStatus,jdbcType=INTEGER}
+            </if>
+            <if test="dtStartRunTime != null">
+                and dt_start_run_time = #{dtStartRunTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="iOnlineStatus != null">
+                and i_online_status = #{iOnlineStatus,jdbcType=INTEGER}
+            </if>
+            <if test="dtOnlineTime != null">
+                and dt_online_time = #{dtOnlineTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="dtOfflineTime != null">
+                and dt_offline_time = #{dtOfflineTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="dtRebootTime != null">
+                and dt_reboot_time = #{dtRebootTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="vServerIp != null">
+                and v_server_ip = #{vServerIp,jdbcType=VARCHAR}
+            </if>
+            <if test="iBattery != null">
+                and i_battery = #{iBattery,jdbcType=INTEGER}
+            </if>
+            <if test="vHwVersion != null">
+                and v_hw_version = #{vHwVersion,jdbcType=VARCHAR}
+            </if>
+            <if test="vSwVersion != null">
+                and v_sw_version = #{vSwVersion,jdbcType=VARCHAR}
+            </if>
+            <if test="vFwVersion != null">
+                and v_fw_version = #{vFwVersion,jdbcType=VARCHAR}
+            </if>
+            <if test="vMasterVersion != null">
+                and v_master_version = #{vMasterVersion,jdbcType=VARCHAR}
+            </if>
+            <if test="vSlaveVersion != null">
+                and v_slave_version = #{vSlaveVersion,jdbcType=VARCHAR}
+            </if>
+            <if test="vUpdateMethod != null">
+                and v_update_method = #{vUpdateMethod,jdbcType=VARCHAR}
+            </if>
+            <if test="vCcid != null">
+                and v_ccid = #{vCcid,jdbcType=VARCHAR}
+            </if>
+            <if test="vImei != null">
+                and v_imei = #{vImei,jdbcType=VARCHAR}
+            </if>
+            <if test="iNetworkType != null">
+                and i_network_type = #{iNetworkType,jdbcType=INTEGER}
+            </if>
+            <if test="vDeviceUsername != null">
+                and v_device_username = #{vDeviceUsername,jdbcType=VARCHAR}
+            </if>
+            <if test="vDevicePassword != null">
+                and v_device_password = #{vDevicePassword,jdbcType=VARCHAR}
+            </if>
+            <if test="vAliiotKey != null">
+                and v_aliiot_key = #{vAliiotKey,jdbcType=VARCHAR}
+            </if>
+            <if test="vAliiotSecret != null">
+                and v_aliiot_secret = #{vAliiotSecret,jdbcType=VARCHAR}
+            </if>
+            <if test="vAliiotTopic != null">
+                and v_aliiot_topic = #{vAliiotTopic,jdbcType=VARCHAR}
+            </if>
+            <if test="vXhnbToUsr != null">
+                and v_xhnb_to_usr = #{vXhnbToUsr,jdbcType=VARCHAR}
+            </if>
+            <if test="vXhnbBrakeStartTime != null">
+                and v_xhnb_brake_start_time = #{vXhnbBrakeStartTime,jdbcType=VARCHAR}
+            </if>
+            <if test="vXhnbBrakeStopTime != null">
+                and v_xhnb_brake_stop_time = #{vXhnbBrakeStopTime,jdbcType=VARCHAR}
+            </if>
+            <if test="vXhnbBrakeDelayTime != null">
+                and v_xhnb_brake_delay_time = #{vXhnbBrakeDelayTime,jdbcType=VARCHAR}
+            </if>
+            <if test="vXhnbBrakeContinueTime != null">
+                and v_xhnb_brake_continue_time = #{vXhnbBrakeContinueTime,jdbcType=VARCHAR}
+            </if>
+            <if test="dtCreateTime != null">
+                and dt_create_time = #{dtCreateTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="dtModifyTime != null">
+                and dt_modify_time = #{dtModifyTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="vCreateUserId != null">
+                and v_create_user_id = #{vCreateUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="vModifyUserId != null">
+                and v_modify_user_id = #{vModifyUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="iDelFlag != null">
+                and i_del_flag = #{iDelFlag,jdbcType=INTEGER}
+            </if>
+        </where>
+    </select>
+
+    <select id="listByElevatorIds" resultMap="TblDeviceResultMap" parameterType="list">
+        select
+        <include refid="table_field"/>
+        from tbl_device
+        where v_elevator_id in
+        <foreach item="item" collection="elevatorIdList" separator="," open="(" close=")" index="index">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="getSensorTypeListByElevatorId" resultType="java.lang.String">
+        select v_sensor_type
+        from tbl_device
+        where v_elevator_id = #{elevatorId}
+    </select>
+
+
+    <select id="deviceListByElevatorCode" parameterType="String" resultType="com.shmashine.common.entity.TblDevice">
+        select *
+        from tbl_device
+        where v_elevator_code = #{elevatorCode}
+    </select>
+
+
+    <select id="searchDeviceEventRecord" resultType="java.util.Map">
+        select device.v_device_event_record_id as id,
+               device.v_elevator_code          as elevatorCode,
+               sysinfo1.v_name_zh_cn           as sensorTypeName,
+               sysinfo2.v_name_zh_cn           as typeName,
+               device.v_reason                 as reason,
+               device.dt_happen_time           as happenTime
+        from tbl_device_event_record AS device
+                 LEFT JOIN tbl_sys_systeminfo sysinfo1
+                           on sysinfo1.v_sysvalue5 = device.v_sensor_type and sysinfo1.v_sysid = '10027'
+                 LEFT JOIN tbl_sys_systeminfo sysinfo2
+                           on sysinfo2.v_sysvalue5 = device.i_type and sysinfo2.v_sysid = '10033'
+        where v_elevator_code = #{module.elevatorCode}
+        order by dt_happen_time desc
+    </select>
+
+    <select id="searchDeviceEventRecordBatch"
+            resultType="com.shmashine.api.module.fault.output.EventElevatorDownloadModuleMap">
+        select
+        device.v_elevator_code as elevatorCode,
+        sysinfo1.v_name_zh_cn as sensorTypeName,
+        sysinfo2.v_name_zh_cn as typeName,
+        device.v_reason as reason,
+        device.dt_happen_time as happenTime
+        from tbl_device_event_record AS device
+        LEFT JOIN tbl_sys_systeminfo sysinfo1 on sysinfo1.v_sysvalue5 = device.v_sensor_type and sysinfo1.v_sysid =
+        '10027'
+        LEFT JOIN tbl_sys_systeminfo sysinfo2 on sysinfo2.v_sysvalue5 = device.i_type and sysinfo2.v_sysid = '10033'
+        <if test="module.projectId != null and module.projectId != ''">
+            INNER JOIN tbl_elevator AS elevator ON device.v_elevator_code = elevator.v_elevator_code
+        </if>
+        <where>
+            AND device.dt_happen_time BETWEEN #{module.startTime} AND #{module.endTime}
+            <if test="module.projectId != null and module.projectId != ''">
+                AND elevator.v_project_id = #{module.projectId}
+            </if>
+            <if test="module.exportType == '2'">
+                AND device.i_type in (1, 2)
+            </if>
+            <if test="module.elevatorCode != null and module.elevatorCode != ''">
+                AND device.v_elevator_code = #{module.elevatorCode}
+            </if>
+        </where>
+        order by device.v_elevator_code asc, device.dt_happen_time desc
+        limit 0, 20000
+    </select>
+
+    <select id="searchDeviceWaveForm" resultType="java.util.Map">
+        SELECT DISTINCT dlog.elevator_code,
+                        dlog.file_name,
+                        dlog.fault_type,
+                        IFNULL(definition.fault_name, '无故障') fault_name,
+                        ifnull(device.eType, 'MX201')           e_type,
+                        dlog.create_time
+        FROM tbl_device_dlog dlog
+                 LEFT JOIN
+             tbl_fault_definition_0902 definition
+             ON
+                 dlog.fault_type = definition.fault_type AND definition.platform_type = 1
+                 left join
+             tbl_device device
+             on
+                 device.v_elevator_code = dlog.elevator_code
+        WHERE dlog.elevator_code = #{module.elevatorCode}
+          AND dlog.fault_type != 0
+        ORDER BY
+            dlog.create_time DESC
+    </select>
+
+    <!--删除传感器配置-->
+    <delete id="delDeviceSensorsById">
+        delete
+        from tbl_device_sensor
+        where v_device_id = #{deviceId}
+    </delete>
+
+    <!--批量新增传感器配置-->
+    <insert id="batchInsertDeviceSensors" keyProperty="v_device_sensor_id" useGeneratedKeys="true" parameterType="list">
+        insert into tbl_device_sensor
+        (
+        v_device_sensor_id,
+        v_device_id,
+        v_elevator_code,
+        v_sensor_config_id,
+        i_sensor_chose,
+        dt_create_time,
+        dt_modify_time,
+        v_create_user_id,
+        v_modify_user_id,
+        i_del_flag
+        )
+        values
+        <foreach item="item" collection="list" separator="," open="" close="" index="index">
+            (
+            #{item.vDeviceSensorId},
+            #{item.vDeviceId},
+            #{item.vElevatorCode},
+            #{item.vSensorConfigId},
+            #{item.iSensorChose},
+            #{item.dtCreateTime},
+            #{item.dtModifyTime},
+            #{item.vCreateUserId},
+            #{item.vModifyUserId},
+            #{item.iDelFlag}
+            )
+        </foreach>
+    </insert>
+
+    <select id="getMasterVersions" resultType="String">
+        select distinct
+        v_master_version
+        from tbl_device device
+        join tbl_elevator ele on ele.v_elevator_id = device.v_elevator_id
+        <if test="!module.isAdminFlag">
+            join tbl_sys_user_resource resource on ele.v_elevator_id = resource.v_resource_id and v_user_id =
+            #{module.userId}
+        </if>
+        <where>
+            v_master_version IS NOT NULL
+            <if test="module.vProjectId != null and module.vProjectId != ''">
+                and ele.v_project_id = #{module.vProjectId}
+            </if>
+            <if test="module.villageId != null and module.villageId != ''">
+                and ele.v_village_id = #{module.villageId}
+            </if>
+        </where>
+        ORDER BY v_master_version DESC
+    </select>
+
+    <!--获取设备参数配置-->
+    <select id="getDeviceParamConf" resultType="com.shmashine.api.controller.device.vo.DeviceParamConfRespVO">
+        SELECT *
+        FROM tbl_device_param_conf
+        WHERE elevator_id = #{elevatorId}
+        ORDER BY last_conf_time DESC
+    </select>
+
+    <!--电梯code和设备类型获取设备参数配置-->
+    <select id="getDeviceParamConfByElevatorCodeAndSensorType"
+            resultType="com.shmashine.api.controller.device.vo.DeviceParamConfRespVO">
+        SELECT *
+        FROM tbl_device_param_conf
+        WHERE elevator_code = #{elevatorCode}
+          AND sensor_type = #{sensorType}
+    </select>
+
+    <!--根据电梯编号和设备类型获取设备信息-->
+    <select id="getByElevatorCodeAndSensorType" resultType="com.shmashine.common.entity.TblDevice">
+        select
+        <include refid="table_field"/>
+        FROM tbl_device
+        WHERE v_elevator_code = #{elevatorCode}
+        AND v_sensor_type = #{sensorType}
+    </select>
+
+    <!--获取传感器配置-->
+    <select id="getDeviceSensorConfig" resultType="com.shmashine.api.entity.DeviceSensorAndStatusDTO">
+        SELECT tds.v_elevator_code    AS elevatorCode,
+               tds.v_sensor_config_id AS sensorConfigId,
+               tsc.v_sensor_name      AS sensorName,
+               tsc.v_fault_type       AS faultType,
+               tsc.v_sensorFault_type AS sensorFaultType,
+               tsc.v_sensor_type      AS sensorType
+        FROM tbl_device_sensor tds
+                 INNER JOIN tbl_sensor_config tsc ON tsc.v_sensor_config_id = tds.v_sensor_config_id
+        WHERE tds.v_elevator_code = #{elevatorCode}
+          AND tds.i_sensor_chose = 1
+        GROUP BY tds.v_sensor_config_id
+    </select>
+
+    <!--上下线记录统计根据电梯分组-->
+    <select id="getElevatorEventStatisticsListByCode" resultType="com.shmashine.api.entity.ElevatorEventStatistics">
+        SELECT
+        COUNT(1) AS eventNumCount, v_elevator_code AS elevatorCode,
+        <choose>
+            <when test="queryParam.groupBy != null and queryParam.groupBy == 'v_reason'">
+                v_reason
+            </when>
+            <otherwise>
+                i_type
+            </otherwise>
+        </choose>
+        AS type
+        FROM
+        tbl_device_event_record
+        FORCE INDEX (idx_happen_time)
+        <where>
+            <if test="queryParam.startTime != null  and queryParam.startTime != '' ">
+                and dt_happen_time &gt;= #{queryParam.startTime}
+            </if>
+            <if test="queryParam.endTime != null  and queryParam.endTime != '' ">
+                and dt_happen_time &lt;= DATE_FORMAT(#{queryParam.endTime}, '%Y-%m-%d 23:59:59')
+            </if>
+            <if test="queryParam.eventType != null and queryParam.eventType != ''">
+                and i_type = #{queryParam.eventType}
+            </if>
+        </where>
+        AND v_elevator_code IN
+        <foreach item="item" collection="eleCodeList" separator="," open="(" close=")" index="index">
+            #{item}
+        </foreach>
+        group by v_elevator_code,
+        <choose>
+            <when test="queryParam.groupBy != null and queryParam.groupBy == 'v_reason'">
+                v_reason
+            </when>
+            <otherwise>
+                i_type
+            </otherwise>
+        </choose>
+        order by v_elevator_code
+    </select>
+
+    <!--上下线记录统计根据时间分组-->
+    <select id="getElevatorEventStatisticsListByTime" resultType="com.shmashine.api.entity.ElevatorEventStatistics">
+        SELECT
+        COUNT(1) AS eventNumCount, DATE_FORMAT(dt_happen_time, '%Y-%m-%d') AS happenTime,
+        <choose>
+            <when test="queryParam.groupBy != null and queryParam.groupBy == 'v_reason'">
+                v_reason
+            </when>
+            <otherwise>
+                i_type
+            </otherwise>
+        </choose>
+        AS type
+        FROM
+        tbl_device_event_record
+        FORCE INDEX (idx_happen_time)
+        <where>
+            <if test="queryParam.startTime != null  and queryParam.startTime != '' ">
+                and dt_happen_time &gt;= #{queryParam.startTime}
+            </if>
+            <if test="queryParam.endTime != null  and queryParam.endTime != '' ">
+                and dt_happen_time &lt;= DATE_FORMAT(#{queryParam.endTime}, '%Y-%m-%d 23:59:59')
+            </if>
+            <if test="queryParam.eventType != null and queryParam.eventType != ''">
+                and i_type = #{queryParam.eventType}
+            </if>
+        </where>
+        AND v_elevator_code IN
+        <foreach item="item" collection="eleCodeList" separator="," open="(" close=")" index="index">
+            #{item}
+        </foreach>
+        group by DATE_FORMAT(dt_happen_time, '%Y-%m-%d'),
+        <choose>
+            <when test="queryParam.groupBy != null and queryParam.groupBy == 'v_reason'">
+                v_reason
+            </when>
+            <otherwise>
+                i_type
+            </otherwise>
+        </choose>
+        order by dt_happen_time
+    </select>
+
+    <!--获取设备版本列表-->
+    <select id="getDeviceVersionList" resultType="java.lang.String">
+        SELECT DISTINCT(v_master_version)
+        FROM tbl_device
+        WHERE v_master_version IS NOT NULL
+        ORDER BY v_master_version DESC
+    </select>
+
+    <!--获取【平层传感器】配置备注信息-->
+    <select id="getFloorSensorRemarkByElevatorId" resultType="java.lang.Integer">
+        select floor_sensor_remark AS floorSensorRemark
+        from tbl_distribution_bill
+        where v_elevator_id = #{elevatorId}
+    </select>
+
+    <!--传感器关联配置故障屏蔽-->
+    <select id="searchShieldedFaultList" resultType="java.lang.String">
+        SELECT tsc.v_fault_type `faultType`
+        FROM tbl_device_sensor tbs
+                 INNER JOIN tbl_sensor_config tsc
+                            ON tbs.v_sensor_config_id = tsc.v_sensor_config_id AND tbs.i_sensor_chose = 0
+                                AND tbs.v_elevator_code = #{elevatorCode} AND tsc.v_fault_type IS NOT NULL
+    </select>
+
+</mapper>

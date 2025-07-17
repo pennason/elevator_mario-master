@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.api.dao.TblGroupLeasingVillageCoefficientMapper">
+    <sql id="TABLE_NAME">
+        tbl_group_leasing_village_coefficient
+    </sql>
+    <sql id="BASE_COLUMNS">
+        village_id
+        , day, elevator_count, day_total_quantity
+    </sql>
+    <sql id="ALL_COLUMNS">
+        <include refid="BASE_COLUMNS"/>,
+        id, coefficient, create_time, modify_time
+    </sql>
+    <sql id="SET_COLUMNS">
+        <if test="entity.elevatorCount != null">day = #{entity.elevatorCount},</if>
+        <if test="entity.dayTotalQuantity != null">day_total_quantity = #{entity.dayTotalQuantity},</if>
+        <if test="entity.coefficient != null">coefficient = #{entity.coefficient},</if>
+    </sql>
+
+    <!-- 查询 -->
+
+    <select id="getById" resultType="com.shmashine.common.entity.TblGroupLeasingVillageCoefficientEntity">
+        SELECT
+        <include refid="ALL_COLUMNS"/>
+        FROM
+        <include refid="TABLE_NAME"/>
+        WHERE id = #{id}
+    </select>
+
+    <select id="findByEntity" resultType="com.shmashine.common.entity.TblGroupLeasingVillageCoefficientEntity">
+        SELECT
+        <include refid="ALL_COLUMNS"/>
+        FROM
+        <include refid="TABLE_NAME"/>
+        <where>
+            <if test="entity.id != null">
+                AND id = #{entity.id}
+            </if>
+            <if test="entity.villageId != null and entity.villageId != ''">
+                AND village_id = #{entity.villageId}
+            </if>
+            <if test="entity.day != null">
+                AND day = #{entity.day}
+            </if>
+        </where>
+    </select>
+
+    <select id="findByEntityLatestMonth"
+            resultType="com.shmashine.common.entity.TblGroupLeasingVillageCoefficientEntity">
+        SELECT
+        <include refid="ALL_COLUMNS"/>
+        FROM
+        <include refid="TABLE_NAME"/>
+        <where>
+            <if test="entity.villageId != null and entity.villageId != ''">
+                AND village_id = #{entity.villageId}
+            </if>
+            AND day &gt;= DATE_SUB(CURDATE(), INTERVAL 31 DAY)
+            AND day &lt; CURDATE()
+        </where>
+    </select>
+
+    <!-- 添加 -->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true"
+            parameterType="com.shmashine.common.entity.TblGroupLeasingVillageCoefficientEntity">
+        INSERT IGNORE INTO
+        <include refid="TABLE_NAME"/>
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="entity.villageId != null and entity.villageId != ''">village_id,</if>
+            <if test="entity.day != null">day,</if>
+            <if test="entity.elevatorCount != null">elevator_count,</if>
+            <if test="entity.dayTotalQuantity != null">day_total_quantity,</if>
+            <if test="entity.coefficient != null">coefficient,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="entity.villageId != null and entity.villageId != ''">#{entity.villageId},</if>
+            <if test="entity.day != null">#{entity.day},</if>
+            <if test="entity.elevatorCount != null">#{entity.elevatorCount},</if>
+            <if test="entity.dayTotalQuantity != null">#{entity.dayTotalQuantity},</if>
+            <if test="entity.coefficient != null">#{entity.coefficient},</if>
+        </trim>
+    </insert>
+
+    <!-- 删除 -->
+    <delete id="deleteById">
+        DELETE
+        FROM
+        <include refid="TABLE_NAME"/>
+        WHERE id = #{id}
+    </delete>
+
+    <!-- 更新 -->
+    <update id="updateById" parameterType="com.shmashine.common.entity.TblGroupLeasingVillageCoefficientEntity">
+        UPDATE
+        <include refid="TABLE_NAME"/>
+        <set>
+            <if test="entity.villageId != null and entity.villageId != ''">village_id = #{entity.villageId},</if>
+            <if test="entity.day != null">day = #{entity.day},</if>
+            <include refid="SET_COLUMNS"/>
+        </set>
+        WHERE id = #{entity.id}
+    </update>
+
+</mapper>

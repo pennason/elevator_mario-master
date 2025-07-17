@@ -1,0 +1,418 @@
+package com.shmashine.pm.api.entity;
+
+import java.io.Serializable;
+import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+/**
+ * 小区设备清单
+ */
+
+public class TblVillageDeviceBill implements Serializable {
+
+    private static final long serialVersionUID = 1300417734116173459L;
+
+    private String vVillageDeviceBillId;
+    /**
+     * 单盒
+     */
+    private Integer iSingleBoxCount;
+    /**
+     * 双盒
+     */
+    private Integer iDoubleBoxCount;
+    /**
+     * 是否有摄像头
+     */
+    private Integer iCamera;
+    /**
+     * 摄像头类型
+     */
+    private Integer iCameraType;
+    // 人感
+    private Integer iBodySensor;
+    //轿顶门机电机电流传感器
+    private Integer iCarroofDoorSensor;
+    //轿顶轿门锁止电流传感器
+    private Integer iCarroofLockSensor;
+    //机房停止服务电流传感器
+    private Integer iMachRoomServiceSensor;
+    //机房检修服务电流传感器
+    private Integer iMachRoomOverhaulSensor;
+    //机房抱闸服务电流传感器
+    private Integer iMachRoomSwitchSensor;
+    //机房紧急呼叫电流传感器
+    private Integer iMachRoomCallSensor;
+    //机房安全回路电流传感器
+    private Integer iMachRoomCircuitSensor;
+    //机房厅门回路电流传感器
+    private Integer iMachRoomHallCircuitSensor;
+    //机房抱闸回路电流传感器
+    private Integer iMachRoomSwitchCircuitSensor;
+    //机房停电服务电流传感器
+    private Integer iMachRoomElectricitySensor;
+
+    /**
+     * 备注
+     */
+    private String vRemarks;
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
+    private Date dtCreateTime;
+    /**
+     * 修改时间
+     */
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
+    private Date dtModifyTime;
+    /**
+     * 创建记录用户
+     */
+    private String vCreateUserId;
+    /**
+     * 修改记录用户
+     */
+    private String vModifyUserId;
+    /**
+     * 删除标识 0-未删除，1-已删除
+     */
+    private Integer iDelFlag;
+
+    private String vVillageId;
+
+    /**
+     * 设备类型
+     */
+    private String vDeviceType;
+
+    /**
+     * 设备安装位置
+     */
+    private String vDevicePosition;
+
+    /**
+     * 是否用户温度传感器
+     */
+    private Integer iTempSensor;
+
+    /**
+     * 人体传感器型号
+     */
+    private String vBodySensorMode;
+    /**
+     * 平层传感器
+     */
+    private Integer iFloorSensor;
+
+    /**
+     * 基准平层传感器
+     */
+    private Integer iCollateFloorSensor;
+
+    /**
+     * 门磁传感器
+     */
+    private Integer iMagnetSensor;
+
+    /**
+     * 摄像头型号
+     */
+    private String vCameraMode;
+
+    /**
+     * 是否控梯
+     */
+    private Integer iControlElevator;
+
+    @JsonProperty("vVillageDeviceBillId")
+    public String getvVillageDeviceBillId() {
+        return vVillageDeviceBillId;
+    }
+
+    public void setvVillageDeviceBillId(String vVillageDeviceBillId) {
+        this.vVillageDeviceBillId = vVillageDeviceBillId;
+    }
+
+    @JsonProperty("iSingleBoxCount")
+    public Integer getiSingleBoxCount() {
+        return iSingleBoxCount;
+    }
+
+    public void setiSingleBoxCount(Integer iSingleBoxCount) {
+        this.iSingleBoxCount = iSingleBoxCount;
+    }
+
+    @JsonProperty("iDoubleBoxCount")
+    public Integer getiDoubleBoxCount() {
+        return iDoubleBoxCount;
+    }
+
+    public void setiDoubleBoxCount(Integer iDoubleBoxCount) {
+        this.iDoubleBoxCount = iDoubleBoxCount;
+    }
+
+    @JsonProperty("iCamera")
+    public Integer getiCamera() {
+        return iCamera;
+    }
+
+    public void setiCamera(Integer iCamera) {
+        this.iCamera = iCamera;
+    }
+
+    @JsonProperty("iCameraType")
+    public Integer getiCameraType() {
+        return iCameraType;
+    }
+
+    public void setiCameraType(Integer iCameraType) {
+        this.iCameraType = iCameraType;
+    }
+
+    @JsonProperty("iBodySensor")
+    public Integer getiBodySensor() {
+        return iBodySensor;
+    }
+
+    public void setiBodySensor(Integer iBodySensor) {
+        this.iBodySensor = iBodySensor;
+    }
+
+    @JsonProperty("iCarroofDoorSensor")
+    public Integer getiCarroofDoorSensor() {
+        return iCarroofDoorSensor;
+    }
+
+    public void setiCarroofDoorSensor(Integer iCarroofDoorSensor) {
+        this.iCarroofDoorSensor = iCarroofDoorSensor;
+    }
+
+    @JsonProperty("iCarroofLockSensor")
+    public Integer getiCarroofLockSensor() {
+        return iCarroofLockSensor;
+    }
+
+    public void setiCarroofLockSensor(Integer iCarroofLockSensor) {
+        this.iCarroofLockSensor = iCarroofLockSensor;
+    }
+
+    @JsonProperty("iMachRoomServiceSensor")
+    public Integer getiMachRoomServiceSensor() {
+        return iMachRoomServiceSensor;
+    }
+
+    public void setiMachRoomServiceSensor(Integer iMachRoomServiceSensor) {
+        this.iMachRoomServiceSensor = iMachRoomServiceSensor;
+    }
+
+    @JsonProperty("iMachRoomOverhaulSensor")
+    public Integer getiMachRoomOverhaulSensor() {
+        return iMachRoomOverhaulSensor;
+    }
+
+    public void setiMachRoomOverhaulSensor(Integer iMachRoomOverhaulSensor) {
+        this.iMachRoomOverhaulSensor = iMachRoomOverhaulSensor;
+    }
+
+    @JsonProperty("iMachRoomSwitchSensor")
+    public Integer getiMachRoomSwitchSensor() {
+        return iMachRoomSwitchSensor;
+    }
+
+    public void setiMachRoomSwitchSensor(Integer iMachRoomSwitchSensor) {
+        this.iMachRoomSwitchSensor = iMachRoomSwitchSensor;
+    }
+
+    @JsonProperty("iMachRoomCallSensor")
+    public Integer getiMachRoomCallSensor() {
+        return iMachRoomCallSensor;
+    }
+
+    public void setiMachRoomCallSensor(Integer iMachRoomCallSensor) {
+        this.iMachRoomCallSensor = iMachRoomCallSensor;
+    }
+
+    @JsonProperty("iMachRoomCircuitSensor")
+    public Integer getiMachRoomCircuitSensor() {
+        return iMachRoomCircuitSensor;
+    }
+
+    public void setiMachRoomCircuitSensor(Integer iMachRoomCircuitSensor) {
+        this.iMachRoomCircuitSensor = iMachRoomCircuitSensor;
+    }
+
+    @JsonProperty("iMachRoomHallCircuitSensor")
+    public Integer getiMachRoomHallCircuitSensor() {
+        return iMachRoomHallCircuitSensor;
+    }
+
+    public void setiMachRoomHallCircuitSensor(Integer iMachRoomHallCircuitSensor) {
+        this.iMachRoomHallCircuitSensor = iMachRoomHallCircuitSensor;
+    }
+
+    @JsonProperty("iMachRoomSwitchCircuitSensor")
+    public Integer getiMachRoomSwitchCircuitSensor() {
+        return iMachRoomSwitchCircuitSensor;
+    }
+
+    public void setiMachRoomSwitchCircuitSensor(Integer iMachRoomSwitchCircuitSensor) {
+        this.iMachRoomSwitchCircuitSensor = iMachRoomSwitchCircuitSensor;
+    }
+
+    @JsonProperty("iMachRoomElectricitySensor")
+    public Integer getiMachRoomElectricitySensor() {
+        return iMachRoomElectricitySensor;
+    }
+
+    public void setiMachRoomElectricitySensor(Integer iMachRoomElectricitySensor) {
+        this.iMachRoomElectricitySensor = iMachRoomElectricitySensor;
+    }
+
+    @JsonProperty("vRemarks")
+    public String getvRemarks() {
+        return vRemarks;
+    }
+
+    public void setvRemarks(String vRemarks) {
+        this.vRemarks = vRemarks;
+    }
+
+    @JsonProperty("dtCreateTime")
+    public Date getDtCreateTime() {
+        return dtCreateTime;
+    }
+
+    public void setDtCreateTime(Date dtCreateTime) {
+        this.dtCreateTime = dtCreateTime;
+    }
+
+    @JsonProperty("dtModifyTime")
+    public Date getDtModifyTime() {
+        return dtModifyTime;
+    }
+
+    public void setDtModifyTime(Date dtModifyTime) {
+        this.dtModifyTime = dtModifyTime;
+    }
+
+    @JsonProperty("vCreateUserId")
+    public String getvCreateUserId() {
+        return vCreateUserId;
+    }
+
+    public void setvCreateUserId(String vCreateUserId) {
+        this.vCreateUserId = vCreateUserId;
+    }
+
+    @JsonProperty("vModifyUserId")
+    public String getvModifyUserId() {
+        return vModifyUserId;
+    }
+
+    public void setvModifyUserId(String vModifyUserId) {
+        this.vModifyUserId = vModifyUserId;
+    }
+
+    @JsonProperty("iDelFlag")
+    public Integer getiDelFlag() {
+        return iDelFlag;
+    }
+
+    public void setiDelFlag(Integer iDelFlag) {
+        this.iDelFlag = iDelFlag;
+    }
+
+    @JsonProperty("vVillageId")
+    public String getvVillageId() {
+        return vVillageId;
+    }
+
+    public void setvVillageId(String vVillageId) {
+        this.vVillageId = vVillageId;
+    }
+
+    @JsonProperty("vDeviceType")
+    public String getvDeviceType() {
+        return vDeviceType;
+    }
+
+    public void setvDeviceType(String vDeviceType) {
+        this.vDeviceType = vDeviceType;
+    }
+
+    @JsonProperty("vDevicePosition")
+    public String getvDevicePosition() {
+        return vDevicePosition;
+    }
+
+    public void setvDevicePosition(String vDevicePosition) {
+        this.vDevicePosition = vDevicePosition;
+    }
+
+    @JsonProperty("iTempSensor")
+    public Integer getiTempSensor() {
+        return iTempSensor;
+    }
+
+    public void setiTempSensor(Integer iTempSensor) {
+        this.iTempSensor = iTempSensor;
+    }
+
+    @JsonProperty("vBodySensorMode")
+    public String getvBodySensorMode() {
+        return vBodySensorMode;
+    }
+
+    public void setvBodySensorMode(String vBodySensorMode) {
+        this.vBodySensorMode = vBodySensorMode;
+    }
+
+    @JsonProperty("iFloorSensor")
+    public Integer getiFloorSensor() {
+        return iFloorSensor;
+    }
+
+    public void setiFloorSensor(Integer iFloorSensor) {
+        this.iFloorSensor = iFloorSensor;
+    }
+
+    @JsonProperty("iCollateFloorSensor")
+    public Integer getiCollateFloorSensor() {
+        return iCollateFloorSensor;
+    }
+
+    public void setiCollateFloorSensor(Integer iCollateFloorSensor) {
+        this.iCollateFloorSensor = iCollateFloorSensor;
+    }
+
+    @JsonProperty("iMagnetSensor")
+    public Integer getiMagnetSensor() {
+        return iMagnetSensor;
+    }
+
+    public void setiMagnetSensor(Integer iMagnetSensor) {
+        this.iMagnetSensor = iMagnetSensor;
+    }
+
+    @JsonProperty("vCameraMode")
+    public String getvCameraMode() {
+        return vCameraMode;
+    }
+
+    public void setvCameraMode(String vCameraMode) {
+        this.vCameraMode = vCameraMode;
+    }
+
+    @JsonProperty("iControlElevator")
+    public Integer getiControlElevator() {
+        return iControlElevator;
+    }
+
+    public void setiControlElevator(Integer iControlElevator) {
+        this.iControlElevator = iControlElevator;
+    }
+}

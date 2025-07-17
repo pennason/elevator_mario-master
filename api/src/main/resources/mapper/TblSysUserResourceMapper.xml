@@ -1,0 +1,466 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.api.dao.TblSysUserResourceDao">
+
+    <resultMap type="com.shmashine.common.entity.TblSysUserResource" id="TblSysUserResourceResultMap">
+        <result property="vUserId" column="v_user_id" jdbcType="VARCHAR"/>
+        <result property="vResourceId" column="v_resource_id" jdbcType="VARCHAR"/>
+        <result property="iResourceType" column="i_resource_type" jdbcType="INTEGER"/>
+        <result property="vResourceCode" column="v_resource_code" jdbcType="VARCHAR"/>
+        <result property="dtCreateTime" column="dt_create_time" jdbcType="TIMESTAMP"/>
+        <result property="dtModifyTime" column="dt_modify_time" jdbcType="TIMESTAMP"/>
+        <result property="vCreateUserId" column="v_create_user_id" jdbcType="VARCHAR"/>
+        <result property="vModifyUserId" column="v_modify_user_id" jdbcType="VARCHAR"/>
+        <result property="iDelFlag" column="i_del_flag" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="table_name">
+        tbl_sys_user_resource
+    </sql>
+
+    <sql id="table_field">
+        v_user_id
+        , v_resource_id, i_resource_type, v_resource_code, dt_create_time, dt_modify_time, v_create_user_id, v_modify_user_id, i_del_flag
+    </sql>
+
+    <!--通过Id查询单个-->
+    <select id="getById" resultMap="TblSysUserResourceResultMap" parameterType="java.lang.String">
+        select
+        <include refid="table_field"/>
+        from tbl_sys_user_resource
+        where v_user_id = #{vUserId,jdbcType=VARCHAR}
+    </select>
+
+    <!--通过用户id查询用户授权的电梯code-->
+    <select id="getElevatorCodesByUserId" resultType="java.lang.String" parameterType="java.lang.String">
+        SELECT e.v_elevator_code
+        FROM tbl_sys_user_resource r
+                 JOIN tbl_elevator e ON r.v_resource_id = e.v_elevator_id
+        WHERE r.v_user_id = #{vUserId,jdbcType=VARCHAR}
+    </select>
+
+    <!--通过实体不为空的属性作为筛选条件查询列表-->
+    <select id="listByEntity" resultMap="TblSysUserResourceResultMap"
+            parameterType="com.shmashine.common.entity.TblSysUserResource">
+        select
+        <include refid="table_field"/>
+        from tbl_sys_user_resource
+        <where>
+            <if test="vUserId != null">
+                and v_user_id = #{vUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="vResourceId != null">
+                and v_resource_id = #{vResourceId,jdbcType=VARCHAR}
+            </if>
+            <if test="iResourceType != null">
+                and i_resource_type = #{iResourceType,jdbcType=INTEGER}
+            </if>
+            <if test="vResourceCode != null">
+                and v_resource_code = #{vResourceCode,jdbcType=VARCHAR}
+            </if>
+            <if test="dtCreateTime != null">
+                and dt_create_time = #{dtCreateTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="dtModifyTime != null">
+                and dt_modify_time = #{dtModifyTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="vCreateUserId != null">
+                and v_create_user_id = #{vCreateUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="vModifyUserId != null">
+                and v_modify_user_id = #{vModifyUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="iDelFlag != null">
+                and i_del_flag = #{iDelFlag,jdbcType=INTEGER}
+            </if>
+        </where>
+    </select>
+
+    <!--通过实体不为空的属性作为筛选条件查询单个-->
+    <!--<select id="getByEntity" resultMap="TblSysUserResourceResultMap" parameterType="com.shmashine.common.entity.TblSysUserResource">
+        select
+          <include refid="table_field" />
+        from tbl_sys_user_resource
+        <where>
+            <if test="vUserId != null">
+                and v_user_id = #{vUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="vResourceId != null">
+                and v_resource_id = #{vResourceId,jdbcType=VARCHAR}
+            </if>
+            <if test="iResourceType != null">
+                and i_resource_type = #{iResourceType,jdbcType=INTEGER}
+            </if>
+            <if test="vResourceCode != null">
+                and v_resource_code = #{vResourceCode,jdbcType=VARCHAR}
+            </if>
+            <if test="dtCreateTime != null">
+                and dt_create_time = #{dtCreateTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="dtModifyTime != null">
+                and dt_modify_time = #{dtModifyTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="vCreateUserId != null">
+                and v_create_user_id = #{vCreateUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="vModifyUserId != null">
+                and v_modify_user_id = #{vModifyUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="iDelFlag != null">
+                and i_del_flag = #{iDelFlag,jdbcType=INTEGER}
+            </if>
+        </where>
+    </select>-->
+
+    <!--通过Id列表作为筛选条件查询列表，列表长度不为0-->
+    <select id="listByIds" resultMap="TblSysUserResourceResultMap" parameterType="list">
+        select
+        <include refid="table_field"/>
+        from tbl_sys_user_resource
+        where v_user_id in
+        <foreach item="item" collection="list" separator="," open="(" close=")" index="index">
+            #{item}
+        </foreach>
+    </select>
+
+    <!-- 通过 resource_id列表 获取 用户ID列表 -->
+    <select id="getUserIdListByResourceIdList" parameterType="list" resultType="java.lang.String">
+        SELECT v_user_id
+        FROM
+        <include refid="table_name"/>
+        WHERE v_resource_id IN
+        <foreach item="item" collection="resourceIdList" separator="," open="(" close=")" index="index">
+            #{item}
+        </foreach>
+        AND i_del_flag = 0
+    </select>
+
+    <!-- 通过 userId 获取 resource_id列表 -->
+    <select id="getResourceIdListByUserId" parameterType="java.lang.String" resultType="java.lang.String">
+        SELECT v_resource_id
+        FROM
+        <include refid="table_name"/>
+        WHERE v_user_id = #{userId}
+        AND i_del_flag = 0
+    </select>
+
+    <!--新增实体属性不为null的列-->
+    <insert id="insert" keyProperty="vUserId" useGeneratedKeys="true"
+            parameterType="com.shmashine.common.entity.TblSysUserResource">
+        insert into tbl_sys_user_resource
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="vUserId != null">
+                v_user_id,
+            </if>
+            <if test="vResourceId != null">
+                v_resource_id,
+            </if>
+            <if test="iResourceType != null">
+                i_resource_type,
+            </if>
+            <if test="vResourceCode != null">
+                v_resource_code,
+            </if>
+            <if test="dtCreateTime != null">
+                dt_create_time,
+            </if>
+            <if test="dtModifyTime != null">
+                dt_modify_time,
+            </if>
+            <if test="vCreateUserId != null">
+                v_create_user_id,
+            </if>
+            <if test="vModifyUserId != null">
+                v_modify_user_id,
+            </if>
+            <if test="iDelFlag != null">
+                i_del_flag,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="vUserId != null">
+                #{vUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="vResourceId != null">
+                #{vResourceId,jdbcType=VARCHAR},
+            </if>
+            <if test="iResourceType != null">
+                #{iResourceType,jdbcType=INTEGER},
+            </if>
+            <if test="vResourceCode != null">
+                #{vResourceCode,jdbcType=VARCHAR},
+            </if>
+            <if test="dtCreateTime != null">
+                #{dtCreateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="dtModifyTime != null">
+                #{dtModifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="vCreateUserId != null">
+                #{vCreateUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="vModifyUserId != null">
+                #{vModifyUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="iDelFlag != null">
+                #{iDelFlag,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+
+    <!--批量新增所有列，列表长度不能为0-->
+    <insert id="insertBatch" keyProperty="vUserId" useGeneratedKeys="true" parameterType="list">
+        insert into tbl_sys_user_resource
+        ( v_user_id , v_resource_id ,i_resource_type, v_resource_code, dt_create_time, dt_modify_time, v_create_user_id,
+        v_modify_user_id, i_del_flag)
+        values
+        <foreach item="item" collection="list" separator="," open="" close="" index="index">
+            (#{item.vUserId,jdbcType=VARCHAR},
+            #{item.vResourceId,jdbcType=VARCHAR},#{item.iResourceType,jdbcType=INTEGER},
+            #{item.vResourceCode,jdbcType=VARCHAR}, now(), now(), #{item.vCreateUserId,jdbcType=VARCHAR},
+            #{item.vModifyUserId,jdbcType=VARCHAR}, 0)
+        </foreach>
+    </insert>
+
+    <!--通过主键修改实体属性不为null的列-->
+    <update id="update" parameterType="com.shmashine.common.entity.TblSysUserResource">
+        update tbl_sys_user_resource
+        <set>
+            <if test="iResourceType != null">
+                i_resource_type = #{iResourceType,jdbcType=INTEGER},
+            </if>
+            <if test="vResourceCode != null and vResourceCode != ''">
+                v_resource_code = #{vResourceCode,jdbcType=VARCHAR},
+            </if>
+            <if test="dtCreateTime != null">
+                dt_create_time = #{dtCreateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="dtModifyTime != null">
+                dt_modify_time = #{dtModifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="vCreateUserId != null and vCreateUserId != ''">
+                v_create_user_id = #{vCreateUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="vModifyUserId != null and vModifyUserId != ''">
+                v_modify_user_id = #{vModifyUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="iDelFlag != null">
+                i_del_flag = #{iDelFlag,jdbcType=INTEGER},
+            </if>
+        </set>
+        where v_user_id = #{vUserId,jdbcType=VARCHAR}
+    </update>
+
+    <!--通过表字段修改实体属性不为null的列-->
+    <update id="updateByField">
+        update tbl_sys_user_resource
+        <set>
+            <if test="where.iResourceType == null and set.iResourceType != null">
+                i_resource_type = #{set.iResourceType,jdbcType=INTEGER},
+            </if>
+            <if test="where.vResourceCode == null and set.vResourceCode != null and set.vResourceCode != ''">
+                v_resource_code = #{set.vResourceCode,jdbcType=VARCHAR},
+            </if>
+            <if test="where.dtCreateTime == null and set.dtCreateTime != null">
+                dt_create_time = #{set.dtCreateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="where.dtModifyTime == null and set.dtModifyTime != null">
+                dt_modify_time = #{set.dtModifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="where.vCreateUserId == null and set.vCreateUserId != null and set.vCreateUserId != ''">
+                v_create_user_id = #{set.vCreateUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="where.vModifyUserId == null and set.vModifyUserId != null and set.vModifyUserId != ''">
+                v_modify_user_id = #{set.vModifyUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="where.iDelFlag == null and set.iDelFlag != null">
+                i_del_flag = #{set.iDelFlag,jdbcType=INTEGER},
+            </if>
+        </set>
+        <where>
+            <if test="where.vUserId != null">
+                and v_user_id = #{where.vUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vResourceId != null">
+                and v_resource_id = #{where.vResourceId,jdbcType=VARCHAR}
+            </if>
+            <if test="where.iResourceType != null">
+                and i_resource_type = #{where.iResourceType,jdbcType=INTEGER}
+            </if>
+            <if test="where.vResourceCode != null">
+                and v_resource_code = #{where.vResourceCode,jdbcType=VARCHAR}
+            </if>
+            <if test="where.dtCreateTime != null">
+                and dt_create_time = #{where.dtCreateTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="where.dtModifyTime != null">
+                and dt_modify_time = #{where.dtModifyTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="where.vCreateUserId != null">
+                and v_create_user_id = #{where.vCreateUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vModifyUserId != null">
+                and v_modify_user_id = #{where.vModifyUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="where.iDelFlag != null">
+                and i_del_flag = #{where.iDelFlag,jdbcType=INTEGER}
+            </if>
+        </where>
+    </update>
+
+    <!--通过主键修改实体列表，列表长度不能为0，注意：当实体属性为null时，对应的列也会别更新为null-->
+    <update id="updateBatch" parameterType="list">
+        update tbl_sys_user_resource
+        <trim prefix="set" suffixOverrides=",">
+            <trim prefix="i_resource_type = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_user_id = #{item.vUserId} then #{item.iResourceType}
+                </foreach>
+            </trim>
+            <trim prefix="v_resource_code = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_user_id = #{item.vUserId} then #{item.vResourceCode}
+                </foreach>
+            </trim>
+            <trim prefix="dt_create_time = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_user_id = #{item.vUserId} then #{item.dtCreateTime}
+                </foreach>
+            </trim>
+            <trim prefix="dt_modify_time = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_user_id = #{item.vUserId} then #{item.dtModifyTime}
+                </foreach>
+            </trim>
+            <trim prefix="v_create_user_id = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_user_id = #{item.vUserId} then #{item.vCreateUserId}
+                </foreach>
+            </trim>
+            <trim prefix="v_modify_user_id = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_user_id = #{item.vUserId} then #{item.vModifyUserId}
+                </foreach>
+            </trim>
+            <trim prefix="i_del_flag = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_user_id = #{item.vUserId} then #{item.iDelFlag}
+                </foreach>
+            </trim>
+        </trim>
+        where v_user_id in
+        <foreach collection="list" index="index" item="item" separator="," open="(" close=")">
+            #{item.vUserId,jdbcType=VARCHAR}
+        </foreach>
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById" parameterType="java.lang.String">
+        delete
+        from tbl_sys_user_resource
+        where v_user_id = #{vUserId,jdbcType=VARCHAR}
+          and v_resource_id = #{vResourceId,jdbcType=VARCHAR}
+    </delete>
+
+    <!--通过主键删除-->
+    <delete id="deleteByUserId" parameterType="java.lang.String">
+        delete
+        from tbl_sys_user_resource
+        where v_user_id = #{vUserId,jdbcType=VARCHAR}
+    </delete>
+
+    <!--通过实体非空属性删除-->
+    <delete id="deleteByEntity" parameterType="com.shmashine.common.entity.TblSysUserResource">
+        delete from tbl_sys_user_resource
+        <where>
+            <if test="iResourceType != null">
+                and i_resource_type = #{iResourceType,jdbcType=INTEGER}
+            </if>
+            <if test="vResourceCode != null">
+                and v_resource_code = #{vResourceCode,jdbcType=VARCHAR}
+            </if>
+            <if test="dtCreateTime != null">
+                and dt_create_time = #{dtCreateTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="dtModifyTime != null">
+                and dt_modify_time = #{dtModifyTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="vCreateUserId != null">
+                and v_create_user_id = #{vCreateUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="vModifyUserId != null">
+                and v_modify_user_id = #{vModifyUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="iDelFlag != null">
+                and i_del_flag = #{iDelFlag,jdbcType=INTEGER}
+            </if>
+        </where>
+    </delete>
+
+    <!--通过主键列表删除，列表长度不能为0-->
+    <delete id="deleteByIds" parameterType="list">
+        delete from tbl_sys_user_resource where v_user_id in
+        <foreach item="item" collection="list" separator="," open="(" close=")" index="index">
+            #{item}
+        </foreach>
+    </delete>
+
+    <delete id="deleteByUserAndResourcesId" parameterType="list">
+        delete from tbl_sys_user_resource where v_user_id = #{userId} AND v_resource_id in
+        <foreach item="item" collection="removedData" separator="," open="(" close=")" index="index">
+            #{item}
+        </foreach>
+    </delete>
+
+    <select id="countAll" resultType="int">
+        select count(v_user_id)
+        from tbl_sys_user_resource
+    </select>
+
+    <select id="countByEntity" parameterType="com.shmashine.common.entity.TblSysUserResource" resultType="int">
+        select count(v_user_id) from tbl_sys_user_resource
+        <where>
+            <if test="vUserId != null">
+                and v_user_id = #{vUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="vResourceId != null">
+                and v_resource_id = #{vResourceId,jdbcType=VARCHAR}
+            </if>
+            <if test="iResourceType != null">
+                and i_resource_type = #{iResourceType,jdbcType=INTEGER}
+            </if>
+            <if test="vResourceCode != null">
+                and v_resource_code = #{vResourceCode,jdbcType=VARCHAR}
+            </if>
+            <if test="dtCreateTime != null">
+                and dt_create_time = #{dtCreateTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="dtModifyTime != null">
+                and dt_modify_time = #{dtModifyTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="vCreateUserId != null">
+                and v_create_user_id = #{vCreateUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="vModifyUserId != null">
+                and v_modify_user_id = #{vModifyUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="iDelFlag != null">
+                and i_del_flag = #{iDelFlag,jdbcType=INTEGER}
+            </if>
+        </where>
+    </select>
+
+    <insert id="addElevatorByExcel" parameterType="java.util.List">
+        insert into tbl_sys_user_resource(v_user_id, v_resource_id, v_resource_code, dt_create_time, v_create_user_id)
+        values
+        <foreach collection="sysUserResourceList" item="sysUserResource" separator=",">
+            (#{sysUserResource.vUserId},#{sysUserResource.vResourceId},#{sysUserResource.vResourceCode},#{sysUserResource.dtCreateTime},#{sysUserResource.vCreateUserId})
+        </foreach>
+    </insert>
+
+    <insert id="batchByUserId">
+        insert into tbl_sys_user_resource(v_user_id, v_resource_id, v_resource_code, v_create_user_id) value
+            (#{userId},#{tblElevator.vElevatorId},#{tblElevator.vElevatorCode},#{userId})
+    </insert>
+
+</mapper>

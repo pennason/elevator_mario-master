@@ -1,0 +1,27 @@
+eureka:
+  client:
+    service-url:
+      #defaultZone: http://172.31.183.101:8008/eureka/
+      defaultZone: http://shmashine-eureka:8008/eureka/
+
+spring:
+  redis:
+    database: 2
+    host: redis.tech.internal.shmashine.com
+    port: 6379
+    password: shmashine@666
+    timeout: 5000
+  boot:
+    admin:
+      client:
+        url: http://spring-boot-admin:9999
+        username: shmashine
+        password: shmashine
+        instance:
+          prefer-ip: true
+          # service-url: http://172.31.183.101:8001
+          service-url: http://shmashine-gateway:8001
+
+#logging:
+#  file:
+#    name: gateway-service.log

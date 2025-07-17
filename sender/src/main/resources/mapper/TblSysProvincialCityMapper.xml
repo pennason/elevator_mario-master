@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.sender.dao.TblSysProvincialCityMapper">
+    <sql id="TABLE_NAME">
+        tbl_sys_provincial_city
+    </sql>
+    <sql id="ALL_COLUMNS">
+        i_areaId
+        AS areaId, v_areaCode AS areaCode, v_areaName AS areaName, i_level AS level,
+               v_cityCode AS cityCode, v_center AS center, i_parentId AS parentId
+    </sql>
+
+    <!-- 查询 -->
+
+    <select id="getByAreaId" resultType="com.shmashine.common.entity.TblSysProvincialCityEntity">
+        SELECT
+        <include refid="ALL_COLUMNS"/>
+        FROM
+        <include refid="TABLE_NAME"/>
+        WHERE i_areaId = #{areaId}
+    </select>
+</mapper>

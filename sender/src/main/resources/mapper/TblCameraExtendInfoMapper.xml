@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.sender.dao.TblCameraExtendInfoMapper">
+    <sql id="TABLE_NAME">
+        tbl_camera_extend_info
+    </sql>
+
+    <sql id="ALL_COLUMNS">
+        id
+        , cloud_number
+        , platform_id
+        , platform_name
+        , sup_or_sub
+        , elevator_code
+        , guid
+        , gbid
+        , ctei
+        , camera_type
+        , channel_seq
+        , device_code
+        , vendor_code
+        , online_state
+        , `status`
+        , change_time
+        , create_time
+        , modify_time
+    </sql>
+
+    <!-- 查询 -->
+    <select id="getByElevatorCode" resultType="com.shmashine.common.entity.TblCameraExtendInfoEntity">
+        SELECT
+        <include refid="ALL_COLUMNS"/>
+        FROM
+        <include refid="TABLE_NAME"/>
+        WHERE elevator_code = #{elevatorCode} AND `status` > -1
+        ORDER BY id DESC LIMIT 1
+    </select>
+    <select id="getByCloudNumberAndPlatformId" resultType="com.shmashine.common.entity.TblCameraExtendInfoEntity">
+        SELECT
+        <include refid="ALL_COLUMNS"/>
+        FROM
+        <include refid="TABLE_NAME"/>
+        where cloud_number = #{cloudNumber} and platform_id = #{platformId}
+    </select>
+</mapper>

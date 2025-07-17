@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.hikYunMou.dao.CameraStatusRecordMapper">
+    <sql id="TABLE_NAME">
+        camera_status_record
+    </sql>
+    <sql id="BASE_COLUMNS">
+        message_id
+        , serial_number, occur_time, device_name, `status`
+    </sql>
+    <sql id="ALL_COLUMNS">
+        <include refid="BASE_COLUMNS"/>,
+        id, create_time
+    </sql>
+
+    <!-- 查询 -->
+    <select id="getBySerialNumber" resultType="com.shmashine.common.entity.CameraStatusRecordEntity">
+        SELECT
+        <include refid="ALL_COLUMNS"/>
+        FROM
+        <include refid="TABLE_NAME"/>
+        WHERE serial_number = #{serialNumber}
+        ORDER BY occur_time DESC
+        LIMIT 1
+    </select>
+
+    <select id="getByMessageId" resultType="com.shmashine.common.entity.CameraStatusRecordEntity">
+        SELECT
+        <include refid="ALL_COLUMNS"/>
+        FROM
+        <include refid="TABLE_NAME"/>
+        WHERE message_id = #{messageId}
+    </select>
+
+    <!-- 添加 -->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true"
+            parameterType="com.shmashine.common.entity.CameraStatusRecordEntity">
+        INSERT IGNORE INTO
+        <include refid="TABLE_NAME"/>
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            id, message_id, serial_number, occur_time, device_name, `status`, create_time
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            #{entity.id}, #{entity.messageId}, #{entity.serialNumber}, #{entity.occurTime}, #{entity.deviceName},
+            #{entity.status}, #{entity.createTime}
+        </trim>
+    </insert>
+
+    <update id="updateById" parameterType="com.shmashine.common.entity.CameraStatusRecordEntity">
+        UPDATE
+        <include refid="TABLE_NAME"/>
+        <set>
+            <if test="entity.status != null">status = #{entity.status},</if>
+        </set>
+        WHERE id = #{entity.id}
+    </update>
+
+    <!-- 删除 -->
+    <delete id="deleteById">
+        DELETE FROM
+        <include refid="TABLE_NAME"/>
+        WHERE id = #{id}
+    </delete>
+
+
+</mapper>

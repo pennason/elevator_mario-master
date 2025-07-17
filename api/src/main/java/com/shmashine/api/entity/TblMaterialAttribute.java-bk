@@ -1,0 +1,49 @@
+package com.shmashine.api.entity;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.io.Serializable;
+
+/*
+ * 物料属性表
+ * @auth depp.yu
+ * @since
+ */
+
+public class TblMaterialAttribute implements Serializable {
+
+    private static final long serialVersionUID = -408572031494925653L;
+
+    private String vMaterialAttributeId;
+
+    private String vMaterialId;
+
+    private String vMaterialAttributeContent;
+
+    @JsonProperty("vMaterialAttributeId")
+    public String getvMaterialAttributeId() {
+        return vMaterialAttributeId;
+    }
+
+    public void setvMaterialAttributeId(String vMaterialAttributeId) {
+        this.vMaterialAttributeId = vMaterialAttributeId;
+    }
+
+    @JsonProperty("vMaterialId")
+    public String getvMaterialId() {
+        return vMaterialId;
+    }
+
+    public void setvMaterialId(String vMaterialId) {
+        this.vMaterialId = vMaterialId;
+    }
+
+    @JsonProperty("vMaterialAttributeContent")
+    public String getvMaterialAttributeContent() {
+        return vMaterialAttributeContent;
+    }
+
+    public void setvMaterialAttributeContent(String vMaterialAttributeContent) {
+        this.vMaterialAttributeContent = vMaterialAttributeContent;
+    }
+}

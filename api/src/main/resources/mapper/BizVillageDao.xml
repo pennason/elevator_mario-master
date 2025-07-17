@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shmashine.api.dao.BizVillageDao">
+
+    <sql id="table_field">
+        v_village_id
+        , v_village_name, v_address, v_project_id, v_remarks, dt_create_time, dt_modify_time, v_create_user_id, v_modify_user_id, i_del_flag
+    </sql>
+
+    <!-- 小区列表 -->
+    <select id="searchVillageList" resultType="java.util.Map">
+        select
+        village.v_village_id,
+        village.v_village_name,
+        village.v_address,
+        village.v_project_id,
+        project.v_project_name,
+        village.v_longitude,
+        village.v_latitude,
+        village.v_remarks,
+        village.dt_create_time,
+        village.dt_modify_time,
+        village.v_create_user_id,
+        village.v_modify_user_id,
+        village.v_img_url,
+        village.i_del_flag,
+        sysinfo.v_name_zh_cn AS i_del_flag_name
+        from tbl_village village
+        inner join tbl_elevator ele on ele.v_village_id = village.v_village_id
+        <if test="!isAdminFlag">
+            join tbl_sys_user_resource resource on ele.v_elevator_id = resource.v_resource_id and v_user_id =
+            #{userId}
+        </if>
+        join tbl_project project on project.v_project_id = village.v_project_id
+        join tbl_sys_dept dept on dept.v_dept_id = project.v_dept_id
+        left join tbl_sys_systeminfo sysinfo on sysinfo.v_sysvalue5 = village.i_del_flag and sysinfo.v_sysid = '10012'
+        <where>
+            <if test="vVillageId != null and vVillageId != ''">
+                and village.v_village_id like CONCAT('%',#{vVillageId,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="vVillageName != null and vVillageName != ''">
+                and village.v_village_name like CONCAT('%',#{vVillageName,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="vAddress != null and vAddress != ''">
+                and village.v_address like CONCAT('%',#{vAddress,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="vProjectId != null and vProjectId != ''">
+                and village.v_project_id = #{vProjectId,jdbcType=VARCHAR}
+            </if>
+            <if test="vRemarks != null and vRemarks != ''">
+                and village.v_remarks like CONCAT('%',#{vRemarks,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="iDelFlag != null">
+                and village.i_del_flag = #{iDelFlag,jdbcType=INTEGER}
+            </if>
+            <if test="!isAdminFlag">
+                and project.v_dept_id
+                <foreach collection="permissionDeptIds" item="item" open="IN(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+        group by village.v_village_id
+    </select>
+
+    <!-- 小区列表（有电梯） -->
+    <select id="searchVillageListWithElevator" resultType="java.util.Map">
+        select
+        village.v_village_id,
+        village.v_village_name,
+        village.v_address,
+        village.v_project_id,
+        village.v_longitude,
+        village.v_latitude,
+        village.v_remarks,
+        village.v_img_url,
+        village.i_del_flag
+        from tbl_village village
+        inner join tbl_elevator ele on ele.v_village_id = village.v_village_id
+        <if test="!isAdminFlag">
+            join tbl_sys_user_resource resource on ele.v_elevator_id = resource.v_resource_id and v_user_id =
+            #{userId}
+        </if>
+        join tbl_project project on project.v_project_id = village.v_project_id
+        join tbl_sys_dept dept on dept.v_dept_id = project.v_dept_id
+        <where>
+            <if test="vVillageId != null and vVillageId != ''">
+                and village.v_village_id like CONCAT('%',#{vVillageId,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="vVillageName != null and vVillageName != ''">
+                and village.v_village_name like CONCAT('%',#{vVillageName,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="vAddress != null and vAddress != ''">
+                and village.v_address like CONCAT('%',#{vAddress,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="vProjectId != null and vProjectId != ''">
+                and village.v_project_id = #{vProjectId,jdbcType=VARCHAR}
+            </if>
+            <if test="vRemarks != null and vRemarks != ''">
+                and village.v_remarks like CONCAT('%',#{vRemarks,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="iDelFlag != null">
+                and village.i_del_flag = #{iDelFlag,jdbcType=INTEGER}
+            </if>
+            <if test="!isAdminFlag">
+                and project.v_dept_id
+                <foreach collection="permissionDeptIds" item="item" open="IN(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            and ele.i_install_status = 1
+        </where>
+        group by village.v_village_id
+    </select>
+
+    <!-- 获取小区下拉框 -->
+    <select id="searchVillageSelectList" resultType="java.util.Map">
+        select
+        village.v_village_id,
+        village.v_village_name,
+        village.v_address,
+        village.v_img_url
+        from tbl_village village
+        inner join tbl_elevator ele on ele.v_village_id = village.v_village_id
+        <if test="!isAdminFlag">
+            join tbl_sys_user_resource resource on ele.v_elevator_id = resource.v_resource_id and v_user_id =
+            #{userId}
+        </if>
+        <where>
+            <if test="projectId != null and projectId != ''">
+                village.v_project_id = #{projectId, jdbcType=VARCHAR}
+            </if>
+        </where>
+        group by village.v_village_id
+    </select>
+
+    <!--获取小区列表-->
+    <select id="getVillageList" resultType="com.shmashine.common.entity.TblVillage">
+        select
+        village.v_village_id,
+        village.v_village_name
+        from tbl_village village
+        inner join tbl_elevator ele on ele.v_village_id = village.v_village_id
+        <if test="!admin">
+            join tbl_sys_user_resource resource on ele.v_elevator_id = resource.v_resource_id and v_user_id =
+            #{userId}
+        </if>
+        <where>
+            <if test="villageName != null and villageName != ''">
+                and village.v_village_name LIKE CONCAT('%',#{villageName},'%')
+            </if>
+        </where>
+        group by village.v_village_id
+    </select>
+
+</mapper>

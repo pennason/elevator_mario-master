@@ -1,0 +1,205 @@
+server:
+  #  port: 8011
+  port: 8080
+  servlet:
+    context-path: /api/pm
+
+# kafka topic 名称
+kafka:
+  topic:
+    fault: pro_oreo_fault
+    pre-fault: pro_oreo_preFault
+    http: pro_netty_nezha
+    socket: pro_web_nezha_test
+
+# sa-token 配置
+sa-token:
+  # 配置 Sa-Token 单独使用的 Redis 连接
+  alone-redis:
+    database: 13  # 默认13
+    host: 10.0.0.113
+    port: 6379
+    password: shmashine@666
+    timeout: 5000
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://shmashine-eureka:8080/eureka/
+  instance:
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+    # 优先使用IP地址方式进行注册服务
+    prefer-ip-address: true
+
+feign:
+  hystrix:
+    enabled: true
+
+spring:
+  application:
+    name: shmashine-pm
+  cache:
+    type: simple
+  profiles:
+    active: dev
+  main:
+    allow-bean-definition-overriding: true
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+    profiles:
+      active: dev
+  redis:
+    database: 2
+    host: 10.0.0.113
+    port: 6379
+    password: shmashine@666
+    timeout: 5000
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driverClassName: com.mysql.cj.jdbc.Driver
+    #    url: jdbc:mysql://124.220.207.150:3306/elevator_master?useSSL=false&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+    #    username: admin
+    #    password: MaiXin@666
+    url: jdbc:mysql://rm-bp1n9d80pc03n1ag4qo.mysql.rds.aliyuncs.com:3306/elevator_master?useSSL=false&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+    username: wuyanjie
+    password: Maixin480
+    initialSize: 1
+    minIdle: 3
+    maxActive: 200
+    # 配置获取连接等待超时的时间
+    maxWait: 60000
+    # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+    timeBetweenEvictionRunsMillis: 60000
+    # 配置一个连接在池中最小生存的时间，单位是毫秒
+    minEvictableIdleTimeMillis: 30000
+    validationQuery: select 'x'
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    # 打开PSCache，并且指定每个连接上PSCache的大小
+    poolPreparedStatements: true
+    maxPoolPreparedStatementPerConnectionSize: 20
+    # 配置监控统计拦截的filters，去掉后监控界面sqla's无法统计，'wall'用于防火墙
+    filters: stat,wall,slf4j
+    # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
+    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+    # 合并多个DruidDataSource的监控数据
+    #useGlobalDataSourceStat: true
+    #单个文件最大大小
+  servlet:
+    multipart:
+      max-file-size: 200MB #单个文件上传大小
+      max-request-size: 600MB #连续上传文件大小
+      enabled: true
+  kafka:
+    producer:
+      #      bootstrap-servers: kafka:9092
+      bootstrap-servers: 47.122.9.58:9092
+      retries: 0
+      batch-size: 16384
+      buffer-memory: 33554432
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      properties:
+        security.protocol: SASL_PLAINTEXT
+        sasl.mechanism: PLAIN
+        #sasl.jaas.config: org.apache.kafka.common.security.plain.PlainLoginModule required username="producer" password="secret20190219";
+        sasl.jaas.config: org.apache.kafka.common.security.plain.PlainLoginModule required username="shmashine" password="123456";
+    consumer:
+      #      bootstrap-servers: kafka:9092
+      bootstrap-servers: 47.122.9.58:9092
+      group-id: oreo-socket-group-testwu-test
+      auto-offset-reset: latest
+      enable-auto-commit: true
+      auto-commit-interval: 100
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      properties:
+        security.protocol: SASL_PLAINTEXT
+        sasl.mechanism: PLAIN
+        #sasl.jaas.config: org.apache.kafka.common.security.plain.PlainLoginModule required username="producer" password="secret20190219";
+        sasl.jaas.config: org.apache.kafka.common.security.plain.PlainLoginModule required username="shmashine" password="123456";
+  boot:
+    admin:
+      client:
+        url: http://spring-boot-admin:8080 #配置admin-server地址
+        username: shmashine
+        password: shmashine
+        instance:
+          prefer-ip: true
+          service-url: http://shmashine-pm:8080/api/pm
+
+springdoc:
+  swagger-ui:
+    enabled: true
+  api-docs:
+    enabled: true
+
+mdf:
+  cache:
+    enabled: true
+
+caching:
+  specs:
+    project:
+      timeout: 30
+      expireMode: 0
+    dept:
+      timeout: 30
+      expireMode: 0
+
+mybatis-plus:
+  mapper-locations: mapper/*.xml
+  type-aliases-package: com.shmashine.UserClientApplets.entity
+  configuration:
+    map-underscore-to-camel-case: true    #开启驼峰功能
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl # 这个配置会将执行的sql打印出来，在开发或测试的时候可以用
+  global-config:
+    db-config:
+      update-strategy: NOT_EMPTY # 更新时，只更新非空字段
+      insert-strategy: NOT_EMPTY # 新增时，只新增非空字段
+      id-type: auto   #id自增长
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+  page-size-zero: true
+  row-bound-with-count: false
+  # params: count=countSql
+
+
+#logging:
+#  config:
+#    classpath: logback.xml
+#    path: /var/log/${spring.application.name}
+#  myFileName: ${spring.application.name}
+#  # 分割文件设置 超过 100MB就进行分割，最大保留历史 90天
+#  maxFileSize: 100MB
+#  maxHistory: 90
+#  level:
+#    com.shmashine.pm.api: info
+#  file:
+#    name: pm-server.log
+
+# 监控信息
+management:
+  endpoints:
+    web:
+      exposure:
+        #        include: "health,prometheus,httptrace"
+        include: "*"
+  endpoint:
+    health:
+      show-details: ALWAYS
+      probes:
+        enabled: true
+      group:
+        readiness:
+          include: db
+    prometheus:
+      enabled: true
+  metrics:
+    tags:
+      application: ${spring.application.name}
+

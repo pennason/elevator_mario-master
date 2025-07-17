@@ -1,0 +1,66 @@
+spring:
+  application:
+    name: chongqing-sender
+
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://10.0.0.113:3306/elevator_master?useSSL=false&useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&autoReconnect=true&failOverReadOnly=false&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+    username: root
+    password: shmashine@666
+
+  redis:
+    database: 3
+    host: 10.0.0.113
+    port: 6379
+    password: shmashine@666
+    timeout: 5000
+  data:
+    mongodb:
+      host: 10.0.0.124
+      port: 27017
+      database: chongqing
+      username: shmashine
+      password: Shmashine@666
+
+  kafka:
+    producer:
+      bootstrap-servers: 10.0.0.113:29092
+      retries: 0
+      batch-size: 16384
+      buffer-memory: 33554432
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      properties:
+        security.protocol: SASL_PLAINTEXT
+        sasl.mechanism: PLAIN
+        sasl.jaas.config: org.apache.kafka.common.security.plain.PlainLoginModule required username="producer" password="secret20190219";
+    consumer:
+      bootstrap-servers: 10.0.0.113:29092
+      group-id: chongqing-sender
+      auto-offset-reset: latest
+      enable-auto-commit: true
+      auto-commit-interval: 1000
+      #max-poll-records: 800
+      heartbeat-interval: 3000
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      properties:
+        security.protocol: SASL_PLAINTEXT
+        sasl.mechanism: PLAIN
+        sasl.jaas.config: org.apache.kafka.common.security.plain.PlainLoginModule required username="producer" password="secret20190219";
+
+
+  boot:
+    admin:
+      client:
+        url: http://spring-boot-admin:8080/
+        username: shmashine
+        password: shmashine
+        instance:
+          prefer-ip: true
+          service-url: http://chongqing-sender:8080
+
+# endpoint
+endpoint:
+  push-city-govern-domain: http://shmashine-government-platform:8080

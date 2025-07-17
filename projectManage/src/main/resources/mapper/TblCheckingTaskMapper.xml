@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.pm.api.dao.TblCheckingTaskDao">
+    <resultMap type="com.shmashine.pm.api.entity.TblCheckingTask" id="TblCheckingTaskResultMap">
+        <result property="vCheckingTaskId" column="v_checking_task_id" jdbcType="VARCHAR"/>
+        <result property="vProjectId" column="v_project_id" jdbcType="VARCHAR"/>
+        <result property="vVillageId" column="v_village_id" jdbcType="VARCHAR"/>
+        <result property="vPrincipalId" column="v_principal_id" jdbcType="VARCHAR"/>
+        <result property="iElevatorCount" column="i_elevator_count" jdbcType="INTEGER"/>
+        <result property="iStatus" column="i_status" jdbcType="INTEGER"/>
+        <result property="dCheckDate" column="d_check_date" jdbcType="TIMESTAMP"/>
+        <result property="dtCreateTime" column="dt_create_time" jdbcType="TIMESTAMP"/>
+        <result property="dtModifyTime" column="dt_modify_time" jdbcType="TIMESTAMP"/>
+        <result property="vCreateUserId" column="v_create_user_id" jdbcType="VARCHAR"/>
+        <result property="vModifyUserId" column="v_modify_user_id" jdbcType="VARCHAR"/>
+        <result property="iDelFlag" column="i_del_flag" jdbcType="INTEGER"/>
+        <result property="vAddress" column="v_address" jdbcType="VARCHAR"/>
+        <result property="vRemark" column="v_remark" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="table_field">
+        v_checking_task_id
+        , v_project_id, v_village_id, v_principal_id, d_check_date, i_elevator_count, i_status, dt_create_time, dt_modify_time, v_create_user_id, v_modify_user_id, i_del_flag, v_address, v_remark
+    </sql>
+
+    <!--通过Id查询单个-->
+    <select id="getById" resultMap="TblCheckingTaskResultMap" parameterType="java.lang.String">
+        select
+        <include refid="table_field"/>
+        from tbl_checking_task
+        where tbl_checking_task.v_checking_task_id = #{vCheckingTaskId, jdbcType=VARCHAR}
+    </select>
+
+    <!--通过实体不为空的属性作为筛选条件查询列表-->
+    <select id="listByEntity" resultMap="TblCheckingTaskResultMap"
+            parameterType="com.shmashine.pm.api.entity.TblCheckingTask">
+        select
+        <include refid="table_field"/>
+        from tbl_checking_task
+        <where>
+            <if test="vCheckingTaskId != null and vCheckingTaskId != ''">
+                and tbl_checking_task.v_checking_task_id = #{vCheckingTaskId, jdbcType=VARCHAR}
+            </if>
+            <if test="vProjectId != null and vProjectId != ''">
+                and tbl_checking_task.v_project_id = #{vProjectId, jdbcType=VARCHAR}
+            </if>
+            <if test="vVillageId != null and vVillageId != ''">
+                and tbl_checking_task.v_village_id = #{vVillageId, jdbcType=VARCHAR}
+            </if>
+            <if test="vPrincipalId != null and vPrincipalId != ''">
+                and tbl_checking_task.v_principal_id = #{vPrincipal_id, jdbcType=VARCHAR}
+            </if>
+            <if test="iElevatorCount != null">
+                and tbl_checking_task.i_elevator_count = #{iElevatorCount,jdbcType=INTEGER}
+            </if>
+            <if test="iStatus != null">
+                and tbl_checking_task.i_status = #{iStatus,jdbcType=INTEGER}
+            </if>
+            <if test="dtCreateTime != null">
+                and tbl_checking_task.dt_create_time = #{dtCreateTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="dtModifyTime != null">
+                and tbl_checking_task.dt_modify_time = #{dtModifyTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="vCreateUserId != null">
+                and tbl_checking_task.v_create_user_id = #{vCreateUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="vModifyUserId != null">
+                and tbl_checking_task.v_modify_user_id = #{vModifyUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="iDelFlag != null">
+                and tbl_checking_task.i_del_flag = #{iDelFlag,jdbcType=INTEGER}
+            </if>
+            <if test="vAddress != null and vAddress != ''">
+                and tbl_checking_task.v_address = #{vAddress,jdbcType=VARCHAR}
+            </if>
+            <if test="vRemark != null and vRemark != ''">
+                and tbl_checking_task.v_remark = #{vRemark,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+    <!--通过实体不为空的属性作为筛选条件查询单个-->
+    <select id="getByEntity" resultMap="TblCheckingTaskResultMap"
+            parameterType="com.shmashine.pm.api.entity.TblCheckingTask">
+        select
+        <include refid="table_field"/>
+        from tbl_checking_task
+        <where>
+            <if test="vCheckingTaskId != null and vCheckingTaskId != ''">
+                and tbl_checking_task.v_checking_task_id = #{vCheckingTaskId, jdbcType=VARCHAR}
+            </if>
+            <if test="vProjectId != null and vProjectId != ''">
+                and tbl_checking_task.v_project_id = #{vProjectId, jdbcType=VARCHAR}
+            </if>
+            <if test="vVillageId != null and vVillageId != ''">
+                and tbl_checking_task.v_village_id = #{vVillageId, jdbcType=VARCHAR}
+            </if>
+            <if test="vPrincipalId != null and vPrincipalId != ''">
+                and tbl_checking_task.v_principal_id = #{vPrincipalId, jdbcType=VARCHAR}
+            </if>
+            <if test="iElevatorCount != null">
+                and tbl_checking_task.i_elevator_count = #{iElevatorCount,jdbcType=INTEGER}
+            </if>
+            <if test="iStatus != null">
+                and tbl_checking_task.i_status = #{iStatus,jdbcType=INTEGER}
+            </if>
+            <if test="dtCreateTime != null">
+                and tbl_checking_task.dt_create_time = #{dtCreateTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="dtModifyTime != null">
+                and tbl_checking_task.dt_modify_time = #{dtModifyTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="vCreateUserId != null">
+                and tbl_checking_task.v_create_user_id = #{vCreateUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="vModifyUserId != null">
+                and tbl_checking_task.v_modify_user_id = #{vModifyUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="iDelFlag != null">
+                and tbl_checking_task.i_del_flag = #{iDelFlag,jdbcType=INTEGER}
+            </if>
+            <if test="vAddress != null and vAddress != ''">
+                and tbl_checking_task.v_address = #{vAddress, jdbcType=VARCHAR}
+            </if>
+            <if test="vRemark != null and vRemark != ''">
+                and tbl_checking_task.v_remark = #{vRemark, jdbcType=VARCHAR}
+            </if>
+        </where>
+        limit 0,1
+    </select>
+
+    <!--新增实体属性不为null的列-->
+    <insert id="insert" keyProperty="vCheckingTaskId" useGeneratedKeys="true"
+            parameterType="com.shmashine.pm.api.entity.TblCheckingTask">
+        insert into tbl_checking_task
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="vCheckingTaskId != null and vCheckingTaskId != ''">
+                v_checking_task_id,
+            </if>
+            <if test="vProjectId != null and vProjectId != ''">
+                v_project_id,
+            </if>
+            <if test="vVillageId != null and vVillageId != ''">
+                v_village_id,
+            </if>
+            <if test="vPrincipalId != null and vPrincipalId != ''">
+                v_principal_id,
+            </if>
+            <if test="iElevatorCount != null">
+                i_elevator_count,
+            </if>
+            <if test="iStatus != null">
+                i_status,
+            </if>
+            <if test="dCheckDate != null">
+                d_check_date,
+            </if>
+            <if test="dtCreateTime != null">
+                dt_create_time,
+            </if>
+            <if test="dtModifyTime != null">
+                dt_modify_time,
+            </if>
+            <if test="vCreateUserId != null">
+                v_create_user_id,
+            </if>
+            <if test="vModifyUserId != null">
+                v_modify_user_id,
+            </if>
+            <if test="iDelFlag != null">
+                i_del_flag,
+            </if>
+            <if test="vAddress != null">
+                v_address,
+            </if>
+            <if test="vRemark != null">
+                v_remark,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="vCheckingTaskId != null and vCheckingTaskId != ''">
+                #{vCheckingTaskId, jdbcType=VARCHAR},
+            </if>
+            <if test="vProjectId != null and vProjectId != ''">
+                #{vProjectId, jdbcType=VARCHAR},
+            </if>
+            <if test="vVillageId != null and vVillageId != ''">
+                #{vVillageId, jdbcType=VARCHAR},
+            </if>
+            <if test="vPrincipalId != null and vPrincipalId != ''">
+                #{vPrincipalId, jdbcType=VARCHAR},
+            </if>
+            <if test="iElevatorCount != null">
+                #{iElevatorCount, jdbcType=INTEGER},
+            </if>
+            <if test="iStatus != null">
+                #{iStatus, jdbcType=INTEGER},
+            </if>
+            <if test="dCheckDate != null">
+                #{dCheckDate, jdbcType=TIMESTAMP},
+            </if>
+            <if test="dtCreateTime != null">
+                #{dtCreateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="dtModifyTime != null">
+                #{dtModifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="vCreateUserId != null">
+                #{vCreateUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="vModifyUserId != null">
+                #{vModifyUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="iDelFlag != null">
+                #{iDelFlag,jdbcType=INTEGER},
+            </if>
+            <if test="vAddress != null">
+                #{vAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="vRemark != null">
+                #{vRemark,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <!--通过主键修改实体属性不为null的列-->
+    <update id="update" parameterType="com.shmashine.pm.api.entity.TblProject">
+        update tbl_checking_task
+        <set>
+            <!--<if test="vCheckingTaskId != null and vCheckingTaskId != ''">-->
+            <!--v_checking_task_id = #{vCheckingTaskId, jdbcType=VARCHAR},-->
+            <!--</if>-->
+            <if test="vProjectId != null and vProjectId != ''">
+                v_project_id = #{vProjectId, jdbcType=VARCHAR},
+            </if>
+            <if test="vVillageId != null and vVillageId != ''">
+                v_village_id = #{vVillageId, jdbcType=VARCHAR},
+            </if>
+            <if test="vPrincipalId != null and vPrincipalId != ''">
+                v_principal_id = #{vPrincipalId, jdbcType=VARCHAR},
+            </if>
+            <if test="iElevatorCount != null">
+                i_elevator_count = #{iElevatorCount, jdbcType=INTEGER},
+            </if>
+            <if test="iStatus != null">
+                i_status = #{iStatus, jdbcType=INTEGER},
+            </if>
+            <if test="dCheckDate != null">
+                d_check_date = #{dCheckDate, jdbcType=TIMESTAMP},
+            </if>
+            <if test="dtCreateTime != null">
+                dt_create_time = #{dtCreateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="dtModifyTime != null">
+                dt_modify_time = #{dtModifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="vCreateUserId != null and vCreateUserId != ''">
+                v_create_user_id = #{vCreateUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="vModifyUserId != null and vModifyUserId != ''">
+                v_modify_user_id = #{vModifyUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="iDelFlag != null">
+                i_del_flag = #{iDelFlag,jdbcType=INTEGER},
+            </if>
+            <if test="vAddress != null and vAddress != ''">
+                v_address = #{vAddress, jdbcType=VARCHAR},
+            </if>
+            <if test="vRemark != null and vRemark != ''">
+                v_remark = #{vRemark, jdbcType=VARCHAR},
+            </if>
+        </set>
+        <where>
+            <if test="vCheckingTaskId != null and vCheckingTaskId != ''">
+                and v_checking_task_id = #{vCheckingTaskId,jdbcType=VARCHAR}
+            </if>
+            <if test="vVillageId != null and vVillageId != ''">
+                and v_village_id = #{vVillageId,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById" parameterType="java.lang.String">
+        delete
+        from tbl_checking_task
+        where v_checking_task_id = #{vCheckingTaskId,jdbcType=VARCHAR}
+    </delete>
+
+    <select id="countAll" resultType="int">
+        select count(v_checking_task_id)
+        from tbl_checking_task
+    </select>
+
+    <select id="countByStatus" resultType="Map">
+        select count(1) as count,
+        case
+        when i_status = 1 then '未验收'
+        when i_status = 2 then '验收中'
+        when i_status = 3 then '完成'
+        when i.i_status = 11 then '需调整'
+        when i_status = -1 then '已取消'
+        end
+        as statusName
+        from tbl_checking_task
+        where i_del_flag = 0
+        group by statusName
+    </select>
+</mapper>

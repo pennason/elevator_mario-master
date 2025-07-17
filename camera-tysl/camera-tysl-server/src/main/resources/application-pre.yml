@@ -1,0 +1,11 @@
+spring:
+  redis:
+    database: 2
+    host: 10.0.0.113
+    port: 6379
+    password: shmashine@666
+    timeout: 5000
+
+camera:
+  tysl:
+    callback-base-url: http://10.0.0.125:8005

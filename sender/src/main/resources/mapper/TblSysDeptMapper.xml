@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.sender.dao.TblSysDeptMapper">
+    <sql id="TABLE_NAME">
+        tbl_sys_dept
+    </sql>
+    <!-- 查询 -->
+
+    <!-- i_dept_type = 1:维保，2：物业，3：政府 -->
+    <select id="getMaintainCompanyById" resultType="com.shmashine.common.entity.TblSysDept">
+        SELECT v_dept_id AS vDeptId, v_dept_name AS vDeptName, v_mobilephone AS vMobilephone
+        FROM
+        <include refid="TABLE_NAME"/>
+        WHERE v_dept_id = #{deptId} AND i_dept_type_id = 1
+    </select>
+
+    <!-- i_dept_type = 1:维保，2：物业，3：政府 -->
+    <select id="getPropertyCompanyById" resultType="com.shmashine.common.entity.TblSysDept">
+        SELECT v_dept_id AS vDeptId, v_dept_name AS vDeptName, v_mobilephone AS vMobilephone
+        FROM
+        <include refid="TABLE_NAME"/>
+        WHERE v_dept_id = #{deptId} AND i_dept_type_id = 2
+    </select>
+</mapper>

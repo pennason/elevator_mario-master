@@ -1,0 +1,80 @@
+#kafka
+kafka:
+  topic:
+    hls: pro_failurevideo_nezha
+    socket: pro_web_nezha_test
+
+
+# sa-token 配置
+sa-token:
+  # 配置 Sa-Token 单独使用的 Redis 连接
+  alone-redis:
+    database: 13  # 默认13
+    host: redis.tech.internal.shmashine.com
+    port: 6379
+    password: shmashine@666
+    timeout: 5000
+
+eureka:
+  client:
+    service-url:
+      # defaultZone: http://172.31.183.101:8008/eureka/
+      defaultZone: http://shmashine-eureka:8008/eureka/
+  instance:
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+    # \u4F18\u5148\u4F7F\u7528IP\u5730\u5740\u65B9\u5F0F\u8FDB\u884C\u6CE8\u518C\u670D\u52A1
+    prefer-ip-address: true
+    # ip-address: 172.31.183.101
+    non-secure-port: 8005
+
+spring:
+
+  redis:
+    database: 2
+    host: redis.tech.internal.shmashine.com
+    port: 6379
+    password: shmashine@666
+    timeout: 5000
+
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql://rm-m5e5x3037x8bn5br6.mysql.rds.aliyuncs.com:3306/elevator_master?useSSL=false&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+    username: elevator_master
+    password: Shmash1ne@elevator_master
+
+  kafka:
+    producer:
+      #bootstrap-servers: kafka:9092
+      bootstrap-servers: kafka.pro.internal.shmashine.com:29092
+      retries: 0
+      batch-size: 16384
+      buffer-memory: 33554432
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      properties:
+        security.protocol: SASL_PLAINTEXT
+        sasl.mechanism: PLAIN
+        sasl.jaas.config: org.apache.kafka.common.security.plain.PlainLoginModule required username="producer" password="secret20190219";
+    consumer:
+      #bootstrap-servers: kafka:9092
+      bootstrap-servers: kafka.pro.internal.shmashine.com:29092
+      group-id: shmashine-oreo-fault
+      auto-offset-reset: latest
+      enable-auto-commit: true
+      auto-commit-interval: 100
+      max-poll-records: 50
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      properties:
+        security.protocol: SASL_PLAINTEXT
+        sasl.mechanism: PLAIN
+        sasl.jaas.config: org.apache.kafka.common.security.plain.PlainLoginModule required username="producer" password="secret20190219";
+  boot:
+    admin:
+      client:
+        url: http://spring-boot-admin:9999/
+        username: shmashine
+        password: shmashine
+        instance:
+          prefer-ip: true
+          service-url: http://shmashine-camera:8005

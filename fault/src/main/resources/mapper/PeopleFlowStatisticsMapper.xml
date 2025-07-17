@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shmashine.fault.dal.dao.PeopleFlowStatisticsDao">
+
+
+    <!--新增人流量统计记录-->
+    <insert id="insert">
+        insert into people_flow_statistics_message
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="elevatorCode != null">
+                elevator_code,
+            </if>
+            <if test="triggerTime != null">
+                trigger_time,
+            </if>
+            <if test="floor != null">
+                floor,
+            </if>
+            <if test="direction != null">
+                direction,
+            </if>
+            <if test="identificationNumber != null">
+                identification_number,
+            </if>
+            <if test="throughput != null">
+                throughput,
+            </if>
+            <if test="picUrl != null">
+                pic_url,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="elevatorCode != null">
+                #{elevatorCode},
+            </if>
+            <if test="triggerTime != null">
+                #{triggerTime},
+            </if>
+            <if test="floor != null">
+                #{floor},
+            </if>
+            <if test="direction != null">
+                #{direction},
+            </if>
+            <if test="identificationNumber != null">
+                #{identificationNumber},
+            </if>
+            <if test="throughput != null">
+                #{throughput},
+            </if>
+            <if test="picUrl != null">
+                #{picUrl},
+            </if>
+        </trim>
+    </insert>
+
+</mapper>

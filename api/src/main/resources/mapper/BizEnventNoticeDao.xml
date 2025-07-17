@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shmashine.api.dao.BizEnventNoticeDao">
+
+    <!-- 查询 提醒 或者 关注 或者 故障频发 -->
+    <select id="searchEnoentNotice" resultType="java.util.Map">
+        select
+        notice.v_envent_notify_id,
+        notice.v_elevator_id,
+        notice.v_elevator_code,
+        notice.v_register_no,
+        notice.v_notice_type,
+        notice.v_message,
+        notice.i_is_delete,
+        notice.dt_start_time,
+        notice.dt_end_time
+        from
+        tbl_envent_notice notice
+        <if test="!isAdminFlag">
+            join tbl_sys_user_resource resource on notice.v_elevator_id = resource.v_resource_id and v_user_id =
+            #{userId}
+        </if>
+        <where>
+            <![CDATA[ (notice.dt_start_time <= now() and notice.dt_end_time >= now()) ]]> and notice.i_is_delete = 0 and
+            notice.v_notice_type = #{vNoticeType}
+            <if test="elevatorIds != null and elevatorIds.size() > 0">
+                and notice.v_elevator_id in
+                <foreach collection="elevatorIds" item="elevatorId" open="(" separator="," close=")">
+                    #{elevatorId}
+                </foreach>
+            </if>
+        </where>
+    </select>
+</mapper>

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.api.dao.TblMaterialDao">
+
+    <resultMap type="com.shmashine.common.entity.TblMaterial" id="TblMaterialResultMap">
+        <result property="vMaterialId" column="v_material_id" jdbcType="VARCHAR"/>
+        <result property="vMaterialName" column="v_material_name" jdbcType="VARCHAR"/>
+        <result property="dtCreateAt" column="dt_create_at" jdbcType="TIMESTAMP"/>
+        <result property="dtModifyAt" column="dt_modify_at" jdbcType="TIMESTAMP"/>
+        <result property="iDelFlag" column="i_del_flag" jdbcType="INTEGER"/>
+        <collection property="attributes" column="v_material_id"
+                    ofType="com.shmashine.common.entity.TblMaterialAttribute">
+            <id property="vMaterialAttributeId" column="v_material_attribute_id" javaType="String" jdbcType="VARCHAR"/>
+            <result property="vMaterialId" column="v_material_id" javaType="String" jdbcType="VARCHAR"/>
+            <result property="vMaterialAttributeContent" column="v_material_attribute_content" javaType="String"
+                    jdbcType="VARCHAR"/>
+        </collection>
+    </resultMap>
+
+    <sql id="condition_with_no_del">
+        where tbl_material.i_del_flag = 0
+    </sql>
+
+    <select id="getMaterialList" resultMap="TblMaterialResultMap">
+        select
+        tbl_material.v_material_id, tbl_material.v_material_name, tbl_material.dt_modify_at, tbl_material.i_del_flag,
+        tbl_material_attribute.v_material_id, tbl_material_attribute.v_material_attribute_id,
+        tbl_material_attribute.v_material_attribute_content
+        from tbl_material left join tbl_material_attribute
+        on tbl_material.v_material_id = tbl_material_attribute.v_material_id
+        <include refid="condition_with_no_del"/>
+    </select>
+
+    <select id="search" resultMap="TblMaterialResultMap"
+            parameterType="com.shmashine.api.module.siteInvestigation.SearchSiteInvestigationModule">
+        select tbl_site_investigation.v_site_investigation_id, tbl_site_investigation.v_project_id,
+        tbl_project.v_project_name, tbl_site_investigation.v_elevator_id, tbl_elevator.v_elevator_code,
+        tbl_site_investigation.v_elevator_brand, tbl_site_investigation.i_status, tbl_site_investigation.i_del_flag,
+        tbl_site_investigation.v_address, tbl_site_investigation.i_floor, tbl_site_investigation.v_used_unit,
+        tbl_site_investigation.v_used_unit_tel, tbl_site_investigation.v_maintenance_unit,
+        tbl_site_investigation.v_main_unit_contact, tbl_site_investigation.i_carroof_220V,
+        tbl_site_investigation.v_floor_switch_loc, tbl_site_investigation.i_induct_person,
+        tbl_site_investigation.i_camera_loc, tbl_site_investigation.i_well_wifi,
+        tbl_site_investigation.i_mach_room_220V, tbl_site_investigation.i_noLoad_line,
+        tbl_site_investigation.i_mach_room_strength_wifi, tbl_site_investigation.i_mach_room_eth,
+        tbl_site_investigation.i_check_sign_line, tbl_site_investigation.v_other_note, tbl_site_investigation.v_remark,
+        tbl_site_investigation.v_worker, tbl_site_investigation.dt_date, tbl_site_investigation.dt_create_at,
+        tbl_site_investigation.dt_modify_at
+        from tbl_site_investigation
+        <if test="searchSiteInvestigationModule.isAdminFlag">
+            left join tbl_project on tbl_site_investigation.v_project_id = tbl_project.v_project_id
+            -- left join tbl_elevator on tbl_elevator.v_elevator_id = tbl_site_investigation.v_elevator_id
+        </if>
+
+        <if test="!searchSiteInvestigationModule.isAdminFlag">
+            inner join tbl_project on tbl_site_investigation.v_project_id = tbl_project.v_project_id
+        </if>
+
+        <if test="searchSiteInvestigationModule.vProjectId != null and searchSiteInvestigationModule.vProjectId != ''">
+            where tbl_site_investigation.v_project_id = #{searchSiteInvestigationModule.vProjectId}
+        </if>
+
+        <if test="searchSiteInvestigationModule.vSiteInvestigationId != null and searchSiteInvestigationModule.vSiteInvestigationId != ''">
+            and where tbl_site_investigation.v_site_investigation_id =
+            #{searchSiteInvestigationModule.vSiteInvestigationId}
+        </if>
+
+        <!--<if test="searchSiteInvestigationModule.vElevatorId != null and searchSiteInvestigationModule.vElevatorId != ''">-->
+        <!--and where tbl_site_investigation.v_elevator_id = #{searchSiteInvestigationModule.vElevatorId}-->
+        <!--</if>-->
+
+        <if test="!searchSiteInvestigationModule.isAdminFlag">
+            and where tbl_project.v_dept_id in
+            <foreach collection="searchSiteInvestigationModule.permissionDeptIds" item="item" open="(" close=")"
+                     separator=",">
+                #{item}
+            </foreach>
+        </if>
+    </select>
+</mapper>

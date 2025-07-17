@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.sender.dao.TblThridPartyRuijinCheckDao">
+
+    <resultMap type="com.shmashine.common.entity.TblThridPartyRuijinCheck" id="TblThridPartyRuijinCheckResultMap">
+        <result property="registerNumber" column="register_number" jdbcType="VARCHAR"/>
+        <result property="inspectOrgName" column="inspect_org_name" jdbcType="VARCHAR"/>
+        <result property="inspectOrgCode" column="inspect_org_code" jdbcType="VARCHAR"/>
+        <result property="inspectOrgLegalName" column="inspect_org_legal_name" jdbcType="VARCHAR"/>
+        <result property="inspectOrgLegalId" column="inspect_org_legal_ID" jdbcType="VARCHAR"/>
+        <result property="inspectType" column="inspect_type" jdbcType="INTEGER"/>
+        <result property="constructionCompanyName" column="construction_company_name" jdbcType="VARCHAR"/>
+        <result property="constructionType" column="construction_type" jdbcType="VARCHAR"/>
+        <result property="certNumber" column="cert_number" jdbcType="VARCHAR"/>
+        <result property="inspector" column="inspector" jdbcType="VARCHAR"/>
+        <result property="inspectorId" column="inspector_ID" jdbcType="VARCHAR"/>
+        <result property="problem" column="problem" jdbcType="VARCHAR"/>
+        <result property="result" column="result" jdbcType="VARCHAR"/>
+        <result property="reportNumber" column="report_number" jdbcType="VARCHAR"/>
+        <result property="inspectDate" column="inspect_date" jdbcType="OTHER"/>
+        <result property="nextInspectDate" column="next_inspect_date" jdbcType="OTHER"/>
+        <result property="standardVersion" column="standard_version" jdbcType="VARCHAR"/>
+        <result property="inspectOrgApprNumber" column="inspect_org_appr_number" jdbcType="VARCHAR"/>
+        <result property="unqualifiedItems" column="unqualified_items" jdbcType="VARCHAR"/>
+        <result property="preparer" column="preparer" jdbcType="VARCHAR"/>
+        <result property="prepareDate" column="prepare_date" jdbcType="OTHER"/>
+        <result property="reviewer" column="reviewer" jdbcType="VARCHAR"/>
+        <result property="reviewDate" column="review_date" jdbcType="OTHER"/>
+        <result property="approver" column="approver" jdbcType="VARCHAR"/>
+        <result property="approvedDate" column="approved_date" jdbcType="OTHER"/>
+        <result property="inspectDevices" column="inspect_devices" jdbcType="VARCHAR"/>
+        <result property="comment" column="comment" jdbcType="VARCHAR"/>
+        <result property="jyid" column="jyid" jdbcType="VARCHAR"/>
+        <result property="dtCreateTime" column="dt_create_time" jdbcType="TIMESTAMP"/>
+        <result property="dtModifyTime" column="dt_modify_time" jdbcType="TIMESTAMP"/>
+        <result property="vCreateUserId" column="v_create_user_id" jdbcType="VARCHAR"/>
+        <result property="vModifyUserId" column="v_modify_user_id" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="table_field">
+        register_number
+        , inspect_org_name, inspect_org_code, inspect_org_legal_name, inspect_org_legal_ID, inspect_type, construction_company_name, construction_type, cert_number, inspector, inspector_ID, problem, result, report_number, inspect_date, next_inspect_date, standard_version, inspect_org_appr_number, unqualified_items, preparer, prepare_date, reviewer, review_date, approver, approved_date, inspect_devices, comment, jyid, dt_create_time, dt_modify_time, v_create_user_id, v_modify_user_id
+    </sql>
+
+
+    <!--新增实体属性不为null的列-->
+    <insert id="insert" keyProperty="registerNumber" useGeneratedKeys="true"
+            parameterType="com.shmashine.common.entity.TblThridPartyRuijinCheck">
+        insert into tbl_thrid_party_ruijin_check
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="registerNumber != null">
+                register_number,
+            </if>
+            <if test="inspectOrgName != null">
+                inspect_org_name,
+            </if>
+            <if test="inspectOrgCode != null">
+                inspect_org_code,
+            </if>
+            <if test="inspectOrgLegalName != null">
+                inspect_org_legal_name,
+            </if>
+            <if test="inspectOrgLegalId != null">
+                inspect_org_legal_ID,
+            </if>
+            <if test="inspectType != null">
+                inspect_type,
+            </if>
+            <if test="constructionCompanyName != null">
+                construction_company_name,
+            </if>
+            <if test="constructionType != null">
+                construction_type,
+            </if>
+            <if test="certNumber != null">
+                cert_number,
+            </if>
+            <if test="inspector != null">
+                inspector,
+            </if>
+            <if test="inspectorId != null">
+                inspector_ID,
+            </if>
+            <if test="problem != null">
+                problem,
+            </if>
+            <if test="result != null">
+                result,
+            </if>
+            <if test="reportNumber != null">
+                report_number,
+            </if>
+            <if test="inspectDate != null">
+                inspect_date,
+            </if>
+            <if test="nextInspectDate != null">
+                next_inspect_date,
+            </if>
+            <if test="standardVersion != null">
+                standard_version,
+            </if>
+            <if test="inspectOrgApprNumber != null">
+                inspect_org_appr_number,
+            </if>
+            <if test="unqualifiedItems != null">
+                unqualified_items,
+            </if>
+            <if test="preparer != null">
+                preparer,
+            </if>
+            <if test="prepareDate != null">
+                prepare_date,
+            </if>
+            <if test="reviewer != null">
+                reviewer,
+            </if>
+            <if test="reviewDate != null">
+                review_date,
+            </if>
+            <if test="approver != null">
+                approver,
+            </if>
+            <if test="approvedDate != null">
+                approved_date,
+            </if>
+            <if test="inspectDevices != null">
+                inspect_devices,
+            </if>
+            <if test="comment != null">
+                comment,
+            </if>
+            <if test="jyid != null">
+                jyid,
+            </if>
+            <if test="overdue != null">
+                overdue,
+            </if>
+            <if test="dtCreateTime != null">
+                dt_create_time,
+            </if>
+            <if test="dtModifyTime != null">
+                dt_modify_time,
+            </if>
+            <if test="vCreateUserId != null">
+                v_create_user_id,
+            </if>
+            <if test="vModifyUserId != null">
+                v_modify_user_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="registerNumber != null">
+                #{registerNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="inspectOrgName != null">
+                #{inspectOrgName,jdbcType=VARCHAR},
+            </if>
+            <if test="inspectOrgCode != null">
+                #{inspectOrgCode,jdbcType=VARCHAR},
+            </if>
+            <if test="inspectOrgLegalName != null">
+                #{inspectOrgLegalName,jdbcType=VARCHAR},
+            </if>
+            <if test="inspectOrgLegalId != null">
+                #{inspectOrgLegalId,jdbcType=VARCHAR},
+            </if>
+            <if test="inspectType != null">
+                #{inspectType,jdbcType=INTEGER},
+            </if>
+            <if test="constructionCompanyName != null">
+                #{constructionCompanyName,jdbcType=VARCHAR},
+            </if>
+            <if test="constructionType != null">
+                #{constructionType,jdbcType=VARCHAR},
+            </if>
+            <if test="certNumber != null">
+                #{certNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="inspector != null">
+                #{inspector,jdbcType=VARCHAR},
+            </if>
+            <if test="inspectorId != null">
+                #{inspectorId,jdbcType=VARCHAR},
+            </if>
+            <if test="problem != null">
+                #{problem,jdbcType=VARCHAR},
+            </if>
+            <if test="result != null">
+                #{result,jdbcType=VARCHAR},
+            </if>
+            <if test="reportNumber != null">
+                #{reportNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="inspectDate != null">
+                #{inspectDate,jdbcType=OTHER},
+            </if>
+            <if test="nextInspectDate != null">
+                #{nextInspectDate,jdbcType=OTHER},
+            </if>
+            <if test="standardVersion != null">
+                #{standardVersion,jdbcType=VARCHAR},
+            </if>
+            <if test="inspectOrgApprNumber != null">
+                #{inspectOrgApprNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="unqualifiedItems != null">
+                #{unqualifiedItems,jdbcType=VARCHAR},
+            </if>
+            <if test="preparer != null">
+                #{preparer,jdbcType=VARCHAR},
+            </if>
+            <if test="prepareDate != null">
+                #{prepareDate,jdbcType=OTHER},
+            </if>
+            <if test="reviewer != null">
+                #{reviewer,jdbcType=VARCHAR},
+            </if>
+            <if test="reviewDate != null">
+                #{reviewDate,jdbcType=OTHER},
+            </if>
+            <if test="approver != null">
+                #{approver,jdbcType=VARCHAR},
+            </if>
+            <if test="approvedDate != null">
+                #{approvedDate,jdbcType=OTHER},
+            </if>
+            <if test="inspectDevices != null">
+                #{inspectDevices,jdbcType=VARCHAR},
+            </if>
+            <if test="comment != null">
+                #{comment,jdbcType=VARCHAR},
+            </if>
+            <if test="jyid != null">
+                #{jyid,jdbcType=VARCHAR},
+            </if>
+            <if test="overdue != null">
+                #{overdue},
+            </if>
+            <if test="dtCreateTime != null">
+                #{dtCreateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="dtModifyTime != null">
+                #{dtModifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="vCreateUserId != null">
+                #{vCreateUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="vModifyUserId != null">
+                #{vModifyUserId,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <!--批量新增所有列，列表长度不能为0-->
+    <insert id="insertBatch" keyProperty="registerNumber" useGeneratedKeys="true" parameterType="list">
+        insert into tbl_thrid_party_ruijin_check
+        ( register_number ,inspect_org_name, inspect_org_code, inspect_org_legal_name, inspect_org_legal_ID,
+        inspect_type, construction_company_name, construction_type, cert_number, inspector, inspector_ID, problem,
+        result, report_number, inspect_date, next_inspect_date, standard_version, inspect_org_appr_number,
+        unqualified_items, preparer, prepare_date, reviewer, review_date, approver, approved_date, inspect_devices,
+        comment, jyid, dt_create_time, dt_modify_time, v_create_user_id, v_modify_user_id)
+        values
+        <foreach item="item" collection="list" separator="," open="" close="" index="index">
+            (#{item.registerNumber,jdbcType=VARCHAR},#{item.inspectOrgName,jdbcType=VARCHAR},
+            #{item.inspectOrgCode,jdbcType=VARCHAR}, #{item.inspectOrgLegalName,jdbcType=VARCHAR},
+            #{item.inspectOrgLegalId,jdbcType=VARCHAR}, #{item.inspectType,jdbcType=INTEGER},
+            #{item.constructionCompanyName,jdbcType=VARCHAR}, #{item.constructionType,jdbcType=VARCHAR},
+            #{item.certNumber,jdbcType=VARCHAR}, #{item.inspector,jdbcType=VARCHAR},
+            #{item.inspectorId,jdbcType=VARCHAR}, #{item.problem,jdbcType=VARCHAR}, #{item.result,jdbcType=VARCHAR},
+            #{item.reportNumber,jdbcType=VARCHAR}, #{item.inspectDate,jdbcType=OTHER},
+            #{item.nextInspectDate,jdbcType=OTHER}, #{item.standardVersion,jdbcType=VARCHAR},
+            #{item.inspectOrgApprNumber,jdbcType=VARCHAR}, #{item.unqualifiedItems,jdbcType=VARCHAR},
+            #{item.preparer,jdbcType=VARCHAR}, #{item.prepareDate,jdbcType=OTHER}, #{item.reviewer,jdbcType=VARCHAR},
+            #{item.reviewDate,jdbcType=OTHER}, #{item.approver,jdbcType=VARCHAR}, #{item.approvedDate,jdbcType=OTHER},
+            #{item.inspectDevices,jdbcType=VARCHAR}, #{item.comment,jdbcType=VARCHAR}, #{item.jyid,jdbcType=VARCHAR},
+            now(), now(), 'sys', 'sys')
+        </foreach>
+    </insert>
+
+    <!--通过主键删除-->
+    <delete id="deleteByReportNumber" parameterType="java.lang.String">
+        delete
+        from tbl_thrid_party_ruijin_check
+        where report_number = #{reportNumber,jdbcType=VARCHAR}
+    </delete>
+
+    <!--通过主键删除-->
+    <delete id="deleteAll" parameterType="java.lang.String">
+        delete
+        from tbl_thrid_party_ruijin_check
+    </delete>
+
+    <select id="getElevatorCheckInfo" resultMap="TblThridPartyRuijinCheckResultMap" parameterType="java.lang.String">
+        select *
+        from tbl_thrid_party_ruijin_check
+        where report_number = #{value}
+    </select>
+
+    <select id="getElevatorLastCheckInfoByRegisterNumer" parameterType="java.lang.String"
+            resultMap="TblThridPartyRuijinCheckResultMap">
+        select *
+        from tbl_thrid_party_ruijin_check
+        where register_number = #{value}
+        order by inspect_date desc limit 0,1
+    </select>
+
+</mapper>

@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.api.dao.KpiProjectIotMapper">
+    <sql id="TABLE_NAME">
+        kpi_project_iot
+    </sql>
+    <sql id="BASE_COLUMNS">
+        project_id
+        , `day`, elevator_total, elevator_offline_realtime,
+            elevator_fault_realtime, camera_total, camera_offline_realtime
+    </sql>
+    <sql id="ALL_COLUMNS">
+        <include refid="BASE_COLUMNS"/>,
+        id, project_name, elevator_offline_max, elevator_fault_max, camera_offline_max, create_time, modify_time
+    </sql>
+    <sql id="SET_COLUMNS">
+        <if test="entity.projectName != null and entity.projectName != ''">project_name = #{entity.projectName},</if>
+        <if test="entity.elevatorTotal != null">elevator_total = #{entity.elevatorTotal},</if>
+        <if test="entity.elevatorOfflineMax != null">elevator_offline_max = #{entity.elevatorOfflineMax},</if>
+        <if test="entity.elevatorOfflineRealtime != null">elevator_offline_realtime =
+            #{entity.elevatorOfflineRealtime},
+        </if>
+        <if test="entity.elevatorFaultMax != null">elevator_fault_max = #{entity.elevatorFaultMax},</if>
+        <if test="entity.elevatorFaultRealtime != null">elevator_fault_realtime = #{entity.elevatorFaultRealtime},</if>
+        <if test="entity.cameraTotal != null">camera_total = #{entity.cameraTotal},</if>
+        <if test="entity.cameraOfflineMax != null">camera_offline_max = #{entity.cameraOfflineMax},</if>
+        <if test="entity.cameraOfflineRealtime != null">camera_offline_realtime = #{entity.cameraOfflineRealtime},</if>
+    </sql>
+
+    <!-- 查询 -->
+
+    <!-- 根据项目id和日期获取项目的统计数据 -->
+    <select id="getKpiProjectIotEntityByProjectIdAndDate" resultType="com.shmashine.common.entity.KpiProjectIotEntity">
+        SELECT
+        <include refid="ALL_COLUMNS"/>
+        FROM
+        <include refid="TABLE_NAME"/>
+        WHERE project_id = #{projectId}
+        AND `day` = #{day}
+    </select>
+
+    <!-- 根据项目id获取项目的统计数据列表 -->
+    <select id="listKpiProjectIotEntityByProjectId" resultType="com.shmashine.common.entity.KpiProjectIotEntity">
+        SELECT
+        <include refid="ALL_COLUMNS"/>
+        FROM
+        <include refid="TABLE_NAME"/>
+        WHERE project_id = #{projectId}
+        ORDER BY `day` ASC
+    </select>
+
+    <!-- 根据日期获取项目的统计数据列表 -->
+    <select id="listKpiProjectIotEntityByDate" resultType="com.shmashine.common.entity.KpiProjectIotEntity">
+        SELECT
+        <include refid="ALL_COLUMNS"/>
+        FROM
+        <include refid="TABLE_NAME"/>
+        WHERE `day` = #{day}
+    </select>
+
+    <!-- 根据指定日期查询项目的统计数据列表 -->
+    <select id="listKpiProjectIotEntityByProjectIdsAndDay" resultType="com.shmashine.common.entity.KpiProjectIotEntity">
+        SELECT
+        <include refid="ALL_COLUMNS"/>
+        FROM
+        <include refid="TABLE_NAME"/>
+        WHERE `day` = #{day}
+        AND project_id IN
+        <foreach collection="projectIds" item="projectId" open="(" separator="," close=")">
+            #{projectId}
+        </foreach>
+    </select>
+
+    <!-- 根据指定日期范围查询项目的统计数据列表 -->
+    <select id="getKpiProjectIotByDateRange" resultType="com.shmashine.common.dto.KpiProjectIotDTO">
+        SELECT project_id, MAX(elevator_total) AS elevator_total, MAX(camera_total) AS camera_total,
+        MAX(elevator_offline_max) AS elevator_offline_max, AVG(elevator_offline_max) AS elevator_offline_avg,
+        MAX(elevator_fault_max) AS elevator_fault_max, AVG(elevator_fault_max) AS elevator_fault_avg,
+        MAX(camera_offline_max) AS camera_offline_max, AVG(camera_offline_max) AS camera_offline_avg
+        FROM
+        <include refid="TABLE_NAME"/>
+        WHERE `day` &gt;= #{startDate} AND `day` &lt;= #{endDate}
+        AND project_id IN
+        <foreach collection="projectIds" item="projectId" open="(" separator="," close=")">
+            #{projectId}
+        </foreach>
+        GROUP BY project_id
+    </select>
+
+    <!-- 根据指定日期范围查询项目的数据列表明细 -->
+    <select id="listKpiProjectIotDetailByDateRange" resultType="com.shmashine.common.entity.KpiProjectIotEntity">
+        SELECT project_id, project_name, `day`, elevator_total, camera_total, elevator_offline_max, elevator_fault_max,
+        camera_offline_max
+        FROM
+        <include refid="TABLE_NAME"/>
+        WHERE `day` &gt;= #{startDate} AND `day` &lt;= #{endDate}
+        AND project_id IN
+        <foreach collection="projectIds" item="projectId" open="(" separator="," close=")">
+            #{projectId}
+        </foreach>
+        ORDER BY `day` ASC
+    </select>
+
+
+    <!-- 添加 -->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true"
+            parameterType="com.shmashine.common.entity.KpiProjectIotEntity">
+        INSERT INTO
+        <include refid="TABLE_NAME"/>
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            project_id, `day`,
+            <if test="entity.projectName != null and entity.projectName != ''">project_name,</if>
+            <if test="entity.elevatorTotal != null">elevator_total,</if>
+            <if test="entity.elevatorOfflineMax != null">elevator_offline_max,</if>
+            <if test="entity.elevatorOfflineRealtime != null">elevator_offline_realtime,</if>
+            <if test="entity.elevatorFaultMax != null">elevator_fault_max,</if>
+            <if test="entity.elevatorFaultRealtime != null">elevator_fault_realtime,</if>
+            <if test="entity.cameraTotal != null">camera_total,</if>
+            <if test="entity.cameraOfflineMax != null">camera_offline_max,</if>
+            <if test="entity.cameraOfflineRealtime != null">camera_offline_realtime,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            #{entity.projectId}, #{entity.day},
+            <if test="entity.projectName != null and entity.projectName != ''">#{entity.projectName},</if>
+            <if test="entity.elevatorTotal != null">#{entity.elevatorTotal},</if>
+            <if test="entity.elevatorOfflineMax != null">#{entity.elevatorOfflineMax},</if>
+            <if test="entity.elevatorOfflineRealtime != null">#{entity.elevatorOfflineRealtime},</if>
+            <if test="entity.elevatorFaultMax != null">#{entity.elevatorFaultMax},</if>
+            <if test="entity.elevatorFaultRealtime != null">#{entity.elevatorFaultRealtime},</if>
+            <if test="entity.cameraTotal != null">#{entity.cameraTotal},</if>
+            <if test="entity.cameraOfflineMax != null">#{entity.cameraOfflineMax},</if>
+            <if test="entity.cameraOfflineRealtime != null">#{entity.cameraOfflineRealtime},</if>
+        </trim>
+    </insert>
+
+    <!-- 删除 -->
+    <delete id="deleteById">
+        DELETE
+        FROM
+        <include refid="TABLE_NAME"/>
+        WHERE id = #{id}
+    </delete>
+
+    <!-- 更新 -->
+    <update id="updateById" parameterType="com.shmashine.common.entity.KpiProjectIotEntity">
+        UPDATE
+        <include refid="TABLE_NAME"/>
+        <set>
+            <include refid="SET_COLUMNS"/>
+        </set>
+        WHERE id = #{entity.id}
+    </update>
+
+</mapper>

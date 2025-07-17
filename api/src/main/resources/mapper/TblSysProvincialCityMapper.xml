@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.api.dao.TblSysProvincialCityMapper">
+
+    <!--<resultMap type="com.shmashine.common.entity.TblSysProvincialCityEntity" id="ResultMap">
+        <result property="areaId" column="i_areaId" jdbcType="INTEGER"/>
+        <result property="areaCode" column="v_areaCode" jdbcType="VARCHAR"/>
+        <result property="areaName" column="v_areaName" jdbcType="VARCHAR"/>
+        <result property="level" column="i_level" jdbcType="INTEGER"/>
+        <result property="cityCode" column="v_cityCode" jdbcType="VARCHAR"/>
+        <result property="center" column="v_center" jdbcType="VARCHAR"/>
+        <result property="parentId" column="i_parentId" jdbcType="INTEGER"/>
+    </resultMap>-->
+
+    <sql id="TABLE_NAME">
+        tbl_sys_provincial_city
+    </sql>
+    <sql id="ALL_COLUMNS">
+        i_areaId
+        AS areaId
+        , v_areaCode AS areaCode
+        , v_areaName AS areaName
+        , i_level AS `level`
+        , v_cityCode AS cityCode
+        , v_center AS center
+        , i_parentId AS parentId
+    </sql>
+
+    <select id="getByNameAndLevel" resultType="com.shmashine.common.entity.TblSysProvincialCityEntity">
+        SELECT
+        <include refid="ALL_COLUMNS"/>
+        FROM
+        <include refid="TABLE_NAME"/>
+        WHERE v_areaName LIKE CONCAT(#{areaName}, "%") AND i_level = #{level}
+        <if test="cityCode != null and cityCode != ''">
+            and v_cityCode = #{cityCode}
+        </if>
+        LIMIT 1
+    </select>
+
+    <select id="getProvinceByAreaCode" resultType="com.shmashine.common.entity.TblSysProvincialCityEntity">
+        SELECT
+        <include refid="ALL_COLUMNS"/>
+        FROM
+        <include refid="TABLE_NAME"/>
+        WHERE v_areaCode = #{areaCode} AND i_level = 1
+        LIMIT 1
+    </select>
+
+
+</mapper>

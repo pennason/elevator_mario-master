@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shmashine.pm.api.dao.BizVillageDao">
+
+    <resultMap type="com.shmashine.pm.api.entity.dto.TblVillageDto" id="TblVillageResultDtoMap">
+        <result property="vVillageId" column="v_village_id" jdbcType="VARCHAR"/>
+        <result property="vVillageName" column="v_village_name" jdbcType="VARCHAR"/>
+        <result property="vAddress" column="v_address" jdbcType="VARCHAR"/>
+        <result property="vProjectId" column="v_project_id" jdbcType="VARCHAR"/>
+        <result property="vLongitude" column="v_longitude" jdbcType="VARCHAR"/>
+        <result property="vLatitude" column="v_latitude" jdbcType="VARCHAR"/>
+        <result property="vRemarks" column="v_remarks" jdbcType="VARCHAR"/>
+        <result property="vContactsId" column="v_contacts_id" jdbcType="VARCHAR"/>
+        <result property="vContactsPhone" column="v_contacts_phone" jdbcType="VARCHAR"/>
+        <result property="vInvestigatorId" column="v_investigator_id" jdbcType="VARCHAR"/>
+        <result property="dInvestigateDate" column="d_investigate_date" jdbcType="TIMESTAMP"/>
+        <result property="vInstallerId" column="v_installer_id" jdbcType="VARCHAR"/>
+        <result property="dInstallDate" column="d_install_date" jdbcType="TIMESTAMP"/>
+        <result property="iElevatorCount" column="i_elevator_count" jdbcType="INTEGER"/>
+        <result property="iStatus" column="i_status" jdbcType="INTEGER"/>
+        <result property="vStatusName" column="v_status_name" jdbcType="VARCHAR"/>
+        <result property="dtCreateTime" column="dt_create_time" jdbcType="TIMESTAMP"/>
+        <result property="dtModifyTime" column="dt_modify_time" jdbcType="TIMESTAMP"/>
+        <result property="vCreateUserId" column="v_create_user_id" jdbcType="VARCHAR"/>
+        <result property="vModifyUserId" column="v_modify_user_id" jdbcType="VARCHAR"/>
+        <result property="iDelFlag" column="i_del_flag" jdbcType="INTEGER"/>
+        <result property="vContactsName" column="v_contacts_name" jdbcType="VARCHAR"/>
+        <result property="vInvestigatorName" column="v_investigator_name" jdbcType="VARCHAR"/>
+        <result property="vProjectName" column="v_project_name" jdbcType="VARCHAR"/>
+        <result property="vInstallerName" column="v_installer_name" jdbcType="VARCHAR"/>
+
+        <result property="groupLeasingStatus" column="group_leasing_status" jdbcType="INTEGER"/>
+        <result property="groupLeasingTimeCoefficient" column="group_leasing_time_coefficient" jdbcType="VARCHAR"/>
+        <result property="groupLeasingStepRange" column="group_leasing_step_range" jdbcType="VARCHAR"/>
+        <result property="groupLeasingStartDate" column="group_leasing_start_date" jdbcType="DATE"/>
+        <result property="groupLeasingEndDate" column="group_leasing_end_date" jdbcType="DATE"/>
+        <result property="groupLeasingStartTime" column="group_leasing_start_time" jdbcType="TIME"/>
+        <result property="groupLeasingEndTime" column="group_leasing_end_time" jdbcType="TIME"/>
+        <result property="groupLeasingResult" column="group_leasing_result" jdbcType="INTEGER"/>
+        <result property="street" column="street" jdbcType="VARCHAR"/>
+        <result property="neighborhood" column="neighborhood" jdbcType="VARCHAR"/>
+    </resultMap>
+
+
+    <sql id="table_field">
+        tbl_village
+        .
+        v_village_id
+        , tbl_village.v_village_name, tbl_village.v_address, tbl_village.v_project_id,
+          tbl_village.v_remarks, tbl_village.v_contacts_id, tbl_village.v_investigator_id,
+          tbl_village.d_investigate_date, tbl_village.v_installer_id, tbl_village.d_install_date,
+          tbl_village.i_elevator_count, tbl_village.i_status, tbl_village.v_latitude, tbl_village.v_longitude,
+          tbl_village.v_contacts_name, tbl_village.v_contacts_phone, tbl_village.dt_create_time,
+          tbl_village.dt_modify_time, tbl_village.v_create_user_id, tbl_village.v_modify_user_id,
+          tbl_village.i_del_flag,
+
+          tbl_village.group_leasing_status, tbl_village.group_leasing_time_coefficient,
+          tbl_village.group_leasing_step_range,tbl_village.group_leasing_start_date,tbl_village.group_leasing_end_date,
+          tbl_village.group_leasing_start_time,tbl_village.group_leasing_end_time,tbl_village.group_leasing_result,
+          tbl_village.street, tbl_village.neighborhood
+    </sql>
+
+    <!-- 小区列表 -->
+    <select id="searchVillageList" resultType="java.util.Map">
+        select
+        village.v_village_id,
+        village.v_village_name,
+        village.v_address,
+        village.v_project_id,
+        village.v_contacts_id,
+        village.v_investigator_id,
+        village.d_investigate_date,
+        village.v_installer_id,
+        village.d_install_date,
+        village.i_elevator_count,
+        village.v_contacts_name,
+        village.v_contacts_phone,
+        village.i_status,
+
+        village.group_leasing_status,
+        village.group_leasing_time_coefficient,
+        village.group_leasing_step_range,
+        village.group_leasing_start_date,
+        village.group_leasing_end_date,
+        village.group_leasing_start_time,
+        village.group_leasing_end_time,
+        village.group_leasing_result,
+
+        village.street, village.neighborhood,
+
+        u.v_name as v_installer_name,
+        u2.v_name as v_investigator_name,
+        project.v_project_name,
+        min(elevator.i_pm_status) as min_pm_status,
+        case
+        when min(elevator.i_pm_status) = 1 then '待现勘'
+        when min(elevator.i_pm_status) = 2 then '待配货'
+        when min(elevator.i_pm_status) = 3 then '待安装'
+        when min(elevator.i_pm_status) = 4 then '待调试'
+        when min(elevator.i_pm_status) = 5 then '待验收'
+        when min(elevator.i_pm_status) = 6 then '运行中'
+        when min(elevator.i_pm_status) = 7 then '托管'
+        when min(elevator.i_pm_status) = 11 then '现勘中'
+        when min(elevator.i_pm_status) = 12 then '配货中'
+        when min(elevator.i_pm_status) = 13 then '安装中'
+        when min(elevator.i_pm_status) = 14 then '调试中'
+        when min(elevator.i_pm_status) = 15 then '验收中'
+        else '待现勘'
+        end as v_pm_status_name
+        from tbl_village village
+        left join tbl_project project on project.v_project_id = village.v_project_id
+        left join tbl_elevator elevator on elevator.v_village_id = village.v_village_id and elevator.v_project_id =
+        village.v_project_id and elevator.i_del_flag = 0
+        left join tbl_sys_dept dept on dept.v_dept_id = project.v_dept_id
+        left join (select v_user_id, v_name from tbl_sys_user) as u on u.v_user_id = village.v_installer_id
+        left join (select v_user_id, v_name from tbl_sys_user) as u2 on u2.v_user_id = village.v_investigator_id
+        <where>
+            <if test="vVillageId != null and vVillageId != ''">
+                and village.v_village_id = #{vVillageId,jdbcType=VARCHAR}
+            </if>
+            <if test="vVillageName != null and vVillageName != ''">
+                and village.v_village_name like CONCAT('%',#{vVillageName,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="vAddress != null and vAddress != ''">
+                and village.v_address like CONCAT('%',#{vAddress,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="vProjectId != null and vProjectId != ''">
+                and village.v_project_id = #{vProjectId,jdbcType=VARCHAR}
+            </if>
+            <if test="vRemarks != null and vRemarks != ''">
+                and village.v_remarks like CONCAT('%',#{vRemarks,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="iDelFlag != null">
+                and village.i_del_flag = #{iDelFlag,jdbcType=INTEGER}
+            </if>
+
+            <if test="groupLeasingStatus != null">
+                and village.group_leasing_status = #{groupLeasingStatus,jdbcType=INTEGER}
+            </if>
+            <if test="groupLeasingResult != null">
+                and village.group_leasing_result = #{groupLeasingResult,jdbcType=INTEGER}
+            </if>
+            <if test="!isAdminFlag">
+                and project.v_dept_id
+                <foreach collection="permissionDeptIds" item="item" open="IN(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+        group by village.v_village_id
+        <if test="iStatus != null and iStatus == 1">
+            having min_pm_status = #{iStatus, jdbcType=INTEGER} or min_pm_status is null
+        </if>
+        <if test="iStatus != null and iStatus != 1">
+            having min_pm_status = #{iStatus, jdbcType=INTEGER}
+        </if>
+        order by village.dt_create_time desc
+    </select>
+
+    <!--通过Id查询单个-->
+    <select id="getBizInfoById" resultMap="TblVillageResultDtoMap" parameterType="java.lang.String">
+        select
+        <include refid="table_field"/>,
+        min(elevator.i_pm_status) as min_pm_status,
+        case
+        when min(elevator.i_pm_status) = 1 then "待现勘"
+        when min(elevator.i_pm_status) = 2 then "待配货"
+        when min(elevator.i_pm_status) = 3 then "待安装"
+        when min(elevator.i_pm_status) = 4 then "待调测"
+        when min(elevator.i_pm_status) = 5 then "待验收"
+        when min(elevator.i_pm_status) = 6 then "运行中"
+        when min(elevator.i_pm_status) = 7 then "托管"
+        when min(elevator.i_pm_status) = 11 then "现勘中"
+        when min(elevator.i_pm_status) = 12 then "配货中"
+        when min(elevator.i_pm_status) = 13 then "安装中"
+        when min(elevator.i_pm_status) = 14 then "调测中"
+        when min(elevator.i_pm_status) = 15 then "验收中"
+        else "待现勘"
+        end v_status_name,
+        project.v_project_name,
+        u1.v_name as v_installer_name,
+        u1.v_mobile as v_installer_phone,
+        u2.v_name as v_investigator_name,
+        u2.v_mobile as v_investigator_phone
+        from tbl_village
+        inner join tbl_elevator as elevator
+        on elevator.v_village_id = tbl_village.v_village_id and elevator.i_del_flag = 0
+        left join tbl_sys_user as u
+        on u.v_user_id = tbl_village.v_contacts_id
+        left join tbl_sys_user u1
+        on u1.v_user_id = tbl_village.v_installer_id
+        left join tbl_sys_user u2
+        on u2.v_user_id = tbl_village.v_investigator_id
+        join tbl_project project
+        on tbl_village.v_project_id = project.v_project_id
+        where tbl_village.v_village_id = #{vVillageId,jdbcType=VARCHAR}
+    </select>
+
+    <!-- 获取小区下拉框 -->
+    <select id="searchVillageSelectList" resultType="java.util.Map">
+        select
+        v_village_id,
+        v_village_name,
+        v_address,
+        v_img_url
+        from tbl_village
+        <where>
+            v_project_id = #{projectId}
+        </where>
+    </select>
+
+    <delete id="clearVillageAllInfo" parameterType="java.lang.String">
+        delete
+        tbl_village, tbl_investigate_task, tbl_village_device_bill, tbl_testing_task, tbl_checking_task
+      from tbl_village
+      left join tbl_investigate_task on tbl_village.v_village_id = tbl_investigate_task.v_village_id
+      left join tbl_village_device_bill on tbl_village.v_village_id = tbl_village_device_bill.v_village_id
+      left join tbl_testing_task on tbl_village.v_village_id = tbl_testing_task.v_village_id
+      left join tbl_checking_task on tbl_village.v_village_id = tbl_checking_task.v_village_id
+      where tbl_village.v_village_id =
+        #{vVillageId,jdbcType=VARCHAR}
+    </delete>
+</mapper>

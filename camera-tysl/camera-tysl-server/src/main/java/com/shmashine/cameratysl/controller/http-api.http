@@ -1,0 +1,44 @@
+### 测试语音文件上传
+POST https://aiv.sh.189.cn:8002/vdmp/api/voice/intercom
+token: 389Fin8D0AKoYgY/bdDdIAZkvg5992nRMpgUmc0WJVoK8NLskHARiK0gO98PRBn8MltJCM1u8zrHz/rQrgxYK66mlJirjPoQUTRTJHcx+OboFdO8/xUXfbWEg5JQiRRApYxRXsy84i44yRxiSZflbM6rw==918
+transactionId: TYSL-POST-FORMbf0aff75-9b09-4913-a951-f30676cf2c3f
+Content-Type: multipart/form-data
+
+{
+  "guid": "1021694032470950940861",
+  "uid": "uid-20230823170350",
+  "time": "20230823170350",
+  "callbackUrl": "http://tysl.camera.shmashine.com:8005/tysl-callback/cutting-video-download-url"
+}
+
+### 测试语音对讲
+POST https://vcp.21cn.com/open/u/vpaas/voice/talkback
+Content-Type: application/x-www-form-urlencoded
+
+{"deviceId": "5cdf3105c9be116bdb6e7767ed6a9113"}
+
+### 获取Token
+GET https://aiv.sh.189.cn:8002/vdmp/api/device/stream-token/5cdf3105c9be116bdb6e7767ed6a9113
+token: 933yBsPGSDudjnJVuL3vENo91HTM++6sjkDHQLqzIMEgOCrZkDccGZ6bNUdiUAN79dLVoptT0QE0D2DwLlxaDTzETWBRqsbLAMY2wZzj8k6rP2NUAg6nf7tCcpMwchjQ2f5w8eqh/z9JULjyXq6Y23+Yw==391
+transactionId: TYSL-POST-FORMbf0aff75-9b09-4913-a951-f30676cf2c3b
+
+
+### 获取对讲WSS
+POST https://aiv.sh.189.cn:8002/vdmp/api/voice/getWss
+token: 933yBsPGSDudjnJVuL3vENo91HTM++6sjkDHQLqzIMEgOCrZkDccGZ6bNUdiUAN79dLVoptT0QE0D2DwLlxaDTzETWBRqsbLAMY2wZzj8k6rP2NUAg6nf7tCcpMwchjQ2f5w8eqh/z9JULjyXq6Y23+Yw==391
+transactionId: test1211111
+Content-Type: application/x-www-form-urlencoded
+
+guid=5cdf3105c9be116bdb6e7767ed6a9113&domain=1
+
+### 获取对讲WSS2
+POST https://aiv.sh.189.cn:8002/vdmp/api/voice/getWss
+token: 933yBsPGSDudjnJVuL3vENo91HTM++6sjkDHQLqzIMEgOCrZkDccGZ6bNUdiUAN79dLVoptT0QE0D2DwLlxaDTzETWBRqsbLAMY2wZzj8k6rP2NUAg6nf7tCcpMwchjQ2f5w8eqh/z9JULjyXq6Y23+Yw==391
+transactionId: test1211111
+Content-Type: application/json
+
+{
+  "guid": "5cdf3105c9be116bdb6e7767ed6a9113",
+  "domain": 1
+}
+

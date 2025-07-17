@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.pm.api.dao.TblSysDeptUserDao">
+
+    <resultMap type="com.shmashine.pm.api.entity.TblSysDeptUser" id="TblSysDeptUserResultMap">
+        <result property="vDeptId" column="v_dept_id" jdbcType="VARCHAR"/>
+        <result property="vUserId" column="v_user_id" jdbcType="VARCHAR"/>
+        <result property="dtCreatetime" column="dt_createTime" jdbcType="TIMESTAMP"/>
+        <result property="dtModifytime" column="dt_modifyTime" jdbcType="TIMESTAMP"/>
+        <result property="vCreateid" column="v_createid" jdbcType="VARCHAR"/>
+        <result property="vModifyid" column="v_modifyid" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="table_field">
+        tbl_sys_dept_user
+        .
+        v_dept_id
+        , tbl_sys_dept_user.v_user_id, tbl_sys_dept_user.dt_createTime, tbl_sys_dept_user.dt_modifyTime, tbl_sys_dept_user.v_createid, tbl_sys_dept_user.v_modifyid
+    </sql>
+
+    <!--通过Id查询单个-->
+    <select id="getById" resultMap="TblSysDeptUserResultMap" parameterType="java.lang.String">
+        select
+        <include refid="table_field"/>
+        from tbl_sys_dept_user
+        where v_dept_id = #{vDeptId,jdbcType=VARCHAR}
+    </select>
+
+
+    <!--通过实体不为空的属性作为筛选条件查询列表-->
+    <select id="listByEntity" resultMap="TblSysDeptUserResultMap"
+            parameterType="com.shmashine.pm.api.entity.TblSysDeptUser">
+        select
+        <include refid="table_field"/>
+        from tbl_sys_dept_user
+        <where>
+            <if test="vDeptId != null">
+                and v_dept_id = #{vDeptId,jdbcType=VARCHAR}
+            </if>
+            <if test="vUserId != null">
+                and v_user_id = #{vUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="dtCreatetime != null">
+                and dt_createTime = #{dtCreatetime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="dtModifytime != null">
+                and dt_modifyTime = #{dtModifytime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="vCreateid != null">
+                and v_createid = #{vCreateid,jdbcType=VARCHAR}
+            </if>
+            <if test="vModifyid != null">
+                and v_modifyid = #{vModifyid,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+    <!--通过实体不为空的属性作为筛选条件查询单个-->
+    <select id="getByEntity" resultMap="TblSysDeptUserResultMap"
+            parameterType="com.shmashine.pm.api.entity.TblSysDeptUser">
+        select
+        <include refid="table_field"/>
+        from
+        tbl_sys_dept_user
+        <where>
+            <if test="vDeptId != null">
+                and tbl_sys_dept_user.v_dept_id = #{vDeptId,jdbcType=VARCHAR}
+            </if>
+            <if test="vUserId != null">
+                and tbl_sys_dept_user.v_user_id = #{vUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="dtCreatetime != null">
+                and tbl_sys_dept_user.dt_createTime = #{dtCreatetime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="dtModifytime != null">
+                and tbl_sys_dept_user.dt_modifyTime = #{dtModifytime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="vCreateid != null">
+                and tbl_sys_dept_user.v_createid = #{vCreateid,jdbcType=VARCHAR}
+            </if>
+            <if test="vModifyid != null">
+                and tbl_sys_dept_user.v_modifyid = #{vModifyid,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+    <!--通过Id列表作为筛选条件查询列表，列表长度不为0-->
+    <select id="listByIds" resultMap="TblSysDeptUserResultMap" parameterType="list">
+        select
+        <include refid="table_field"/>
+        from tbl_sys_dept_user
+        where v_dept_id in
+        <foreach item="item" collection="list" separator="," open="(" close=")" index="index">
+            #{item}
+        </foreach>
+    </select>
+
+    <!--新增实体属性不为null的列-->
+    <insert id="insert" keyProperty="vDeptId" useGeneratedKeys="true"
+            parameterType="com.shmashine.pm.api.entity.TblSysDeptUser">
+        insert into tbl_sys_dept_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="vDeptId != null">
+                v_dept_id,
+            </if>
+            <if test="vUserId != null">
+                v_user_id,
+            </if>
+            <if test="dtCreatetime != null">
+                dt_createTime,
+            </if>
+            <if test="dtModifytime != null">
+                dt_modifyTime,
+            </if>
+            <if test="vCreateid != null">
+                v_createid,
+            </if>
+            <if test="vModifyid != null">
+                v_modifyid,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="vDeptId != null">
+                #{vDeptId,jdbcType=VARCHAR},
+            </if>
+            <if test="vUserId != null">
+                #{vUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="dtCreatetime != null">
+                #{dtCreatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="dtModifytime != null">
+                #{dtModifytime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="vCreateid != null">
+                #{vCreateid,jdbcType=VARCHAR},
+            </if>
+            <if test="vModifyid != null">
+                #{vModifyid,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <!--批量新增所有列，列表长度不能为0-->
+    <insert id="insertBatch" keyProperty="vDeptId" useGeneratedKeys="true" parameterType="list">
+        insert into tbl_sys_dept_user
+        ( v_dept_id , v_user_id ,dt_createTime, dt_modifyTime, v_createid, v_modifyid)
+        values
+        <foreach item="item" collection="list" separator="," open="" close="" index="index">
+            (#{item.vDeptId,jdbcType=VARCHAR}, #{item.vUserId,jdbcType=VARCHAR},#{item.dtCreatetime,jdbcType=TIMESTAMP},
+            #{item.dtModifytime,jdbcType=TIMESTAMP}, #{item.vCreateid,jdbcType=VARCHAR},
+            #{item.vModifyid,jdbcType=VARCHAR})
+        </foreach>
+    </insert>
+
+    <!--通过主键修改实体属性不为null的列-->
+    <update id="update" parameterType="com.shmashine.pm.api.entity.TblSysDeptUser">
+        update tbl_sys_dept_user
+        <set>
+            <if test="dtCreatetime != null">
+                dt_createTime = #{dtCreatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="dtModifytime != null">
+                dt_modifyTime = #{dtModifytime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="vCreateid != null and vCreateid != ''">
+                v_createid = #{vCreateid,jdbcType=VARCHAR},
+            </if>
+            <if test="vModifyid != null and vModifyid != ''">
+                v_modifyid = #{vModifyid,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where v_dept_id = #{vDeptId,jdbcType=VARCHAR}
+    </update>
+
+    <!--通过表字段修改实体属性不为null的列-->
+    <update id="updateByField">
+        update tbl_sys_dept_user
+        <set>
+            <if test="where.dtCreatetime == null and set.dtCreatetime != null">
+                dt_createTime = #{set.dtCreatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="where.dtModifytime == null and set.dtModifytime != null">
+                dt_modifyTime = #{set.dtModifytime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="where.vCreateid == null and set.vCreateid != null and set.vCreateid != ''">
+                v_createid = #{set.vCreateid,jdbcType=VARCHAR},
+            </if>
+            <if test="where.vModifyid == null and set.vModifyid != null and set.vModifyid != ''">
+                v_modifyid = #{set.vModifyid,jdbcType=VARCHAR},
+            </if>
+        </set>
+        <where>
+            <if test="where.vDeptId != null">
+                and v_dept_id = #{where.vDeptId,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vUserId != null">
+                and v_user_id = #{where.vUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="where.dtCreatetime != null">
+                and dt_createTime = #{where.dtCreatetime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="where.dtModifytime != null">
+                and dt_modifyTime = #{where.dtModifytime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="where.vCreateid != null">
+                and v_createid = #{where.vCreateid,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vModifyid != null">
+                and v_modifyid = #{where.vModifyid,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </update>
+
+    <!--通过主键修改实体列表，列表长度不能为0，注意：当实体属性为null时，对应的列也会别更新为null-->
+    <update id="updateBatch" parameterType="list">
+        update tbl_sys_dept_user
+        <trim prefix="set" suffixOverrides=",">
+            <trim prefix="dt_createTime = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_dept_id = #{item.vDeptId} then #{item.dtCreatetime}
+                </foreach>
+            </trim>
+            <trim prefix="dt_modifyTime = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_dept_id = #{item.vDeptId} then #{item.dtModifytime}
+                </foreach>
+            </trim>
+            <trim prefix="v_createid = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_dept_id = #{item.vDeptId} then #{item.vCreateid}
+                </foreach>
+            </trim>
+            <trim prefix="v_modifyid = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_dept_id = #{item.vDeptId} then #{item.vModifyid}
+                </foreach>
+            </trim>
+        </trim>
+        where v_dept_id in
+        <foreach collection="list" index="index" item="item" separator="," open="(" close=")">
+            #{item.vDeptId,jdbcType=VARCHAR}
+        </foreach>
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById" parameterType="java.lang.String">
+        delete
+        from tbl_sys_dept_user
+        where v_dept_id = #{vDeptId,jdbcType=VARCHAR}
+          and v_user_id = #{vUserId,jdbcType=VARCHAR}     </delete>
+
+    <!--通过实体非空属性删除-->
+    <delete id="deleteByEntity" parameterType="com.shmashine.pm.api.entity.TblSysDeptUser">
+        delete from tbl_sys_dept_user
+        <where>
+            <if test="dtCreatetime != null">
+                and dt_createTime = #{dtCreatetime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="dtModifytime != null">
+                and dt_modifyTime = #{dtModifytime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="vCreateid != null">
+                and v_createid = #{vCreateid,jdbcType=VARCHAR}
+            </if>
+            <if test="vModifyid != null">
+                and v_modifyid = #{vModifyid,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </delete>
+
+    <!--通过主键列表删除，列表长度不能为0-->
+    <delete id="deleteByIds" parameterType="list">
+        delete from tbl_sys_dept_user where v_dept_id in
+        <foreach item="item" collection="list" separator="," open="(" close=")" index="index">
+            #{item}
+        </foreach>
+    </delete>
+
+    <select id="countAll" resultType="int">
+        select count(v_dept_id)
+        from tbl_sys_dept_user
+    </select>
+
+    <select id="countByEntity" parameterType="com.shmashine.pm.api.entity.TblSysDeptUser" resultType="int">
+        select count(v_dept_id) from tbl_sys_dept_user
+        <where>
+            <if test="vDeptId != null">
+                and v_dept_id = #{vDeptId,jdbcType=VARCHAR}
+            </if>
+            <if test="vUserId != null">
+                and v_user_id = #{vUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="dtCreatetime != null">
+                and dt_createTime = #{dtCreatetime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="dtModifytime != null">
+                and dt_modifyTime = #{dtModifytime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="vCreateid != null">
+                and v_createid = #{vCreateid,jdbcType=VARCHAR}
+            </if>
+            <if test="vModifyid != null">
+                and v_modifyid = #{vModifyid,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+</mapper>

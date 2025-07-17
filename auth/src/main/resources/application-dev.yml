@@ -1,0 +1,29 @@
+eureka:
+  client:
+    service-url:
+      defaultZone: http://shmashine-eureka:8080/eureka/
+    instance:
+      instance-id: ${spring.cloud.client.ip-address}:${server.port}
+      prefer-ip-address: true
+
+spring:
+  redis:
+    database: 2
+    host: redis
+    port: 6379
+    password: shmashine@666
+    timeout: 5000
+  #  redis:
+  #    database: 2
+  #    host: 124.220.207.150
+  #    port: 6379
+  #    password: MaiXin@666
+  #    timeout: 5000
+  boot:
+    admin:
+      client:
+        url: http://localhost:9999
+        username: shmashine
+        password: shmashine
+        instance:
+          service-url: http://localhost:8091/auth

@@ -1,0 +1,546 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.api.dao.TblFaultShieldDao">
+
+    <resultMap type="com.shmashine.common.entity.TblFaultShield" id="TblFaultShieldResultMap">
+        <result property="vFaultShieldId" column="v_fault_shield_id" jdbcType="VARCHAR"/>
+        <result property="vElevatorId" column="v_elevator_id" jdbcType="VARCHAR"/>
+        <result property="vElevatorCode" column="v_elevator_code" jdbcType="VARCHAR"/>
+        <result property="iFaultType" column="i_fault_type" jdbcType="INTEGER"/>
+        <result property="vFaultName" column="v_fault_name" jdbcType="VARCHAR"/>
+        <result property="iIsUserVisible" column="i_is_user_visible" jdbcType="INTEGER"/>
+        <result property="iIsReport" column="i_is_report" jdbcType="INTEGER"/>
+        <result property="dtCreateTime" column="dt_create_time" jdbcType="TIMESTAMP"/>
+        <result property="dtModifyTime" column="dt_modify_time" jdbcType="TIMESTAMP"/>
+        <result property="vCreateUserId" column="v_create_user_id" jdbcType="VARCHAR"/>
+        <result property="vModifyUserId" column="v_modify_user_id" jdbcType="VARCHAR"/>
+        <result property="iDelFlag" column="i_del_flag" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="table_field">
+        v_fault_shield_id
+        , v_elevator_id, v_elevator_code, i_fault_type, v_fault_name, i_is_user_visible, i_is_report, dt_create_time, dt_modify_time, v_create_user_id, v_modify_user_id, i_del_flag
+    </sql>
+
+    <!--通过Id查询单个-->
+    <select id="getById" resultMap="TblFaultShieldResultMap" parameterType="java.lang.String">
+        select
+        <include refid="table_field"/>
+        from tbl_fault_shield
+        where v_fault_shield_id = #{vFaultShieldId,jdbcType=VARCHAR}
+    </select>
+
+
+    <!--通过实体不为空的属性作为筛选条件查询列表-->
+    <select id="listByEntity" resultMap="TblFaultShieldResultMap"
+            parameterType="com.shmashine.common.entity.TblFaultShield">
+        select
+        <include refid="table_field"/>
+        from tbl_fault_shield
+        <where>
+            <if test="vFaultShieldId != null">
+                and v_fault_shield_id = #{vFaultShieldId,jdbcType=VARCHAR}
+            </if>
+            <if test="vElevatorId != null">
+                and v_elevator_id = #{vElevatorId,jdbcType=VARCHAR}
+            </if>
+            <if test="vElevatorCode != null">
+                and v_elevator_code = #{vElevatorCode,jdbcType=VARCHAR}
+            </if>
+            <if test="iFaultType != null">
+                and i_fault_type = #{iFaultType,jdbcType=INTEGER}
+            </if>
+            <if test="vFaultName != null">
+                and v_fault_name = #{vFaultName,jdbcType=VARCHAR}
+            </if>
+            <if test="iIsUserVisible != null">
+                and i_is_user_visible = #{iIsUserVisible,jdbcType=INTEGER}
+            </if>
+            <if test="iIsReport != null">
+                and i_is_report = #{iIsReport,jdbcType=INTEGER}
+            </if>
+            <if test="dtCreateTime != null">
+                and dt_create_time = #{dtCreateTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="dtModifyTime != null">
+                and dt_modify_time = #{dtModifyTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="vCreateUserId != null">
+                and v_create_user_id = #{vCreateUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="vModifyUserId != null">
+                and v_modify_user_id = #{vModifyUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="iDelFlag != null">
+                and i_del_flag = #{iDelFlag,jdbcType=INTEGER}
+            </if>
+        </where>
+    </select>
+
+    <!--通过实体不为空的属性作为筛选条件查询单个-->
+    <select id="getByEntity" resultMap="TblFaultShieldResultMap"
+            parameterType="com.shmashine.common.entity.TblFaultShield">
+        select
+        <include refid="table_field"/>
+        from tbl_fault_shield
+        <where>
+            <if test="vFaultShieldId != null">
+                and v_fault_shield_id = #{vFaultShieldId,jdbcType=VARCHAR}
+            </if>
+            <if test="vElevatorId != null">
+                and v_elevator_id = #{vElevatorId,jdbcType=VARCHAR}
+            </if>
+            <if test="vElevatorCode != null">
+                and v_elevator_code = #{vElevatorCode,jdbcType=VARCHAR}
+            </if>
+            <if test="iFaultType != null">
+                and i_fault_type = #{iFaultType,jdbcType=INTEGER}
+            </if>
+            <if test="vFaultName != null">
+                and v_fault_name = #{vFaultName,jdbcType=VARCHAR}
+            </if>
+            <if test="iIsUserVisible != null">
+                and i_is_user_visible = #{iIsUserVisible,jdbcType=INTEGER}
+            </if>
+            <if test="iIsReport != null">
+                and i_is_report = #{iIsReport,jdbcType=INTEGER}
+            </if>
+            <if test="dtCreateTime != null">
+                and dt_create_time = #{dtCreateTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="dtModifyTime != null">
+                and dt_modify_time = #{dtModifyTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="vCreateUserId != null">
+                and v_create_user_id = #{vCreateUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="vModifyUserId != null">
+                and v_modify_user_id = #{vModifyUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="iDelFlag != null">
+                and i_del_flag = #{iDelFlag,jdbcType=INTEGER}
+            </if>
+        </where>
+    </select>
+
+    <!--通过Id列表作为筛选条件查询列表，列表长度不为0-->
+    <select id="listByIds" resultMap="TblFaultShieldResultMap" parameterType="list">
+        select
+        <include refid="table_field"/>
+        from tbl_fault_shield
+        where v_fault_shield_id in
+        <foreach item="item" collection="list" separator="," open="(" close=")" index="index">
+            #{item}
+        </foreach>
+    </select>
+
+    <!--新增实体属性不为null的列-->
+    <insert id="insert" keyProperty="vFaultShieldId" useGeneratedKeys="true"
+            parameterType="com.shmashine.common.entity.TblFaultShield">
+        insert into tbl_fault_shield
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="vFaultShieldId != null">
+                v_fault_shield_id,
+            </if>
+            <if test="vElevatorId != null">
+                v_elevator_id,
+            </if>
+            <if test="vElevatorCode != null">
+                v_elevator_code,
+            </if>
+            <if test="iFaultType != null">
+                i_fault_type,
+            </if>
+            <if test="vFaultName != null">
+                v_fault_name,
+            </if>
+            <if test="iIsUserVisible != null">
+                i_is_user_visible,
+            </if>
+            <if test="iIsReport != null">
+                i_is_report,
+            </if>
+            <if test="dtCreateTime != null">
+                dt_create_time,
+            </if>
+            <if test="dtModifyTime != null">
+                dt_modify_time,
+            </if>
+            <if test="vCreateUserId != null">
+                v_create_user_id,
+            </if>
+            <if test="vModifyUserId != null">
+                v_modify_user_id,
+            </if>
+            <if test="iDelFlag != null">
+                i_del_flag,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="vFaultShieldId != null">
+                #{vFaultShieldId,jdbcType=VARCHAR},
+            </if>
+            <if test="vElevatorId != null">
+                #{vElevatorId,jdbcType=VARCHAR},
+            </if>
+            <if test="vElevatorCode != null">
+                #{vElevatorCode,jdbcType=VARCHAR},
+            </if>
+            <if test="iFaultType != null">
+                #{iFaultType,jdbcType=INTEGER},
+            </if>
+            <if test="vFaultName != null">
+                #{vFaultName,jdbcType=VARCHAR},
+            </if>
+            <if test="iIsUserVisible != null">
+                #{iIsUserVisible,jdbcType=INTEGER},
+            </if>
+            <if test="iIsReport != null">
+                #{iIsReport,jdbcType=INTEGER},
+            </if>
+            <if test="dtCreateTime != null">
+                #{dtCreateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="dtModifyTime != null">
+                #{dtModifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="vCreateUserId != null">
+                #{vCreateUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="vModifyUserId != null">
+                #{vModifyUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="iDelFlag != null">
+                #{iDelFlag,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+
+    <!--批量新增所有列，列表长度不能为0-->
+    <insert id="insertBatch" keyProperty="vFaultShieldId" useGeneratedKeys="true" parameterType="list">
+        insert into tbl_fault_shield
+        ( v_fault_shield_id ,v_elevator_id, v_elevator_code, i_fault_type, v_fault_name, i_is_user_visible, i_is_report,
+        dt_create_time, dt_modify_time, v_create_user_id, v_modify_user_id, i_del_flag)
+        values
+        <foreach item="item" collection="list" separator="," open="" close="" index="index">
+            (#{item.vFaultShieldId,jdbcType=VARCHAR},#{item.vElevatorId,jdbcType=VARCHAR},
+            #{item.vElevatorCode,jdbcType=VARCHAR}, #{item.iFaultType,jdbcType=INTEGER},
+            #{item.vFaultName,jdbcType=VARCHAR}, #{item.iIsUserVisible,jdbcType=INTEGER},
+            #{item.iIsReport,jdbcType=INTEGER}, #{item.dtCreateTime,jdbcType=TIMESTAMP},
+            #{item.dtModifyTime,jdbcType=TIMESTAMP}, #{item.vCreateUserId,jdbcType=VARCHAR},
+            #{item.vModifyUserId,jdbcType=VARCHAR}, #{item.iDelFlag,jdbcType=INTEGER})
+        </foreach>
+    </insert>
+
+    <!--通过主键修改实体属性不为null的列-->
+    <update id="update" parameterType="com.shmashine.common.entity.TblFaultShield">
+        update tbl_fault_shield
+        <set>
+            <if test="vElevatorId != null and vElevatorId != ''">
+                v_elevator_id = #{vElevatorId,jdbcType=VARCHAR},
+            </if>
+            <if test="vElevatorCode != null and vElevatorCode != ''">
+                v_elevator_code = #{vElevatorCode,jdbcType=VARCHAR},
+            </if>
+            <if test="iFaultType != null">
+                i_fault_type = #{iFaultType,jdbcType=INTEGER},
+            </if>
+            <if test="vFaultName != null and vFaultName != ''">
+                v_fault_name = #{vFaultName,jdbcType=VARCHAR},
+            </if>
+            <if test="iIsUserVisible != null">
+                i_is_user_visible = #{iIsUserVisible,jdbcType=INTEGER},
+            </if>
+            <if test="iIsReport != null">
+                i_is_report = #{iIsReport,jdbcType=INTEGER},
+            </if>
+            <if test="dtCreateTime != null">
+                dt_create_time = #{dtCreateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="dtModifyTime != null">
+                dt_modify_time = #{dtModifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="vCreateUserId != null and vCreateUserId != ''">
+                v_create_user_id = #{vCreateUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="vModifyUserId != null and vModifyUserId != ''">
+                v_modify_user_id = #{vModifyUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="iDelFlag != null">
+                i_del_flag = #{iDelFlag,jdbcType=INTEGER},
+            </if>
+        </set>
+        where v_fault_shield_id = #{vFaultShieldId,jdbcType=VARCHAR}
+    </update>
+
+    <!--通过表字段修改实体属性不为null的列-->
+    <update id="updateByField">
+        update tbl_fault_shield
+        <set>
+            <if test="where.vElevatorId == null and set.vElevatorId != null and set.vElevatorId != ''">
+                v_elevator_id = #{set.vElevatorId,jdbcType=VARCHAR},
+            </if>
+            <if test="where.vElevatorCode == null and set.vElevatorCode != null and set.vElevatorCode != ''">
+                v_elevator_code = #{set.vElevatorCode,jdbcType=VARCHAR},
+            </if>
+            <if test="where.iFaultType == null and set.iFaultType != null">
+                i_fault_type = #{set.iFaultType,jdbcType=INTEGER},
+            </if>
+            <if test="where.vFaultName == null and set.vFaultName != null and set.vFaultName != ''">
+                v_fault_name = #{set.vFaultName,jdbcType=VARCHAR},
+            </if>
+            <if test="where.iIsUserVisible == null and set.iIsUserVisible != null">
+                i_is_user_visible = #{set.iIsUserVisible,jdbcType=INTEGER},
+            </if>
+            <if test="where.iIsReport == null and set.iIsReport != null">
+                i_is_report = #{set.iIsReport,jdbcType=INTEGER},
+            </if>
+            <if test="where.dtCreateTime == null and set.dtCreateTime != null">
+                dt_create_time = #{set.dtCreateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="where.dtModifyTime == null and set.dtModifyTime != null">
+                dt_modify_time = #{set.dtModifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="where.vCreateUserId == null and set.vCreateUserId != null and set.vCreateUserId != ''">
+                v_create_user_id = #{set.vCreateUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="where.vModifyUserId == null and set.vModifyUserId != null and set.vModifyUserId != ''">
+                v_modify_user_id = #{set.vModifyUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="where.iDelFlag == null and set.iDelFlag != null">
+                i_del_flag = #{set.iDelFlag,jdbcType=INTEGER},
+            </if>
+        </set>
+        <where>
+            <if test="where.vFaultShieldId != null">
+                and v_fault_shield_id = #{where.vFaultShieldId,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vElevatorId != null">
+                and v_elevator_id = #{where.vElevatorId,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vElevatorCode != null">
+                and v_elevator_code = #{where.vElevatorCode,jdbcType=VARCHAR}
+            </if>
+            <if test="where.iFaultType != null">
+                and i_fault_type = #{where.iFaultType,jdbcType=INTEGER}
+            </if>
+            <if test="where.vFaultName != null">
+                and v_fault_name = #{where.vFaultName,jdbcType=VARCHAR}
+            </if>
+            <if test="where.iIsUserVisible != null">
+                and i_is_user_visible = #{where.iIsUserVisible,jdbcType=INTEGER}
+            </if>
+            <if test="where.iIsReport != null">
+                and i_is_report = #{where.iIsReport,jdbcType=INTEGER}
+            </if>
+            <if test="where.dtCreateTime != null">
+                and dt_create_time = #{where.dtCreateTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="where.dtModifyTime != null">
+                and dt_modify_time = #{where.dtModifyTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="where.vCreateUserId != null">
+                and v_create_user_id = #{where.vCreateUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vModifyUserId != null">
+                and v_modify_user_id = #{where.vModifyUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="where.iDelFlag != null">
+                and i_del_flag = #{where.iDelFlag,jdbcType=INTEGER}
+            </if>
+        </where>
+    </update>
+
+    <!--通过主键修改实体列表，列表长度不能为0，注意：当实体属性为null时，对应的列也会别更新为null-->
+    <update id="updateBatch" parameterType="list">
+        update tbl_fault_shield
+        <trim prefix="set" suffixOverrides=",">
+            <trim prefix="v_elevator_id = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_fault_shield_id = #{item.vFaultShieldId} then #{item.vElevatorId}
+                </foreach>
+            </trim>
+            <trim prefix="v_elevator_code = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_fault_shield_id = #{item.vFaultShieldId} then #{item.vElevatorCode}
+                </foreach>
+            </trim>
+            <trim prefix="i_fault_type = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_fault_shield_id = #{item.vFaultShieldId} then #{item.iFaultType}
+                </foreach>
+            </trim>
+            <trim prefix="v_fault_name = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_fault_shield_id = #{item.vFaultShieldId} then #{item.vFaultName}
+                </foreach>
+            </trim>
+            <trim prefix="i_is_user_visible = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_fault_shield_id = #{item.vFaultShieldId} then #{item.iIsUserVisible}
+                </foreach>
+            </trim>
+            <trim prefix="i_is_report = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_fault_shield_id = #{item.vFaultShieldId} then #{item.iIsReport}
+                </foreach>
+            </trim>
+            <trim prefix="dt_create_time = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_fault_shield_id = #{item.vFaultShieldId} then #{item.dtCreateTime}
+                </foreach>
+            </trim>
+            <trim prefix="dt_modify_time = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_fault_shield_id = #{item.vFaultShieldId} then #{item.dtModifyTime}
+                </foreach>
+            </trim>
+            <trim prefix="v_create_user_id = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_fault_shield_id = #{item.vFaultShieldId} then #{item.vCreateUserId}
+                </foreach>
+            </trim>
+            <trim prefix="v_modify_user_id = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_fault_shield_id = #{item.vFaultShieldId} then #{item.vModifyUserId}
+                </foreach>
+            </trim>
+            <trim prefix="i_del_flag = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_fault_shield_id = #{item.vFaultShieldId} then #{item.iDelFlag}
+                </foreach>
+            </trim>
+        </trim>
+        where v_fault_shield_id in
+        <foreach collection="list" index="index" item="item" separator="," open="(" close=")">
+            #{item.vFaultShieldId,jdbcType=VARCHAR}
+        </foreach>
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById" parameterType="java.lang.String">
+        delete
+        from tbl_fault_shield
+        where v_fault_shield_id = #{vFaultShieldId,jdbcType=VARCHAR}     </delete>
+
+    <!--通过实体非空属性删除-->
+    <delete id="deleteByEntity" parameterType="com.shmashine.common.entity.TblFaultShield">
+        delete from tbl_fault_shield
+        <where>
+            <if test="vElevatorId != null">
+                and v_elevator_id = #{vElevatorId,jdbcType=VARCHAR}
+            </if>
+            <if test="vElevatorCode != null">
+                and v_elevator_code = #{vElevatorCode,jdbcType=VARCHAR}
+            </if>
+            <if test="iFaultType != null">
+                and i_fault_type = #{iFaultType,jdbcType=INTEGER}
+            </if>
+            <if test="vFaultName != null">
+                and v_fault_name = #{vFaultName,jdbcType=VARCHAR}
+            </if>
+            <if test="iIsUserVisible != null">
+                and i_is_user_visible = #{iIsUserVisible,jdbcType=INTEGER}
+            </if>
+            <if test="iIsReport != null">
+                and i_is_report = #{iIsReport,jdbcType=INTEGER}
+            </if>
+            <if test="dtCreateTime != null">
+                and dt_create_time = #{dtCreateTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="dtModifyTime != null">
+                and dt_modify_time = #{dtModifyTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="vCreateUserId != null">
+                and v_create_user_id = #{vCreateUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="vModifyUserId != null">
+                and v_modify_user_id = #{vModifyUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="iDelFlag != null">
+                and i_del_flag = #{iDelFlag,jdbcType=INTEGER}
+            </if>
+        </where>
+    </delete>
+
+    <!--通过主键列表删除，列表长度不能为0-->
+    <delete id="deleteByIds" parameterType="list">
+        delete from tbl_fault_shield where v_fault_shield_id in
+        <foreach item="item" collection="list" separator="," open="(" close=")" index="index">
+            #{item}
+        </foreach>
+    </delete>
+
+    <delete id="deleteByElevatorCode" parameterType="java.lang.String">
+        delete
+        from tbl_fault_shield
+        where v_elevator_code = #{vElevatorCode,jdbcType=VARCHAR}
+    </delete>
+
+    <select id="countAll" resultType="int">
+        select count(v_fault_shield_id)
+        from tbl_fault_shield
+    </select>
+
+    <select id="countByEntity" parameterType="com.shmashine.common.entity.TblFaultShield" resultType="int">
+        select count(v_fault_shield_id) from tbl_fault_shield
+        <where>
+            <if test="vFaultShieldId != null">
+                and v_fault_shield_id = #{vFaultShieldId,jdbcType=VARCHAR}
+            </if>
+            <if test="vElevatorId != null">
+                and v_elevator_id = #{vElevatorId,jdbcType=VARCHAR}
+            </if>
+            <if test="vElevatorCode != null">
+                and v_elevator_code = #{vElevatorCode,jdbcType=VARCHAR}
+            </if>
+            <if test="iFaultType != null">
+                and i_fault_type = #{iFaultType,jdbcType=INTEGER}
+            </if>
+            <if test="vFaultName != null">
+                and v_fault_name = #{vFaultName,jdbcType=VARCHAR}
+            </if>
+            <if test="iIsUserVisible != null">
+                and i_is_user_visible = #{iIsUserVisible,jdbcType=INTEGER}
+            </if>
+            <if test="iIsReport != null">
+                and i_is_report = #{iIsReport,jdbcType=INTEGER}
+            </if>
+            <if test="dtCreateTime != null">
+                and dt_create_time = #{dtCreateTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="dtModifyTime != null">
+                and dt_modify_time = #{dtModifyTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="vCreateUserId != null">
+                and v_create_user_id = #{vCreateUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="vModifyUserId != null">
+                and v_modify_user_id = #{vModifyUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="iDelFlag != null">
+                and i_del_flag = #{iDelFlag,jdbcType=INTEGER}
+            </if>
+        </where>
+    </select>
+
+    <select id="getShieldInfo" resultType="map">
+        SELECT definition.fault_type,
+               definition.fault_name,
+               shield.v_elevator_id                  as elevator_id,
+               shield.v_elevator_code                as elevator_code,
+               shield.i_is_user_visible              as user_visible,
+               shield.i_is_report                    as is_report,
+               IFNULL(shield.i_is_user_visible, "1") as is_shield
+        FROM tbl_fault_definition_0902 definition
+                 LEFT JOIN
+             tbl_fault_shield shield
+             ON
+                 definition.fault_type = shield.i_fault_type
+                     AND
+                 shield.v_elevator_code = #{elevatorCode}
+        WHERE definition.platform_type = #{eventType}
+          AND definition.elevator_type = #{elevatorType}
+        ORDER BY definition.fault_type + 0
+    </select>
+</mapper>

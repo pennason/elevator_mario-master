@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.api.dao.TblElevatorExtInfoDao">
+
+    <resultMap type="com.shmashine.api.entity.TblElevatorExtInfo" id="TblElevatorExtInfoMap">
+        <result property="vElevatorInfoId" column="v_elevator_info_id" jdbcType="VARCHAR"/>
+        <result property="vElevatorId" column="v_elevator_id" jdbcType="VARCHAR"/>
+        <result property="vElevatorMode" column="v_elevator_mode" jdbcType="VARCHAR"/>
+        <result property="iElevatorFloor" column="i_elevator_floor" jdbcType="INTEGER"/>
+        <result property="vElevatorPower" column="v_elevator_power" jdbcType="VARCHAR"/>
+        <result property="dtMadeTime" column="dt_made_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="tableFields">
+        v_elevator_info_id
+        , v_elevator_id, v_elevator_mode, i_elevator_floor, v_elevator_power, dt_made_time
+    </sql>
+
+    <select id="getInfoByEntity" resultMap="TblElevatorExtInfoMap"
+            parameterType="com.shmashine.api.entity.TblElevatorExtInfo">
+        select
+        <include refid="tableFields"/>
+        from
+        tbl_elevator_ext_info
+        <where>
+            <if test="vElevatorInfoId != null and vElevatorInfoId != ''">
+                and v_elevator_info_id = #{vElevatorInfoId, jdbcType=VARCHAR}
+            </if>
+            <if test="vElevatorId != null and vElevatorId != ''">
+                and v_elevator_id = #{vElevatorId, jdbcType=VARCHAR}
+            </if>
+        </where>
+        limit 0, 1
+    </select>
+
+    <insert id="insert" keyProperty="vElevatorInfoId" useGeneratedKeys="true"
+            parameterType="com.shmashine.api.entity.TblElevatorExtInfo">
+        insert into tbl_elevator_ext_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="vElevatorInfoId != null and vElevatorInfoId != ''">
+                v_elevator_info_id,
+            </if>
+            <if test="vElevatorId != null and vElevatorId != ''">
+                v_elevator_id,
+            </if>
+            <if test="vElevatorMode != null and vElevatorMode != ''">
+                v_elevator_mode,
+            </if>
+            <if test="iElevatorFloor != null">
+                i_elevator_floor,
+            </if>
+            <if test="vElevatorPower != null and vElevatorPower != ''">
+                v_elevator_power,
+            </if>
+            <if test="dtMadeTime != null">
+                dt_made_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="vElevatorInfoId != null and vElevatorInfoId != ''">
+                #{vElevatorInfoId},
+            </if>
+            <if test="vElevatorId != null and vElevatorId != ''">
+                #{vElevatorId},
+            </if>
+            <if test="vElevatorMode != null and vElevatorMode != ''">
+                #{vElevatorMode},
+            </if>
+            <if test="iElevatorFloor != null">
+                #{iElevatorFloor},
+            </if>
+            <if test="vElevatorPower != null and vElevatorPower != ''">
+                #{vElevatorPower},
+            </if>
+            <if test="dtMadeTime != null">
+                #{dtMadeTime},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="com.shmashine.api.entity.TblElevatorExtInfo">
+        update tbl_elevator_ext_info
+        <set>
+            <if test="vElevatorInfoId != null and vElevatorInfoId != ''">
+                v_elevator_info_id = #{vElevatorInfoId},
+            </if>
+            <if test="vElevatorId != null and vElevatorId != ''">
+                v_elevator_id = #{vElevatorId},
+            </if>
+            <if test="vElevatorMode != null and vElevatorMode != ''">
+                v_elevator_mode = #{vElevatorMode},
+            </if>
+            <if test="iElevatorFloor != null">
+                i_elevator_floor = #{iElevatorFloor},
+            </if>
+            <if test="vElevatorPower != null and vElevatorPower != ''">
+                v_elevator_power = #{vElevatorPower},
+            </if>
+            <if test="dtMadeTime != null">
+                dt_made_time = #{dtMadeTime},
+            </if>
+        </set>
+        where v_elevator_info_id = #{vElevatorInfoId}
+    </update>
+</mapper>

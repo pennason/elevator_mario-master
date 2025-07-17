@@ -1,0 +1,103 @@
+package com.shmashine.common.entity;
+
+import java.io.Serial;
+import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+/**
+ * 物料(TblMaterial)实体类
+ *
+ * @author depp.yu
+ * @since
+ */
+public class TblMaterial implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 2525377671183141297L;
+
+    private String vMaterialId;
+
+    /*
+     * 物料名称
+     */
+    private String vMaterialName;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
+    private Date dtCreateAt;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
+    private Date dtModifyAt;
+
+    /*
+     * 删除表示 0 表示未删除 1 表示已删除
+     */
+    private Integer iDelFlag;
+
+    /*
+     * 一对多属性值
+     */
+    private List<TblMaterialAttribute> attributes;
+
+    @JsonProperty("vMaterialId")
+    public String getvMaterialId() {
+        return vMaterialId;
+    }
+
+    public void setvMaterialId(String vMaterialId) {
+        this.vMaterialId = vMaterialId;
+    }
+
+    @JsonProperty("vMaterialName")
+    public String getvMaterialName() {
+        return vMaterialName;
+    }
+
+    public void setvMaterialName(String vMaterialName) {
+        this.vMaterialName = vMaterialName;
+    }
+
+    @JsonProperty("dtCreateAt")
+    public Date getDtCreateAt() {
+        return dtCreateAt;
+    }
+
+    public void setDtCreateAt(Date dtCreateAt) {
+        this.dtCreateAt = dtCreateAt;
+    }
+
+    @JsonProperty("dtModifyAt")
+    public Date getDtModifyAt() {
+        return dtModifyAt;
+    }
+
+    public void setDtModifyAt(Date dtModifyAt) {
+        this.dtModifyAt = dtModifyAt;
+    }
+
+    @JsonProperty("iDelFlag")
+    public Integer getiDelFlag() {
+        return iDelFlag;
+    }
+
+    public void setiDelFlag(Integer iDelFlag) {
+        this.iDelFlag = iDelFlag;
+    }
+
+    @JsonProperty("MaterialAttributes")
+    public List<TblMaterialAttribute> getAttributes() {
+        return attributes;
+    }
+
+    public void setAttributes(List<TblMaterialAttribute> attributes) {
+        this.attributes = attributes;
+    }
+}
+

@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.fault.dal.dao.DeviceConfDao">
+
+    <!--更新设备配置状态-->
+    <update id="updateDeviceConfStatus">
+        update tbl_device_param_conf
+        <set>
+            <if test="serverIpPortStatus != null ">
+                server_ip_port_status = #{serverIpPortStatus},
+            </if>
+            <if test="dlogIpPortStatus != null ">
+                dlog_ip_port_status = #{dlogIpPortStatus},
+            </if>
+            <if test="floorStatus != null ">
+                floor_status = #{floorStatus},
+            </if>
+            <if test="doorNumStatus != null ">
+                door_num_status = #{doorNumStatus},
+            </if>
+            <if test="baseFloorStatus != null ">
+                base_floor_status = #{baseFloorStatus},
+            </if>
+            <if test="peopleRptTmStatus != null ">
+                people_rpt_tm_status = #{peopleRptTmStatus},
+            </if>
+            <if test="statDataStatus != null ">
+                stat_data_status = #{statDataStatus},
+            </if>
+            <if test="overSpeedStatus != null ">
+                over_speed_status = #{overSpeedStatus},
+            </if>
+            <if test="sensorCfgStatus != null ">
+                sensor_cfg_status = #{sensorCfgStatus},
+            </if>
+            <if test="sensorInvertCfgStatus != null ">
+                sensor_invert_cfg_status = #{sensorInvertCfgStatus},
+            </if>
+            <if test="humanTypeStatus != null ">
+                human_type_status = #{humanTypeStatus},
+            </if>
+            <if test="modeStatus != null  ">
+                mode_status = #{modeStatus},
+            </if>
+            <if test="devIpStatus != null ">
+                dev_ip_status = #{devIpStatus},
+            </if>
+            <if test="dlogStatus != null ">
+                dlog_status = #{dlogStatus},
+            </if>
+            <if test="doorFaultStatus != null ">
+                door_fault_status = #{doorFaultStatus},
+            </if>
+            <if test="deviceConfStatus != null ">
+                device_conf_status = #{deviceConfStatus},
+            </if>
+            <if test="deviceConfStatus == 2 ">
+                last_conf_time = now()
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--更新设备配置，没有就新增-->
+    <update id="updateDeviceConf">
+        insert into tbl_device_param_conf (id, elevator_id, elevator_code, device_id, sensor_type, dlog_ip_port,
+                                           dlog_ip_port_status, floor, floor_status,
+                                           door_num, door_num_status, base_floor, base_floor_status, people_rpt_tm,
+                                           people_rpt_tm_status, stat_data, stat_data_status,
+                                           over_speed, over_speed_status, sensor_cfg, sensor_cfg_status, human_type,
+                                           human_type_status, mode, mode_status,
+                                           normal_dlog, abort_dlog, ai_dlog, dlog_status,
+                                           open_waiting_time, close_waiting_time, close_repeat_count, door_fault_status,
+                                           dev_ip_type, dev_ip, dev_netmask, dev_gateway,
+                                           device_conf_status, last_conf_time)
+        values (#{id}, #{elevatorId}, #{elevatorCode}, #{deviceId}, #{sensorType}, #{dlogIpPort}, #{dlogIpPortStatus},
+                #{floor}, #{floorStatus},
+                #{doorNum}, #{doorNumStatus}, #{baseFloor}, #{baseFloorStatus}, #{peopleRptTm}, #{peopleRptTmStatus},
+                #{statData}, #{statDataStatus},
+                #{overSpeed}, #{overSpeedStatus}, #{sensorCfg}, #{sensorCfgStatus}, #{humanType}, #{humanTypeStatus},
+                #{mode}, #{modeStatus}, #{normalDlog}, #{abortDlog}, #{aiDlog}, #{dlogStatus},
+                #{openWaitingTime}, #{closeWaitingTime}, #{closeRepeatCount}, #{doorFaultStatus},
+                #{devIpType}, #{devIp}, #{devNetmask}, #{devGateway},
+                #{deviceConfStatus}, now()) ON DUPLICATE KEY
+        UPDATE
+            elevator_id = #{elevatorId}, elevator_code = #{elevatorCode},
+            device_id = #{deviceId}, sensor_type = #{sensorType},
+            dlog_ip_port = #{dlogIpPort}, dlog_ip_port_status = #{dlogIpPortStatus},
+            floor = #{floor}, floor_status = #{floorStatus},
+            door_num = #{doorNum}, door_num_status = #{doorNumStatus},
+            base_floor = #{baseFloor}, base_floor_status = #{baseFloorStatus},
+            people_rpt_tm = #{peopleRptTm}, people_rpt_tm_status = #{peopleRptTmStatus},
+            stat_data = #{statData}, stat_data_status = #{statDataStatus},
+            over_speed = #{overSpeed}, over_speed_status = #{overSpeedStatus},
+            sensor_cfg = #{sensorCfg}, sensor_cfg_status = #{sensorCfgStatus},
+            human_type = #{humanType}, human_type_status = #{humanTypeStatus},
+            mode = #{mode}, mode_status = #{modeStatus},
+            normal_dlog = #{normalDlog}, abort_dlog = #{abortDlog}, ai_dlog = #{aiDlog}, dlog_status = #{dlogStatus},
+            open_waiting_time = #{openWaitingTime}, close_waiting_time = #{closeWaitingTime}, close_repeat_count = #{closeRepeatCount}, door_fault_status = #{doorFaultStatus},
+            dev_ip_type = #{devIpType}, dev_ip = #{devIp}, dev_netmask = #{devNetmask}, dev_gateway = #{devGateway},
+            device_conf_status = #{deviceConfStatus},last_conf_time = now()
+    </update>
+
+    <!--活获取设备配置-->
+    <select id="getConfByCodeAndType" resultType="com.shmashine.fault.dal.dataobject.DeviceParamConfDO">
+        SELECT *
+        FROM tbl_device_param_conf
+        WHERE elevator_code = #{elevatorCode}
+          AND sensor_type = #{sensorType}
+    </select>
+
+    <!--根据电梯编号和设备类型获取配置状态-->
+    <select id="getConfStatusByCodeAndSensorType" resultType="java.lang.Integer">
+        SELECT device_conf_status
+        FROM tbl_device_param_conf
+        WHERE elevator_code = #{elevatorCode}
+          AND sensor_type = #{sensorType}
+    </select>
+
+
+</mapper>

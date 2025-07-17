@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.hikYunMou.dao.TblCameraHikCloudProjectMapper">
+
+    <sql id="TABLE_NAME">
+        tbl_camera_hik_cloud_project
+    </sql>
+    <sql id="BASE_COLUMNS">
+        project_code
+        , project_name, hik_cloud_project_id, hik_cloud_expire_days, hik_cloud_flow_limit
+    </sql>
+    <sql id="ALL_COLUMNS">
+        <include refid="BASE_COLUMNS"/>,
+        id, create_time, modify_time
+    </sql>
+    <sql id="SET_COLUMNS">
+        <if test="entity.projectName != null and entity.projectName != ''">project_name = #{entity.projectName},</if>
+        <if test="entity.hikCloudProjectId != null and entity.hikCloudProjectId != ''">hik_cloud_project_id =
+            #{entity.hikCloudProjectId},
+        </if>
+        <if test="entity.hikCloudExpireDays != null">hik_cloud_expire_days = #{entity.hikCloudExpireDays},</if>
+        <if test="entity.hikCloudFlowLimit != null">hik_cloud_flow_limit = #{entity.hikCloudFlowLimit},</if>
+    </sql>
+
+    <!-- 查询 -->
+    <select id="getByProjectCode" resultType="com.shmashine.common.entity.TblCameraHikCloudProjectEntity">
+        SELECT
+        <include refid="ALL_COLUMNS"/>
+        FROM
+        <include refid="TABLE_NAME"/>
+        WHERE project_code = #{projectCode}
+    </select>
+
+    <select id="findByEntity" resultType="com.shmashine.common.entity.TblCameraHikCloudProjectEntity">
+        SELECT
+        <include refid="ALL_COLUMNS"/>
+        FROM
+        <include refid="TABLE_NAME"/>
+        <where>
+            <if test="entity.id != null">
+                and id = #{entity.id}
+            </if>
+            <if test="entity.projectCode != null and entity.projectCode != ''">
+                and project_code = #{entity.projectCode}
+            </if>
+            <if test="entity.hikCloudProjectId != null and entity.hikCloudProjectId != ''">
+                and hik_cloud_project_id = #{entity.hikCloudProjectId}
+            </if>
+        </where>
+    </select>
+
+
+    <!-- 添加 -->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true"
+            parameterType="com.shmashine.common.entity.TblCameraHikCloudProjectEntity">
+        INSERT INTO
+        <include refid="TABLE_NAME"/>
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="entity.projectCode != null and entity.projectCode != ''">project_code,</if>
+            <if test="entity.projectName != null and entity.projectName != ''">project_name,</if>
+            <if test="entity.hikCloudProjectId != null and entity.hikCloudProjectId != ''">hik_cloud_project_id,</if>
+            <if test="entity.hikCloudExpireDays != null">hik_cloud_expire_days,</if>
+            <if test="entity.hikCloudFlowLimit != null">hik_cloud_flow_limit,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="entity.projectCode != null and entity.projectCode != ''">#{entity.projectCode},</if>
+            <if test="entity.projectName != null and entity.projectName != ''">#{entity.projectName},</if>
+            <if test="entity.hikCloudProjectId != null and entity.hikCloudProjectId != ''">
+                #{entity.hikCloudProjectId},
+            </if>
+            <if test="entity.hikCloudExpireDays != null">#{entity.hikCloudExpireDays},</if>
+            <if test="entity.hikCloudFlowLimit != null">#{entity.hikCloudFlowLimit},</if>
+        </trim>
+        ON DUPLICATE KEY UPDATE
+        <trim suffixOverrides=",">
+            <include refid="SET_COLUMNS"/>
+        </trim>
+
+    </insert>
+
+    <!-- 删除 -->
+    <delete id="deleteById">
+        DELETE
+        FROM
+        <include refid="TABLE_NAME"/>
+        WHERE id = #{id}
+    </delete>
+
+    <!-- 更新 -->
+    <update id="updateById" parameterType="com.shmashine.common.entity.TblCameraHikCloudProjectEntity">
+        UPDATE
+        <include refid="TABLE_NAME"/>
+        <set>
+            <include refid="SET_COLUMNS"/>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <update id="updateByUnique" parameterType="com.shmashine.common.entity.TblCameraHikCloudProjectEntity">
+        UPDATE
+        <include refid="TABLE_NAME"/>
+        <set>
+            <include refid="SET_COLUMNS"/>
+        </set>
+        WHERE
+        <choose>
+            <when test="entity.id != null">
+                id = #{entity.id}
+            </when>
+            <otherwise>
+                project_code = #{entity.projectCode}
+            </otherwise>
+        </choose>
+    </update>
+</mapper>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.hkcamerabyys.dao.TblElevatorMapper">
+
+    <sql id="TABLE_NAME">
+        tbl_elevator
+    </sql>
+
+    <update id="updateImageMattingConfig">
+        update
+            image_recognition_matting_config
+        set real_coordinates = #{realCoordinates}
+        where id = #{id}
+    </update>
+
+    <!--更新电梯在线状态-->
+    <update id="updateOnlineStatus">
+        UPDATE tbl_elevator
+        SET i_on_line = #{status}
+        where v_elevator_id = #{elevatorId}
+    </update>
+
+    <!--更新设备(device表)在线状态&上下线时间-->
+    <update id="updateDeviceOnlineStatus">
+        UPDATE tbl_device
+        SET i_online_status = #{status},
+        <if test="status == 1">
+            dt_online_time = #{occurTime}
+        </if>
+        <if test="status == 0">
+            dt_offline_time = #{occurTime}
+        </if>
+        WHERE v_elevator_id = #{elevatorId} AND v_sensor_type = 'Camera'
+    </update>
+
+    <!--电梯安装状态-->
+    <select id="checkCanDownMedia" resultType="java.lang.Boolean">
+        SELECT i_install_status
+        FROM
+        <include refid="TABLE_NAME"/>
+        WHERE
+        v_elevator_code = #{elevatorCode}
+    </select>
+
+    <!--根据故障类型获取图片抠图配置-->
+    <select id="getImageMattingConfigByFaultType"
+            resultType="com.shmashine.common.entity.ImageRecognitionMattingConfigEntity">
+        SELECT *
+        FROM image_recognition_matting_config
+        WHERE elevator_code = #{elevatorCode}
+          AND fault_types LIKE concat('%', #{faultType}, '%') limit 1
+    </select>
+
+</mapper>

@@ -1,0 +1,141 @@
+package com.shmashine.common.entity;
+
+import java.io.Serial;
+import java.io.Serializable;
+import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+/**
+ * 电梯屏蔽表(TblElevatorShield)实体类
+ *
+ * @author little.li
+ * @since 2020-07-02 17:53:18
+ */
+public class TblElevatorShield implements Serializable {
+    @Serial
+    private static final long serialVersionUID = -29826072900214220L;
+    private String vElevatorShieldId;
+    private String vElevatorId;
+    private String vElevatorCode;
+    private String vFaultType;
+    private String vMonitorType;
+    /**
+     * 创建时间
+     */
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
+    private Date dtCreateTime;
+    /**
+     * 修改时间
+     */
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
+    private Date dtModifyTime;
+    /**
+     * 创建记录用户
+     */
+    private String vCreateUserId;
+    /**
+     * 修改记录用户
+     */
+    private String vModifyUserId;
+    /**
+     * 删除标识 0-未删除，1-已删除
+     */
+    private Integer iDelFlag;
+
+    @JsonProperty("vElevatorShieldId")
+    public String getVElevatorShieldId() {
+        return vElevatorShieldId;
+    }
+
+    public void setVElevatorShieldId(String vElevatorShieldId) {
+        this.vElevatorShieldId = vElevatorShieldId;
+    }
+
+    @JsonProperty("vElevatorId")
+    public String getVElevatorId() {
+        return vElevatorId;
+    }
+
+    public void setVElevatorId(String vElevatorId) {
+        this.vElevatorId = vElevatorId;
+    }
+
+    @JsonProperty("vElevatorCode")
+    public String getVElevatorCode() {
+        return vElevatorCode;
+    }
+
+    public void setVElevatorCode(String vElevatorCode) {
+        this.vElevatorCode = vElevatorCode;
+    }
+
+    @JsonProperty("vFaultType")
+    public String getVFaultType() {
+        return vFaultType;
+    }
+
+    public void setVFaultType(String vFaultType) {
+        this.vFaultType = vFaultType;
+    }
+
+    @JsonProperty("vMonitorType")
+    public String getVMonitorType() {
+        return vMonitorType;
+    }
+
+    public void setVMonitorType(String vMonitorType) {
+        this.vMonitorType = vMonitorType;
+    }
+
+    @JsonProperty("dtCreateTime")
+    public Date getDtCreateTime() {
+        return dtCreateTime;
+    }
+
+    public void setDtCreateTime(Date dtCreateTime) {
+        this.dtCreateTime = dtCreateTime;
+    }
+
+    @JsonProperty("dtModifyTime")
+    public Date getDtModifyTime() {
+        return dtModifyTime;
+    }
+
+    public void setDtModifyTime(Date dtModifyTime) {
+        this.dtModifyTime = dtModifyTime;
+    }
+
+    @JsonProperty("vCreateUserId")
+    public String getVCreateUserId() {
+        return vCreateUserId;
+    }
+
+    public void setVCreateUserId(String vCreateUserId) {
+        this.vCreateUserId = vCreateUserId;
+    }
+
+    @JsonProperty("vModifyUserId")
+    public String getVModifyUserId() {
+        return vModifyUserId;
+    }
+
+    public void setVModifyUserId(String vModifyUserId) {
+        this.vModifyUserId = vModifyUserId;
+    }
+
+    @JsonProperty("iDelFlag")
+    public Integer getIDelFlag() {
+        return iDelFlag;
+    }
+
+    public void setIDelFlag(Integer iDelFlag) {
+        this.iDelFlag = iDelFlag;
+    }
+
+}

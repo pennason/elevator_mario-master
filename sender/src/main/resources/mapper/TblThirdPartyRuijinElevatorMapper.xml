@@ -1,0 +1,732 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.sender.dao.TblThirdPartyRuijinElevatorDao">
+
+    <resultMap type="com.shmashine.common.entity.TblThirdPartyRuijinElevator" id="TblThirdPartyRuijinElevatorResultMap">
+        <result property="registerNumber" column="register_number" jdbcType="VARCHAR"/>
+        <result property="useCertNumber" column="use_cert_number" jdbcType="VARCHAR"/>
+        <result property="registerOrg" column="register_org" jdbcType="VARCHAR"/>
+        <result property="registerDate" column="register_date" jdbcType="OTHER"/>
+        <result property="registerPerson" column="register_person" jdbcType="VARCHAR"/>
+        <result property="designStandard" column="design_standard" jdbcType="VARCHAR"/>
+        <result property="manufactureCountry" column="manufacture_country" jdbcType="VARCHAR"/>
+        <result property="manufacturerCode" column="manufacturer_code" jdbcType="VARCHAR"/>
+        <result property="manufacturerName" column="manufacturer_name" jdbcType="VARCHAR"/>
+        <result property="leaveFactoryNumber" column="leave_factory_number" jdbcType="VARCHAR"/>
+        <result property="deviceNumber" column="device_number" jdbcType="VARCHAR"/>
+        <result property="model" column="model" jdbcType="VARCHAR"/>
+        <result property="leaveFactoryDate" column="leave_factory_date" jdbcType="OTHER"/>
+        <result property="designServiceLife" column="design_service_life" jdbcType="OTHER"/>
+        <result property="kind" column="kind" jdbcType="VARCHAR"/>
+        <result property="category" column="category" jdbcType="VARCHAR"/>
+        <result property="type" column="type" jdbcType="VARCHAR"/>
+        <result property="deviceName" column="device_name" jdbcType="VARCHAR"/>
+        <result property="produceStandard" column="produce_standard" jdbcType="VARCHAR"/>
+        <result property="inspectionModality" column="inspection_modality" jdbcType="VARCHAR"/>
+        <result property="supervisorName" column="supervisor_name" jdbcType="VARCHAR"/>
+        <result property="supervisorApprNumber" column="supervisor_appr_number" jdbcType="VARCHAR"/>
+        <result property="supervisorCertNumber" column="supervisor_cert_number" jdbcType="VARCHAR"/>
+        <result property="modelTestOrg" column="model_test_org" jdbcType="VARCHAR"/>
+        <result property="modelTestApprNumber" column="model_test_appr_number" jdbcType="VARCHAR"/>
+        <result property="modelTestCertNumber" column="model_test_cert_number" jdbcType="VARCHAR"/>
+        <result property="sellerCode" column="seller_code" jdbcType="VARCHAR"/>
+        <result property="sellerName" column="seller_name" jdbcType="VARCHAR"/>
+        <result property="sellerAddress" column="seller_address" jdbcType="VARCHAR"/>
+        <result property="sellerContact" column="seller_contact" jdbcType="VARCHAR"/>
+        <result property="sellerTel" column="seller_tel" jdbcType="VARCHAR"/>
+        <result property="noticeNumber" column="notice_number" jdbcType="VARCHAR"/>
+        <result property="noticeDate" column="notice_date" jdbcType="OTHER"/>
+        <result property="setupCompanyCode" column="setup_company_code" jdbcType="VARCHAR"/>
+        <result property="setupCompanyName" column="setup_company_name" jdbcType="VARCHAR"/>
+        <result property="setupCompanyCertNumber" column="setup_company_cert_number" jdbcType="VARCHAR"/>
+        <result property="setupPrinciple" column="setup_principle" jdbcType="VARCHAR"/>
+        <result property="setupPrincipleTel" column="setup_principle_tel" jdbcType="VARCHAR"/>
+        <result property="setupFinishDate" column="setup_finish_date" jdbcType="OTHER"/>
+        <result property="setupSupervisorCode" column="setup_supervisor_code" jdbcType="VARCHAR"/>
+        <result property="setupSupervisorName" column="setup_supervisor_name" jdbcType="VARCHAR"/>
+        <result property="setupSupervisorApprNumber" column="setup_supervisor_appr_number" jdbcType="VARCHAR"/>
+        <result property="buyDate" column="buy_date" jdbcType="OTHER"/>
+        <result property="ownerCode" column="owner_code" jdbcType="VARCHAR"/>
+        <result property="ownerName" column="owner_name" jdbcType="VARCHAR"/>
+        <result property="ownerAddress" column="owner_address" jdbcType="VARCHAR"/>
+        <result property="ownerContact" column="owner_contact" jdbcType="VARCHAR"/>
+        <result property="ownerTel" column="owner_tel" jdbcType="VARCHAR"/>
+        <result property="areaCode" column="area_code" jdbcType="VARCHAR"/>
+        <result property="town" column="town" jdbcType="VARCHAR"/>
+        <result property="adminOrg" column="admin_org" jdbcType="VARCHAR"/>
+        <result property="usePlace" column="use_place" jdbcType="VARCHAR"/>
+        <result property="buildingUnit" column="building_unit" jdbcType="VARCHAR"/>
+        <result property="address" column="address" jdbcType="VARCHAR"/>
+        <result property="longitude" column="longitude" jdbcType="VARCHAR"/>
+        <result property="latitude" column="latitude" jdbcType="VARCHAR"/>
+        <result property="rescueNumber" column="rescue_number" jdbcType="VARCHAR"/>
+        <result property="useCompanyType" column="use_company_type" jdbcType="VARCHAR"/>
+        <result property="useCompanyCode" column="use_company_code" jdbcType="VARCHAR"/>
+        <result property="useCompanyName" column="use_company_name" jdbcType="VARCHAR"/>
+        <result property="useCompanyAlias" column="use_company_alias" jdbcType="VARCHAR"/>
+        <result property="useCompanyPerson" column="use_company_person" jdbcType="VARCHAR"/>
+        <result property="useCompanyTel" column="use_company_tel" jdbcType="VARCHAR"/>
+        <result property="adminBranchName" column="admin_branch_name" jdbcType="VARCHAR"/>
+        <result property="adminBranchContact" column="admin_branch_contact" jdbcType="VARCHAR"/>
+        <result property="adminBranchTel" column="admin_branch_tel" jdbcType="VARCHAR"/>
+        <result property="adminBranchAddress" column="admin_branch_address" jdbcType="VARCHAR"/>
+        <result property="safetyDept" column="safety_dept" jdbcType="VARCHAR"/>
+        <result property="safetyDeptAddress" column="safety_dept_address" jdbcType="VARCHAR"/>
+        <result property="safetyAdministrator" column="safety_administrator" jdbcType="VARCHAR"/>
+        <result property="safetyAdmCertNumber" column="safety_adm_cert_number" jdbcType="VARCHAR"/>
+        <result property="safetyAdminTel" column="safety_admin_tel" jdbcType="VARCHAR"/>
+        <result property="useStatus" column="use_status" jdbcType="INTEGER"/>
+        <result property="conditions" column="conditions" jdbcType="VARCHAR"/>
+        <result property="remouldEntCode" column="remould_ent_code" jdbcType="VARCHAR"/>
+        <result property="remouldEntName" column="remould_ent_name" jdbcType="VARCHAR"/>
+        <result property="remouldDate" column="remould_date" jdbcType="OTHER"/>
+        <result property="startUseDate" column="start_use_date" jdbcType="OTHER"/>
+        <result property="stopUseDate" column="stop_use_date" jdbcType="OTHER"/>
+        <result property="cancelDate" column="cancel_date" jdbcType="OTHER"/>
+        <result property="inspectDutyCompany" column="inspect_duty_company" jdbcType="VARCHAR"/>
+        <result property="iotInstallCompany" column="iot_install_company" jdbcType="VARCHAR"/>
+        <result property="dataType" column="data_type" jdbcType="VARCHAR"/>
+        <result property="dtCreateTime" column="dt_create_time" jdbcType="TIMESTAMP"/>
+        <result property="dtModifyTime" column="dt_modify_time" jdbcType="TIMESTAMP"/>
+        <result property="vCreateUserId" column="v_create_user_id" jdbcType="VARCHAR"/>
+        <result property="vModifyUserId" column="v_modify_user_id" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="table_field">
+        register_number
+        , use_cert_number, register_org, register_date, register_person, design_standard, manufacture_country
+        , manufacturer_code, manufacturer_name, leave_factory_number, device_number, model, leave_factory_date
+        , design_service_life, kind, category, type, device_name, produce_standard, inspection_modality
+        , supervisor_name, supervisor_appr_number, supervisor_cert_number, model_test_org, model_test_appr_number
+        , model_test_cert_number, seller_code, seller_name, seller_address, seller_contact, seller_tel, notice_number
+        , notice_date, setup_company_code, setup_company_name, setup_company_cert_number, setup_principle
+        , setup_principle_tel, setup_finish_date, setup_supervisor_code, setup_supervisor_name
+        , setup_supervisor_appr_number, buy_date, owner_code, owner_name, owner_address, owner_contact, owner_tel
+        , area_code, town, admin_org, use_place, building_unit, address, longitude, latitude, rescue_number
+        , use_company_type, use_company_code, use_company_name, use_company_alias, use_company_person
+        , use_company_tel, admin_branch_name, admin_branch_contact, admin_branch_tel, admin_branch_address
+        , safety_dept, safety_dept_address, safety_administrator, safety_adm_cert_number, safety_admin_tel
+        , use_status, conditions, remould_ent_code, remould_ent_name, remould_date, start_use_date, stop_use_date
+        , cancel_date, inspect_duty_company, iot_install_company, data_type, dt_create_time, dt_modify_time
+        , v_create_user_id, v_modify_user_id
+    </sql>
+
+
+    <!--新增实体属性不为null的列-->
+    <insert id="insert" keyProperty="registerNumber" useGeneratedKeys="true"
+            parameterType="com.shmashine.common.entity.TblThirdPartyRuijinElevator">
+        insert into tbl_third_party_ruijin_elevator
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="registerNumber != null">
+                register_number,
+            </if>
+            <if test="useCertNumber != null">
+                use_cert_number,
+            </if>
+            <if test="registerOrg != null">
+                register_org,
+            </if>
+            <if test="registerDate != null">
+                register_date,
+            </if>
+            <if test="registerPerson != null">
+                register_person,
+            </if>
+            <if test="designStandard != null">
+                design_standard,
+            </if>
+            <if test="manufactureCountry != null">
+                manufacture_country,
+            </if>
+            <if test="manufacturerCode != null">
+                manufacturer_code,
+            </if>
+            <if test="manufacturerName != null">
+                manufacturer_name,
+            </if>
+            <if test="leaveFactoryNumber != null">
+                leave_factory_number,
+            </if>
+            <if test="deviceNumber != null">
+                device_number,
+            </if>
+            <if test="model != null">
+                model,
+            </if>
+            <if test="leaveFactoryDate != null">
+                leave_factory_date,
+            </if>
+            <if test="designServiceLife != null">
+                design_service_life,
+            </if>
+            <if test="kind != null">
+                kind,
+            </if>
+            <if test="category != null">
+                category,
+            </if>
+            <if test="type != null">
+                type,
+            </if>
+            <if test="deviceName != null">
+                device_name,
+            </if>
+            <if test="produceStandard != null">
+                produce_standard,
+            </if>
+            <if test="inspectionModality != null">
+                inspection_modality,
+            </if>
+            <if test="supervisorName != null">
+                supervisor_name,
+            </if>
+            <if test="supervisorApprNumber != null">
+                supervisor_appr_number,
+            </if>
+            <if test="supervisorCertNumber != null">
+                supervisor_cert_number,
+            </if>
+            <if test="modelTestOrg != null">
+                model_test_org,
+            </if>
+            <if test="modelTestApprNumber != null">
+                model_test_appr_number,
+            </if>
+            <if test="modelTestCertNumber != null">
+                model_test_cert_number,
+            </if>
+            <if test="sellerCode != null">
+                seller_code,
+            </if>
+            <if test="sellerName != null">
+                seller_name,
+            </if>
+            <if test="sellerAddress != null">
+                seller_address,
+            </if>
+            <if test="sellerContact != null">
+                seller_contact,
+            </if>
+            <if test="sellerTel != null">
+                seller_tel,
+            </if>
+            <if test="noticeNumber != null">
+                notice_number,
+            </if>
+            <if test="noticeDate != null">
+                notice_date,
+            </if>
+            <if test="setupCompanyCode != null">
+                setup_company_code,
+            </if>
+            <if test="setupCompanyName != null">
+                setup_company_name,
+            </if>
+            <if test="setupCompanyCertNumber != null">
+                setup_company_cert_number,
+            </if>
+            <if test="setupPrinciple != null">
+                setup_principle,
+            </if>
+            <if test="setupPrincipleTel != null">
+                setup_principle_tel,
+            </if>
+            <if test="setupFinishDate != null">
+                setup_finish_date,
+            </if>
+            <if test="setupSupervisorCode != null">
+                setup_supervisor_code,
+            </if>
+            <if test="setupSupervisorName != null">
+                setup_supervisor_name,
+            </if>
+            <if test="setupSupervisorApprNumber != null">
+                setup_supervisor_appr_number,
+            </if>
+            <if test="buyDate != null">
+                buy_date,
+            </if>
+            <if test="ownerCode != null">
+                owner_code,
+            </if>
+            <if test="ownerName != null">
+                owner_name,
+            </if>
+            <if test="ownerAddress != null">
+                owner_address,
+            </if>
+            <if test="ownerContact != null">
+                owner_contact,
+            </if>
+            <if test="ownerTel != null">
+                owner_tel,
+            </if>
+            <if test="areaCode != null">
+                area_code,
+            </if>
+            <if test="town != null">
+                town,
+            </if>
+            <if test="adminOrg != null">
+                admin_org,
+            </if>
+            <if test="usePlace != null">
+                use_place,
+            </if>
+            <if test="buildingUnit != null">
+                building_unit,
+            </if>
+            <if test="address != null">
+                address,
+            </if>
+            <if test="longitude != null">
+                longitude,
+            </if>
+            <if test="latitude != null">
+                latitude,
+            </if>
+            <if test="rescueNumber != null">
+                rescue_number,
+            </if>
+            <if test="useCompanyType != null">
+                use_company_type,
+            </if>
+            <if test="useCompanyCode != null">
+                use_company_code,
+            </if>
+            <if test="useCompanyName != null">
+                use_company_name,
+            </if>
+            <if test="useCompanyAlias != null">
+                use_company_alias,
+            </if>
+            <if test="useCompanyPerson != null">
+                use_company_person,
+            </if>
+            <if test="useCompanyTel != null">
+                use_company_tel,
+            </if>
+            <if test="adminBranchName != null">
+                admin_branch_name,
+            </if>
+            <if test="adminBranchContact != null">
+                admin_branch_contact,
+            </if>
+            <if test="adminBranchTel != null">
+                admin_branch_tel,
+            </if>
+            <if test="adminBranchAddress != null">
+                admin_branch_address,
+            </if>
+            <if test="safetyDept != null">
+                safety_dept,
+            </if>
+            <if test="safetyDeptAddress != null">
+                safety_dept_address,
+            </if>
+            <if test="safetyAdministrator != null">
+                safety_administrator,
+            </if>
+            <if test="safetyAdmCertNumber != null">
+                safety_adm_cert_number,
+            </if>
+            <if test="safetyAdminTel != null">
+                safety_admin_tel,
+            </if>
+            <if test="useStatus != null">
+                use_status,
+            </if>
+            <if test="conditions != null">
+                conditions,
+            </if>
+            <if test="remouldEntCode != null">
+                remould_ent_code,
+            </if>
+            <if test="remouldEntName != null">
+                remould_ent_name,
+            </if>
+            <if test="remouldDate != null">
+                remould_date,
+            </if>
+            <if test="startUseDate != null">
+                start_use_date,
+            </if>
+            <if test="stopUseDate != null">
+                stop_use_date,
+            </if>
+            <if test="cancelDate != null">
+                cancel_date,
+            </if>
+            <if test="inspectDutyCompany != null">
+                inspect_duty_company,
+            </if>
+            <if test="iotInstallCompany != null">
+                iot_install_company,
+            </if>
+            <if test="dataType != null">
+                data_type,
+            </if>
+            <if test="dtCreateTime != null">
+                dt_create_time,
+            </if>
+            <if test="dtModifyTime != null">
+                dt_modify_time,
+            </if>
+            <if test="vCreateUserId != null">
+                v_create_user_id,
+            </if>
+            <if test="vModifyUserId != null">
+                v_modify_user_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="registerNumber != null">
+                #{registerNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="useCertNumber != null">
+                #{useCertNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="registerOrg != null">
+                #{registerOrg,jdbcType=VARCHAR},
+            </if>
+            <if test="registerDate != null">
+                #{registerDate,jdbcType=OTHER},
+            </if>
+            <if test="registerPerson != null">
+                #{registerPerson,jdbcType=VARCHAR},
+            </if>
+            <if test="designStandard != null">
+                #{designStandard,jdbcType=VARCHAR},
+            </if>
+            <if test="manufactureCountry != null">
+                #{manufactureCountry,jdbcType=VARCHAR},
+            </if>
+            <if test="manufacturerCode != null">
+                #{manufacturerCode,jdbcType=VARCHAR},
+            </if>
+            <if test="manufacturerName != null">
+                #{manufacturerName,jdbcType=VARCHAR},
+            </if>
+            <if test="leaveFactoryNumber != null">
+                #{leaveFactoryNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="deviceNumber != null">
+                #{deviceNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="model != null">
+                #{model,jdbcType=VARCHAR},
+            </if>
+            <if test="leaveFactoryDate != null">
+                #{leaveFactoryDate,jdbcType=OTHER},
+            </if>
+            <if test="designServiceLife != null">
+                #{designServiceLife,jdbcType=OTHER},
+            </if>
+            <if test="kind != null">
+                #{kind,jdbcType=VARCHAR},
+            </if>
+            <if test="category != null">
+                #{category,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                #{type,jdbcType=VARCHAR},
+            </if>
+            <if test="deviceName != null">
+                #{deviceName,jdbcType=VARCHAR},
+            </if>
+            <if test="produceStandard != null">
+                #{produceStandard,jdbcType=VARCHAR},
+            </if>
+            <if test="inspectionModality != null">
+                #{inspectionModality,jdbcType=VARCHAR},
+            </if>
+            <if test="supervisorName != null">
+                #{supervisorName,jdbcType=VARCHAR},
+            </if>
+            <if test="supervisorApprNumber != null">
+                #{supervisorApprNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="supervisorCertNumber != null">
+                #{supervisorCertNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="modelTestOrg != null">
+                #{modelTestOrg,jdbcType=VARCHAR},
+            </if>
+            <if test="modelTestApprNumber != null">
+                #{modelTestApprNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="modelTestCertNumber != null">
+                #{modelTestCertNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="sellerCode != null">
+                #{sellerCode,jdbcType=VARCHAR},
+            </if>
+            <if test="sellerName != null">
+                #{sellerName,jdbcType=VARCHAR},
+            </if>
+            <if test="sellerAddress != null">
+                #{sellerAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="sellerContact != null">
+                #{sellerContact,jdbcType=VARCHAR},
+            </if>
+            <if test="sellerTel != null">
+                #{sellerTel,jdbcType=VARCHAR},
+            </if>
+            <if test="noticeNumber != null">
+                #{noticeNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="noticeDate != null">
+                #{noticeDate,jdbcType=OTHER},
+            </if>
+            <if test="setupCompanyCode != null">
+                #{setupCompanyCode,jdbcType=VARCHAR},
+            </if>
+            <if test="setupCompanyName != null">
+                #{setupCompanyName,jdbcType=VARCHAR},
+            </if>
+            <if test="setupCompanyCertNumber != null">
+                #{setupCompanyCertNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="setupPrinciple != null">
+                #{setupPrinciple,jdbcType=VARCHAR},
+            </if>
+            <if test="setupPrincipleTel != null">
+                #{setupPrincipleTel,jdbcType=VARCHAR},
+            </if>
+            <if test="setupFinishDate != null">
+                #{setupFinishDate,jdbcType=OTHER},
+            </if>
+            <if test="setupSupervisorCode != null">
+                #{setupSupervisorCode,jdbcType=VARCHAR},
+            </if>
+            <if test="setupSupervisorName != null">
+                #{setupSupervisorName,jdbcType=VARCHAR},
+            </if>
+            <if test="setupSupervisorApprNumber != null">
+                #{setupSupervisorApprNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="buyDate != null">
+                #{buyDate,jdbcType=OTHER},
+            </if>
+            <if test="ownerCode != null">
+                #{ownerCode,jdbcType=VARCHAR},
+            </if>
+            <if test="ownerName != null">
+                #{ownerName,jdbcType=VARCHAR},
+            </if>
+            <if test="ownerAddress != null">
+                #{ownerAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="ownerContact != null">
+                #{ownerContact,jdbcType=VARCHAR},
+            </if>
+            <if test="ownerTel != null">
+                #{ownerTel,jdbcType=VARCHAR},
+            </if>
+            <if test="areaCode != null">
+                #{areaCode,jdbcType=VARCHAR},
+            </if>
+            <if test="town != null">
+                #{town,jdbcType=VARCHAR},
+            </if>
+            <if test="adminOrg != null">
+                #{adminOrg,jdbcType=VARCHAR},
+            </if>
+            <if test="usePlace != null">
+                #{usePlace,jdbcType=VARCHAR},
+            </if>
+            <if test="buildingUnit != null">
+                #{buildingUnit,jdbcType=VARCHAR},
+            </if>
+            <if test="address != null">
+                #{address,jdbcType=VARCHAR},
+            </if>
+            <if test="longitude != null">
+                #{longitude,jdbcType=VARCHAR},
+            </if>
+            <if test="latitude != null">
+                #{latitude,jdbcType=VARCHAR},
+            </if>
+            <if test="rescueNumber != null">
+                #{rescueNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="useCompanyType != null">
+                #{useCompanyType,jdbcType=VARCHAR},
+            </if>
+            <if test="useCompanyCode != null">
+                #{useCompanyCode,jdbcType=VARCHAR},
+            </if>
+            <if test="useCompanyName != null">
+                #{useCompanyName,jdbcType=VARCHAR},
+            </if>
+            <if test="useCompanyAlias != null">
+                #{useCompanyAlias,jdbcType=VARCHAR},
+            </if>
+            <if test="useCompanyPerson != null">
+                #{useCompanyPerson,jdbcType=VARCHAR},
+            </if>
+            <if test="useCompanyTel != null">
+                #{useCompanyTel,jdbcType=VARCHAR},
+            </if>
+            <if test="adminBranchName != null">
+                #{adminBranchName,jdbcType=VARCHAR},
+            </if>
+            <if test="adminBranchContact != null">
+                #{adminBranchContact,jdbcType=VARCHAR},
+            </if>
+            <if test="adminBranchTel != null">
+                #{adminBranchTel,jdbcType=VARCHAR},
+            </if>
+            <if test="adminBranchAddress != null">
+                #{adminBranchAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="safetyDept != null">
+                #{safetyDept,jdbcType=VARCHAR},
+            </if>
+            <if test="safetyDeptAddress != null">
+                #{safetyDeptAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="safetyAdministrator != null">
+                #{safetyAdministrator,jdbcType=VARCHAR},
+            </if>
+            <if test="safetyAdmCertNumber != null">
+                #{safetyAdmCertNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="safetyAdminTel != null">
+                #{safetyAdminTel,jdbcType=VARCHAR},
+            </if>
+            <if test="useStatus != null">
+                #{useStatus,jdbcType=INTEGER},
+            </if>
+            <if test="conditions != null">
+                #{conditions,jdbcType=VARCHAR},
+            </if>
+            <if test="remouldEntCode != null">
+                #{remouldEntCode,jdbcType=VARCHAR},
+            </if>
+            <if test="remouldEntName != null">
+                #{remouldEntName,jdbcType=VARCHAR},
+            </if>
+            <if test="remouldDate != null">
+                #{remouldDate,jdbcType=OTHER},
+            </if>
+            <if test="startUseDate != null">
+                #{startUseDate,jdbcType=OTHER},
+            </if>
+            <if test="stopUseDate != null">
+                #{stopUseDate,jdbcType=OTHER},
+            </if>
+            <if test="cancelDate != null">
+                #{cancelDate,jdbcType=OTHER},
+            </if>
+            <if test="inspectDutyCompany != null">
+                #{inspectDutyCompany,jdbcType=VARCHAR},
+            </if>
+            <if test="iotInstallCompany != null">
+                #{iotInstallCompany,jdbcType=VARCHAR},
+            </if>
+            <if test="dataType != null">
+                #{dataType,jdbcType=VARCHAR},
+            </if>
+            <if test="dtCreateTime != null">
+                #{dtCreateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="dtModifyTime != null">
+                #{dtModifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="vCreateUserId != null">
+                #{vCreateUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="vModifyUserId != null">
+                #{vModifyUserId,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+
+    <!--批量新增所有列，列表长度不能为0-->
+    <insert id="insertBatch" keyProperty="registerNumber" useGeneratedKeys="true" parameterType="list">
+        insert into tbl_third_party_ruijin_elevator
+        ( register_number ,use_cert_number, register_org, register_date, register_person, design_standard,
+        manufacture_country, manufacturer_code, manufacturer_name, leave_factory_number, device_number, model,
+        leave_factory_date, design_service_life, kind, category, type, device_name, produce_standard,
+        inspection_modality, supervisor_name, supervisor_appr_number, supervisor_cert_number, model_test_org,
+        model_test_appr_number, model_test_cert_number, seller_code, seller_name, seller_address, seller_contact,
+        seller_tel, notice_number, notice_date, setup_company_code, setup_company_name, setup_company_cert_number,
+        setup_principle, setup_principle_tel, setup_finish_date, setup_supervisor_code, setup_supervisor_name,
+        setup_supervisor_appr_number, buy_date, owner_code, owner_name, owner_address, owner_contact, owner_tel,
+        area_code, town, admin_org, use_place, building_unit, address, longitude, latitude, rescue_number,
+        use_company_type, use_company_code, use_company_name, use_company_alias, use_company_person, use_company_tel,
+        admin_branch_name, admin_branch_contact, admin_branch_tel, admin_branch_address, safety_dept,
+        safety_dept_address, safety_administrator, safety_adm_cert_number, safety_admin_tel, use_status, conditions,
+        remould_ent_code, remould_ent_name, remould_date, start_use_date, stop_use_date, cancel_date,
+        inspect_duty_company, iot_install_company, data_type, dt_create_time, dt_modify_time, v_create_user_id,
+        v_modify_user_id)
+        values
+        <foreach item="item" collection="list" separator="," open="" close="" index="index">
+            (#{item.registerNumber,jdbcType=VARCHAR},#{item.useCertNumber,jdbcType=VARCHAR},
+            #{item.registerOrg,jdbcType=VARCHAR}, #{item.registerDate,jdbcType=OTHER},
+            #{item.registerPerson,jdbcType=VARCHAR}, #{item.designStandard,jdbcType=VARCHAR},
+            #{item.manufactureCountry,jdbcType=VARCHAR}, #{item.manufacturerCode,jdbcType=VARCHAR},
+            #{item.manufacturerName,jdbcType=VARCHAR}, #{item.leaveFactoryNumber,jdbcType=VARCHAR},
+            #{item.deviceNumber,jdbcType=VARCHAR}, #{item.model,jdbcType=VARCHAR},
+            #{item.leaveFactoryDate,jdbcType=OTHER}, #{item.designServiceLife,jdbcType=OTHER},
+            #{item.kind,jdbcType=VARCHAR}, #{item.category,jdbcType=VARCHAR}, #{item.type,jdbcType=VARCHAR},
+            #{item.deviceName,jdbcType=VARCHAR}, #{item.produceStandard,jdbcType=VARCHAR},
+            #{item.inspectionModality,jdbcType=VARCHAR}, #{item.supervisorName,jdbcType=VARCHAR},
+            #{item.supervisorApprNumber,jdbcType=VARCHAR}, #{item.supervisorCertNumber,jdbcType=VARCHAR},
+            #{item.modelTestOrg,jdbcType=VARCHAR}, #{item.modelTestApprNumber,jdbcType=VARCHAR},
+            #{item.modelTestCertNumber,jdbcType=VARCHAR}, #{item.sellerCode,jdbcType=VARCHAR},
+            #{item.sellerName,jdbcType=VARCHAR}, #{item.sellerAddress,jdbcType=VARCHAR},
+            #{item.sellerContact,jdbcType=VARCHAR}, #{item.sellerTel,jdbcType=VARCHAR},
+            #{item.noticeNumber,jdbcType=VARCHAR}, #{item.noticeDate,jdbcType=OTHER},
+            #{item.setupCompanyCode,jdbcType=VARCHAR}, #{item.setupCompanyName,jdbcType=VARCHAR},
+            #{item.setupCompanyCertNumber,jdbcType=VARCHAR}, #{item.setupPrinciple,jdbcType=VARCHAR},
+            #{item.setupPrincipleTel,jdbcType=VARCHAR}, #{item.setupFinishDate,jdbcType=OTHER},
+            #{item.setupSupervisorCode,jdbcType=VARCHAR}, #{item.setupSupervisorName,jdbcType=VARCHAR},
+            #{item.setupSupervisorApprNumber,jdbcType=VARCHAR}, #{item.buyDate,jdbcType=OTHER},
+            #{item.ownerCode,jdbcType=VARCHAR}, #{item.ownerName,jdbcType=VARCHAR},
+            #{item.ownerAddress,jdbcType=VARCHAR}, #{item.ownerContact,jdbcType=VARCHAR},
+            #{item.ownerTel,jdbcType=VARCHAR}, #{item.areaCode,jdbcType=VARCHAR}, #{item.town,jdbcType=VARCHAR},
+            #{item.adminOrg,jdbcType=VARCHAR}, #{item.usePlace,jdbcType=VARCHAR}, #{item.buildingUnit,jdbcType=VARCHAR},
+            #{item.address,jdbcType=VARCHAR}, #{item.longitude,jdbcType=VARCHAR}, #{item.latitude,jdbcType=VARCHAR},
+            #{item.rescueNumber,jdbcType=VARCHAR}, #{item.useCompanyType,jdbcType=VARCHAR},
+            #{item.useCompanyCode,jdbcType=VARCHAR}, #{item.useCompanyName,jdbcType=VARCHAR},
+            #{item.useCompanyAlias,jdbcType=VARCHAR}, #{item.useCompanyPerson,jdbcType=VARCHAR},
+            #{item.useCompanyTel,jdbcType=VARCHAR}, #{item.adminBranchName,jdbcType=VARCHAR},
+            #{item.adminBranchContact,jdbcType=VARCHAR}, #{item.adminBranchTel,jdbcType=VARCHAR},
+            #{item.adminBranchAddress,jdbcType=VARCHAR}, #{item.safetyDept,jdbcType=VARCHAR},
+            #{item.safetyDeptAddress,jdbcType=VARCHAR}, #{item.safetyAdministrator,jdbcType=VARCHAR},
+            #{item.safetyAdmCertNumber,jdbcType=VARCHAR}, #{item.safetyAdminTel,jdbcType=VARCHAR},
+            #{item.useStatus,jdbcType=INTEGER}, #{item.conditions,jdbcType=VARCHAR},
+            #{item.remouldEntCode,jdbcType=VARCHAR}, #{item.remouldEntName,jdbcType=VARCHAR},
+            #{item.remouldDate,jdbcType=OTHER}, #{item.startUseDate,jdbcType=OTHER}, #{item.stopUseDate,jdbcType=OTHER},
+            #{item.cancelDate,jdbcType=OTHER}, #{item.inspectDutyCompany,jdbcType=VARCHAR},
+            #{item.iotInstallCompany,jdbcType=VARCHAR}, #{item.dataType,jdbcType=VARCHAR},
+            #{item.dtCreateTime,jdbcType=TIMESTAMP}, #{item.dtModifyTime,jdbcType=TIMESTAMP},
+            #{item.vCreateUserId,jdbcType=VARCHAR}, #{item.vModifyUserId,jdbcType=VARCHAR})
+        </foreach>
+    </insert>
+
+
+    <!--通过主键删除-->
+    <delete id="deleteById" parameterType="java.lang.String">
+        delete
+        from tbl_third_party_ruijin_elevator
+        where register_number = #{registerNumber}
+    </delete>
+
+
+    <delete id="deleteAll">
+        delete
+        from tbl_third_party_ruijin_elevator
+    </delete>
+
+
+    <select id="getRjElevatorInfo" parameterType="java.lang.String" resultMap="TblThirdPartyRuijinElevatorResultMap">
+        select *
+        from tbl_third_party_ruijin_elevator
+        where register_number = #{registerNumber}
+    </select>
+</mapper>

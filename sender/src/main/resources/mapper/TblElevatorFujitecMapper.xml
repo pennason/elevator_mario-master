@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.sender.dao.TblElevatorFujitecDao">
+
+    <resultMap id="tblElevatorFujitecMap" type="com.shmashine.common.entity.TblElevatorFujitec">
+        <id column="id" property="id"/>
+        <result column="product_id" property="productId"/>
+        <result column="identification_number" property="identificationNumber"/>
+        <result column="id_nr" property="idNr"/>
+        <result column="product_variety" property="productVariety"/>
+        <result column="vendor" property="vendor"/>
+    </resultMap>
+
+    <sql id="tblElevatorFujitecCol">
+        id
+        ,product_id,identification_number,id_nr,product_variety,vendor
+    </sql>
+
+    <select id="getElevatorByPtCode" parameterType="String" resultMap="tblElevatorFujitecMap">
+        select
+        <include refid="tblElevatorFujitecCol"/>
+        from tbl_elevator_fujitec
+        where area_city=#{value}
+    </select>
+
+</mapper>

@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shmashine.api.dao.TblReportDao">
+
+    <resultMap type="com.shmashine.api.module.elevator.ElevatorDetailResModule" id="ElevatorDetailResModuleMap">
+        <result property="vElevatorId" column="v_elevator_id" jdbcType="VARCHAR"/>
+        <result property="vElevatorCode" column="v_elevator_code" jdbcType="VARCHAR"/>
+        <result property="iProvinceId" column="i_province_id" jdbcType="INTEGER"/>
+        <result property="iProvinceIdName" column="i_province_id_name" jdbcType="VARCHAR"/>
+        <result property="iCityId" column="i_city_id" jdbcType="INTEGER"/>
+        <result property="iCityIdName" column="i_city_id_name" jdbcType="VARCHAR"/>
+        <result property="iAreaId" column="i_area_id" jdbcType="INTEGER"/>
+        <result property="iAreaIdName" column="i_area_id_name" jdbcType="VARCHAR"/>
+        <result property="vAddress" column="v_address" jdbcType="VARCHAR"/>
+        <result property="iElevatorType" column="i_elevator_type" jdbcType="INTEGER"/>
+        <result property="iElevatorTypeName" column="i_elevator_type_name" jdbcType="VARCHAR"/>
+        <result property="iElevatorUseType" column="i_elevator_use_type" jdbcType="INTEGER"/>
+        <result property="iElevatorUseTypeName" column="i_elevator_use_type_name" jdbcType="VARCHAR"/>
+        <result property="iElevatorPlaceType" column="i_elevator_place_type" jdbcType="INTEGER"/>
+        <result property="vElevatorBrandId" column="v_elevator_brand_id" jdbcType="VARCHAR"/>
+        <result property="vElevatorBrandIdName" column="v_elevator_brand_id_name" jdbcType="VARCHAR"/>
+        <result property="iMaintainDays" column="i_maintain_days" jdbcType="INTEGER"/>
+        <result property="dLastMaintainDate" column="d_last_maintain_date" jdbcType="OTHER"/>
+        <result property="dNextMaintainDate" column="d_next_maintain_date" jdbcType="OTHER"/>
+        <result property="dLastInspectDate" column="d_last_inspect_date" jdbcType="OTHER"/>
+        <result property="dNextInspectDate" column="d_next_inspect_date" jdbcType="OTHER"/>
+        <result property="vMaintainCompanyId" column="v_maintain_company_id" jdbcType="VARCHAR"/>
+        <result property="vMaintainCompanyIdName" column="v_maintain_company_id_name" jdbcType="VARCHAR"/>
+        <result property="vPropertyCompanyId" column="v_property_company_id" jdbcType="VARCHAR"/>
+        <result property="vPropertyCompanyIdName" column="v_property_company_id_name" jdbcType="VARCHAR"/>
+        <result property="iGovernmentId" column="i_government_id" jdbcType="VARCHAR"/>
+        <result property="iGovernmentIdName" column="i_government_id_name" jdbcType="VARCHAR"/>
+        <result property="vMaintainPersonName" column="v_maintain_person_name" jdbcType="VARCHAR"/>
+        <result property="vMaintainPersonTel" column="v_maintain_person_tel" jdbcType="INTEGER"/>
+        <result property="vEmergencyPersonName" column="v_emergency_person_name" jdbcType="VARCHAR"/>
+        <result property="vEmergencyPersonTel" column="v_emergency_person_tel" jdbcType="INTEGER"/>
+        <result property="vHttpPtCodes" column="v_http_pt_codes" jdbcType="VARCHAR"/>
+        <result property="vLongitude" column="v_longitude" jdbcType="VARCHAR"/>
+        <result property="vLatitude" column="v_latitude" jdbcType="VARCHAR"/>
+        <result property="iCoordinateType" column="i_coordinate_type" jdbcType="INTEGER"/>
+        <result property="vProjectId" column="v_project_id" jdbcType="VARCHAR"/>
+        <result property="vProjectIdName" column="v_project_id_name" jdbcType="VARCHAR"/>
+        <result property="vVillageId" column="v_village_id" jdbcType="VARCHAR"/>
+        <result property="vVillageIdName" column="v_village_id_name" jdbcType="VARCHAR"/>
+        <result property="iInstallStatus" column="i_install_status" jdbcType="INTEGER"/>
+        <result property="iInstallStatusName" column="i_install_status_name" jdbcType="VARCHAR"/>
+        <result property="dtInstallTime" column="dt_install_time" jdbcType="TIMESTAMP"/>
+        <result property="iOnLine" column="i_on_line" jdbcType="INTEGER"/>
+        <result property="iOnLineName" column="i_on_line_name" jdbcType="VARCHAR"/>
+        <result property="iModeStatus" column="i_mode_status" jdbcType="INTEGER"/>
+        <result property="iModeStatusName" column="i_mode_status_name" jdbcType="VARCHAR"/>
+        <result property="iFaultStatus" column="i_fault_status" jdbcType="INTEGER"/>
+        <result property="iFaultStatusName" column="i_fault_status_name" jdbcType="VARCHAR"/>
+        <result property="iMaxFloor" column="i_max_floor" jdbcType="INTEGER"/>
+        <result property="iMinFloor" column="i_min_floor" jdbcType="INTEGER"/>
+        <result property="vFloorDetail" column="v_floor_detail" jdbcType="VARCHAR"/>
+        <result property="vFloorSettingStatus" column="v_floor_setting_status" jdbcType="VARCHAR"/>
+        <result property="dcSpeed" column="dc_speed" jdbcType="NUMERIC"/>
+        <result property="biRunCount" column="bi_run_count" jdbcType="INTEGER"/>
+        <result property="biDoorCount" column="bi_door_count" jdbcType="INTEGER"/>
+        <result property="biBendCount" column="bi_bend_count" jdbcType="INTEGER"/>
+        <result property="biLevelTriggerCount" column="bi_level_trigger_count" jdbcType="INTEGER"/>
+        <result property="biRunDistanceCount" column="bi_run_distance_count" jdbcType="INTEGER"/>
+        <result property="iDt" column="i_dt" jdbcType="INTEGER"/>
+        <result property="iDt1" column="i_dt1" jdbcType="INTEGER"/>
+        <result property="iDt2" column="i_dt2" jdbcType="INTEGER"/>
+        <result property="iNps" column="i_nps" jdbcType="INTEGER"/>
+        <result property="iNpr" column="i_npr" jdbcType="INTEGER"/>
+        <result property="dcNdaj" column="dc_ndaj" jdbcType="NUMERIC"/>
+        <result property="iAngle" column="i_angle" jdbcType="INTEGER"/>
+        <result property="iAngleType" column="i_angle_type" jdbcType="INTEGER"/>
+        <result property="vSglnCode" column="v_sgln_code" jdbcType="VARCHAR"/>
+        <result property="vUnitCode" column="v_unit_code" jdbcType="VARCHAR"/>
+        <result property="vEquipmentCode" column="v_equipment_code" jdbcType="VARCHAR"/>
+        <result property="vRegistrationAuthority" column="v_registration_authority" jdbcType="VARCHAR"/>
+        <result property="vRegistrationMechanism" column="v_registration_mechanism" jdbcType="VARCHAR"/>
+        <result property="vRegistrationCertificateNo" column="v_registration_certificate_no" jdbcType="VARCHAR"/>
+        <result property="dtCreateTime" column="dt_create_time" jdbcType="TIMESTAMP"/>
+        <result property="dtModifyTime" column="dt_modify_time" jdbcType="TIMESTAMP"/>
+        <result property="vCreateUserId" column="v_create_user_id" jdbcType="VARCHAR"/>
+        <result property="vModifyUserId" column="v_modify_user_id" jdbcType="VARCHAR"/>
+        <result property="iDelFlag" column="i_del_flag" jdbcType="INTEGER"/>
+        <result property="vManufacturerCode" column="v_manufacturer_code" jdbcType="VARCHAR"/>
+        <result property="vLeaveFactoryNumber" column="v_leave_factory_number" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!-- 雄迈报告数据查询 -->
+    <select id="queryXmReportBypage" resultType="java.util.Map"
+            parameterType="com.shmashine.api.entity.TblRequestXmReport">
+        select
+        rxr.id AS id,
+        sf.v_file_type AS fileType,
+        sf.v_url AS url,
+        rxr.file_status AS fileStatus,
+        rxr.elevator_code AS elevatorCode,
+        rxr.fault_id AS faultId,
+        tf.v_fault_name AS faultName,
+        rxr.uncivilized_behavior_flag AS uncivilizedBehaviorFlag,
+        rxr.start_time AS startTime,
+        rxr.end_time AS endTime,
+        rxr.upload_failed_num AS uploadFailedNum,
+        rxr.comment AS comment,
+        rxr.request_failed_num AS requestFailedNum
+        from tbl_response_xm_report rxr
+        INNER JOIN tbl_camera tc ON tc.v_elevator_code = rxr.elevator_code
+        LEFT JOIN tbl_sys_file sf ON sf.v_business_id = rxr.fault_id and sf.v_file_type = 1
+        INNER JOIN tbl_fault tf ON tf.v_fault_id = rxr.fault_id AND tf.i_del_flag = 0
+        <where>
+            <if test="tblRequestXmReport.id != null and tblRequestXmReport.id != ''">
+                and rxr.id = #{tblRequestXmReport.id}
+            </if>
+            <if test="tblRequestXmReport.fileType != null and tblRequestXmReport.fileType != ''">
+                and rxr.file_type = #{tblRequestXmReport.fileType}
+            </if>
+            <if test="tblRequestXmReport.fileStatus != null and tblRequestXmReport.fileStatus != ''">
+                and rxr.file_status = #{tblRequestXmReport.fileStatus}
+            </if>
+            <if test="tblRequestXmReport.elevatorCode != null and tblRequestXmReport.elevatorCode != ''">
+                and rxr.elevator_code like CONCAT('%',#{tblRequestXmReport.elevatorCode},'%')
+            </if>
+            <if test="tblRequestXmReport.faultId != null and tblRequestXmReport.faultId != ''">
+                and rxr.fault_id = #{tblRequestXmReport.faultId}
+            </if>
+            <if test="tblRequestXmReport.iFaultType != null and tblRequestXmReport.iFaultType != ''">
+                and tf.i_fault_type = #{tblRequestXmReport.iFaultType}
+            </if>
+            <if test="tblRequestXmReport.startTime != null and tblRequestXmReport.startTime != ''">
+                <![CDATA[  and rxr.start_time >= #{tblRequestXmReport.startTime} ]]>
+            </if>
+            <if test="tblRequestXmReport.endTime != null and tblRequestXmReport.endTime != ''">
+                <![CDATA[ and rxr.end_time <=  #{tblRequestXmReport.endTime} ]]>
+            </if>
+            <if test="eleCodeList != null">
+                and rxr.elevator_code in
+                <foreach collection="eleCodeList" index="index" item="item" open="("
+                         separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+
+        </where>
+        order by rxr.start_time desc
+    </select>
+
+    <select id="getUrlByHand" parameterType="java.lang.String" resultType="java.lang.String">
+        select v_url url
+        from tbl_sys_file
+        where tbl_sys_file.v_business_id = #{faultId}
+          and tbl_sys_file.v_file_type = 1
+    </select>
+
+</mapper>

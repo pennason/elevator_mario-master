@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.pm.api.dao.TblTestingBillDao">
+    <resultMap type="com.shmashine.pm.api.entity.TblTestingBill" id="TblTestingBillResultMap">
+        <result property="vTestingBillId" column="v_Testing_bill_id" jdbcType="VARCHAR"/>
+        <result property="vTestingTaskId" column="v_testing_task_id" jdbcType="VARCHAR"/>
+        <result property="vProjectId" column="v_project_id" jdbcType="VARCHAR"/>
+        <result property="vVillageId" column="v_village_id" jdbcType="VARCHAR"/>
+        <result property="iDeviceSelfcheck" column="i_device_selfcheck" jdbcType="INTEGER"/>
+        <result property="iDeviceFault" column="i_device_fault" jdbcType="INTEGER"/>
+        <result property="iElevatorFloorCollate" column="i_elevator_floor_collate" jdbcType="INTEGER"/>
+        <result property="iElevatorFaultCollate" column="i_elevator_fault_collate" jdbcType="INTEGER"/>
+        <result property="iElevatorFaultCover" column="i_elevator_fault_cover" jdbcType="INTEGER"/>
+        <result property="iStatus" column="i_status" jdbcType="INTEGER"/>
+        <result property="iNeedExpert" column="i_need_expert" jdbcType="INTEGER"/>
+        <result property="vElevatorCode" column="v_elevator_code" jdbcType="VARCHAR"/>
+        <result property="vRemark" column="v_remark" jdbcType="VARCHAR"/>
+        <result property="dtCreateTime" column="dt_create_time" jdbcType="TIMESTAMP"/>
+        <result property="dtModifyTime" column="dt_modify_time" jdbcType="TIMESTAMP"/>
+        <result property="vCreateUserId" column="v_create_user_id" jdbcType="VARCHAR"/>
+        <result property="vModifyUserId" column="v_modify_user_id" jdbcType="VARCHAR"/>
+        <result property="iDelFlag" column="i_del_flag" jdbcType="INTEGER"/>
+        <result property="vDeviceType" column="v_device_type" jdbcType="VARCHAR"/>
+        <result property="iCameraCheck" column="i_camera_check" jdbcType="INTEGER"/>
+        <result property="iElevatorRunCheck" column="i_elevator_run_check" jdbcType="INTEGER"/>
+        <result property="iElectronBikeCheck" column="i_electron_bike_check" jdbcType="INTEGER"/>
+        <result property="iSensorCheck" column="i_sensor_check" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="table_field">
+        v_testing_bill_id
+        , v_testing_task_id, v_project_id, v_village_id, i_device_selfcheck, i_device_fault, i_elevator_floor_collate, i_elevator_fault_collate, i_elevator_fault_cover, i_status,
+        i_need_expert, v_elevator_code, v_remark, dt_create_time, dt_modify_time, v_create_user_id, v_modify_user_id, i_del_flag, v_device_type, i_camera_check, i_elevator_run_check, i_electron_bike_check, i_sensor_check
+    </sql>
+
+    <select id="getById" parameterType="java.lang.String" resultMap="TblTestingBillResultMap">
+        select
+        <include refid="table_field"/>
+        from tbl_testing_bill
+        where v_testing_bill_id = #{vTestingBillId, jdbcType=VARCHAR}
+    </select>
+
+    <select id="listByEntity" parameterType="com.shmashine.pm.api.entity.TblTestingBill"
+            resultMap="TblTestingBillResultMap">
+        select
+        <include refid="table_field"/>
+        from tbl_testing_bill
+        <where>
+            <if test="vTestingBillId != null and vTestingBillId != ''">
+                and v_testing_bill_id = #{vTestingBillId, jdbcType=VARCHAR}
+            </if>
+            <if test="vTestingTaskId != null and vTestingTaskId != ''">
+                and v_testing_task_id = #{vTestingTaskId, jdbcType=VARCHAR}
+            </if>
+            <if test="vElevatorCode != null and vElevatorCode != ''">
+                and v_elevator_code = #{vElevatorCode, jdbcType=VARCHAR}
+            </if>
+            <if test="iStatus != null">
+                and i_status = #{iStatus, jdbcType=INTEGER}
+            </if>
+            <if test="dtCreateTime != null">
+                and dt_create_time = #{dtCreateTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="dtModifyTime != null">
+                and dt_modify_time = #{dtModifyTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="vCreateUserId != null">
+                and v_create_user_id = #{vCreateUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="vModifyUserId != null">
+                and v_modify_user_id = #{vModifyUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="iDelFlag != null">
+                and i_del_flag = #{iDelFlag,jdbcType=INTEGER}
+            </if>
+        </where>
+    </select>
+
+    <select id="getByEntity" parameterType="com.shmashine.pm.api.entity.TblTestingBill"
+            resultMap="TblTestingBillResultMap">
+        select
+        <include refid="table_field"/>
+        from tbl_testing_bill
+        <where>
+            <if test="vTestingBillId != null and vTestingBillId != ''">
+                and v_testing_bill_id = #{vTestingBillId, jdbcType=VARCHAR}
+            </if>
+            <if test="vTestingTaskId != null and vTestingTaskId != ''">
+                and v_testing_task_id = #{vTestingTaskId, jdbcType=VARCHAR}
+            </if>
+            <if test="vElevatorCode != null and vElevatorCode != ''">
+                and v_elevator_code = #{vElevatorCode, jdbcType=VARCHAR}
+            </if>
+            <if test="iStatus != null">
+                and i_status = #{iStatus, jdbcType=INTEGER}
+            </if>
+            <if test="dtCreateTime != null">
+                and dt_create_time = #{dtCreateTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="dtModifyTime != null">
+                and dt_modify_time = #{dtModifyTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="vCreateUserId != null">
+                and v_create_user_id = #{vCreateUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="vModifyUserId != null">
+                and v_modify_user_id = #{vModifyUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="iDelFlag != null">
+                and i_del_flag = #{iDelFlag,jdbcType=INTEGER}
+            </if>
+        </where>
+        limit 0, 1
+    </select>
+
+    <!--新增实体属性不为null的列-->
+    <insert id="insert" keyProperty="vTestingBillId" useGeneratedKeys="true"
+            parameterType="com.shmashine.pm.api.entity.TblTestingBill">
+        insert into tbl_testing_bill
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="vTestingBillId != null and vTestingBillId != ''">
+                v_testing_bill_id,
+            </if>
+            <if test="vTestingTaskId != null and vTestingTaskId != ''">
+                v_testing_task_id,
+            </if>
+            <if test="vProjectId != null and vProjectId != ''">
+                v_project_id,
+            </if>
+            <if test="vVillageId != null and vVillageId != ''">
+                v_village_id,
+            </if>
+            <if test="vElevatorCode != null and vElevatorCode !=''">
+                v_elevator_code,
+            </if>
+            <if test="iDeviceSelfcheck != null">
+                i_device_selfcheck,
+            </if>
+            <if test="iDeviceFault != null">
+                i_device_fault,
+            </if>
+            <if test="iElevatorFloorCollate != null">
+                i_elevator_floor_collate,
+            </if>
+            <if test="iElevatorFaultCollate != null">
+                i_elevator_fault_collate,
+            </if>
+            <if test="iElevatorFaultCover != null">
+                i_elevator_fault_cover,
+            </if>
+            <if test="iStatus != null">
+                i_status,
+            </if>
+            <if test="iNeedExpert != null">
+                i_need_expert,
+            </if>
+            <if test="dtCreateTime != null">
+                dt_create_time,
+            </if>
+            <if test="dtModifyTime != null">
+                dt_modify_time,
+            </if>
+            <if test="vCreateUserId != null">
+                v_create_user_id,
+            </if>
+            <if test="vModifyUserId != null">
+                v_modify_user_id,
+            </if>
+            <if test="iDelFlag != null">
+                i_del_flag,
+            </if>
+            <if test="vRemark != null and vRemark != ''">
+                v_remark,
+            </if>
+            <if test="vDeviceType != null and vDeviceType != ''">
+                v_device_type,
+            </if>
+            <if test="iCameraCheck != null">
+                i_camera_check,
+            </if>
+            <if test="iElevatorRunCheck != null">
+                i_elevator_run_check,
+            </if>
+            <if test="iElectronBikeCheck != null">
+                i_electron_bike_check,
+            </if>
+            <if test="iSensorCheck != null">
+                i_sensor_check,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="vTestingBillId != null and vTestingBillId != ''">
+                #{vTestingBillId, jdbcType=VARCHAR},
+            </if>
+            <if test="vTestingTaskId != null and vTestingTaskId != ''">
+                #{vTestingTaskId, jdbcType=VARCHAR},
+            </if>
+            <if test="vProjectId != null and vProjectId != ''">
+                #{vProjectId, jdbcType=VARCHAR},
+            </if>
+            <if test="vVillageId != null and vVillageId != ''">
+                #{vVillageId, jdbcType=VARCHAR},
+            </if>
+            <if test="vElevatorCode != null and vElevatorCode !=''">
+                #{vElevatorCode, jdbcType=VARCHAR},
+            </if>
+            <if test="iDeviceSelfcheck != null">
+                #{iDeviceSelfcheck, jdbcType=INTEGER},
+            </if>
+            <if test="iDeviceFault != null">
+                #{iDeviceFault, jdbcType=INTEGER},
+            </if>
+            <if test="iElevatorFloorCollate != null">
+                #{iElevatorFloorCollate, jdbcType=INTEGER},
+            </if>
+            <if test="iElevatorFaultCollate != null">
+                #{iElevatorFaultCollate, jdbcType=INTEGER},
+            </if>
+            <if test="iElevatorFaultCover != null">
+                #{iElevatorFaultCover, jdbcType=INTEGER},
+            </if>
+            <if test="iStatus != null">
+                #{iStatus, jdbcType=INTEGER},
+            </if>
+            <if test="iNeedExpert != null">
+                #{iNeedExpert, jdbcType=INTEGER},
+            </if>
+            <if test="dtCreateTime != null">
+                #{dtCreateTime, jdbcType=TIMESTAMP},
+            </if>
+            <if test="dtModifyTime != null">
+                #{dtModifyTime, jdbcType=TIMESTAMP},
+            </if>
+            <if test="vCreateUserId != null and vCreateUserId != ''">
+                #{vCreateUserId, jdbcType=VARCHAR},
+            </if>
+            <if test="vModifyUserId != null and vModifyUserId != ''">
+                #{vModifyUserId, jdbcType=VARCHAR},
+            </if>
+            <if test="iDelFlag != null">
+                #{iDelFlag, jdbcType=INTEGER},
+            </if>
+            <if test="vRemark != null and vRemark != ''">
+                #{vRemark, jdbcType=VARCHAR},
+            </if>
+            <if test="vDeviceType != null and vDeviceType != ''">
+                #{vDeviceType, jdbcType=VARCHAR},
+            </if>
+            <if test="iCameraCheck != null">
+                #{iCameraCheck,jdbcType=INTEGER},
+            </if>
+            <if test="iElevatorRunCheck != null">
+                #{iElevatorRunCheck,jdbcType=INTEGER},
+            </if>
+            <if test="iElectronBikeCheck != null">
+                #{iElectronBikeCheck,jdbcType=INTEGER},
+            </if>
+            <if test="iSensorCheck != null">
+                #{iSensorCheck,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="com.shmashine.pm.api.entity.TblTestingBill">
+        update tbl_testing_bill
+        <set>
+            <if test="vTestingTaskId != null and vTestingTaskId != ''">
+                v_testing_task_id = #{vTestingTaskId, jdbcType=VARCHAR},
+            </if>
+            <if test="vProjectId != null and vProjectId != ''">
+                v_project_id = #{vProjectId, jdbcType=VARCHAR},
+            </if>
+            <if test="vVillageId != null and vVillageId != ''">
+                v_village_id = #{vVillageId, jdbcType=VARCHAR},
+            </if>
+            <if test="vElevatorCode != null and vElevatorCode !=''">
+                v_elevator_code = #{vElevatorCode, jdbcType=VARCHAR},
+            </if>
+            <if test="iDeviceSelfcheck != null">
+                i_device_selfcheck = #{iDeviceSelfcheck, jdbcType=INTEGER},
+            </if>
+            <if test="iDeviceFault != null">
+                i_device_fault = #{iDeviceFault, jdbcType=INTEGER},
+            </if>
+            <if test="iElevatorFloorCollate != null">
+                i_elevator_floor_collate = #{iElevatorFloorCollate, jdbcType=INTEGER},
+            </if>
+            <if test="iElevatorFaultCollate != null">
+                i_elevator_fault_collate = #{iElevatorFaultCollate, jdbcType=INTEGER},
+            </if>
+            <if test="iElevatorFaultCover != null">
+                i_elevator_fault_cover = #{iElevatorFaultCover, jdbcType=INTEGER},
+            </if>
+            <if test="iStatus != null">
+                i_status = #{iStatus, jdbcType=INTEGER},
+            </if>
+            <if test="iNeedExpert != null">
+                i_need_expert = #{iNeedExpert, jdbcType=INTEGER},
+            </if>
+            <if test="dtCreateTime != null">
+                dt_create_time = #{dtCreateTime, jdbcType=TIMESTAMP},
+            </if>
+            <if test="dtModifyTime != null">
+                dt_modify_time = #{dtModifyTime, jdbcType=TIMESTAMP},
+            </if>
+            <if test="vCreateUserId != null and vCreateUserId != ''">
+                v_create_user_id = #{vCreateUserId, jdbcType=VARCHAR},
+            </if>
+            <if test="vModifyUserId != null and vModifyUserId != ''">
+                v_modify_user_id = #{vModifyUserId, jdbcType=VARCHAR},
+            </if>
+            <if test="iDelFlag != null">
+                i_del_flag = #{iDelFlag, jdbcType=INTEGER},
+            </if>
+            <if test="vRemark != null and vRemark != ''">
+                v_remark = #{vRemark, jdbcType=VARCHAR},
+            </if>
+            <if test="vDeviceType != null and vDeviceType != ''">
+                v_device_type = #{vDeviceType, jdbcType=VARCHAR},
+            </if>
+            <if test="iCameraCheck != null">
+                i_camera_check = #{iCameraCheck,jdbcType=INTEGER},
+            </if>
+            <if test="iElevatorRunCheck != null">
+                i_elevator_run_check = #{iElevatorRunCheck,jdbcType=INTEGER},
+            </if>
+            <if test="iElectronBikeCheck != null">
+                i_electron_bike_check = #{iElectronBikeCheck,jdbcType=INTEGER},
+            </if>
+            <if test="iSensorCheck != null">
+                i_sensor_check = #{iSensorCheck,jdbcType=INTEGER},
+            </if>
+        </set>
+        where v_testing_bill_id = #{vTestingBillId, jdbcType=VARCHAR}
+    </update>
+
+    <delete id="deleteById" parameterType="java.lang.String">
+        delete
+        from tbl_testing_bill
+        where v_testing_bill_id = #{vTestingBillId, jdbcType=VARCHAR}
+    </delete>
+
+    <insert id="insertBatch" keyProperty="vTestingBillId" useGeneratedKeys="true" parameterType="list">
+        insert into tbl_testing_bill
+        (v_testing_bill_id,
+        v_testing_task_id,
+        v_project_id,
+        v_village_id,
+        i_device_selfcheck,
+        i_device_fault,
+        i_elevator_floor_collate,
+        i_elevator_fault_collate,
+        i_elevator_fault_cover,
+        i_status,
+        i_need_expert,
+        v_elevator_code,
+        v_remark,
+        dt_create_time,
+        dt_modify_time,
+        v_create_user_id,
+        v_modify_user_id,
+        i_del_flag,
+        v_device_type,
+        i_camera_check,
+        i_elevator_run_check,
+        i_electron_bike_check,
+        i_sensor_check
+        )
+        values
+        <foreach item="item" collection="list" separator="," open="" close="" index="index">
+            (#{item.vTestingBillId, jdbcType=VARCHAR}, #{item.vTestingTaskId, jdbcType=VARCHAR},
+            #{item.vProjectId, jdbcType=VARCHAR}, #{item.vVillageId, jdbcType=VARCHAR},
+            #{item.iDeviceSelfcheck, jdbcType=INTEGER}, #{item.iDeviceFault, jdbcType=INTEGER},
+            #{item.iElevatorFloorCollate, jdbcType=INTEGER}, #{item.iElevatorFaultCollate, jdbcType=INTEGER},
+            #{item.iElevatorFaultCover, jdbcType=INTEGER}, #{item.iStatus, jdbcType=INTEGER},
+            #{item.iNeedExpert, jdbcType=INTEGER},
+            #{item.vElevatorCode, jdbcType=VARCHAR}, #{item.vRemark, jdbcType=VARCHAR},
+            #{item.dtCreateTime, jdbcType=TIMESTAMP}, #{item.dtModifyTime, jdbcType=TIMESTAMP},
+            #{item.vCreateUserId, jdbcType=VARCHAR}, #{item.vModifyUserId, jdbcType=VARCHAR},
+            #{item.iDelFlag, jdbcType=INTEGER}, #{item.vDeviceType, jdbcType=VARCHAR},
+            #{item.iCameraCheck, jdbcType=INTEGER}, #{item.iElevatorRunCheck, jdbcType=INTEGER},
+            #{item.iElectronBikeCheck, jdbcType=INTEGER}, #{item.iSensorCheck, jdbcType=INTEGER}
+            )
+        </foreach>
+    </insert>
+</mapper>

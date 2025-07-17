@@ -1,0 +1,119 @@
+server:
+  #  port: 8100
+  port: 8080
+
+# kafka topic 名称
+kafka:
+  topic:
+    forward:
+      forward-test: kafka_forward_test
+      fault-etyy01: SEND_TO_USER_FAULT_etyy01
+      fault-kone: SEND_TO_USER_FAULT_KONE
+      fault-ljlc: SEND_TO_USER_FAULT_ljlc
+      fault-shdc: SEND_TO_USER_FAULT_shdc
+      monitor-etyy01: SEND_TO_USER_MONITOR_etyy01
+      monitor-kone: SEND_TO_USER_MONITOR_KONE
+      monitor-ljlc: SEND_TO_USER_MONITOR_ljlc
+      monitor-shdc: SEND_TO_USER_MONITOR_shdc
+      monitor-cxywtg: SEND_TO_USER_MONITOR_cxywtg
+
+spring:
+  profiles:
+    active: dev
+  application:
+    name: kafka-forward
+  redis:
+    database: 2
+    host: redis.tech.shmashine.com
+    port: 6379
+    password: fb8GDavR
+    timeout: 5000
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    #    driverClassName: net.sf.log4jdbc.DriverSpy
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://rm-bp1n9d80pc03n1ag4qo.mysql.rds.aliyuncs.com:3306/elevator_master?useSSL=false&useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&autoReconnect=true&failOverReadOnly=false&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+    username: shmashine
+    password: SHAMSHINE@sfbhsdjkfgsd#678
+    #    url: jdbc:mysql://124.220.207.150:3306/elevator_master?useSSL=false&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+    ##    url: jdbc:mysql://rm-bp1n9d80pc03n1ag4qo.mysql.rds.aliyuncs.com:3306/elevator_master?useSSL=false&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+    #    #生产数据库
+    ##    url: jdbc:mysql://kafka:3306/elevator_master?useSSL=false&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+    #    username: admin #wuyanjie
+    ##    username: wuyanjie
+    ##    username: admrot #elevator_qingpu
+    #    password: MaiXin@666 #Maixin480
+    #    password: Maixin480
+    #    password: c912741f69591bbd #7f2kN5zs8wajXBNB
+    initialSize: 1
+    minIdle: 3
+    maxActive: 400
+    # 配置获取连接等待超时的时间
+    maxWait: 60000
+    # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+    timeBetweenEvictionRunsMillis: 60000
+    # 配置一个连接在池中最小生存的时间，单位是毫秒
+    minEvictableIdleTimeMillis: 30000
+    validationQuery: select 'x'
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    remove-abandoned: true
+    remove-abandoned-timeout: 5
+    log-abandoned: true
+    # 打开PSCache，并且指定每个连接上PSCache的大小
+    poolPreparedStatements: true
+    maxPoolPreparedStatementPerConnectionSize: 20
+    # 配置监控统计拦截的filters，去掉后监控界面sqla's无法统计，'wall'用于防火墙
+    filters: stat,slf4j
+    # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
+    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+    # 合并多个DruidDataSource的监控数据
+    #useGlobalDataSourceStat: true
+  kafka:
+    producer:
+      bootstrap-servers: kafka:9092
+      retries: 0
+      batch-size: 16384
+      buffer-memory: 33554432
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      properties:
+        security.protocol: SASL_PLAINTEXT
+        sasl.mechanism: PLAIN
+        sasl.jaas.config: org.apache.kafka.common.security.plain.PlainLoginModule required username="producer" password="secret20190219";
+    consumer:
+      bootstrap-servers: kafka.pro.shmashine.com:9092
+      group-id: kafka-forward-test
+      auto-offset-reset: latest
+      enable-auto-commit: true
+      auto-commit-interval: 100
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      properties:
+        security.protocol: SASL_PLAINTEXT
+        sasl.mechanism: PLAIN
+        sasl.jaas.config: org.apache.kafka.common.security.plain.PlainLoginModule required username="producer" password="secret20190219";
+
+
+
+# 监控信息
+management:
+  endpoints:
+    web:
+      exposure:
+        #        include: "health,prometheus,httptrace"
+        include: "*"
+  endpoint:
+    health:
+      show-details: ALWAYS
+      probes:
+        enabled: true
+      group:
+        readiness:
+          include: db
+    prometheus:
+      enabled: true
+  metrics:
+    tags:
+      application: ${spring.application.name}

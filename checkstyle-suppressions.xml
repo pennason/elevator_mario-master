@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<!DOCTYPE suppressions PUBLIC
+        "-//Checkstyle//DTD SuppressionFilter Configuration 1.2//EN"
+        "https://checkstyle.org/dtds/suppressions_1_2.dtd">
+<suppressions>
+    <!--<suppress files="[\\/]com[\\/]sgy[\\/]ssm[\\/]" checks="[a-zA-Z0-9]*"/>
+    <suppress files="[\\/]resources[\\/]" checks="[a-zA-Z0-9]*"/>
+    <suppress files=".*(Switch|Enum|ErrorCode).java" checks="[a-zA-Z0-9]*"/>-->
+    <suppress checks="." files=".*DeviceSensorAndStatusConvert\.java"/>
+</suppressions>

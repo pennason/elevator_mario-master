@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.sender.dao.TblFaultMappingDao">
+
+    <resultMap type="com.shmashine.common.entity.TblFaultMapping" id="TblFaultMappingResultMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="platformCode" column="platform_code" jdbcType="VARCHAR"/>
+        <result property="platformName" column="platform_name" jdbcType="VARCHAR"/>
+        <result property="faultType" column="fault_type" jdbcType="VARCHAR"/>
+        <result property="faultName" column="fault_name" jdbcType="VARCHAR"/>
+        <result property="mxFaultType" column="mx_fault_type" jdbcType="VARCHAR"/>
+        <result property="mxFaultName" column="mx_fault_name" jdbcType="VARCHAR"/>
+        <result property="elevatorType" column="elevator_type" jdbcType="INTEGER"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="delFlag" column="del_flag" jdbcType="OTHER"/>
+    </resultMap>
+
+    <sql id="table_field">
+        id
+        , platform_code, platform_name, fault_type, fault_name, mx_fault_type, mx_fault_name, elevator_type, create_time, del_flag
+    </sql>
+
+    <!--通过实体不为空的属性作为筛选条件查询列表-->
+    <select id="listByEntity" resultMap="TblFaultMappingResultMap"
+            parameterType="com.shmashine.common.entity.TblFaultMapping">
+        select
+        <include refid="table_field"/>
+        from tbl_fault_mapping
+        <where>
+            <if test="id != null">
+                and id = #{id,jdbcType=INTEGER}
+            </if>
+            <if test="platformCode != null">
+                and platform_code = #{platformCode,jdbcType=VARCHAR}
+            </if>
+            <if test="platformName != null">
+                and platform_name = #{platformName,jdbcType=VARCHAR}
+            </if>
+            <if test="faultType != null">
+                and fault_type = #{faultType,jdbcType=VARCHAR}
+            </if>
+            <if test="faultName != null">
+                and fault_name = #{faultName,jdbcType=VARCHAR}
+            </if>
+            <if test="mxFaultType != null">
+                and mx_fault_type = #{mxFaultType,jdbcType=VARCHAR}
+            </if>
+            <if test="mxFaultName != null">
+                and mx_fault_name = #{mxFaultName,jdbcType=VARCHAR}
+            </if>
+            <if test="elevatorType != null">
+                and elevator_type = #{elevatorType,jdbcType=INTEGER}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="delFlag != null">
+                and del_flag = #{delFlag,jdbcType=OTHER}
+            </if>
+        </where>
+    </select>
+
+    <!--通过实体不为空的属性作为筛选条件查询单个-->
+    <select id="getByEntity" resultMap="TblFaultMappingResultMap"
+            parameterType="com.shmashine.common.entity.TblFaultMapping">
+        select
+        <include refid="table_field"/>
+        from tbl_fault_mapping
+        <where>
+            <if test="id != null">
+                and id = #{id,jdbcType=INTEGER}
+            </if>
+            <if test="platformCode != null">
+                and platform_code = #{platformCode,jdbcType=VARCHAR}
+            </if>
+            <if test="platformName != null">
+                and platform_name = #{platformName,jdbcType=VARCHAR}
+            </if>
+            <if test="faultType != null">
+                and fault_type = #{faultType,jdbcType=VARCHAR}
+            </if>
+            <if test="faultName != null">
+                and fault_name = #{faultName,jdbcType=VARCHAR}
+            </if>
+            <if test="mxFaultType != null">
+                and mx_fault_type = #{mxFaultType,jdbcType=VARCHAR}
+            </if>
+            <if test="mxFaultName != null">
+                and mx_fault_name = #{mxFaultName,jdbcType=VARCHAR}
+            </if>
+            <if test="elevatorType != null">
+                and elevator_type = #{elevatorType,jdbcType=INTEGER}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="delFlag != null">
+                and del_flag = #{delFlag,jdbcType=OTHER}
+            </if>
+        </where>
+    </select>
+
+    <!--通过实体不为空的属性作为筛选条件查询单个-->
+    <select id="getByPlatformCode" resultMap="TblFaultMappingResultMap" parameterType="java.lang.String">
+        select
+        <include refid="table_field"/>
+        from tbl_fault_mapping where platform_code = #{platformCode,jdbcType=VARCHAR}
+    </select>
+
+    <!--根据故障id获取取证文件-->
+    <select id="getEventUrl" resultType="java.util.HashMap">
+        SELECT (SELECT v_url
+                FROM tbl_sys_file
+                WHERE v_business_id = #{faultId}
+                  AND v_file_type = 1) as 'videoAddress', (SELECT v_url
+                                                           FROM tbl_sys_file
+                                                           WHERE v_business_id = #{faultId}
+                                                             AND v_file_type = 01 ) as 'imgAddress'
+    </select>
+
+</mapper>

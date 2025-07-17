@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shmashine.userclientapplets.dao.MaintenanceDao">
+
+    <!--获取今日需维保电梯-->
+    <select id="queryMaintenanceByDay" resultType="string">
+        SELECT
+        CONCAT('当日需维保电梯: ',GROUP_CONCAT( DISTINCT ele.v_address )) as 'name'
+        FROM
+        `tbl_third_party_ruijin_work_order` `order`
+        JOIN tbl_elevator ele ON ele.v_equipment_code = `order`.register_number
+        <if test="!admin">
+            JOIN tbl_sys_user_resource resource ON ele.v_elevator_id = resource.v_resource_id AND resource.v_user_id =
+            #{userId}
+        </if>
+        where ( DATE(`order`.next_maintenance_date) = CURDATE( ) OR DATE(`order`.should_complete_date) = CURDATE( ) )
+    </select>
+
+    <!--获取本年度维保记录-->
+    <select id="getOverdueOrders" resultType="java.util.Map">
+        SELECT `order`.id, DATE ( `order`.complete_time ) AS complete_time, DATE ( `order`.next_maintenance_date ) AS next_maintenance_date, `order`.register_number, ele.v_elevator_name AS elevator_name
+        FROM
+            `tbl_third_party_ruijin_work_order` `order`
+            JOIN tbl_elevator ele
+        ON ele.v_equipment_code = `order`.register_number
+        where
+            <![CDATA[ DATE_FORMAT(CURDATE()
+            , '%Y-01-01 00:00:00') <= `order`.complete_time ]]>
+            AND ele.v_elevator_id = #{elevatorId}
+        ORDER BY complete_time ASC
+    </select>
+
+</mapper>

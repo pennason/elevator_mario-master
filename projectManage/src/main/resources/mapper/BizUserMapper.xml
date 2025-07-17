@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shmashine.pm.api.dao.BizUserDao">
+
+    <sql id="table_field">
+        v_user_id
+        , v_username, v_password, open_id, v_name, v_email, v_mobile, i_status, v_sex, v_birth, v_pic_id, v_provincial_city, v_address, v_hobby, dt_createTime, dt_modifyTime, v_createid, v_modifyid
+    </sql>
+
+
+    <resultMap type="com.shmashine.pm.api.entity.TblSysUser" id="TblSysUserResultMap">
+        <result property="vUserId" column="v_user_id" jdbcType="VARCHAR"/>
+        <result property="vUsername" column="v_username" jdbcType="VARCHAR"/>
+        <result property="vPassword" column="v_password" jdbcType="VARCHAR"/>
+        <result property="openId" column="open_id" jdbcType="VARCHAR"/>
+        <result property="vName" column="v_name" jdbcType="VARCHAR"/>
+        <result property="vEmail" column="v_email" jdbcType="VARCHAR"/>
+        <result property="vMobile" column="v_mobile" jdbcType="VARCHAR"/>
+        <result property="iStatus" column="i_status" jdbcType="INTEGER"/>
+        <result property="vSex" column="v_sex" jdbcType="INTEGER"/>
+        <result property="vBirth" column="v_birth" jdbcType="TIMESTAMP"/>
+        <result property="vPicId" column="v_pic_id" jdbcType="VARCHAR"/>
+        <result property="vProvincialCity" column="v_provincial_city" jdbcType="VARCHAR"/>
+        <result property="vAddress" column="v_address" jdbcType="VARCHAR"/>
+        <result property="vHobby" column="v_hobby" jdbcType="VARCHAR"/>
+        <result property="dtCreatetime" column="dt_createTime" jdbcType="TIMESTAMP"/>
+        <result property="dtModifytime" column="dt_modifyTime" jdbcType="TIMESTAMP"/>
+        <result property="vCreateid" column="v_createid" jdbcType="VARCHAR"/>
+        <result property="vModifyid" column="v_modifyid" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!-- 获取用户详情  -->
+    <select id="getUserDetail" resultType="java.util.HashMap">
+        SELECT usr.v_user_id             AS vUserId,
+               usr.v_username            AS vUsername,
+               usr.v_name                AS vName,
+               usr.v_email               AS vEmail,
+               usr.v_mobile              AS vMobile,
+               usr.v_sex                 AS vSex,
+               usr.v_pic_id              AS vPicId,
+               usr.v_provincial_city     AS vProvincialCity,
+               usr.v_address             AS vAddress,
+               usr.v_hobby               AS vHobby,
+               usr.i_status              AS iStatus,
+               role.v_role_id            AS roleId,
+               dept.v_dept_id            AS deptId,
+               roleMaster.v_role_name    AS roleName,
+               deptMaster.v_dept_name    AS deptName,
+               usr.i_work_order_flag     AS iWorkOrderFlag,
+               usr.i_send_phone_status   AS iSendPhoneStatus,
+               usr.i_send_message_status AS iSendMessageStatus
+        FROM tbl_sys_user usr
+                 LEFT JOIN tbl_sys_user_role role on usr.v_user_id = role.v_user_id
+                 LEFT JOIN tbl_sys_dept_user dept on dept.v_user_id = usr.v_user_id
+                 LEFT JOIN tbl_sys_role roleMaster on roleMaster.v_role_id = role.v_role_id
+                 LEFT JOIN tbl_sys_dept deptMaster on dept.v_dept_id = deptMaster.v_dept_id
+        WHERE usr.v_user_id = #{userId}
+        GROUP BY usr.v_user_id
+    </select>
+
+    <!-- 获取用户密码  -->
+    <select id="getUserPassword" resultType="java.lang.String">
+        SELECT v_password
+        FROM tbl_sys_user
+        WHERE v_user_id = #{userId}
+    </select>
+
+    <!-- 查询用户列表 -->
+    <select id="searchUserList" resultType="java.util.Map">
+        select
+        usr.v_user_id AS vUserId,
+        usr.v_name AS vName,
+        usr.v_mobile AS vMobile,
+        dept.v_dept_id AS vDeptId,
+        d.v_dept_name AS vDeptName,
+        sysinfo3.v_name_zh_cn AS iStatusName,
+        sysinfo1.v_name_zh_cn AS iSendPhoneStatusName,
+        sysinfo2.v_name_zh_cn AS iSendMessageStatusName,
+        sysinfo4.v_name_zh_cn AS iWorkOrderFlagName
+        from tbl_sys_dept_user dept
+        LEFT JOIN tbl_sys_user usr on dept.v_user_id = usr.v_user_id
+        LEFT JOIN tbl_sys_dept d on dept.v_dept_id = d.v_dept_id
+        LEFT JOIN tbl_sys_systeminfo sysinfo1 on sysinfo1.v_sysvalue5 = usr.i_send_phone_status and sysinfo1.v_sysid =
+        '10003'
+        LEFT JOIN tbl_sys_systeminfo sysinfo2 on sysinfo2.v_sysvalue5 = usr.i_send_message_status and sysinfo2.v_sysid =
+        '10004'
+        LEFT JOIN tbl_sys_systeminfo sysinfo3 on sysinfo3.v_sysvalue5 = usr.i_status and sysinfo3.v_sysid = '10005'
+        LEFT JOIN tbl_sys_systeminfo sysinfo4 on sysinfo4.v_sysvalue5 = usr.i_work_order_flag and sysinfo4.v_sysid =
+        '10026'
+        <where>
+            <![CDATA[usr.v_user_id <> 'shmashine' ]]>
+            and usr.i_status = 0
+            and dept.v_dept_id
+            <foreach collection="permissionDeptIds" item="item" open="IN(" separator="," close=")">
+                #{item}
+            </foreach>
+            <if test="vUserId != null and vUserId != ''">
+                and usr.v_user_id like CONCAT('%',#{vUserId,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="vName != null and vName != ''">
+                and usr.v_name like CONCAT('%',#{vName,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="iStatus != null and iStatus != ''">
+                and usr.i_status = #{iStatus}
+            </if>
+            <if test="vDeptId != null and vDeptId != ''">
+                and dept.v_dept_id = #{vDeptId}
+            </if>
+        </where>
+        GROUP BY usr.v_user_id
+        order by usr.dt_create_time desc
+    </select>
+
+    <!-- 查询用户所属部门下级部门编码 -->
+    <select id="getUserDeptIds" resultType="java.lang.String">
+        select v_dept_id
+        from tbl_sys_dept
+        where v_parent_id = #{deptId}
+    </select>
+
+
+    <select id="getUserDeptInfo" resultType="java.util.Map">
+        select *
+        from tbl_sys_dept
+        where v_parent_id = #{deptId}
+          and i_dept_type_id = #{deptType}
+    </select>
+
+    <select id="getUserDeptList" resultType="java.util.Map">
+        select v_dept_id,
+               v_dept_name
+        from tbl_sys_dept
+        where v_parent_id = #{deptId}
+          and i_dept_type_id = #{deptType}
+    </select>
+
+    <select id="queryPrincipalByElevator" resultType="java.util.Map">
+        select u.*,
+               p.principal_label
+        from tbl_elevator_principal p
+                 JOIN
+             tbl_sys_user u
+             ON
+                 p.principal_id = u.v_user_id
+        where p.v_elevator_id = #{elevatorId}
+    </select>
+
+    <select id="isAdmin" resultType="java.lang.String">
+        SELECT
+        '1'
+        FROM
+        tbl_sys_user user
+        JOIN tbl_sys_user_role role ON role.v_user_id = user.v_user_id
+        JOIN tbl_sys_dept_user dept ON dept.v_user_id = user.v_user_id
+        WHERE
+        <!-- 部门为麦信系统和系统托管平台 -->
+        dept.v_dept_id IN ('1274176398029885440', '8131381858575908864')
+        <!-- 角色为超级管理员和 工程部（上海） -->
+        AND role.v_role_id IN ('ROLE0000000000000001','ROLE00000000000007')
+        and user.v_user_id = #{userId}
+    </select>
+
+    <select id="isAdminOrPm" resultType="java.lang.String">
+        SELECT '1'
+        FROM tbl_sys_user user
+        JOIN tbl_sys_user_role role
+        ON role.v_user_id = user.v_user_id
+        WHERE
+            user.v_user_id = #{userId}
+          and role.v_role_id in ('ROLE0000000000000001'
+            , 'ROLEPM00000000000001'
+            , 'ROLE00000000000007')
+    </select>
+
+    <!-- 获取用户授权 电梯   -->
+    <select id="getUserResourceData" resultType="java.lang.String">
+        select v_resource_id
+        from tbl_sys_user_resource
+        where v_user_id = #{userId}
+    </select>
+
+    <select id="getUser" resultType="java.util.HashMap">
+        SELECT usr.v_user_id         AS vUserId,
+               usr.v_name            AS vName,
+               usr.v_mobile          AS vMobile,
+               dept.v_dept_id        AS vDeptId,
+               d.v_dept_name         AS vDeptName,
+               sysinfo3.v_name_zh_cn AS iStatusName,
+               sysinfo1.v_name_zh_cn AS iSendPhoneStatusName,
+               sysinfo2.v_name_zh_cn AS iSendMessageStatusName,
+               sysinfo4.v_name_zh_cn AS iWorkOrderFlagName
+        FROM tbl_sys_user usr
+                 LEFT JOIN tbl_sys_dept_user dept on dept.v_user_id = usr.v_user_id
+                 LEFT JOIN tbl_sys_dept d on dept.v_dept_id = d.v_dept_id
+                 LEFT JOIN tbl_sys_systeminfo sysinfo1
+                           on sysinfo1.v_sysvalue5 = usr.i_send_phone_status and sysinfo1.v_sysid = '10003'
+                 LEFT JOIN tbl_sys_systeminfo sysinfo2
+                           on sysinfo2.v_sysvalue5 = usr.i_send_message_status and sysinfo2.v_sysid = '10004'
+                 LEFT JOIN tbl_sys_systeminfo sysinfo3
+                           on sysinfo3.v_sysvalue5 = usr.i_status and sysinfo3.v_sysid = '10005'
+                 LEFT JOIN tbl_sys_systeminfo sysinfo4
+                           on sysinfo4.v_sysvalue5 = usr.i_work_order_flag and sysinfo4.v_sysid = '10026'
+        WHERE usr.v_user_id = #{userId}
+        GROUP BY usr.v_user_id
+    </select>
+
+    <select id="getNameAndMobile" resultType="java.util.HashMap">
+        select v_name,
+               v_mobile
+        from tbl_sys_user
+        where v_user_id = #{userId}
+    </select>
+
+
+    <!-- 删除用户的部门 -->
+    <delete id="deleteDeptUser">
+        delete
+        from tbl_sys_dept_user
+        where v_user_id = #{userId}
+    </delete>
+
+    <!-- 删除用户的部门 -->
+    <delete id="deleteUserResource">
+        delete
+        from tbl_sys_user_resource
+        where v_user_id = #{userId}
+    </delete>
+</mapper>

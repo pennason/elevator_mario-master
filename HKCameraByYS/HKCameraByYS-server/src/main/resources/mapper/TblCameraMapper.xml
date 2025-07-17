@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.hkcamerabyys.dao.TblCameraMapper">
+
+    <sql id="TABLE_NAME">
+        tbl_camera
+    </sql>
+    <sql id="ALL_COLUMNS">
+        v_camera_id
+        AS cameraId, v_elevator_id AS elevatorId, v_elevator_code AS elevatorCode,
+        i_camera_type AS cameraType, v_serial_number AS serialNumber, v_username AS username,
+        v_password AS password, v_cloud_number AS cloudNumber, v_hls_url AS hlsUrl, v_rtmp_url AS rtmpUrl,
+        v_private_url AS privateUrl, device_code AS deviceCode, v_is_activate AS activate, online_status AS onlineStatus,
+        i_del_flag AS delFlag
+    </sql>
+
+    <!-- 摄像头信息 -->
+    <!--<select id="getCameraInfoById" resultType="com.shmashine.hkCameraByYS.entity.TblCameraEntity">
+        SELECT <include refid="ALL_COLUMNS" />
+        FROM <include refid="TABLE_NAME" />
+        WHERE v_camera_id = #{cameraId}
+    </select>-->
+
+    <select id="getCameraInfoByElevatorCode" resultType="com.shmashine.common.dto.TblCameraDTO">
+        SELECT
+        <include refid="ALL_COLUMNS"/>
+        FROM
+        <include refid="TABLE_NAME"/>
+        WHERE
+        v_elevator_code = #{elevatorCode}
+    </select>
+
+    <select id="listCloudNumbers" resultType="java.lang.String">
+        SELECT
+        v_cloud_number AS cloudNumber
+        FROM
+        <include refid="TABLE_NAME"/>
+        WHERE
+        i_camera_type = 1 AND i_del_flag = 0 AND v_cloud_number IS NOT NULL
+    </select>
+
+    <!--根据电梯编号 获取摄像头在线状态-->
+    <select id="getCameraOnlineStatusByElevatorCode" resultType="java.lang.Integer">
+        SELECT
+        online_status
+        FROM
+        <include refid="TABLE_NAME"/>
+        WHERE
+        v_elevator_code = #{elevatorCode}
+    </select>
+
+    <!--获取摄像头故障告警配置-->
+    <select id="getCameraAlarmConfig" resultType="com.shmashine.hkcamerabyys.entity.HikCameraAlarmConfig">
+        SELECT *
+        FROM camera_alarm_config
+        WHERE dev_serial = #{devSerial}
+          AND alarm_type = #{alarmType} LIMIT 1
+    </select>
+
+    <update id="updateOnlineStatus">
+        UPDATE
+        <include refid="TABLE_NAME"/>
+        SET
+        online_status = #{onlineStatus}
+        WHERE
+        v_cloud_number = #{cloudNumber}
+    </update>
+</mapper>
+
+

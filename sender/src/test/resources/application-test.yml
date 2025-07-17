@@ -1,0 +1,35 @@
+server:
+  port: 8086
+
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://rm-m5e5x3037x8bn5br61o.mysql.rds.aliyuncs.com:3306/elevator_master?useSSL=false&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+    username: elevator_master
+    password: Shmash1ne@elevator_master
+
+  redis:
+    database: 2
+    host: 10.0.0.113
+    port: 6379
+    password: shmashine@666
+    timeout: 5000
+
+  boot:
+    admin:
+      client:
+        url: http://spring-boot-admin:9999/
+        username: shmashine
+        password: shmashine
+        instance:
+          service-url: http://localhost:8086
+
+
+springdoc:
+  api-docs:
+    enabled: true
+
+endpoint:
+  #push-city-govern-domain: http://localhost:8080
+  push-city-govern-domain: http://push.city.govern.shmashine.com

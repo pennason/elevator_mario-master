@@ -1,0 +1,419 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.api.dao.TblEnventNoticeDao">
+
+    <resultMap type="com.shmashine.common.entity.TblEnventNotice" id="TblEnventNoticeResultMap">
+        <result property="vEnventNotifyId" column="v_envent_notify_id" jdbcType="VARCHAR"/>
+        <result property="vElevatorId" column="v_elevator_id" jdbcType="VARCHAR"/>
+        <result property="vElevatorCode" column="v_elevator_code" jdbcType="VARCHAR"/>
+        <result property="vRegisterNo" column="v_register_no" jdbcType="VARCHAR"/>
+        <result property="vNoticeType" column="v_notice_type" jdbcType="VARCHAR"/>
+        <result property="vMessage" column="v_message" jdbcType="VARCHAR"/>
+        <result property="iIsDelete" column="i_is_delete" jdbcType="INTEGER"/>
+        <result property="dtStartTime" column="dt_start_time" jdbcType="TIMESTAMP"/>
+        <result property="dtEndTime" column="dt_end_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="table_field">
+        v_envent_notify_id
+        , v_elevator_id, v_elevator_code, v_register_no, v_notice_type, v_message, i_is_delete, dt_start_time, dt_end_time
+    </sql>
+
+    <!--通过Id查询单个-->
+    <select id="getById" resultMap="TblEnventNoticeResultMap" parameterType="java.lang.String">
+        select
+        <include refid="table_field"/>
+        from tbl_envent_notice
+        where v_envent_notify_id = #{vEnventNotifyId,jdbcType=VARCHAR}
+    </select>
+
+
+    <!--通过实体不为空的属性作为筛选条件查询列表-->
+    <select id="listByEntity" resultMap="TblEnventNoticeResultMap"
+            parameterType="com.shmashine.common.entity.TblEnventNotice">
+        select
+        <include refid="table_field"/>
+        from tbl_envent_notice
+        <where>
+            <if test="vEnventNotifyId != null">
+                and v_envent_notify_id = #{vEnventNotifyId,jdbcType=VARCHAR}
+            </if>
+            <if test="vElevatorId != null">
+                and v_elevator_id = #{vElevatorId,jdbcType=VARCHAR}
+            </if>
+            <if test="vElevatorCode != null">
+                and v_elevator_code = #{vElevatorCode,jdbcType=VARCHAR}
+            </if>
+            <if test="vRegisterNo != null">
+                and v_register_no = #{vRegisterNo,jdbcType=VARCHAR}
+            </if>
+            <if test="vNoticeType != null">
+                and v_notice_type = #{vNoticeType,jdbcType=VARCHAR}
+            </if>
+            <if test="vMessage != null">
+                and v_message = #{vMessage,jdbcType=VARCHAR}
+            </if>
+            <if test="iIsDelete != null">
+                and i_is_delete = #{iIsDelete,jdbcType=INTEGER}
+            </if>
+            <if test="dtStartTime != null">
+                and dt_start_time = #{dtStartTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="dtEndTime != null">
+                and dt_end_time = #{dtEndTime,jdbcType=TIMESTAMP}
+            </if>
+        </where>
+    </select>
+
+    <!--通过实体不为空的属性作为筛选条件查询单个-->
+    <select id="getByEntity" resultMap="TblEnventNoticeResultMap"
+            parameterType="com.shmashine.common.entity.TblEnventNotice">
+        select
+        <include refid="table_field"/>
+        from tbl_envent_notice
+        <where>
+            <if test="vEnventNotifyId != null">
+                and v_envent_notify_id = #{vEnventNotifyId,jdbcType=VARCHAR}
+            </if>
+            <if test="vElevatorId != null">
+                and v_elevator_id = #{vElevatorId,jdbcType=VARCHAR}
+            </if>
+            <if test="vElevatorCode != null">
+                and v_elevator_code = #{vElevatorCode,jdbcType=VARCHAR}
+            </if>
+            <if test="vRegisterNo != null">
+                and v_register_no = #{vRegisterNo,jdbcType=VARCHAR}
+            </if>
+            <if test="vNoticeType != null">
+                and v_notice_type = #{vNoticeType,jdbcType=VARCHAR}
+            </if>
+            <if test="vMessage != null">
+                and v_message = #{vMessage,jdbcType=VARCHAR}
+            </if>
+            <if test="iIsDelete != null">
+                and i_is_delete = #{iIsDelete,jdbcType=INTEGER}
+            </if>
+            <if test="dtStartTime != null">
+                and dt_start_time = #{dtStartTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="dtEndTime != null">
+                and dt_end_time = #{dtEndTime,jdbcType=TIMESTAMP}
+            </if>
+        </where>
+    </select>
+
+    <!--通过Id列表作为筛选条件查询列表，列表长度不为0-->
+    <select id="listByIds" resultMap="TblEnventNoticeResultMap" parameterType="list">
+        select
+        <include refid="table_field"/>
+        from tbl_envent_notice
+        where v_envent_notify_id in
+        <foreach item="item" collection="list" separator="," open="(" close=")" index="index">
+            #{item}
+        </foreach>
+    </select>
+
+    <!--新增实体属性不为null的列-->
+    <insert id="insert" keyProperty="vEnventNotifyId" useGeneratedKeys="true"
+            parameterType="com.shmashine.common.entity.TblEnventNotice">
+        insert into tbl_envent_notice
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="vEnventNotifyId != null">
+                v_envent_notify_id,
+            </if>
+            <if test="vElevatorId != null">
+                v_elevator_id,
+            </if>
+            <if test="vElevatorCode != null">
+                v_elevator_code,
+            </if>
+            <if test="vRegisterNo != null">
+                v_register_no,
+            </if>
+            <if test="vNoticeType != null">
+                v_notice_type,
+            </if>
+            <if test="vMessage != null">
+                v_message,
+            </if>
+            <if test="iIsDelete != null">
+                i_is_delete,
+            </if>
+            <if test="dtStartTime != null">
+                dt_start_time,
+            </if>
+            <if test="dtEndTime != null">
+                dt_end_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="vEnventNotifyId != null">
+                #{vEnventNotifyId,jdbcType=VARCHAR},
+            </if>
+            <if test="vElevatorId != null">
+                #{vElevatorId,jdbcType=VARCHAR},
+            </if>
+            <if test="vElevatorCode != null">
+                #{vElevatorCode,jdbcType=VARCHAR},
+            </if>
+            <if test="vRegisterNo != null">
+                #{vRegisterNo,jdbcType=VARCHAR},
+            </if>
+            <if test="vNoticeType != null">
+                #{vNoticeType,jdbcType=VARCHAR},
+            </if>
+            <if test="vMessage != null">
+                #{vMessage,jdbcType=VARCHAR},
+            </if>
+            <if test="iIsDelete != null">
+                #{iIsDelete,jdbcType=INTEGER},
+            </if>
+            <if test="dtStartTime != null">
+                #{dtStartTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="dtEndTime != null">
+                #{dtEndTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+
+    <!--批量新增所有列，列表长度不能为0-->
+    <insert id="insertBatch" keyProperty="vEnventNotifyId" useGeneratedKeys="true" parameterType="list">
+        insert into tbl_envent_notice
+        ( v_envent_notify_id ,v_elevator_id, v_elevator_code, v_register_no, v_notice_type, v_message, i_is_delete,
+        dt_start_time, dt_end_time)
+        values
+        <foreach item="item" collection="list" separator="," open="" close="" index="index">
+            (#{item.vEnventNotifyId,jdbcType=VARCHAR},#{item.vElevatorId,jdbcType=VARCHAR},
+            #{item.vElevatorCode,jdbcType=VARCHAR}, #{item.vRegisterNo,jdbcType=VARCHAR},
+            #{item.vNoticeType,jdbcType=VARCHAR}, #{item.vMessage,jdbcType=VARCHAR}, #{item.iIsDelete,jdbcType=INTEGER},
+            #{item.dtStartTime,jdbcType=TIMESTAMP}, #{item.dtEndTime,jdbcType=TIMESTAMP})
+        </foreach>
+    </insert>
+
+    <!--通过主键修改实体属性不为null的列-->
+    <update id="update" parameterType="com.shmashine.common.entity.TblEnventNotice">
+        update tbl_envent_notice
+        <set>
+            <if test="vElevatorId != null and vElevatorId != ''">
+                v_elevator_id = #{vElevatorId,jdbcType=VARCHAR},
+            </if>
+            <if test="vElevatorCode != null and vElevatorCode != ''">
+                v_elevator_code = #{vElevatorCode,jdbcType=VARCHAR},
+            </if>
+            <if test="vRegisterNo != null and vRegisterNo != ''">
+                v_register_no = #{vRegisterNo,jdbcType=VARCHAR},
+            </if>
+            <if test="vNoticeType != null and vNoticeType != ''">
+                v_notice_type = #{vNoticeType,jdbcType=VARCHAR},
+            </if>
+            <if test="vMessage != null and vMessage != ''">
+                v_message = #{vMessage,jdbcType=VARCHAR},
+            </if>
+            <if test="iIsDelete != null">
+                i_is_delete = #{iIsDelete,jdbcType=INTEGER},
+            </if>
+            <if test="dtStartTime != null">
+                dt_start_time = #{dtStartTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="dtEndTime != null">
+                dt_end_time = #{dtEndTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where v_envent_notify_id = #{vEnventNotifyId,jdbcType=VARCHAR}
+    </update>
+
+    <!--通过表字段修改实体属性不为null的列-->
+    <update id="updateByField">
+        update tbl_envent_notice
+        <set>
+            <if test="where.vElevatorId == null and set.vElevatorId != null and set.vElevatorId != ''">
+                v_elevator_id = #{set.vElevatorId,jdbcType=VARCHAR},
+            </if>
+            <if test="where.vElevatorCode == null and set.vElevatorCode != null and set.vElevatorCode != ''">
+                v_elevator_code = #{set.vElevatorCode,jdbcType=VARCHAR},
+            </if>
+            <if test="where.vRegisterNo == null and set.vRegisterNo != null and set.vRegisterNo != ''">
+                v_register_no = #{set.vRegisterNo,jdbcType=VARCHAR},
+            </if>
+            <if test="where.vNoticeType == null and set.vNoticeType != null and set.vNoticeType != ''">
+                v_notice_type = #{set.vNoticeType,jdbcType=VARCHAR},
+            </if>
+            <if test="where.vMessage == null and set.vMessage != null and set.vMessage != ''">
+                v_message = #{set.vMessage,jdbcType=VARCHAR},
+            </if>
+            <if test="where.iIsDelete == null and set.iIsDelete != null">
+                i_is_delete = #{set.iIsDelete,jdbcType=INTEGER},
+            </if>
+            <if test="where.dtStartTime == null and set.dtStartTime != null">
+                dt_start_time = #{set.dtStartTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="where.dtEndTime == null and set.dtEndTime != null">
+                dt_end_time = #{set.dtEndTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        <where>
+            <if test="where.vEnventNotifyId != null">
+                and v_envent_notify_id = #{where.vEnventNotifyId,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vElevatorId != null">
+                and v_elevator_id = #{where.vElevatorId,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vElevatorCode != null">
+                and v_elevator_code = #{where.vElevatorCode,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vRegisterNo != null">
+                and v_register_no = #{where.vRegisterNo,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vNoticeType != null">
+                and v_notice_type = #{where.vNoticeType,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vMessage != null">
+                and v_message = #{where.vMessage,jdbcType=VARCHAR}
+            </if>
+            <if test="where.iIsDelete != null">
+                and i_is_delete = #{where.iIsDelete,jdbcType=INTEGER}
+            </if>
+            <if test="where.dtStartTime != null">
+                and dt_start_time = #{where.dtStartTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="where.dtEndTime != null">
+                and dt_end_time = #{where.dtEndTime,jdbcType=TIMESTAMP}
+            </if>
+        </where>
+    </update>
+
+    <!--通过主键修改实体列表，列表长度不能为0，注意：当实体属性为null时，对应的列也会别更新为null-->
+    <update id="updateBatch" parameterType="list">
+        update tbl_envent_notice
+        <trim prefix="set" suffixOverrides=",">
+            <trim prefix="v_elevator_id = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_envent_notify_id = #{item.vEnventNotifyId} then #{item.vElevatorId}
+                </foreach>
+            </trim>
+            <trim prefix="v_elevator_code = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_envent_notify_id = #{item.vEnventNotifyId} then #{item.vElevatorCode}
+                </foreach>
+            </trim>
+            <trim prefix="v_register_no = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_envent_notify_id = #{item.vEnventNotifyId} then #{item.vRegisterNo}
+                </foreach>
+            </trim>
+            <trim prefix="v_notice_type = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_envent_notify_id = #{item.vEnventNotifyId} then #{item.vNoticeType}
+                </foreach>
+            </trim>
+            <trim prefix="v_message = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_envent_notify_id = #{item.vEnventNotifyId} then #{item.vMessage}
+                </foreach>
+            </trim>
+            <trim prefix="i_is_delete = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_envent_notify_id = #{item.vEnventNotifyId} then #{item.iIsDelete}
+                </foreach>
+            </trim>
+            <trim prefix="dt_start_time = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_envent_notify_id = #{item.vEnventNotifyId} then #{item.dtStartTime}
+                </foreach>
+            </trim>
+            <trim prefix="dt_end_time = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_envent_notify_id = #{item.vEnventNotifyId} then #{item.dtEndTime}
+                </foreach>
+            </trim>
+        </trim>
+        where v_envent_notify_id in
+        <foreach collection="list" index="index" item="item" separator="," open="(" close=")">
+            #{item.vEnventNotifyId,jdbcType=VARCHAR}
+        </foreach>
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById" parameterType="java.lang.String">
+        delete
+        from tbl_envent_notice
+        where v_envent_notify_id = #{vEnventNotifyId,jdbcType=VARCHAR}     </delete>
+
+    <!--通过实体非空属性删除-->
+    <delete id="deleteByEntity" parameterType="com.shmashine.common.entity.TblEnventNotice">
+        delete from tbl_envent_notice
+        <where>
+            <if test="vElevatorId != null">
+                and v_elevator_id = #{vElevatorId,jdbcType=VARCHAR}
+            </if>
+            <if test="vElevatorCode != null">
+                and v_elevator_code = #{vElevatorCode,jdbcType=VARCHAR}
+            </if>
+            <if test="vRegisterNo != null">
+                and v_register_no = #{vRegisterNo,jdbcType=VARCHAR}
+            </if>
+            <if test="vNoticeType != null">
+                and v_notice_type = #{vNoticeType,jdbcType=VARCHAR}
+            </if>
+            <if test="vMessage != null">
+                and v_message = #{vMessage,jdbcType=VARCHAR}
+            </if>
+            <if test="iIsDelete != null">
+                and i_is_delete = #{iIsDelete,jdbcType=INTEGER}
+            </if>
+            <if test="dtStartTime != null">
+                and dt_start_time = #{dtStartTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="dtEndTime != null">
+                and dt_end_time = #{dtEndTime,jdbcType=TIMESTAMP}
+            </if>
+        </where>
+    </delete>
+
+    <!--通过主键列表删除，列表长度不能为0-->
+    <delete id="deleteByIds" parameterType="list">
+        delete from tbl_envent_notice where v_envent_notify_id in
+        <foreach item="item" collection="list" separator="," open="(" close=")" index="index">
+            #{item}
+        </foreach>
+    </delete>
+
+    <select id="countAll" resultType="int">
+        select count(v_envent_notify_id)
+        from tbl_envent_notice
+    </select>
+
+    <select id="countByEntity" parameterType="com.shmashine.common.entity.TblEnventNotice" resultType="int">
+        select count(v_envent_notify_id) from tbl_envent_notice
+        <where>
+            <if test="vEnventNotifyId != null">
+                and v_envent_notify_id = #{vEnventNotifyId,jdbcType=VARCHAR}
+            </if>
+            <if test="vElevatorId != null">
+                and v_elevator_id = #{vElevatorId,jdbcType=VARCHAR}
+            </if>
+            <if test="vElevatorCode != null">
+                and v_elevator_code = #{vElevatorCode,jdbcType=VARCHAR}
+            </if>
+            <if test="vRegisterNo != null">
+                and v_register_no = #{vRegisterNo,jdbcType=VARCHAR}
+            </if>
+            <if test="vNoticeType != null">
+                and v_notice_type = #{vNoticeType,jdbcType=VARCHAR}
+            </if>
+            <if test="vMessage != null">
+                and v_message = #{vMessage,jdbcType=VARCHAR}
+            </if>
+            <if test="iIsDelete != null">
+                and i_is_delete = #{iIsDelete,jdbcType=INTEGER}
+            </if>
+            <if test="dtStartTime != null">
+                and dt_start_time = #{dtStartTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="dtEndTime != null">
+                and dt_end_time = #{dtEndTime,jdbcType=TIMESTAMP}
+            </if>
+        </where>
+    </select>
+</mapper>

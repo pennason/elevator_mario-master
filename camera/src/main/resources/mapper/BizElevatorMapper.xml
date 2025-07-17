@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shmashine.camera.dao.BizElevatorDao">
+
+    <!-- 获取电梯详情 -->
+    <select id="getElevatorByEquipmentCode" resultType="com.shmashine.camera.model.elevator.ElevatorDetailModule">
+        select ele.v_elevator_id                 AS elevatorId,
+               ele.v_elevator_code               AS elevatorCode,
+               ele.v_address                     AS address,
+               ele.i_elevator_type               AS elevatorType,
+               ele.v_longitude                   AS longitude,
+               ele.v_latitude                    AS latitude,
+               sysinfo.v_name_zh_cn              AS elevatorTypeName,
+               brand.v_elevator_brand_name       AS elevatorBrandName,
+               dept.v_dept_name                  AS maintainCompanyName,
+               dept2.v_dept_name                 AS propertyCompanyName,
+               dept3.v_dept_name                 AS governmentName,
+               ele.v_maintain_person_name        AS maintainPersonName,
+               ele.v_maintain_person_tel         AS maintainPersonTel,
+               ele.v_emergency_person_name       AS emergencyPersonName,
+               ele.v_emergency_person_tel        AS emergencyPersonTel,
+               ele.dt_install_time               AS installTime,
+               ele.i_on_line                     AS onLine,
+               ele.bi_run_count                  AS runCount,
+               ele.bi_door_count                 AS doorCount,
+               ele.bi_bend_count                 AS bendCount,
+               ele.bi_level_trigger_count        AS levelTriggerCount,
+               ele.bi_run_distance_count         AS runDistanceCount,
+               ele.d_last_maintain_date          AS lastMaintainDate,
+               ele.d_next_maintain_date          AS nextMaintainDate,
+               ele.d_last_inspect_date           AS lastInspectDate,
+               ele.d_next_inspect_date           AS nextInspectDate,
+               camera.i_camera_type              AS cameraType,
+               camera.v_hls_url                  AS hlsUrl,
+               camera.v_serial_number            AS serialNumber,
+               camera.v_cloud_number             AS cloudNumber,
+               sysinfo2.v_name_zh_cn             AS elevatorUseType,
+               ele.v_equipment_code              AS equipmentCode,
+               ele.v_sgln_code                   AS saganCode,
+               ele.v_registration_authority      AS registrationAuthority,
+               ele.v_registration_authority      AS registrationMechanism,
+               ele.v_registration_certificate_no AS registrationCertificateNo
+        from tbl_elevator ele
+                 left join tbl_sys_dept dept on ele.v_maintain_company_id = dept.v_dept_id
+                 left join tbl_camera camera on ele.v_elevator_id = camera.v_elevator_id
+                 left join tbl_sys_dept dept2 on ele.v_property_company_id = dept2.v_dept_id
+                 left join tbl_sys_dept dept3 on ele.i_government_id = dept3.v_dept_id
+                 left join tbl_elevator_brand brand on ele.v_elevator_brand_id = brand.v_elevator_brand_id
+                 left join tbl_sys_systeminfo sysinfo
+                           on sysinfo.v_sysvalue5 = ele.i_elevator_type and sysinfo.v_sysid = '10002'
+                 left join tbl_sys_systeminfo sysinfo2
+                           on sysinfo2.v_sysvalue5 = ele.i_elevator_use_type and sysinfo2.v_sysid = '10023'
+        where ele.v_equipment_code = #{equipmentCode}
+    </select>
+
+    <select id="getElevatorByCode" resultType="com.shmashine.camera.model.elevator.TblElevator">
+        select *
+        from tbl_elevator
+        where v_elevator_code = #{elevatorCode}
+          and i_del_flag = 0;
+    </select>
+
+    <select id="getElevatorBindingByCodeAndCameraId" resultType="com.shmashine.camera.model.elevator.TblElevator">
+        select *
+        from tbl_camera
+        where v_elevator_code = #{elevatorCode}
+          and v_camera_id = #{cameraId}
+          and i_del_flag = 0
+    </select>
+
+    <select id="getFaultTypeByFaultId" resultType="String">
+        select i_fault_type
+        from tbl_fault
+        where v_fault_id = #{faultId}
+    </select>
+
+</mapper>

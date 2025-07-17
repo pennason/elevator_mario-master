@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.sender.dao.TblFaultDefinitionDao">
+
+    <resultMap type="com.shmashine.common.entity.TblFaultDefinition" id="TblFaultDefinitionResultMap">
+        <result property="vFaultDefinitionId" column="v_fault_definition_id" jdbcType="VARCHAR"/>
+        <result property="iFaultType" column="i_fault_type" jdbcType="INTEGER"/>
+        <result property="vFaultName" column="v_fault_name" jdbcType="VARCHAR"/>
+        <result property="vStandardType" column="v_standard_type" jdbcType="VARCHAR"/>
+        <result property="vStandardName" column="v_standard_name" jdbcType="VARCHAR"/>
+        <result property="iLevel" column="i_level" jdbcType="INTEGER"/>
+        <result property="vLevelName" column="v_level_name" jdbcType="VARCHAR"/>
+        <result property="iIsSaveVideo" column="i_is_save_video" jdbcType="INTEGER"/>
+        <result property="iIsSaveImage" column="i_is_save_image" jdbcType="INTEGER"/>
+        <result property="vPlatformName" column="v_platform_name" jdbcType="VARCHAR"/>
+        <result property="iElevatorType" column="i_elevator_type" jdbcType="INTEGER"/>
+        <result property="iMashineFaultType" column="i_mashine_fault_type" jdbcType="INTEGER"/>
+        <result property="dtCreateTime" column="dt_create_time" jdbcType="TIMESTAMP"/>
+        <result property="dtModifyTime" column="dt_modify_time" jdbcType="TIMESTAMP"/>
+        <result property="vCreateUserId" column="v_create_user_id" jdbcType="VARCHAR"/>
+        <result property="vModifyUserId" column="v_modify_user_id" jdbcType="VARCHAR"/>
+        <result property="iDelFlag" column="i_del_flag" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <select id="listByFaultTypeAndElevatorCode" resultMap="TblFaultDefinitionResultMap">
+        select *
+        from tbl_fault_definition
+        <where>
+            <if test="faultType != null">
+                and i_fault_type = #{faultType}
+            </if>
+            <if test="uncivilizedBehaviorFlag != null">
+                and i_uncivilized_behavior_flag = #{uncivilizedBehaviorFlag}
+            </if>
+            <if test="elevatorType != null">
+                and i_elevator_type = #{elevatorType}
+            </if>
+        </where>
+    </select>
+
+    <select id="getByFaultType" resultMap="TblFaultDefinitionResultMap">
+        select *
+        from tbl_fault_definition
+        where i_fault_type = #{faultType}
+    </select>
+
+
+    <select id="list" resultType="com.shmashine.common.entity.TblFaultDefinition">
+        select *
+        from tbl_fault_definition
+        order by i_fault_type
+    </select>
+
+</mapper>

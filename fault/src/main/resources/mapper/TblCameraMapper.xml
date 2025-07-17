@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.fault.camera.dao.TblCameraDao">
+
+    <resultMap type="com.shmashine.fault.camera.entity.TblCamera" id="TblCameraResultMap">
+        <result property="vCameraId" column="v_camera_id" jdbcType="VARCHAR"/>
+        <result property="vElevatorId" column="v_elevator_id" jdbcType="VARCHAR"/>
+        <result property="vElevatorCode" column="v_elevator_code" jdbcType="VARCHAR"/>
+        <result property="iCameraType" column="i_camera_type" jdbcType="INTEGER"/>
+        <result property="vSerialNumber" column="v_serial_number" jdbcType="VARCHAR"/>
+        <result property="vUsername" column="v_username" jdbcType="VARCHAR"/>
+        <result property="vPassword" column="v_password" jdbcType="VARCHAR"/>
+        <result property="vCloudNumber" column="v_cloud_number" jdbcType="VARCHAR"/>
+        <result property="vHlsUrl" column="v_hls_url" jdbcType="VARCHAR"/>
+        <result property="vRtmpUrl" column="v_rtmp_url" jdbcType="VARCHAR"/>
+        <result property="vPrivateUrl" column="v_private_url" jdbcType="VARCHAR"/>
+        <result property="dtCreateTime" column="dt_create_time" jdbcType="TIMESTAMP"/>
+        <result property="dtModifyTime" column="dt_modify_time" jdbcType="TIMESTAMP"/>
+        <result property="vCreateUserId" column="v_create_user_id" jdbcType="VARCHAR"/>
+        <result property="vModifyUserId" column="v_modify_user_id" jdbcType="VARCHAR"/>
+        <result property="iDelFlag" column="i_del_flag" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="table_field">
+        v_camera_id
+        , v_elevator_id, v_elevator_code, i_camera_type, v_serial_number, v_username, v_password, v_cloud_number, v_hls_url, v_rtmp_url, v_private_url, dt_create_time, dt_modify_time, v_create_user_id, v_modify_user_id, i_del_flag
+    </sql>
+
+    <select id="getRtmpUrlByElevatorCode" resultType="java.lang.String">
+        select v_rtmp_url
+        from tbl_camera
+        where v_elevator_code = #{elevatorCode}
+    </select>
+
+    <select id="getHlsUrlByElevatorCode" resultType="java.lang.String">
+        select v_hls_url
+        from tbl_camera
+        where v_elevator_code = #{elevatorCode}
+    </select>
+
+
+    <select id="getByElevatorCode" resultType="com.shmashine.fault.camera.entity.TblCamera">
+        select *
+        from tbl_camera
+        where v_elevator_code = #{elevatorCode}
+    </select>
+
+    <select id="getHKCameraInfoForTY" resultType="java.util.HashMap">
+        select *
+        from tbl_hk_camera
+        where v_elevator_code = #{elevatorCode,jdbcType=VARCHAR}
+    </select>
+
+
+</mapper>

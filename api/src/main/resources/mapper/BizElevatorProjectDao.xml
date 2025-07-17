@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shmashine.api.dao.BizElevatorProjectDao">
+
+    <sql id="table_field">
+        v_project_id
+        , v_project_name, v_remarks, v_party_a, v_party_contacts_name, v_party_contacts_tel, dt_create_time, dt_modify_time, v_create_user_id, v_modify_user_id, i_del_flag
+    </sql>
+
+    <resultMap type="com.shmashine.api.module.elevatorProject.output.ResultProjectDetail" id="TblProjectResultMap">
+        <result property="vProjectId" column="v_project_id" jdbcType="VARCHAR"/>
+        <result property="vProjectName" column="v_project_name" jdbcType="VARCHAR"/>
+        <result property="vDeptId" column="v_dept_id" jdbcType="VARCHAR"/>
+        <result property="vDeptName" column="v_dept_name" jdbcType="VARCHAR"/>
+        <result property="vRemarks" column="v_remarks" jdbcType="VARCHAR"/>
+        <result property="vPartyA" column="v_party_a" jdbcType="VARCHAR"/>
+        <result property="vPartyContactsName" column="v_party_contacts_name" jdbcType="VARCHAR"/>
+        <result property="vPartyContactsTel" column="v_party_contacts_tel" jdbcType="VARCHAR"/>
+        <result property="dtCreateTime" column="dt_create_time" jdbcType="TIMESTAMP"/>
+        <result property="dtModifyTime" column="dt_modify_time" jdbcType="TIMESTAMP"/>
+        <result property="vCreateUserId" column="v_create_user_id" jdbcType="VARCHAR"/>
+        <result property="vModifyUserId" column="v_modify_user_id" jdbcType="VARCHAR"/>
+        <result property="iDelFlag" column="i_del_flag" jdbcType="INTEGER"/>
+    </resultMap>
+
+
+    <!-- 查找用户能看的项目 列表查询 -->
+    <select id="searchElevatorProjectList" resultType="java.util.Map">
+        select
+        project.v_project_id,
+        project.v_project_name,
+        project.v_remarks,
+        project.v_party_a,
+        project.v_party_contacts_name,
+        project.v_party_contacts_tel,
+        project.dt_create_time,
+        project.dt_modify_time,
+        project.v_create_user_id,
+        project.v_modify_user_id,
+        project.i_del_flag,
+        sysinfo.v_name_zh_cn AS i_del_flag_name,
+        dept.v_dept_name
+        from tbl_project project
+        left join tbl_sys_systeminfo sysinfo on sysinfo.v_sysvalue5 = project.i_del_flag and sysinfo.v_sysid = '10012'
+        left join tbl_sys_dept dept on dept.v_dept_id = project.v_dept_id
+        <where>
+            project.i_del_flag = 0
+            <if test="vProjectId != null and vProjectId != ''">
+                and project.v_project_id = #{vProjectId,jdbcType=VARCHAR}
+            </if>
+            <if test="vProjectName != null and vProjectName != ''">
+                and project.v_project_name like CONCAT('%',#{vProjectName,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="vDeptId != null and vDeptId != ''">
+                and project.v_dept_id = #{vDeptId,jdbcType=VARCHAR}
+            </if>
+            <if test="vRemarks != null and vRemarks != ''">
+                and project.v_remarks like CONCAT('%',#{vRemarks,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="vPartyA != null and vPartyA != ''">
+                and project.v_party_a like CONCAT('%',#{vPartyA,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="vPartyContactsName != null and vPartyContactsName != ''">
+                and project.v_party_contacts_name like CONCAT('%',#{vPartyContactsName,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="vPartyContactsTel != null and vPartyContactsTel != ''">
+                and project.v_party_contacts_tel like CONCAT('%',#{vPartyContactsTel,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="!isAdminFlag">
+                and project.v_dept_id
+                <foreach collection="permissionDeptIds" item="item" open="IN(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+    <!-- 查找用户能看的项目 列表查询 -->
+    <select id="searchElevatorProjectInfo" resultMap="TblProjectResultMap">
+        select
+        project.v_project_id,
+        project.v_project_name,
+        project.v_remarks,
+        project.v_party_a,
+        project.v_party_contacts_name,
+        project.v_party_contacts_tel,
+        project.dt_create_time,
+        project.dt_modify_time,
+        project.v_create_user_id,
+        project.v_modify_user_id,
+        project.i_del_flag,
+        sysinfo.v_name_zh_cn AS i_del_flag_name,
+        project.v_dept_id,
+        dept.v_dept_name
+        from tbl_project project
+        left join tbl_sys_systeminfo sysinfo on sysinfo.v_sysvalue5 = project.i_del_flag and sysinfo.v_sysid = '10012'
+        left join tbl_sys_dept dept on dept.v_dept_id = project.v_dept_id
+        <where>
+            project.v_project_id = #{projectId} and project.i_del_flag = 0
+        </where>
+    </select>
+
+    <!-- 查找用户能看的项目下拉框 是根据部门来的 -->
+    <select id="searchElevatorProjectSelectList" resultType="java.util.Map">
+        select
+        v_project_id,
+        v_project_name
+        from tbl_project
+        <where>
+            i_del_flag = 0 and v_dept_id
+            <foreach collection="permissionDeptIds" item="item" open="IN(" separator="," close=")">
+                #{item}
+            </foreach>
+            <if test="projectIds != null and projectIds.size() > 0">
+                and v_project_id in
+                <foreach collection="projectIds" item="projectId" open="(" separator="," close=")">
+                    #{projectId}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+    <!-- 查找用户能看的项目下拉框 是根据部门来的 -->
+    <select id="getProjectIdsByDeptIds" resultType="java.lang.String">
+        select
+        v_project_id
+        from tbl_project
+        <where>
+            i_del_flag = 0 and v_dept_id
+            <foreach collection="deptIds" item="item" open="IN(" separator="," close=")">
+                #{item}
+            </foreach>
+        </where>
+    </select>
+
+    <select id="searchAllProjectList" resultType="java.util.Map">
+        select
+        v_project_id AS projectId,
+        v_project_name AS projectName
+        from tbl_project
+        <where>
+            i_del_flag = 0 and v_dept_id
+            <foreach collection="deptIds" item="item" open="IN(" separator="," close=")">
+                #{item}
+            </foreach>
+        </where>
+    </select>
+
+    <!--获取所有项目-->
+    <select id="searchAllProjectListByName" resultType="java.util.Map">
+        select
+        v_project_id AS projectId,
+        v_project_name AS projectName
+        from tbl_project
+        <where>
+            i_del_flag = 0 and v_dept_id
+            <foreach collection="deptIds" item="item" open="IN(" separator="," close=")">
+                #{item}
+            </foreach>
+            <if test="projectName != null and projectName != ''">
+                and v_project_name like CONCAT('%',#{projectName},'%')
+            </if>
+        </where>
+    </select>
+
+    <!--根据项目id获取项目列表-->
+    <select id="getProjectByIds" resultType="com.shmashine.api.entity.ProjectNameEntity">
+        select
+        v_project_id AS projectId,
+        v_project_name AS projectName
+        from tbl_project
+        <where>
+            i_del_flag = 0 and v_project_id
+            <foreach collection="projectIds" item="item" open="IN(" separator="," close=")">
+                #{item}
+            </foreach>
+        </where>
+    </select>
+
+    <!--获取所有项目-->
+    <select id="getAllProjects" resultType="com.shmashine.api.entity.ProjectNameEntity">
+        select v_project_id   AS projectId,
+               v_project_name AS projectName
+        from tbl_project
+        where i_del_flag = 0
+    </select>
+
+</mapper>

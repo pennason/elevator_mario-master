@@ -1,0 +1,996 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shmashine.api.dao.WuyeFaultDao">
+
+    <!--获取平台故障统计-->
+    <select id="getFaultCount" resultType="java.lang.Integer">
+        select
+        <choose>
+            <when test="isDistinct">
+                ifnull(count(distinct fault.v_elevator_id), 0)
+            </when>
+            <otherwise>
+                ifnull(count(fault.v_elevator_id), 0)
+            </otherwise>
+        </choose>
+        from
+        tbl_fault fault
+        <if test="!isAdminFlag">
+            join tbl_sys_user_resource resource on fault.v_elevator_id = resource.v_resource_id and v_user_id =
+            #{userId}
+        </if>
+        left join tbl_elevator ele on ele.v_elevator_id = fault.v_elevator_id
+        <where>
+            fault.i_del_flag = 0
+            <if test="timeFlag != null and timeFlag != ''">
+                <if test="timeFlag == '00'">
+                    <![CDATA[AND DATE_SUB(CURDATE(), INTERVAL 7 DAY) <= fault.dt_report_time]]>
+                </if>
+                <if test="timeFlag == '11'">
+                    <![CDATA[AND DATE_SUB(CURDATE(), INTERVAL 30 DAY) <= fault.dt_report_time]]>
+                </if>
+                <if test="timeFlag == '22'">
+                    <![CDATA[AND DATE_SUB(CURDATE(), INTERVAL 365 DAY) <= fault.dt_report_time]]>
+                </if>
+            </if>
+            <if test="vElevatorCode != null and vElevatorCode != ''">
+                and fault.v_elevator_code = #{vElevatorCode}
+            </if>
+            <if test="dtReportTime != null and dtReportTime != ''">
+                <![CDATA[  and fault.dt_report_time >= #{dtReportTime} ]]>
+            </if>
+            <if test="dtEndTime != null and dtEndTime != ''">
+                <![CDATA[ and fault.dt_report_time <=  #{dtEndTime} ]]>
+            </if>
+            <if test="iStatus != null">
+                and fault.i_status = #{iStatus}
+            </if>
+            <if test="iFaultType != null and iFaultType != ''">
+                and fault.i_fault_type = #{iFaultType}
+            </if>
+            <if test="iElevatorType != null and iElevatorType != ''">
+                and ele.i_elevator_type = #{iElevatorType}
+            </if>
+            <if test="iUncivilizedBehaviorFlag != null">
+                and fault.i_uncivilized_behavior_flag = #{iUncivilizedBehaviorFlag}
+            </if>
+            <if test="vEventType != null and vEventType != ''">
+                and fault.v_event_channel = #{vEventType}
+            </if>
+            <if test="vProjectId != null and vProjectId != ''">
+                and ele.v_project_id = #{vProjectId}
+            </if>
+        </where>
+    </select>
+
+    <!--根据小区统计电瓶车入梯-->
+    <select id="getElectroMobileFaultCount" resultType="java.util.HashMap">
+        select
+        ele.v_village_id,
+        count(1) as number
+        from
+        tbl_fault fault
+        <if test="!isAdminFlag">
+            join tbl_sys_user_resource resource on fault.v_elevator_id = resource.v_resource_id and v_user_id =
+            #{userId}
+        </if>
+        left join tbl_elevator ele on ele.v_elevator_id = fault.v_elevator_id
+        <where>
+            fault.i_del_flag = 0
+            AND fault.i_fault_type = '37'
+            <if test="timeFlag != null and timeFlag != ''">
+                <if test="timeFlag == '00'">
+                    <![CDATA[AND DATE_SUB(CURDATE(), INTERVAL 7 DAY) <= fault.dt_report_time]]>
+                </if>
+                <if test="timeFlag == '11'">
+                    <![CDATA[AND DATE_SUB(CURDATE(), INTERVAL 30 DAY) <= fault.dt_report_time]]>
+                </if>
+                <if test="timeFlag == '22'">
+                    <![CDATA[AND DATE_SUB(CURDATE(), INTERVAL 365 DAY) <= fault.dt_report_time]]>
+                </if>
+            </if>
+            <if test="vElevatorCode != null and vElevatorCode != ''">
+                and fault.v_elevator_code like CONCAT('%',#{vElevatorCode},'%')
+            </if>
+            <if test="dtReportTime != null and dtReportTime != ''">
+                <![CDATA[  and fault.dt_report_time >= #{dtReportTime} ]]>
+            </if>
+            <if test="dtEndTime != null and dtEndTime != ''">
+                <![CDATA[ and fault.dt_report_time <=  #{dtEndTime} ]]>
+            </if>
+            <if test="iStatus != null">
+                and fault.i_status = #{iStatus}
+            </if>
+            <if test="iElevatorType != null and iElevatorType != ''">
+                and ele.i_elevator_type = #{iElevatorType}
+            </if>
+            <if test="iUncivilizedBehaviorFlag != null">
+                and fault.i_uncivilized_behavior_flag = #{iUncivilizedBehaviorFlag}
+            </if>
+            <if test="vEventType != null and vEventType != ''">
+                and fault.v_event_channel = #{vEventType}
+            </if>
+            <if test="vProjectId != null and vProjectId != ''">
+                and ele.v_project_id = #{vProjectId}
+            </if>
+        </where>
+        GROUP BY ele.v_village_id
+    </select>
+
+    <!--根据部门获取所有小区信息——根据电梯数排序-->
+    <select id="getVillageInfoByDeptIdsAndElevatorCount" resultType="java.util.HashMap">
+        select
+        ifnull(COUNT( ele.v_elevator_id ), 0) AS elevatorNum,
+        COUNT( if(ele.i_on_line = 1 , true, null)) AS onLineNum,
+        village.v_village_id,
+        village.v_village_name,
+        village.v_address,
+        village.v_longitude,
+        village.v_latitude
+        from tbl_village village
+        join tbl_project project on project.v_project_id = village.v_project_id
+        join tbl_sys_dept dept on dept.v_dept_id = project.v_dept_id
+        left JOIN tbl_elevator ele ON ele.v_village_id = village.v_village_id and ele.i_install_status IN (1,3)
+        <where>
+            dept.v_dept_id
+            <foreach collection="deptIds" item="item" open="IN(" separator="," close=")">
+                #{item}
+            </foreach>
+            and village.i_del_flag = 0
+        </where>
+        GROUP BY village.v_village_id
+        ORDER BY elevatorNum DESC
+    </select>
+
+    <!--根据部门获取所有小区信息——根据当日困人数排序-->
+    <select id="getVillageInfoByDeptIdsAndPeopleTrappedCount" resultType="java.util.HashMap">
+        select
+        COUNT( ele.v_elevator_id ) AS elevatorNum,
+        village.v_village_id,
+        village.v_village_name,
+        village.v_address,
+        village.v_longitude,
+        village.v_latitude
+        from tbl_village village
+        join tbl_project project on project.v_project_id = village.v_project_id
+        join tbl_sys_dept dept on dept.v_dept_id = project.v_dept_id
+        INNER JOIN tbl_elevator ele ON ele.v_village_id = village.v_village_id
+        LEFT JOIN tbl_third_party_ruijin_envent `event` ON `event`.register_number = ele.v_equipment_code AND
+        `event`.failure_code = '09' AND `event`.occur_time > CURDATE()
+        <where>
+            dept.v_dept_id
+            <foreach collection="deptIds" item="item" open="IN(" separator="," close=")">
+                #{item}
+            </foreach>
+            and village.i_del_flag = 0
+        </where>
+        GROUP BY village.v_village_id
+        ORDER BY COUNT(`event`.event_id) DESC
+    </select>
+
+    <!--根据时间获取故障统计柱状图-->
+    <select id="getFaultChartByTime" resultType="java.util.HashMap">
+        select
+        v_fault_name AS name,
+        date_format( fault.dt_report_time, '%Y-%m-%d' ) AS date,
+        COUNT(1) as number
+        from
+        tbl_fault fault
+        <if test="!isAdminFlag">
+            join tbl_sys_user_resource resource on fault.v_elevator_id = resource.v_resource_id and v_user_id =
+            #{userId}
+        </if>
+        left join tbl_elevator ele on ele.v_elevator_id = fault.v_elevator_id
+        <where>
+            fault.i_del_flag = 0
+            <if test="timeFlag != null and timeFlag != ''">
+                <if test="timeFlag == '00'">
+                    <![CDATA[AND DATE_SUB(CURDATE(), INTERVAL 7 DAY) <= fault.dt_report_time]]>
+                </if>
+                <if test="timeFlag == '11'">
+                    <![CDATA[AND DATE_SUB(CURDATE(), INTERVAL 30 DAY) <= fault.dt_report_time]]>
+                </if>
+            </if>
+            <if test="vElevatorCode != null and vElevatorCode != ''">
+                and fault.v_elevator_code like CONCAT('%',#{vElevatorCode},'%')
+            </if>
+            <if test="iFaultType != null and iFaultType != ''">
+                and fault.i_fault_type = #{iFaultType}
+            </if>
+            <if test="iUncivilizedBehaviorFlag != null">
+                and fault.i_uncivilized_behavior_flag = #{iUncivilizedBehaviorFlag}
+            </if>
+            <if test="vEventType != null and vEventType != ''">
+                and fault.v_event_channel = #{vEventType}
+            </if>
+            <if test="villageId != null and villageId != ''">
+                AND ele.v_village_id = #{villageId}
+            </if>
+            <if test="vProjectId != null and vProjectId != ''">
+                AND ele.v_project_id = #{vProjectId}
+            </if>
+        </where>
+        GROUP BY date
+    </select>
+
+    <!--获取当日困人电梯-->
+    <select id="getTodayPeopleTrappedElevator" resultType="java.util.HashMap">
+        select
+        '当日困人电梯' AS `lable`,
+        count( 1 ) AS number,
+        GROUP_CONCAT( DISTINCT ele.v_elevator_code) AS `name`
+        from
+        tbl_fault fault
+        <if test="!isAdminFlag">
+            join tbl_sys_user_resource resource on fault.v_elevator_id = resource.v_resource_id and v_user_id =
+            #{userId}
+        </if>
+        left join tbl_elevator ele on ele.v_elevator_id = fault.v_elevator_id
+        <where>
+            fault.i_del_flag = 0
+            and fault.i_fault_type in ('8','7')
+            and DATE(fault.dt_report_time) = CURDATE( )
+            <if test="vVillageId != null and vVillageId != ''">
+                AND ele.v_village_id = #{vVillageId}
+            </if>
+            <if test="vProjectId != null and vProjectId != ''">
+                AND ele.v_project_id = #{vProjectId}
+            </if>
+        </where>
+    </select>
+
+    <!--获取当日故障电梯-->
+    <select id="getTodayFaultElevator" resultType="java.util.HashMap">
+        select
+        '当日故障电梯' AS `lable`,
+        count( 1 ) AS number,
+        GROUP_CONCAT( DISTINCT ele.v_elevator_code) AS `name`
+        from
+        tbl_fault fault
+        <if test="!isAdminFlag">
+            join tbl_sys_user_resource resource on fault.v_elevator_id = resource.v_resource_id and v_user_id =
+            #{userId}
+        </if>
+        left join tbl_elevator ele on ele.v_elevator_id = fault.v_elevator_id
+        <where>
+            fault.i_del_flag = 0
+            and fault.i_uncivilized_behavior_flag = 0
+            and DATE(fault.dt_report_time) = CURDATE( )
+            <if test="vVillageId != null and vVillageId != ''">
+                AND ele.v_village_id = #{vVillageId}
+            </if>
+            <if test="vProjectId != null and vProjectId != ''">
+                AND ele.v_project_id = #{vProjectId}
+            </if>
+        </where>
+    </select>
+
+    <select id="getTrappedPeopleTotal" resultType="integer">
+        select count(1)
+        from
+        tbl_fault fault
+        <if test="!isAdminFlag">
+            join tbl_sys_user_resource resource on fault.v_elevator_id = resource.v_resource_id and v_user_id =
+            #{userId}
+        </if>
+        left join tbl_elevator ele on ele.v_elevator_id = fault.v_elevator_id
+        <where>
+            fault.i_del_flag = 0
+            and (fault.i_fault_type = 7 or fault.i_fault_type = 8)
+            <if test="vElevatorCode != null and vElevatorCode != ''">
+                and fault.v_elevator_code like CONCAT('%',#{vElevatorCode},'%')
+            </if>
+            <if test="dtReportTime != null and dtReportTime != ''">
+                <![CDATA[  and fault.dt_report_time >= #{dtReportTime} ]]>
+            </if>
+            <if test="dtEndTime != null and dtEndTime != ''">
+                <![CDATA[ and fault.dt_report_time <=  #{dtEndTime} ]]>
+            </if>
+            <if test="elevatorId != null and elevatorId != ''">
+                and ele.v_elevator_id = #{elevatorId}
+            </if>
+            <if test="iStatus != null">
+                and fault.i_status = #{iStatus}
+            </if>
+            <if test="iElevatorType != null and iElevatorType != ''">
+                and ele.i_elevator_type = #{iElevatorType}
+            </if>
+            <if test="vEventType != null and vEventType != ''">
+                and fault.v_event_channel = #{vEventType}
+            </if>
+            <if test="vProjectId != null and vProjectId != ''">
+                and ele.v_project_id = #{vProjectId}
+            </if>
+            <if test="villageId != null and villageId != ''">
+                and ele.v_village_id = #{villageId}
+            </if>
+        </where>
+    </select>
+
+    <!--救援时长统计麦信平台故障时长-->
+    <select id="getTrappedPeopleTimeForMX" resultType="java.lang.Integer">
+        SELECT
+        IF(ISNULL(AVG( tf.i_duration_time )),0,AVG( tf.i_duration_time )) AS number
+        FROM
+        tbl_fault tf
+        JOIN tbl_elevator ele ON tf.v_elevator_id = ele.v_elevator_id
+        <if test="!isAdminFlag">
+            JOIN tbl_sys_user_resource resource ON ele.v_elevator_id = resource.v_resource_id
+            AND resource.v_user_id = #{userId}
+        </if>
+        <where>
+            (tf.i_fault_type = 7 OR tf.i_fault_type = 8)
+            <if test="dtReportTime != null and dtReportTime != ''">
+                <![CDATA[  and tf.dt_report_time >= #{dtReportTime} ]]>
+            </if>
+            <if test="dtEndTime != null and dtEndTime != ''">
+                <![CDATA[ and tf.dt_report_time <=  #{dtEndTime} ]]>
+            </if>
+            <if test="elevatorId != null and elevatorId != ''">
+                and ele.v_elevator_id = #{elevatorId}
+            </if>
+            <if test="villageId != null and villageId != ''">
+                AND ele.v_village_id = #{villageId}
+            </if>
+            <if test="vProjectId != null and vProjectId != ''">
+                AND ele.v_project_id = #{vProjectId}
+            </if>
+            <if test="vElevatorCode != null and vElevatorCode != ''">
+                AND ele.v_elevator_code = #{vElevatorCode}
+            </if>
+        </where>
+    </select>
+
+    <!-- 查询仪电错误信息 急修 -->
+    <select id="getFaultStatisticsRepairs" resultType="java.util.HashMap">
+        select
+        ifnull(count(1), 0) AS number,
+        ifnull(ele.bi_run_count, 0) as runCount,
+        village.v_village_id as villageId,
+        village.v_village_name as villageName,
+        round(ifnull((ifnull(count(1), 0) * 1.0) / ifnull(ele.bi_run_count, 0) * 100 , 0), 5) as `rate`,
+        'repairs' as `key`
+        from
+        tbl_third_party_ruijin_envent `event`
+        inner join tbl_elevator ele on ele.v_equipment_code = event.register_number
+        inner join tbl_village village on village.v_village_id = ele.v_village_id
+        <if test="!isAdminFlag">
+            JOIN tbl_sys_user_resource resource ON ele.v_elevator_id = resource.v_resource_id
+            AND resource.v_user_id = #{userId}
+        </if>
+        <where>
+            and event.current_status = 6
+            <if test="startTime != null  and startTime != '' ">
+                and event.occur_time &gt;= #{startTime}
+            </if>
+            <if test="endTime != null  and endTime != '' ">
+                and event.occur_time &lt;= #{endTime}
+            </if>
+            <if test="villageId != null  and villageId != '' ">
+                and ele.v_village_id = #{villageId}
+            </if>
+            <if test="projectId != null  and projectId != '' ">
+                and ele.v_project_id = #{projectId}
+            </if>
+        </where>
+        group by ele.v_village_id
+        order by number ${orderType}
+    </select>
+
+    <!-- 查询仪电错误信息 急修，电梯分组 -->
+    <select id="getFaultStatisticsRepairsGroupByElevator" resultType="java.util.HashMap">
+        select
+        ifnull(count(1), 0) AS number,
+        ifnull(ele.bi_run_count, 0) as runCount,
+        ele.v_elevator_id as elevatorId,
+        ele.v_elevator_code as elevatorCode,
+        ele.v_elevator_name as elevatorName,
+        round(ifnull((ifnull(count(1), 0) * 1.0) / ifnull(ele.bi_run_count, 0) * 100 , 0), 5) as `rate`,
+        'repairs' as `key`
+        from
+        tbl_third_party_ruijin_envent `event`
+        inner join tbl_elevator ele on ele.v_equipment_code = event.register_number
+        inner join tbl_village village on village.v_village_id = ele.v_village_id
+        <if test="!isAdminFlag">
+            JOIN tbl_sys_user_resource resource ON ele.v_elevator_id = resource.v_resource_id
+            AND resource.v_user_id = #{userId}
+        </if>
+        <where>
+            and event.current_status = 6
+            <if test="startTime != null  and startTime != '' ">
+                and event.occur_time &gt;= #{startTime}
+            </if>
+            <if test="endTime != null  and endTime != '' ">
+                and event.occur_time &lt;= #{endTime}
+            </if>
+            <if test="villageId != null  and villageId != '' ">
+                and ele.v_village_id = #{villageId}
+            </if>
+            <if test="projectId != null  and projectId != '' ">
+                and ele.v_project_id = #{projectId}
+            </if>
+        </where>
+        group by ele.v_elevator_name
+        order by number ${orderType}
+    </select>
+
+    <!-- 查询仪电错误信息 困人-->
+    <select id="getFaultStatisticsPersonTrapped" resultType="java.util.HashMap">
+        select
+        ifnull(count(1), 0) AS number,
+        ifnull(ele.bi_run_count, 0) as runCount,
+        village.v_village_id as villageId,
+        village.v_village_name as villageName,
+        round(ifnull((ifnull(count(1), 0) * 1.0) / ifnull(ele.bi_run_count, 0) * 100 , 0), 5) as `rate`,
+        'personTrapped' as `key`
+        from
+        tbl_third_party_ruijin_envent `event`
+        inner join tbl_elevator ele on ele.v_equipment_code = event.register_number
+        inner join tbl_village village on village.v_village_id = ele.v_village_id
+        <if test="!isAdminFlag">
+            JOIN tbl_sys_user_resource resource ON ele.v_elevator_id = resource.v_resource_id
+            AND resource.v_user_id = #{userId}
+        </if>
+        <where>
+            and event.failure_code = '09'
+            <if test="startTime != null  and startTime != '' ">
+                and event.occur_time &gt;= #{startTime}
+            </if>
+            <if test="endTime != null  and endTime != '' ">
+                and event.occur_time &lt;= #{endTime}
+            </if>
+            <if test="villageId != null  and villageId != '' ">
+                and ele.v_village_id = #{villageId}
+            </if>
+            <if test="projectId != null  and projectId != '' ">
+                and ele.v_project_id = #{projectId}
+            </if>
+        </where>
+        group by ele.v_village_id
+        order by number ${orderType}
+    </select>
+
+    <!-- 查询仪电错误信息 困人, 电梯分组-->
+    <select id="getFaultStatisticsPersonTrappedGroupByElevator" resultType="java.util.HashMap">
+        select
+        ifnull(count(1), 0) AS number,
+        ifnull(ele.bi_run_count, 0) as runCount,
+        ele.v_elevator_id as elevatorId,
+        ele.v_elevator_code as elevatorCode,
+        ele.v_elevator_name as elevatorName,
+        round(ifnull((ifnull(count(1), 0) * 1.0) / ifnull(ele.bi_run_count, 0) * 100 , 0), 5) as `rate`,
+        'personTrapped' as `key`
+        from
+        tbl_third_party_ruijin_envent `event`
+        inner join tbl_elevator ele on ele.v_equipment_code = event.register_number
+        inner join tbl_village village on village.v_village_id = ele.v_village_id
+        <if test="!isAdminFlag">
+            JOIN tbl_sys_user_resource resource ON ele.v_elevator_id = resource.v_resource_id
+            AND resource.v_user_id = #{userId}
+        </if>
+        <where>
+            and event.failure_code = '09'
+            <if test="startTime != null  and startTime != '' ">
+                and event.occur_time &gt;= #{startTime}
+            </if>
+            <if test="endTime != null  and endTime != '' ">
+                and event.occur_time &lt;= #{endTime}
+            </if>
+            <if test="villageId != null  and villageId != '' ">
+                and ele.v_village_id = #{villageId}
+            </if>
+            <if test="projectId != null  and projectId != '' ">
+                and ele.v_project_id = #{projectId}
+            </if>
+        </where>
+        group by ele.v_elevator_name
+        order by number ${orderType}
+    </select>
+
+    <!-- 查询仪电错误信息 -->
+    <select id="getFaultStatistics" resultType="java.util.HashMap">
+        select
+        ifnull(count(1), 0) AS number,
+        ifnull(ele.bi_run_count, 0) as runCount,
+        village.v_village_id as villageId,
+        village.v_village_name as villageName,
+        round(ifnull((ifnull(count(1), 0) * 1.0) / ifnull(ele.bi_run_count, 0) * 100 , 0), 5) as `rate`,
+        'total' as `key`
+        from
+        tbl_third_party_ruijin_envent `event`
+        inner join tbl_elevator ele on ele.v_equipment_code = event.register_number
+        inner join tbl_village village on village.v_village_id = ele.v_village_id
+        inner join tbl_fault_definition_0902 fault on fault.fault_type = event.failure_code AND
+        fault.uncivilized_behavior_flag = 0
+        <if test="!isAdminFlag">
+            JOIN tbl_sys_user_resource resource ON ele.v_elevator_id = resource.v_resource_id
+            AND resource.v_user_id = #{userId}
+        </if>
+        <where>
+            <if test="startTime != null  and startTime != '' ">
+                and event.occur_time &gt;= #{startTime}
+            </if>
+            <if test="endTime != null  and endTime != '' ">
+                and event.occur_time &lt;= #{endTime}
+            </if>
+            <if test="villageId != null  and villageId != '' ">
+                and ele.v_village_id = #{villageId}
+            </if>
+            <if test="projectId != null  and projectId != '' ">
+                and ele.v_project_id = #{projectId}
+            </if>
+        </where>
+        group by ele.v_village_id
+        order by number ${orderType}
+    </select>
+
+    <!-- 查询仪电错误信息,  电梯分组 -->
+    <select id="getFaultStatisticsGroupByElevator" resultType="java.util.HashMap">
+        select
+        ifnull(count(1), 0) AS number,
+        ifnull(ele.bi_run_count, 0) as runCount,
+        ele.v_elevator_id as elevatorId,
+        ele.v_elevator_code as elevatorCode,
+        ele.v_elevator_name as elevatorName,
+        round(ifnull((ifnull(count(1), 0) * 1.0) / ifnull(ele.bi_run_count, 0) * 100 , 0), 5) as `rate`,
+        'total' as `key`
+        from
+        tbl_third_party_ruijin_envent `event`
+        inner join tbl_elevator ele on ele.v_equipment_code = event.register_number
+        inner join tbl_village village on village.v_village_id = ele.v_village_id
+        inner join tbl_fault_definition_0902 fault on fault.fault_type = event.failure_code AND
+        fault.uncivilized_behavior_flag = 0
+        <if test="!isAdminFlag">
+            JOIN tbl_sys_user_resource resource ON ele.v_elevator_id = resource.v_resource_id
+            AND resource.v_user_id = #{userId}
+        </if>
+        <where>
+            <if test="startTime != null  and startTime != '' ">
+                and event.occur_time &gt;= #{startTime}
+            </if>
+            <if test="endTime != null  and endTime != '' ">
+                and event.occur_time &lt;= #{endTime}
+            </if>
+            <if test="villageId != null  and villageId != '' ">
+                and ele.v_village_id = #{villageId}
+            </if>
+            <if test="projectId != null  and projectId != '' ">
+                and ele.v_project_id = #{projectId}
+            </if>
+        </where>
+        group by ele.v_elevator_name
+        order by number ${orderType}
+    </select>
+
+    <!--反复阻挡门-->
+    <select id="getUncivilizedStatisticsBlockDoor" resultType="java.util.HashMap">
+        select
+        ifnull(count(1), 0) AS number,
+        ifnull(ele.bi_run_count, 0) as runCount,
+        village.v_village_id as villageId,
+        village.v_village_name as villageName,
+        round(ifnull((ifnull(count(1), 0) * 1.0) / ifnull(ele.bi_run_count, 0) * 100 , 0), 5) as `rate`,
+        'blockDoor' as `key`
+        from
+        tbl_fault `fault`
+        inner join tbl_elevator ele on ele.v_elevator_code = fault.v_elevator_code
+        inner join tbl_village village on village.v_village_id = ele.v_village_id
+        <if test="!isAdminFlag">
+            JOIN tbl_sys_user_resource resource ON ele.v_elevator_id = resource.v_resource_id
+            AND resource.v_user_id = #{userId}
+        </if>
+        <where>
+            fault.i_uncivilized_behavior_flag = 1
+            and fault.i_fault_type = 20
+            and fault.i_del_flag = 0
+            <if test="startTime != null and startTime != '' ">
+                and fault.dt_report_time &gt;= #{startTime}
+            </if>
+            <if test="endTime != null  and endTime != '' ">
+                and fault.dt_report_time &lt;= #{endTime}
+            </if>
+            <if test="villageId != null  and villageId != '' ">
+                and ele.v_village_id = #{villageId}
+            </if>
+            <if test="projectId != null  and projectId != '' ">
+                and ele.v_project_id = #{projectId}
+            </if>
+        </where>
+        group by ele.v_village_id
+        order by number ${orderType}
+    </select>
+
+    <!--反复阻挡门-->
+    <select id="getUncivilizedStatisticsBlockDoorGroupByElevator" resultType="java.util.HashMap">
+        select
+        ifnull(count(1), 0) AS number,
+        ifnull(ele.bi_run_count, 0) as runCount,
+        ele.v_elevator_id as elevatorId,
+        ele.v_elevator_code as elevatorCode,
+        ele.v_elevator_name as elevatorName,
+        round(ifnull((ifnull(count(1), 0) * 1.0) / ifnull(ele.bi_run_count, 0) * 100 , 0), 5) as `rate`,
+        'blockDoor' as `key`
+        from
+        tbl_fault `fault`
+        inner join tbl_elevator ele on ele.v_elevator_code = fault.v_elevator_code
+        inner join tbl_village village on village.v_village_id = ele.v_village_id
+        <if test="!isAdminFlag">
+            JOIN tbl_sys_user_resource resource ON ele.v_elevator_id = resource.v_resource_id
+            AND resource.v_user_id = #{userId}
+        </if>
+        <where>
+            fault.i_uncivilized_behavior_flag = 1
+            and fault.i_fault_type = 20
+            and fault.i_del_flag = 0
+            <if test="startTime != null and startTime != '' ">
+                and fault.dt_report_time &gt;= #{startTime}
+            </if>
+            <if test="endTime != null  and endTime != '' ">
+                and fault.dt_report_time &lt;= #{endTime}
+            </if>
+            <if test="villageId != null  and villageId != '' ">
+                and ele.v_village_id = #{villageId}
+            </if>
+            <if test="projectId != null  and projectId != '' ">
+                and ele.v_project_id = #{projectId}
+            </if>
+        </where>
+        group by ele.v_elevator_name
+        order by number ${orderType}
+    </select>
+
+    <!--电动车入梯-->
+    <select id="getUncivilizedStatisticsElectricBike" resultType="java.util.HashMap">
+        select
+        ifnull(count(1), 0) AS number,
+        ifnull(ele.bi_run_count, 0) as runCount,
+        village.v_village_id as villageId,
+        village.v_village_name as villageName,
+        round(ifnull((ifnull(count(1), 0) * 1.0) / ifnull(ele.bi_run_count, 0) * 100 , 0), 5) as `rate`,
+        'electricBike' as `key`
+        from
+        tbl_fault `fault`
+        inner join tbl_elevator ele on ele.v_elevator_code = fault.v_elevator_code
+        inner join tbl_village village on village.v_village_id = ele.v_village_id
+        <if test="!isAdminFlag">
+            JOIN tbl_sys_user_resource resource ON ele.v_elevator_id = resource.v_resource_id
+            AND resource.v_user_id = #{userId}
+        </if>
+        <where>
+            fault.i_uncivilized_behavior_flag = 1
+            AND fault.v_event_channel = 1
+            AND fault.i_fault_type = 37
+            AND fault.i_del_flag = 0
+            <if test="startTime != null  and startTime != '' ">
+                and fault.dt_report_time &gt;= #{startTime}
+            </if>
+            <if test="endTime != null  and endTime != '' ">
+                and fault.dt_report_time &lt;= #{endTime}
+            </if>
+            <if test="villageId != null  and villageId != '' ">
+                and ele.v_village_id = #{villageId}
+            </if>
+            <if test="projectId != null  and projectId != '' ">
+                and ele.v_project_id = #{projectId}
+            </if>
+        </where>
+        group by ele.v_village_id
+        order by number ${orderType}
+    </select>
+
+    <!--电动车入梯-->
+    <select id="getUncivilizedStatisticsElectricBikeGroupByElevator" resultType="java.util.HashMap">
+        select
+        ifnull(count(1), 0) AS number,
+        ifnull(ele.bi_run_count, 0) as runCount,
+        ele.v_elevator_id as elevatorId,
+        ele.v_elevator_code as elevatorCode,
+        ele.v_elevator_name as elevatorName,
+        round(ifnull((ifnull(count(1), 0) * 1.0) / ifnull(ele.bi_run_count, 0) * 100 , 0), 5) as `rate`,
+        'electricBike' as `key`
+        from
+        tbl_fault `fault`
+        inner join tbl_elevator ele on ele.v_elevator_code = fault.v_elevator_code
+        inner join tbl_village village on village.v_village_id = ele.v_village_id
+        <if test="!isAdminFlag">
+            JOIN tbl_sys_user_resource resource ON ele.v_elevator_id = resource.v_resource_id
+            AND resource.v_user_id = #{userId}
+        </if>
+        <where>
+            fault.i_uncivilized_behavior_flag = 1
+            AND fault.v_event_channel = 1
+            AND fault.i_fault_type = 37
+            AND fault.i_del_flag = 0
+            <if test="startTime != null  and startTime != '' ">
+                and fault.dt_report_time &gt;= #{startTime}
+            </if>
+            <if test="endTime != null  and endTime != '' ">
+                and fault.dt_report_time &lt;= #{endTime}
+            </if>
+            <if test="villageId != null  and villageId != '' ">
+                and ele.v_village_id = #{villageId}
+            </if>
+            <if test="projectId != null  and projectId != '' ">
+                and ele.v_project_id = #{projectId}
+            </if>
+        </where>
+        group by ele.v_elevator_name
+        order by number ${orderType}
+    </select>
+
+    <!--不文明数据-->
+    <!--         inner join tbl_fault_definition_0902 fd on fd.fault_type = fault.i_fault_type -->
+    <select id="getUncivilizedStatistics" resultType="java.util.HashMap">
+        select
+        ifnull(count(1), 0) AS number,
+        ifnull(ele.bi_run_count, 0) as runCount,
+        village.v_village_id as villageId,
+        village.v_village_name as villageName,
+        round(ifnull((ifnull(count(1), 0) * 1.0) / ifnull(ele.bi_run_count, 0) * 100 , 0), 5) as `rate`,
+        'total' as `key`
+        from
+        tbl_fault `fault`
+        inner join tbl_elevator ele on ele.v_elevator_code = fault.v_elevator_code
+        inner join tbl_village village on village.v_village_id = ele.v_village_id
+        <if test="!isAdminFlag">
+            JOIN tbl_sys_user_resource resource ON ele.v_elevator_id = resource.v_resource_id
+            AND resource.v_user_id = #{userId}
+        </if>
+        <where>
+            fault.i_uncivilized_behavior_flag = 1
+            AND fault.i_del_flag = 0
+            <if test="startTime != null  and startTime != '' ">
+                and fault.dt_report_time &gt;= #{startTime}
+            </if>
+            <if test="endTime != null  and endTime != '' ">
+                and fault.dt_report_time &lt;= #{endTime}
+            </if>
+            <if test="villageId != null  and villageId != '' ">
+                and ele.v_village_id = #{villageId}
+            </if>
+            <if test="projectId != null  and projectId != '' ">
+                and ele.v_project_id = #{projectId}
+            </if>
+
+        </where>
+        group by ele.v_village_id
+        order by number ${orderType}
+    </select>
+
+    <!--不文明数据-->
+    <!--         inner join tbl_fault_definition_0902 fd on fd.fault_type = fault.i_fault_type -->
+    <select id="getUncivilizedStatisticsGroupByElevator" resultType="java.util.HashMap">
+        select
+        ifnull(count(1), 0) AS number,
+        ifnull(ele.bi_run_count, 0) as runCount,
+        ele.v_elevator_id as elevatorId,
+        ele.v_elevator_code as elevatorCode,
+        ele.v_elevator_name as elevatorName,
+        round(ifnull((ifnull(count(1), 0) * 1.0) / ifnull(ele.bi_run_count, 0) * 100 , 0), 5) as `rate`,
+        'total' as `key`
+        from
+        tbl_fault `fault`
+        inner join tbl_elevator ele on ele.v_elevator_code = fault.v_elevator_code
+        inner join tbl_village village on village.v_village_id = ele.v_village_id
+        <if test="!isAdminFlag">
+            JOIN tbl_sys_user_resource resource ON ele.v_elevator_id = resource.v_resource_id
+            AND resource.v_user_id = #{userId}
+        </if>
+        <where>
+            fault.i_uncivilized_behavior_flag = 1
+            AND fault.i_del_flag = 0
+            <if test="startTime != null  and startTime != '' ">
+                and fault.dt_report_time &gt;= #{startTime}
+            </if>
+            <if test="endTime != null  and endTime != '' ">
+                and fault.dt_report_time &lt;= #{endTime}
+            </if>
+            <if test="villageId != null  and villageId != '' ">
+                and ele.v_village_id = #{villageId}
+            </if>
+            <if test="projectId != null  and projectId != '' ">
+                and ele.v_project_id = #{projectId}
+            </if>
+
+        </where>
+        group by ele.v_elevator_name
+        order by number ${orderType}
+    </select>
+
+    <!--获取故障取证文件-->
+    <select id="getFaultFileById" resultType="java.util.HashMap">
+        SELECT v_file_type, v_url
+        FROM tbl_sys_file
+        WHERE v_business_id = #{faultId}
+    </select>
+
+    <!--急修工单趋势-->
+    <select id="getRepairTrend" resultType="java.util.HashMap">
+        select
+        ifnull(count(1), 0) AS number,
+        ele.v_village_id as villageId,
+        'repairs' as `key`,
+        event.failure_code as failureCode,
+        <choose>
+            <when test="timeFlag == '00'">
+                date_format(event.occur_time, '%Y-%m-%d') as occurTime
+            </when>
+            <when test="timeFlag == '11'">
+                date_format(event.occur_time, '%Y-%u(周)') as occurTime
+            </when>
+            <when test="timeFlag == '22'">
+                date_format(event.occur_time, '%Y-%m(月)') as occurTime
+            </when>
+            <otherwise>
+                date_format(event.occur_time, '%Y-%m-%d') as occurTime
+            </otherwise>
+        </choose>
+        from
+        tbl_third_party_ruijin_envent `event`
+        inner join tbl_elevator ele on ele.v_equipment_code = event.register_number
+        <if test="!isAdminFlag">
+            JOIN tbl_sys_user_resource resource ON ele.v_elevator_id = resource.v_resource_id
+            AND resource.v_user_id = #{userId}
+        </if>
+        <where>
+            event.current_status = 6
+            <if test="startTime != null  and startTime != '' ">
+                and event.occur_time &gt;= #{startTime}
+            </if>
+            <if test="endTime != null  and endTime != '' ">
+                and event.occur_time &lt;= #{endTime}
+            </if>
+            <if test="villageId != null  and villageId != '' ">
+                and ele.v_village_id = #{villageId}
+            </if>
+            <if test="projectId != null  and projectId != '' ">
+                and ele.v_project_id = #{projectId}
+            </if>
+            <if test="elevatorCode != null and elevatorCode != '' ">
+                and ele.v_elevator_code = #{elevatorCode}
+            </if>
+            <if test="timeFlag != null and timeFlag != ''">
+                <if test="timeFlag == '00'">
+                    <![CDATA[AND DATE_SUB(CURDATE(), INTERVAL 31 DAY) <= event.occur_time]]>
+                </if>
+                <if test="timeFlag == '11'">
+                    <![CDATA[AND DATE_SUB(CURDATE(), INTERVAL 112 DAY) <= event.occur_time]]>
+                </if>
+                <if test="timeFlag == '22'">
+                    <![CDATA[AND DATE_SUB(CURDATE(), INTERVAL 720 DAY) <= event.occur_time]]>
+                </if>
+            </if>
+        </where>
+        group by occurTime, failureCode, villageId
+    </select>
+
+    <!--维保工单趋势-->
+    <select id="getMaintenanceTrend" resultType="java.util.HashMap">
+        select
+        ifnull(count(1), 0) AS number,
+        ele.v_village_id as villageId,
+        'maintanence' as `key`,
+        <choose>
+            <when test="timeFlag == '00'">
+                date_format(order.complete_time, '%Y-%m-%d') as occurTime
+            </when>
+            <when test="timeFlag == '11'">
+                date_format(order.complete_time, '%Y-%u(周)') as occurTime
+            </when>
+            <when test="timeFlag == '22'">
+                date_format(order.complete_time, '%Y-%m(月)') as occurTime
+            </when>
+            <otherwise>
+                date_format(order.complete_time, '%Y-%m-%d') as occurTime
+            </otherwise>
+        </choose>
+        FROM
+        `tbl_third_party_ruijin_work_order` `order`
+        JOIN tbl_elevator ele ON ele.v_equipment_code = `order`.register_number
+        <if test="!isAdminFlag">
+            JOIN tbl_sys_user_resource resource ON ele.v_elevator_id = resource.v_resource_id AND resource.v_user_id =
+            #{userId}
+        </if>
+        <where>
+            <if test="startTime != null  and startTime != '' ">
+                <![CDATA[  and DATE_FORMAT(order.complete_time,'%Y-%m-%d') >= #{startTime} ]]>
+            </if>
+            <if test="endTime != null  and endTime != '' ">
+                <![CDATA[  and DATE_FORMAT(order.complete_time,'%Y-%m-%d') <= #{endTime} ]]>
+            </if>
+            <if test="villageId != null  and villageId != '' ">
+                and ele.v_village_id = #{villageId}
+            </if>
+            <if test="projectId != null  and projectId != '' ">
+                and ele.v_project_id = #{projectId}
+            </if>
+            <if test="elevatorCode != null and elevatorCode != '' ">
+                and ele.v_elevator_code = #{elevatorCode}
+            </if>
+            <if test="timeFlag != null and timeFlag != ''">
+                <if test="timeFlag == '00'">
+                    <![CDATA[AND DATE_SUB(CURDATE(), INTERVAL 31 DAY) <= order.complete_time]]>
+                </if>
+                <if test="timeFlag == '11'">
+                    <![CDATA[AND DATE_SUB(CURDATE(), INTERVAL 112 DAY) <= order.complete_time]]>
+                </if>
+                <if test="timeFlag == '22'">
+                    <![CDATA[AND DATE_SUB(CURDATE(), INTERVAL 720 DAY) <= order.complete_time]]>
+                </if>
+            </if>
+        </where>
+        group by occurTime
+    </select>
+
+    <!--不文明行趋势-->
+    <select id="getUncivilizedTrend" resultType="java.util.HashMap">
+        select
+        ifnull(count(1), 0) AS number,
+        ele.v_village_id as villageId,
+        'uncivilized' as `key`,
+        fault.i_fault_type as faultType,
+        <choose>
+            <when test="timeFlag == '00'">
+                date_format(fault.dt_report_time, '%Y-%m-%d') as occurTime
+            </when>
+            <when test="timeFlag == '11'">
+                CONCAT(YEAR(fault.dt_report_time), '-', WEEK(fault.dt_report_time) + 1, '(周)') as occurTime
+            </when>
+            <when test="timeFlag == '22'">
+                date_format(fault.dt_report_time, '%Y-%m(月)') as occurTime
+            </when>
+            <otherwise>
+                date_format(fault.dt_report_time, '%Y-%m-%d') as occurTime
+            </otherwise>
+        </choose>
+        from
+        tbl_fault `fault`
+        inner join tbl_elevator ele on ele.v_elevator_code = fault.v_elevator_code
+        <if test="!isAdminFlag">
+            JOIN tbl_sys_user_resource resource ON ele.v_elevator_id = resource.v_resource_id AND resource.v_user_id =
+            #{userId}
+        </if>
+        <where>
+            fault.i_uncivilized_behavior_flag = 1
+            and fault.i_del_flag = 0
+            and (fault.i_fault_type = '37' or fault.i_fault_type = '20')
+            <if test="startTime != null  and startTime != '' ">
+                <![CDATA[ and fault.dt_report_time >= #{startTime} ]]>
+            </if>
+            <if test="endTime != null  and endTime != '' ">
+                <![CDATA[ and fault.dt_report_time <= #{endTime} ]]>
+            </if>
+            <if test="villageId != null  and villageId != '' ">
+                and ele.v_village_id = #{villageId}
+            </if>
+            <if test="projectId != null  and projectId != '' ">
+                and ele.v_project_id = #{projectId}
+            </if>
+            <if test="elevatorCode != null and elevatorCode != '' ">
+                and ele.v_elevator_code = #{elevatorCode}
+            </if>
+            <if test="timeFlag != null and timeFlag != ''">
+                <if test="timeFlag == '00'">
+                    <![CDATA[AND DATE_SUB(CURDATE(), INTERVAL 31 DAY) <= fault.dt_report_time]]>
+                </if>
+                <if test="timeFlag == '11'">
+                    <![CDATA[AND DATE_SUB(CURDATE(), INTERVAL 112 DAY) <= fault.dt_report_time]]>
+                </if>
+                <if test="timeFlag == '22'">
+                    <![CDATA[AND DATE_SUB(CURDATE(), INTERVAL 720 DAY) <= fault.dt_report_time]]>
+                </if>
+            </if>
+        </where>
+        group by occurTime, faultType
+    </select>
+    <select id="getElevator" resultType="java.lang.String">
+        SELECT
+        DISTINCT ele.v_elevator_code
+        FROM tbl_elevator ele
+        <if test="!isAdminFlag">
+            join tbl_sys_user_resource resource on ele.v_elevator_id = resource.v_resource_id and resource.v_user_id =
+            #{userId}
+        </if>
+        WHERE ele.v_project_id = #{vProjectId}
+    </select>
+</mapper>

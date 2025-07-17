@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.api.dao.TblOrderBlankDao">
+
+    <resultMap type="com.shmashine.api.entity.TblOrderBlank" id="TblOrderBlankResultMap">
+        <result property="vOrderBlankId" column="v_order_blank_id" jdbcType="VARCHAR"/>
+        <result property="vProjectId" column="v_project_id" jdbcType="VARCHAR"/>
+        <result property="vAddress" column="v_address" jdbcType="VARCHAR"/>
+        <result property="vBuildingName" column="v_building_name" jdbcType="VARCHAR"/>
+        <result property="vCubeNo" column="v_cube_no" jdbcType="VARCHAR"/>
+        <result property="vElevatorCode" column="v_elevator_code" jdbcType="VARCHAR"/>
+        <result property="dtPlanInstallDate" column="dt_plan_install_date" jdbcType="TIMESTAMP"/>
+        <result property="dtAssignDate" column="dt_assign_date" jdbcType="TIMESTAMP"/>
+        <result property="vAssigner" column="v_assigner" jdbcType="VARCHAR"/>
+        <result property="iStatus" column="i_status" jdbcType="INTEGER"/>
+        <result property="dtCreateAt" column="dt_create_at" jdbcType="TIMESTAMP"/>
+        <result property="dtModifyAt" column="dt_modify_at" jdbcType="TIMESTAMP"/>
+        <result property="iDelFlag" column="i_del_flag" jdbcType="INTEGER"/>
+        <result property="vElevatorId" column="v_elevator_id" jdbcType="VARCHAR"/>
+        <result property="vProjectName" column="v_project_name" jdbcType="VARCHAR"/>
+        <collection property="orderBlankFormList" column="v_order_blank_id"
+                    ofType="com.shmashine.api.entity.TblOrderBlankForm" select="getFormDetail">
+        </collection>
+    </resultMap>
+
+    <insert id="insertRecord" keyProperty="vOrderBlankId" useGeneratedKeys="true"
+            parameterType="com.shmashine.api.entity.TblOrderBlank">
+        insert into tbl_order_blank
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="tblOrderBlank.vOrderBlankId != null">
+                v_order_blank_id,
+            </if>
+            <if test="tblOrderBlank.vProjectId != null and tblOrderBlank.vProjectId != ''">
+                v_project_id,
+            </if>
+            <if test="tblOrderBlank.vAddress != null and tblOrderBlank.vAddress != ''">
+                v_address,
+            </if>
+            <if test="tblOrderBlank.vBuildingName != null and tblOrderBlank.vBuildingName != ''">
+                v_building_name,
+            </if>
+            <if test="tblOrderBlank.vCubeNo != null and tblOrderBlank.vCubeNo != ''">
+                v_cube_no,
+            </if>
+            <if test="tblOrderBlank.vElevatorCode != null and tblOrderBlank.vElevatorCode != ''">
+                v_elevator_code,
+            </if>
+            <if test="tblOrderBlank.dtPlanInstallDate != null">
+                dt_plan_install_date,
+            </if>
+            <if test="tblOrderBlank.dtAssignDate != null">
+                dt_assign_date,
+            </if>
+            <if test="tblOrderBlank.vAssigner != null and tblOrderBlank.vAssigner != ''">
+                v_assigner,
+            </if>
+            <if test="tblOrderBlank.iStatus != null">
+                i_status,
+            </if>
+            <if test="tblOrderBlank.dtCreateAt != null">
+                dt_create_at,
+            </if>
+            <if test="tblOrderBlank.dtModifyAt != null">
+                dt_modify_at,
+            </if>
+            <if test="tblOrderBlank.iDelFlag != null">
+                i_del_flag,
+            </if>
+            <if test="tblOrderBlank.vElevatorId != null and tblOrderBlank.vElevatorId != ''">
+                v_elevator_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="tblOrderBlank.vOrderBlankId != null">
+                #{tblOrderBlank.vOrderBlankId},
+            </if>
+            <if test="tblOrderBlank.vProjectId != null and tblOrderBlank.vProjectId != ''">
+                #{tblOrderBlank.vProjectId},
+            </if>
+            <if test="tblOrderBlank.vAddress != null and tblOrderBlank.vAddress != ''">
+                #{tblOrderBlank.vAddress},
+            </if>
+            <if test="tblOrderBlank.vBuildingName != null and tblOrderBlank.vBuildingName != ''">
+                #{tblOrderBlank.vBuildingName},
+            </if>
+            <if test="tblOrderBlank.vCubeNo != null and tblOrderBlank.vCubeNo != ''">
+                #{tblOrderBlank.vCubeNo},
+            </if>
+            <if test="tblOrderBlank.vElevatorCode != null and tblOrderBlank.vElevatorCode != ''">
+                #{tblOrderBlank.vElevatorCode},
+            </if>
+            <if test="tblOrderBlank.dtPlanInstallDate != null">
+                #{tblOrderBlank.dtPlanInstallDate},
+            </if>
+            <if test="tblOrderBlank.dtAssignDate != null">
+                #{tblOrderBlank.dtAssignDate},
+            </if>
+            <if test="tblOrderBlank.vAssigner != null and tblOrderBlank.vAssigner != ''">
+                #{tblOrderBlank.vAssigner},
+            </if>
+            <if test="tblOrderBlank.iStatus != null">
+                #{tblOrderBlank.iStatus},
+            </if>
+            <if test="tblOrderBlank.dtCreateAt != null">
+                #{tblOrderBlank.dtCreateAt},
+            </if>
+            <if test="tblOrderBlank.dtModifyAt != null">
+                #{tblOrderBlank.dtModifyAt},
+            </if>
+
+            <if test="tblOrderBlank.iDelFlag != null">
+                #{tblOrderBlank.iDelFlag},
+            </if>
+
+            <if test="tblOrderBlank.vElevatorId != null and tblOrderBlank.vElevatorId != ''">
+                #{tblOrderBlank.vElevatorId},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateRecord" parameterType="com.shmashine.api.entity.TblOrderBlank">
+        update tbl_order_blank
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="tblOrderBlank.vProjectId != null and tblOrderBlank.vProjectId != ''">
+                v_project_id = #{tblOrderBlank.vProjectId},
+            </if>
+            <if test="tblOrderBlank.vAddress != null and tblOrderBlank.vAddress != ''">
+                v_address = #{tblOrderBlank.vAddress},
+            </if>
+            <if test="tblOrderBlank.vBuildingName != null and tblOrderBlank.vBuildingName != ''">
+                v_building_name = #{tblOrderBlank.vBuildingName},
+            </if>
+            <if test="tblOrderBlank.vCubeNo != null and tblOrderBlank.vCubeNo != ''">
+                v_cube_no = #{tblOrderBlank.vCubeNo},
+            </if>
+            <if test="tblOrderBlank.vElevatorCode != null and tblOrderBlank.vElevatorCode != ''">
+                v_elevator_code = #{tblOrderBlank.vElevatorCode},
+            </if>
+            <if test="tblOrderBlank.dtPlanInstallDate != null">
+                dt_plan_install_date = #{tblOrderBlank.dtPlanInstallDate},
+            </if>
+            <if test="tblOrderBlank.dtAssignDate != null">
+                dt_assign_date = #{tblOrderBlank.dtAssignDate},
+            </if>
+            <if test="tblOrderBlank.vAssigner != null and tblOrderBlank.vAssigner != ''">
+                v_assigner = #{tblOrderBlank.vAssigner},
+            </if>
+            <if test="tblOrderBlank.iStatus != null">
+                i_status = #{tblOrderBlank.iStatus},
+            </if>
+            <if test="tblOrderBlank.dtCreateAt != null">
+                dt_create_at = #{tblOrderBlank.dtCreateAt},
+            </if>
+            <if test="tblOrderBlank.dtModifyAt != null">
+                dt_modify_at = #{tblOrderBlank.dtModifyAt},
+            </if>
+            <if test="tblOrderBlank.iDelFlag != null">
+                i_del_flag = #{tblOrderBlank.iDelFlag},
+            </if>
+            <if test="tblOrderBlank.vElevatorId != null and tblOrderBlank.vElevatorId != ''">
+                v_elevator_id = #{tblOrderBlank.vElevatorId},
+            </if>
+        </trim>
+        where v_order_blank_id = #{tblOrderBlank.vOrderBlankId}
+    </update>
+
+    <select id="search" parameterType="com.shmashine.api.module.orderBlank.TblOrderBlankModule"
+            resultMap="TblOrderBlankResultMap">
+        select ob.v_order_blank_id, ob.v_project_id, ob.v_address, ob.v_building_name, ob.v_cube_no, ob.v_elevator_code,
+        ob.v_elevator_id,
+        ob.dt_assign_date, ob.v_assigner, ob.i_status, ob.dt_create_at, ob.dt_modify_at, ob.v_user_id,
+        ob.dt_plan_install_date,
+        tbl_project.v_project_name
+        from tbl_order_blank as ob
+        <if test="tblOrderBlankModule.isAdminFlag">
+            left join tbl_project on ob.v_project_id = tbl_project.v_project_id
+        </if>
+        <if test="!tblOrderBlankModule.isAdminFlag">
+            inner join tbl_project on ob.v_project_id = tbl_project.v_project_id
+        </if>
+        <where>
+            <if test="tblOrderBlankModule.vProjectId != null and tblOrderBlankModule.vProjectId != ''">
+                and ob.v_project_id = #{tblOrderBlankModule.vProjectId}
+            </if>
+            <if test="tblOrderBlankModule.vElevatorId != null and tblOrderBlankModule.vElevatorId != ''">
+                and ob.v_elevator_id = #{tblOrderBlankModule.vElevatorId}
+            </if>
+            <if test="tblOrderBlankModule.vOrderBlankId != null and tblOrderBlankModule.vOrderBlankId != ''">
+                and ob.v_order_blank_id = #{tblOrderBlankModule.vOrderBlankId}
+            </if>
+            <if test="!tblOrderBlankModule.isAdminFlag">
+                and tbl_project.v_dept_id in
+                <foreach collection="tblOrderBlankModule.permissionDeptIds" item="item" open="(" close=")"
+                         separator=",">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+    <select id="getFormDetail" parameterType="Map"
+            resultMap="com.shmashine.api.dao.TblOrderBlankFormDao.TblOrderBlankFormResultMap">
+        select obf.v_order_blank_form_id,
+               obf.v_material_name,
+               obf.v_material_attribute_content,
+               obf.i_material_num,
+               obf.i_del_flag,
+               obf.v_material_id,
+               obf.v_material_attribute_id
+        from tbl_order_blank_form as obf
+        where obf.v_order_blank_id = #{v_order_blank_id}
+    </select>
+
+    <select id="detail" parameterType="String" resultMap="TblOrderBlankResultMap">
+        select ob.v_order_blank_id,
+               ob.v_project_id,
+               ob.v_address,
+               ob.v_building_name,
+               ob.v_cube_no,
+               ob.v_elevator_code,
+               ob.dt_plan_install_date,
+               ob.dt_assign_date,
+               ob.v_assigner,
+               ob.i_status,
+               ob.dt_create_at,
+               ob.dt_modify_at,
+               ob.v_user_id,
+               ob.v_elevator_id,
+               tp.v_project_name
+        from tbl_order_blank as ob,
+             tbl_project as tp
+        where tp.v_project_id = ob.v_project_id
+          and ob.v_order_blank_id = #{vOrderBlankId}
+    </select>
+
+    <delete id="deleteRecord" parameterType="com.shmashine.api.entity.TblOrderBlank">
+        delete
+        from tbl_order_blank
+        where tbl_order_blank.v_order_blank_id = #{tblOrderBlank.vOrderBlankId}
+    </delete>
+</mapper>

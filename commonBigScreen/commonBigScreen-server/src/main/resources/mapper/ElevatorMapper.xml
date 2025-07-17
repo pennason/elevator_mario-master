@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shmashine.commonbigscreen.dao.ElevatorDao">
+
+    <select id="getAllElevatorCount" resultType="java.lang.Integer">
+        select
+        count(1)
+        from tbl_elevator ele
+        <if test="!isAdminFlag">
+            join tbl_sys_user_resource resource on ele.v_elevator_id = resource.v_resource_id and v_user_id =
+            #{userId}
+        </if>
+        <where>
+            <if test="iInstallStatus != null and iInstallStatus != ''">
+                and ele.i_install_status = #{iInstallStatus}
+            </if>
+            <if test="iOnLine != null and iOnLine != ''">
+                and ele.i_on_line = #{iOnLine}
+            </if>
+        </where>
+    </select>
+
+
+    <select id="getElevatorCountByVillage" resultType="java.util.HashMap">
+        select
+        tv.v_village_name as villageName,
+        count(1) as num
+        from tbl_elevator ele
+        <if test="!isAdminFlag">
+            join tbl_sys_user_resource resource on ele.v_elevator_id = resource.v_resource_id and v_user_id =
+            #{userId}
+        </if>
+        INNER JOIN tbl_village tv ON tv.v_village_id = ele.v_village_id
+        <where>
+            <if test="iInstallStatus != null and iInstallStatus != ''">
+                and ele.i_install_status = #{iInstallStatus}
+            </if>
+            <if test="iOnLine != null and iOnLine != ''">
+                and ele.i_on_line = #{iOnLine}
+            </if>
+            <if test="vProjectId != null and vProjectId != ''">
+                AND ele.v_project_id = #{vProjectId}
+            </if>
+        </where>
+        GROUP BY tv.v_village_id
+    </select>
+
+    <!--获取所有电梯状态-->
+    <select id="queryAllStatus" resultType="java.util.HashMap">
+        SELECT
+        ele.i_on_line as onLine,
+        ele.v_elevator_id as vElevatorId,
+        ele.v_elevator_name as vElevatorName,
+        ele.v_equipment_code as registerNumber,
+        ele.v_elevator_code as elevatorCode,
+        ele.v_building_id as vBuildingId,
+        ele.i_mode_status as modeStatus,
+        IFNULL(envent.event_type,0) as faultStatus
+        FROM tbl_elevator ele
+        <if test="!isAdminFlag">
+            join tbl_sys_user_resource resource on ele.v_elevator_id = resource.v_resource_id and v_user_id =
+            #{userId}
+        </if>
+        INNER JOIN tbl_device td ON td.v_elevator_id = ele.v_elevator_id
+        LEFT JOIN tbl_third_party_ruijin_envent envent ON envent.register_number = ele.v_equipment_code
+        <where>
+            <if test="villageId != null and villageId != ''">
+                AND ele.v_village_id = #{villageId}
+            </if>
+            <if test="projectId != null and projectId != ''">
+                AND ele.v_project_id = #{projectId}
+            </if>
+        </where>
+        GROUP BY ele.v_elevator_id
+        ORDER BY ele.v_elevator_code ASC
+    </select>
+
+    <!--获取困人电梯-->
+    <select id="getPeopleTrappedStatus" resultType="java.lang.String">
+        SELECT
+        ele.v_elevator_code as elevatorCode
+        FROM tbl_elevator ele
+        <if test="!isAdminFlag">
+            join tbl_sys_user_resource resource on ele.v_elevator_id = resource.v_resource_id and v_user_id =
+            #{userId}
+        </if>
+        INNER JOIN tbl_device td ON td.v_elevator_id = ele.v_elevator_id
+        LEFT JOIN tbl_third_party_ruijin_envent envent ON envent.register_number = ele.v_equipment_code
+        <where>
+            <if test="villageId != null and villageId != ''">
+                AND ele.v_village_id = #{villageId}
+            </if>
+            <if test="projectId != null and projectId != ''">
+                AND ele.v_project_id = #{projectId}
+            </if>
+            AND envent.current_status &lt; 5
+            AND envent.event_type = '2'
+        </where>
+        GROUP BY ele.v_elevator_id
+    </select>
+
+    <!--获取检修电梯-->
+    <select id="getModeStatus" resultType="java.lang.String">
+        SELECT
+        ele.v_elevator_code as elevatorCode
+        FROM tbl_elevator ele
+        <if test="!isAdminFlag">
+            join tbl_sys_user_resource resource on ele.v_elevator_id = resource.v_resource_id and v_user_id =
+            #{userId}
+        </if>
+        INNER JOIN tbl_device td ON td.v_elevator_id = ele.v_elevator_id
+        LEFT JOIN tbl_third_party_ruijin_envent envent ON envent.register_number = ele.v_equipment_code
+        <where>
+            <if test="villageId != null and villageId != ''">
+                AND ele.v_village_id = #{villageId}
+            </if>
+            <if test="projectId != null and projectId != ''">
+                AND ele.v_project_id = #{projectId}
+            </if>
+            AND ele.i_mode_status = 1
+        </where>
+        GROUP BY ele.v_elevator_id
+    </select>
+
+    <!--获取故障电梯-->
+    <select id="getFaultStatus" resultType="java.lang.String">
+        SELECT
+        ele.v_elevator_code as elevatorCode
+        FROM tbl_elevator ele
+        <if test="!isAdminFlag">
+            join tbl_sys_user_resource resource on ele.v_elevator_id = resource.v_resource_id and v_user_id =
+            #{userId}
+        </if>
+        INNER JOIN tbl_device td ON td.v_elevator_id = ele.v_elevator_id
+        LEFT JOIN tbl_third_party_ruijin_envent envent ON envent.register_number = ele.v_equipment_code
+        <where>
+            <if test="villageId != null and villageId != ''">
+                AND ele.v_village_id = #{villageId}
+            </if>
+            <if test="projectId != null and projectId != ''">
+                AND ele.v_project_id = #{projectId}
+            </if>
+            AND envent.current_status &lt; 5
+            AND envent.event_type = '1'
+        </where>
+        GROUP BY ele.v_elevator_id
+    </select>
+
+    <!--获取离线电梯-->
+    <select id="getIsOnLineStatus" resultType="java.lang.String">
+        SELECT
+        ele.v_elevator_code as elevatorCode
+        FROM tbl_elevator ele
+        <if test="!isAdminFlag">
+            join tbl_sys_user_resource resource on ele.v_elevator_id = resource.v_resource_id and v_user_id =
+            #{userId}
+        </if>
+        INNER JOIN tbl_device td ON td.v_elevator_id = ele.v_elevator_id
+        LEFT JOIN tbl_third_party_ruijin_envent envent ON envent.register_number = ele.v_equipment_code
+        <where>
+            <if test="villageId != null and villageId != ''">
+                AND ele.v_village_id = #{villageId}
+            </if>
+            <if test="projectId != null and projectId != ''">
+                AND ele.v_project_id = #{projectId}
+            </if>
+            AND ele.i_on_line = 0
+        </where>
+        GROUP BY ele.v_elevator_id
+    </select>
+
+    <select id="getAVGRunCountByDay" resultType="java.lang.Integer">
+        select
+        IFNULL(AVG(tr.bi_run_count),0)
+        from
+        tbl_elevator_run_count tr
+        left join tbl_elevator ele on ele.v_elevator_code = tr.v_elevator_code
+        <if test="!isAdminFlag">
+            JOIN tbl_sys_user_resource resource ON ele.v_elevator_id = resource.v_resource_id
+            AND resource.v_user_id = #{userId}
+        </if>
+        <where>
+            <if test="startTime != null and startTime != ''">
+                <![CDATA[ AND tr.dt_report_date >= #{startTime} ]]>
+            </if>
+            <if test="endTime != null and endTime != ''">
+                <![CDATA[ AND tr.dt_report_date <= #{endTime} ]]>
+            </if>
+            <if test="elevatorId != null and elevatorId != ''">
+                and ele.v_elevator_id = #{elevatorId}
+            </if>
+            <if test="vVillageId != null and vVillageId != ''">
+                AND ele.v_village_id = #{vVillageId}
+            </if>
+            <if test="vProjectId != null and vProjectId != ''">
+                AND ele.v_project_id = #{vProjectId}
+            </if>
+            <if test="vElevatorCode != null and vElevatorCode != ''">
+                AND ele.v_elevator_code = #{vElevatorCode}
+            </if>
+        </where>
+    </select>
+
+    <!--获取楼宇id-->
+    <select id="getBuildIdByUserId" resultType="java.lang.String">
+        SELECT
+        distinct ele.v_building_id buildingId
+        FROM tbl_elevator ele
+        <if test="!isAdminFlag">
+            join tbl_sys_user_resource resource on ele.v_elevator_id = resource.v_resource_id and v_user_id =
+            #{userId}
+        </if>
+        where ele.v_building_id IS NOT NULL AND ele.v_building_id != ''
+    </select>
+
+    <!--获取电梯状态 麦信数据-->
+    <select id="getElevatorsStatusWithMxData" resultType="java.util.Map">
+        SELECT
+        ele.v_elevator_id,
+        ele.v_elevator_name,
+        ele.i_on_line AS i_on_line,
+        ele.v_equipment_code as register_number,
+        ele.v_village_id as villageId,
+        ele.v_elevator_code,
+        ele.v_building_id,
+        ele.v_address,
+        ele.i_mode_status,
+        CASE
+        WHEN EXISTS (
+        SELECT '1' FROM tbl_fault fault WHERE fault.v_elevator_id = ele.v_elevator_id
+        AND fault.i_status = 0
+        AND fault.i_fault_type IN ('7','8')
+        AND fault.dt_report_time &gt; curdate()
+        ) THEN 2
+
+        WHEN EXISTS (
+        SELECT '1' FROM tbl_fault fault WHERE fault.v_elevator_id = ele.v_elevator_id
+        AND fault.i_status = 0
+        AND fault.dt_report_time &gt; curdate()
+        ) THEN 1
+        ELSE 0 END AS i_fault_status
+        FROM tbl_elevator ele
+        <if test="!isAdminFlag">
+            INNER JOIN tbl_sys_user_resource resource on ele.v_elevator_id = resource.v_resource_id and v_user_id =
+            #{userId}
+        </if>
+        <where>
+            <if test="villageId != null and villageId != ''">
+                AND ele.v_village_id = #{villageId}
+            </if>
+            <if test="projectId != null and projectId != ''">
+                AND ele.v_project_id = #{projectId}
+            </if>
+        </where>
+        GROUP BY ele.v_elevator_id
+        ORDER by ele.i_on_line DESC, ele.v_elevator_name ASC
+    </select>
+
+</mapper>

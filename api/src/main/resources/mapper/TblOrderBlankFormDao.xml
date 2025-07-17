@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.api.dao.TblOrderBlankFormDao">
+
+    <resultMap type="com.shmashine.api.entity.TblOrderBlankForm" id="TblOrderBlankFormResultMap">
+        <result property="vOrderBlankFormId" column="v_order_blank_form_id" jdbcType="VARCHAR"/>
+        <result property="vOrderBlankId" column="v_order_blank_id" jdbcType="VARCHAR"/>
+        <result property="vMaterialName" column="v_material_name" jdbcType="VARCHAR"/>
+        <result property="vMaterialAttributeContent" column="v_material_attribute_content" jdbcType="VARCHAR"/>
+        <result property="vMaterialId" column="v_material_id" jdbcType="VARCHAR"/>
+        <result property="vMaterialAttributeId" column="v_material_attribute_id" jdbcType="VARCHAR"/>
+        <result property="iMaterialNum" column="i_material_num" jdbcType="INTEGER"/>
+        <result property="iPosition" column="i_position" jdbcType="INTEGER"/>
+        <result property="iDelFlag" column="i_del_flag" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <insert id="insertRecord" keyProperty="vOrderBlankFormId" useGeneratedKeys="true"
+            parameterType="com.shmashine.api.entity.TblOrderBlankForm">
+        insert into tbl_order_blank_form
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="tblOrderBlankForm.vOrderBlankFormId != null">
+                v_order_blank_form_id
+            </if>
+            <if test="tblOrderBlankForm.vOrderBlankId != null and tblOrderBlankForm.vOrderBlankId != ''">
+                v_order_blank_id,
+            </if>
+            <if test="tblOrderBlankForm.vMaterialName != null and tblOrderBlankForm.vMaterialName != ''">
+                v_material_name,
+            </if>
+            <if test="tblOrderBlankForm.vMaterialAttributeContent != null and tblOrderBlankForm.vMaterialAttributeContent != ''">
+                v_material_attribute_content,
+            </if>
+            <if test="tblOrderBlankForm.vMaterialId != null and tblOrderBlankForm.vMaterialId != ''">
+                v_material_id,
+            </if>
+            <if test="tblOrderBlankForm.vMaterialAttributeId != null and tblOrderBlankForm.vMaterialAttributeId != ''">
+                v_material_attribute_id,
+            </if>
+            <if test="tblOrderBlankForm.iMaterialNum != null and tblOrderBlankForm.iMaterialNum != ''">
+                i_material_num,
+            </if>
+            <if test="tblOrderBlankForm.iPosition != null">
+                i_position,
+            </if>
+            <if test="tblOrderBlankForm.iDelFlag != null">
+                i_del_flag,
+            </if>
+        </trim>
+
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="tblOrderBlankForm.vOrderBlankFormId != null">
+                #{tblOrderBlankForm.vOrderBlankFormId},
+            </if>
+            <if test="tblOrderBlankForm.vOrderBlankId != null and tblOrderBlankForm.vOrderBlankId != ''">
+                #{tblOrderBlankForm.vOrderBlankId}
+            </if>
+            <if test="tblOrderBlankForm.vMaterialName != null and tblOrderBlankForm.vMaterialName != ''">
+                #{tblOrderBlankForm.vMaterialName},
+            </if>
+            <if test="tblOrderBlankForm.vMaterialAttributeContent != null and tblOrderBlankForm.vMaterialAttributeContent != ''">
+                #{tblOrderBlankForm.vMaterialAttributeContent},
+            </if>
+            <if test="tblOrderBlankForm.vMaterialId != null and tblOrderBlankForm.vMaterialId != ''">
+                #{tblOrderBlankForm.vMaterialId},
+            </if>
+            <if test="tblOrderBlankForm.vMaterialAttributeId != null and tblOrderBlankForm.vMaterialAttributeId != ''">
+                #{tblOrderBlankForm.vMaterialAttributeId},
+            </if>
+            <if test="tblOrderBlankForm.iMaterialNum != null and tblOrderBlankForm.iMaterialNum != ''">
+                #{tblOrderBlankForm.iMaterialNum},
+            </if>
+            <if test="tblOrderBlankForm.iPosition != null">
+                #{tblOrderBlankForm.iPosition},
+            </if>
+            <if test="tblOrderBlankForm.iDelFlag != null">
+                #{tblOrderBlankForm.iDelFlag},
+            </if>
+        </trim>
+    </insert>
+
+    <!--批量新增所有列，列表长度不能为0-->
+    <insert id="insertBatch" keyProperty="vOrderBlankFormId" useGeneratedKeys="true" parameterType="list">
+        insert into tbl_order_blank_form
+        ( v_order_blank_form_id ,v_order_blank_id, v_material_name, v_material_attribute_content, i_material_num,
+        i_position, i_del_flag, v_material_id, v_material_attribute_id)
+        values
+        <foreach item="item" collection="list" separator="," open="" close="" index="index">
+            (#{item.vOrderBlankFormId,jdbcType=VARCHAR},#{item.vOrderBlankId,jdbcType=VARCHAR},
+            #{item.vMaterialName,jdbcType=VARCHAR}, #{item.vMaterialAttributeContent,jdbcType=VARCHAR},
+            #{item.iMaterialNum,jdbcType=VARCHAR}, #{item.iPosition,jdbcType=INTEGER},
+            #{item.iDelFlag,jdbcType=INTEGER}, #{item.vMaterialId,jdbcType=VARCHAR},
+            #{item.vMaterialAttributeId,jdbcType=VARCHAR})
+        </foreach>
+    </insert>
+
+    <!---->
+    <delete id="deleteAllByOrderBlankId" parameterType="String">
+        delete
+        from tbl_order_blank_form
+        where tbl_order_blank_form.v_order_blank_id = #{orderBlankId}
+    </delete>
+</mapper>

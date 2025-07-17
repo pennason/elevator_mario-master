@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shmashine.userclientapplets.dao.ElevatorDao">
+
+    <!--获取电梯-->
+    <select id="queryElevatorList" resultType="com.shmashine.userclientapplets.entity.Elevator">
+        select
+        ele.v_elevator_id AS v_elevator_id,
+        ele.v_elevator_code AS v_elevator_code,
+        ele.v_elevator_name AS v_elevator_name,
+        ele.v_project_id AS v_project_id,
+        elebd.v_elevator_brand_name AS brandName,
+        proj.v_project_name AS v_project_name,
+        ele.v_address AS v_address,
+        dept.v_dept_name AS v_maintain_company_name,
+        ele.i_elevator_type AS i_elevator_type,
+        sysinfo.v_name_zh_cn AS i_elevator_type_name,
+        ele.i_install_status AS i_install_status,
+        sysinfo2.v_name_zh_cn AS i_install_status_name,
+        ele.i_mode_status AS i_mode_status,
+        sysinfo3.v_name_zh_cn AS i_mode_status_name,
+        ele.i_on_line AS i_online_status,
+        sysinfo4.v_name_zh_cn AS i_online_status_name,
+        ele.i_fault_status AS i_fault_status,
+        sysinfo5.v_name_zh_cn AS i_fault_status_name,
+        ele.v_longitude,
+        ele.v_latitude,
+        ele.v_equipment_code AS register_number,
+        ele.v_village_id AS villageId,
+        ele.v_door_type AS doorType
+        from tbl_elevator ele
+        <if test="!isAdminFlag">
+            join tbl_sys_user_resource resource on ele.v_elevator_id = resource.v_resource_id and v_user_id =
+            #{userId}
+        </if>
+        LEFT JOIN tbl_elevator_brand elebd on ele.v_elevator_brand_id = elebd.v_elevator_brand_id
+        left join tbl_sys_dept dept on ele.v_maintain_company_id = dept.v_dept_id
+        left join tbl_project proj on proj.v_project_id = ele.v_project_id
+        left join tbl_sys_systeminfo sysinfo on sysinfo.v_sysvalue5 = ele.i_elevator_type and sysinfo.v_sysid = '10002'
+        left join tbl_sys_systeminfo sysinfo2 on sysinfo2.v_sysvalue5 = ele.i_install_status and sysinfo2.v_sysid =
+        '10008'
+        left join tbl_sys_systeminfo sysinfo3 on sysinfo3.v_sysvalue5 = ele.i_mode_status and sysinfo3.v_sysid = '10009'
+        left join tbl_sys_systeminfo sysinfo4 on sysinfo4.v_sysvalue5 = ele.i_on_line and sysinfo4.v_sysid = '10007'
+        left join tbl_sys_systeminfo sysinfo5 on sysinfo5.v_sysvalue5 = ele.i_fault_status and sysinfo5.v_sysid =
+        '10018'
+        <where>
+            <if test="vElevatorCode != null and vElevatorCode != ''">
+                and (ele.v_elevator_code like CONCAT('%',#{vElevatorCode},'%')
+                or v_elevator_name like CONCAT('%',#{vElevatorCode},'%'))
+            </if>
+            <if test="iElevatorType != null and iElevatorType != ''">
+                and ele.i_elevator_type = #{iElevatorType}
+            </if>
+            <if test="iFaultStatus != null and iFaultStatus != ''">
+                and ele.i_fault_status = #{iFaultStatus}
+            </if>
+            <if test="vProjectId != null and vProjectId != ''">
+                and ele.v_project_id = #{vProjectId}
+            </if>
+            <if test="villageId != null and villageId != ''">
+                and ele.v_village_id = #{villageId}
+            </if>
+        </where>
+        GROUP BY ele.v_elevator_id
+        order by ele.v_elevator_code
+    </select>
+
+
+    <select id="queryElevatorAndCollectList" resultType="com.shmashine.userclientapplets.entity.Elevator">
+        select
+        ele.v_elevator_id AS v_elevator_id,
+        ele.v_elevator_code AS v_elevator_code,
+        ele.v_elevator_name AS v_elevator_name,
+        ele.v_project_id AS v_project_id,
+        ele.v_address AS v_address,
+        ele.i_elevator_type AS i_elevator_type,
+        ele.i_install_status AS i_install_status,
+        ele.i_mode_status AS i_mode_status,
+        ele.v_equipment_code AS register_number,
+        ele.v_village_id AS villageId,
+        IF(ec.v_user_id IS NULL,0,1) AS isCollect,
+        ele.v_door_type AS doorType
+        from tbl_elevator ele
+        <if test="!searchElevatorModule.isAdminFlag">
+            join tbl_sys_user_resource resource on ele.v_elevator_id = resource.v_resource_id and v_user_id =
+            #{searchElevatorModule.userId}
+        </if>
+        LEFT JOIN tbl_elevator_collect ec on ec.v_elevator_id = ele.v_elevator_id and ec.v_user_id =
+        #{searchElevatorModule.userId}
+        <where>
+            <if test="searchElevatorModule.vElevatorCode != null and searchElevatorModule.vElevatorCode != ''">
+                and (ele.v_elevator_code like CONCAT('%',#{searchElevatorModule.vElevatorCode},'%')
+                or ele.v_address like CONCAT('%',#{searchElevatorModule.vElevatorCode},'%'))
+            </if>
+            <if test="searchElevatorModule.iElevatorType != null and searchElevatorModule.iElevatorType != ''">
+                and ele.i_elevator_type = #{searchElevatorModule.iElevatorType}
+            </if>
+            <if test="searchElevatorModule.iFaultStatus != null and searchElevatorModule.iFaultStatus != ''">
+                and ele.i_fault_status = #{searchElevatorModule.iFaultStatus}
+            </if>
+            <if test="searchElevatorModule.vAddress != null and searchElevatorModule.vAddress != ''">
+                and ele.v_address like CONCAT('%',#{searchElevatorModule.vAddress},'%')
+            </if>
+            <if test="searchElevatorModule.vProjectId != null and searchElevatorModule.vProjectId != ''">
+                and ele.v_project_id = #{searchElevatorModule.vProjectId}
+            </if>
+            <if test="searchElevatorModule.villageId != null and searchElevatorModule.villageId != ''">
+                and ele.v_village_id = #{searchElevatorModule.villageId}
+            </if>
+        </where>
+        GROUP BY ele.v_elevator_id
+        order by ele.v_elevator_name
+    </select>
+
+
+    <select id="getAVGRunCountByDay" resultType="java.lang.Integer">
+        select
+        IFNULL(AVG(tr.bi_run_count),0)
+        from
+        tbl_elevator_run_count tr
+        left join tbl_elevator ele on ele.v_elevator_code = tr.v_elevator_code
+        <if test="!isAdminFlag">
+            JOIN tbl_sys_user_resource resource ON ele.v_elevator_id = resource.v_resource_id
+            AND resource.v_user_id = #{userId}
+        </if>
+        <where>
+            <if test="startTime != null and startTime != ''">
+                <![CDATA[ AND tr.dt_report_date >= #{startTime} ]]>
+            </if>
+            <if test="endTime != null and endTime != ''">
+                <![CDATA[ AND tr.dt_report_date <= #{endTime} ]]>
+            </if>
+            <if test="elevatorId != null and elevatorId != ''">
+                and ele.v_elevator_id = #{elevatorId}
+            </if>
+            <if test="villageId != null and villageId != ''">
+                AND ele.v_village_id = #{villageId}
+            </if>
+            <if test="vProjectId != null and vProjectId != ''">
+                AND ele.v_project_id = #{vProjectId}
+            </if>
+            <if test="vElevatorCode != null and vElevatorCode != ''">
+                AND ele.v_elevator_code = #{vElevatorCode}
+            </if>
+        </where>
+    </select>
+
+    <!--获取昨日运行统计信息-->
+    <select id="getYesterdayRunCount" resultType="java.util.HashMap">
+        SELECT bi_run_count          AS lastRunCount,
+               bi_run_distance_count AS lastRunDistanceCount,
+               bi_door_count         AS lastDoorCount,
+               bi_bend_count         AS lastBendCount
+        FROM tbl_elevator_run_count
+        WHERE v_elevator_code = #{elevatorCode}
+          AND dt_report_date = date_sub(curdate(), interval 1 day)
+    </select>
+
+
+    <!--获取授权电梯-->
+    <select id="getPermissionElevators" resultType="java.util.HashMap">
+        select
+        ele.v_elevator_id AS v_elevator_id,
+        ele.v_elevator_code AS v_elevator_code,
+        ele.v_elevator_name AS v_elevator_name,
+        ele.v_project_id AS v_project_id,
+        ele.v_equipment_code AS register_number,
+        ele.v_village_id AS villageId,
+        vil.v_village_name AS vVillageName
+        from tbl_elevator ele
+        <if test="!isAdmin">
+            join tbl_sys_user_resource resource on ele.v_elevator_id = resource.v_resource_id and resource.v_user_id =
+            #{requestUserId}
+        </if>
+        <if test="permission == 1">
+            join tbl_sys_user_resource resource1 on ele.v_elevator_id = resource1.v_resource_id and resource1.v_user_id
+            = #{userId}
+        </if>
+        LEFT JOIN tbl_village vil on ele.v_village_id = vil.v_village_id
+        <where>
+            <if test="vProjectId != null and vProjectId != ''">
+                and ele.v_project_id = #{vProjectId}
+            </if>
+            <if test="villageId != null and villageId != ''">
+                and ele.v_village_id = #{villageId}
+            </if>
+        </where>
+        GROUP BY ele.v_elevator_id
+        order by ele.v_elevator_code
+    </select>
+
+    <!--获取故障电梯列表-->
+    <select id="getFaultElevatorByPage" resultType="com.shmashine.userclientapplets.entity.Elevator">
+        SELECT
+        te.v_elevator_id AS v_elevator_id,
+        te.v_elevator_code AS v_elevator_code,
+        te.v_elevator_name AS v_elevator_name,
+        te.v_project_id AS v_project_id,
+        te.v_address AS v_address,
+        te.i_elevator_type AS i_elevator_type,
+        te.i_install_status AS i_install_status,
+        te.i_mode_status AS i_mode_status,
+        te.v_equipment_code AS register_number,
+        te.v_village_id AS villageId
+        FROM
+        tbl_elevator te
+        INNER JOIN tbl_fault tf ON te.v_elevator_id = tf.v_elevator_id
+        <if test="!searchElevatorModule.isAdminFlag">
+            join tbl_sys_user_resource resource on te.v_elevator_id = resource.v_resource_id and v_user_id =
+            #{searchElevatorModule.userId}
+        </if>
+        <where>
+            <if test="searchElevatorModule.vProjectId != null and searchElevatorModule.vProjectId != ''">
+                and te.v_project_id = #{searchElevatorModule.vProjectId}
+            </if>
+            <if test="searchElevatorModule.villageId != null and searchElevatorModule.villageId != ''">
+                and te.v_village_id = #{searchElevatorModule.villageId}
+            </if>
+            <if test="searchElevatorModule.startTime != null and searchElevatorModule.startTime != ''">
+                and tf.dt_report_time &gt;= #{searchElevatorModule.startTime}
+            </if>
+            <if test="searchElevatorModule.endTime != null and searchElevatorModule.endTime != ''">
+                and tf.dt_report_time &lt;= #{searchElevatorModule.endTime}
+            </if>
+        </where>
+        GROUP BY
+        te.v_elevator_id
+        ORDER BY
+        SUM( tf.i_fault_num ) DESC
+    </select>
+
+    <!--获取待维保电梯-->
+    <select id="getUnMaintenanceElevatorByPage" resultType="java.util.HashMap">
+        SELECT
+        te.v_elevator_id,
+        te.v_elevator_code,
+        te.v_address,
+        IFNULL(te.v_elevator_name,'null') AS v_elevator_name,
+        te.d_next_maintain_date,
+        te.d_last_maintain_date
+        FROM
+        tbl_elevator te
+        <if test="!searchElevatorModule.isAdminFlag">
+            join tbl_sys_user_resource resource on te.v_elevator_id = resource.v_resource_id and v_user_id =
+            #{searchElevatorModule.userId}
+        </if>
+        <where>
+            te.d_next_maintain_date &lt;= DATE_SUB(CURDATE(),INTERVAL -3 DAY)
+            and te.d_next_maintain_date &gt;= CURDATE()
+            <if test="searchElevatorModule.vProjectId != null and searchElevatorModule.vProjectId != ''">
+                and te.v_project_id = #{searchElevatorModule.vProjectId}
+            </if>
+            <if test="searchElevatorModule.villageId != null and searchElevatorModule.villageId != ''">
+                and te.v_village_id = #{searchElevatorModule.villageId}
+            </if>
+        </where>
+        GROUP BY te.v_elevator_id
+        ORDER BY te.d_next_maintain_date DESC
+    </select>
+
+    <!--获取用户授权电梯列表-->
+    <select id="getUserElevatorList" resultType="com.shmashine.userclientapplets.entity.Elevator">
+        select ele.v_elevator_id   AS vElevatorId,
+               ele.v_elevator_code AS vElevatorCode,
+               ele.v_elevator_name AS vElevatorName,
+               ele.v_village_id    AS villageId
+        from tbl_elevator ele
+                 INNER JOIN tbl_sys_user_resource resource
+                            ON ele.v_elevator_id = resource.v_resource_id and resource.v_user_id
+                                = #{userId}
+        GROUP BY ele.v_elevator_id
+    </select>
+
+</mapper>

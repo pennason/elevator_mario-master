@@ -1,0 +1,532 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.api.dao.TblSysFileDao">
+
+    <resultMap type="com.shmashine.common.entity.TblSysFile" id="TblSysFileResultMap">
+        <result property="vFileId" column="v_file_id" jdbcType="VARCHAR"/>
+        <result property="vFileType" column="v_file_type" jdbcType="VARCHAR"/>
+        <result property="vFileName" column="v_file_name" jdbcType="VARCHAR"/>
+        <result property="vBusinessId" column="v_business_id" jdbcType="VARCHAR"/>
+        <result property="iBusinessType" column="i_business_type" jdbcType="INTEGER"/>
+        <result property="vUrl" column="v_url" jdbcType="VARCHAR"/>
+        <result property="vRemark" column="v_remark" jdbcType="VARCHAR"/>
+        <result property="dtCreateTime" column="dt_create_time" jdbcType="TIMESTAMP"/>
+        <result property="dtModifyTime" column="dt_modify_time" jdbcType="TIMESTAMP"/>
+        <result property="vCreateUserId" column="v_create_user_id" jdbcType="VARCHAR"/>
+        <result property="vModifyUserId" column="v_modify_user_id" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="table_field">
+        v_file_id
+        , v_file_type, v_file_name, v_business_id, i_business_type, v_url, v_remark, dt_create_time, dt_modify_time, v_create_user_id, v_modify_user_id
+    </sql>
+
+    <!--通过Id查询单个-->
+    <select id="getById" resultMap="TblSysFileResultMap" parameterType="java.lang.String">
+        select
+        <include refid="table_field"/>
+        from tbl_sys_file
+        where v_file_id = #{vFileId,jdbcType=VARCHAR}
+    </select>
+
+
+    <!--通过实体不为空的属性作为筛选条件查询列表-->
+    <select id="listByEntity" resultMap="TblSysFileResultMap" parameterType="com.shmashine.common.entity.TblSysFile">
+        select
+        <include refid="table_field"/>
+        from tbl_sys_file
+        <where>
+            <if test="vFileId != null">
+                and v_file_id = #{vFileId,jdbcType=VARCHAR}
+            </if>
+            <if test="vFileType != null">
+                and v_file_type = #{vFileType,jdbcType=VARCHAR}
+            </if>
+            <if test="vFileName != null">
+                and v_file_name = #{vFileName,jdbcType=VARCHAR}
+            </if>
+            <if test="vBusinessId != null">
+                and v_business_id = #{vBusinessId,jdbcType=VARCHAR}
+            </if>
+            <if test="iBusinessType != null">
+                and i_business_type = #{iBusinessType,jdbcType=INTEGER}
+            </if>
+            <if test="vUrl != null">
+                and v_url = #{vUrl,jdbcType=VARCHAR}
+            </if>
+            <if test="vRemark != null">
+                and v_remark = #{vRemark,jdbcType=VARCHAR}
+            </if>
+            <if test="dtCreateTime != null">
+                and dt_create_time = #{dtCreateTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="dtModifyTime != null">
+                and dt_modify_time = #{dtModifyTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="vCreateUserId != null">
+                and v_create_user_id = #{vCreateUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="vModifyUserId != null">
+                and v_modify_user_id = #{vModifyUserId,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+    <!--通过实体不为空的属性作为筛选条件查询单个-->
+    <select id="getByEntity" resultMap="TblSysFileResultMap" parameterType="com.shmashine.common.entity.TblSysFile">
+        select
+        <include refid="table_field"/>
+        from tbl_sys_file
+        <where>
+            <if test="vFileId != null">
+                and v_file_id = #{vFileId,jdbcType=VARCHAR}
+            </if>
+            <if test="vFileType != null">
+                and v_file_type = #{vFileType,jdbcType=VARCHAR}
+            </if>
+            <if test="vFileName != null">
+                and v_file_name = #{vFileName,jdbcType=VARCHAR}
+            </if>
+            <if test="vBusinessId != null">
+                and v_business_id = #{vBusinessId,jdbcType=VARCHAR}
+            </if>
+            <if test="iBusinessType != null">
+                and i_business_type = #{iBusinessType,jdbcType=INTEGER}
+            </if>
+            <if test="vUrl != null">
+                and v_url = #{vUrl,jdbcType=VARCHAR}
+            </if>
+            <if test="vRemark != null">
+                and v_remark = #{vRemark,jdbcType=VARCHAR}
+            </if>
+            <if test="dtCreateTime != null">
+                and dt_create_time = #{dtCreateTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="dtModifyTime != null">
+                and dt_modify_time = #{dtModifyTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="vCreateUserId != null">
+                and v_create_user_id = #{vCreateUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="vModifyUserId != null">
+                and v_modify_user_id = #{vModifyUserId,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+    <!--通过Id列表作为筛选条件查询列表，列表长度不为0-->
+    <select id="listByIds" resultMap="TblSysFileResultMap" parameterType="list">
+        select
+        <include refid="table_field"/>
+        from tbl_sys_file
+        where v_file_id in
+        <foreach item="item" collection="list" separator="," open="(" close=")" index="index">
+            #{item}
+        </foreach>
+    </select>
+
+    <!--新增实体属性不为null的列-->
+    <insert id="insert" keyProperty="vFileId" useGeneratedKeys="true"
+            parameterType="com.shmashine.common.entity.TblSysFile">
+        insert into tbl_sys_file
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="vFileId != null">
+                v_file_id,
+            </if>
+            <if test="vFileType != null">
+                v_file_type,
+            </if>
+            <if test="vFileName != null">
+                v_file_name,
+            </if>
+            <if test="vBusinessId != null">
+                v_business_id,
+            </if>
+            <if test="iBusinessType != null">
+                i_business_type,
+            </if>
+            <if test="vUrl != null">
+                v_url,
+            </if>
+            <if test="vRemark != null">
+                v_remark,
+            </if>
+            <if test="dtCreateTime != null">
+                dt_create_time,
+            </if>
+            <if test="dtModifyTime != null">
+                dt_modify_time,
+            </if>
+            <if test="vCreateUserId != null">
+                v_create_user_id,
+            </if>
+            <if test="vModifyUserId != null">
+                v_modify_user_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="vFileId != null">
+                #{vFileId,jdbcType=VARCHAR},
+            </if>
+            <if test="vFileType != null">
+                #{vFileType,jdbcType=VARCHAR},
+            </if>
+            <if test="vFileName != null">
+                #{vFileName,jdbcType=VARCHAR},
+            </if>
+            <if test="vBusinessId != null">
+                #{vBusinessId,jdbcType=VARCHAR},
+            </if>
+            <if test="iBusinessType != null">
+                #{iBusinessType,jdbcType=INTEGER},
+            </if>
+            <if test="vUrl != null">
+                #{vUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="vRemark != null">
+                #{vRemark,jdbcType=VARCHAR},
+            </if>
+            <if test="dtCreateTime != null">
+                #{dtCreateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="dtModifyTime != null">
+                #{dtModifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="vCreateUserId != null">
+                #{vCreateUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="vModifyUserId != null">
+                #{vModifyUserId,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <!--批量新增所有列，列表长度不能为0-->
+    <insert id="insertBatch" keyProperty="vFileId" useGeneratedKeys="true" parameterType="list">
+        insert into tbl_sys_file
+        (v_file_id,v_file_type, v_file_name, v_business_id, i_business_type, v_url, v_remark, dt_create_time,
+        dt_modify_time, v_create_user_id, v_modify_user_id)
+        values
+        <foreach item="item" collection="list" separator="," open="" close="" index="index">
+            (#{item.vFileId,jdbcType=VARCHAR},#{item.vFileType,jdbcType=VARCHAR}, #{item.vFileName,jdbcType=VARCHAR},
+            #{item.vBusinessId,jdbcType=VARCHAR}, #{item.iBusinessType,jdbcType=INTEGER}, #{item.vUrl,jdbcType=VARCHAR},
+            #{item.vRemark,jdbcType=VARCHAR}, #{item.dtCreateTime,jdbcType=TIMESTAMP},
+            #{item.dtModifyTime,jdbcType=TIMESTAMP}, #{item.vCreateUserId,jdbcType=VARCHAR},
+            #{item.vModifyUserId,jdbcType=VARCHAR})
+        </foreach>
+    </insert>
+
+    <!--通过主键修改实体属性不为null的列-->
+    <update id="update" parameterType="com.shmashine.common.entity.TblSysFile">
+        update tbl_sys_file
+        <set>
+            <if test="vFileType != null and vFileType != ''">
+                v_file_type = #{vFileType,jdbcType=VARCHAR},
+            </if>
+            <if test="vFileName != null and vFileName != ''">
+                v_file_name = #{vFileName,jdbcType=VARCHAR},
+            </if>
+            <if test="vBusinessId != null and vBusinessId != ''">
+                v_business_id = #{vBusinessId,jdbcType=VARCHAR},
+            </if>
+            <if test="iBusinessType != null">
+                i_business_type = #{iBusinessType,jdbcType=INTEGER},
+            </if>
+            <if test="vUrl != null and vUrl != ''">
+                v_url = #{vUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="vRemark != null and vRemark != ''">
+                v_remark = #{vRemark,jdbcType=VARCHAR},
+            </if>
+            <if test="dtCreateTime != null">
+                dt_create_time = #{dtCreateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="dtModifyTime != null">
+                dt_modify_time = #{dtModifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="vCreateUserId != null and vCreateUserId != ''">
+                v_create_user_id = #{vCreateUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="vModifyUserId != null and vModifyUserId != ''">
+                v_modify_user_id = #{vModifyUserId,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where v_file_id = #{vFileId,jdbcType=VARCHAR}
+    </update>
+
+    <!--通过表字段修改实体属性不为null的列-->
+    <update id="updateByField">
+        update tbl_sys_file
+        <set>
+            <if test="where.vFileType == null and set.vFileType != null and set.vFileType != ''">
+                v_file_type = #{set.vFileType,jdbcType=VARCHAR},
+            </if>
+            <if test="where.vFileName == null and set.vFileName != null and set.vFileName != ''">
+                v_file_name = #{set.vFileName,jdbcType=VARCHAR},
+            </if>
+            <if test="where.vBusinessId == null and set.vBusinessId != null and set.vBusinessId != ''">
+                v_business_id = #{set.vBusinessId,jdbcType=VARCHAR},
+            </if>
+            <if test="where.iBusinessType == null and set.iBusinessType != null">
+                i_business_type = #{set.iBusinessType,jdbcType=INTEGER},
+            </if>
+            <if test="where.vUrl == null and set.vUrl != null and set.vUrl != ''">
+                v_url = #{set.vUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="where.vRemark == null and set.vRemark != null and set.vRemark != ''">
+                v_remark = #{set.vRemark,jdbcType=VARCHAR},
+            </if>
+            <if test="where.dtCreateTime == null and set.dtCreateTime != null">
+                dt_create_time = #{set.dtCreateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="where.dtModifyTime == null and set.dtModifyTime != null">
+                dt_modify_time = #{set.dtModifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="where.vCreateUserId == null and set.vCreateUserId != null and set.vCreateUserId != ''">
+                v_create_user_id = #{set.vCreateUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="where.vModifyUserId == null and set.vModifyUserId != null and set.vModifyUserId != ''">
+                v_modify_user_id = #{set.vModifyUserId,jdbcType=VARCHAR},
+            </if>
+        </set>
+        <where>
+            <if test="where.vFileId != null">
+                and v_file_id = #{where.vFileId,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vFileType != null">
+                and v_file_type = #{where.vFileType,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vFileName != null">
+                and v_file_name = #{where.vFileName,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vBusinessId != null">
+                and v_business_id = #{where.vBusinessId,jdbcType=VARCHAR}
+            </if>
+            <if test="where.iBusinessType != null">
+                and i_business_type = #{where.iBusinessType,jdbcType=INTEGER}
+            </if>
+            <if test="where.vUrl != null">
+                and v_url = #{where.vUrl,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vRemark != null">
+                and v_remark = #{where.vRemark,jdbcType=VARCHAR}
+            </if>
+            <if test="where.dtCreateTime != null">
+                and dt_create_time = #{where.dtCreateTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="where.dtModifyTime != null">
+                and dt_modify_time = #{where.dtModifyTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="where.vCreateUserId != null">
+                and v_create_user_id = #{where.vCreateUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vModifyUserId != null">
+                and v_modify_user_id = #{where.vModifyUserId,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </update>
+
+    <!--通过主键修改实体列表，列表长度不能为0，注意：当实体属性为null时，对应的列也会别更新为null-->
+    <update id="updateBatch" parameterType="list">
+        update tbl_sys_file
+        <trim prefix="set" suffixOverrides=",">
+            <trim prefix="v_file_type = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_file_id = #{item.vFileId} then #{item.vFileType}
+                </foreach>
+            </trim>
+            <trim prefix="v_file_name = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_file_id = #{item.vFileId} then #{item.vFileName}
+                </foreach>
+            </trim>
+            <trim prefix="v_business_id = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_file_id = #{item.vFileId} then #{item.vBusinessId}
+                </foreach>
+            </trim>
+            <trim prefix="i_business_type = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_file_id = #{item.vFileId} then #{item.iBusinessType}
+                </foreach>
+            </trim>
+            <trim prefix="v_url = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_file_id = #{item.vFileId} then #{item.vUrl}
+                </foreach>
+            </trim>
+            <trim prefix="v_remark = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_file_id = #{item.vFileId} then #{item.vRemark}
+                </foreach>
+            </trim>
+            <trim prefix="dt_create_time = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_file_id = #{item.vFileId} then #{item.dtCreateTime}
+                </foreach>
+            </trim>
+            <trim prefix="dt_modify_time = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_file_id = #{item.vFileId} then #{item.dtModifyTime}
+                </foreach>
+            </trim>
+            <trim prefix="v_create_user_id = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_file_id = #{item.vFileId} then #{item.vCreateUserId}
+                </foreach>
+            </trim>
+            <trim prefix="v_modify_user_id = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_file_id = #{item.vFileId} then #{item.vModifyUserId}
+                </foreach>
+            </trim>
+        </trim>
+        where v_file_id in
+        <foreach collection="list" index="index" item="item" separator="," open="(" close=")">
+            #{item.vFileId,jdbcType=VARCHAR}
+        </foreach>
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById" parameterType="java.lang.String">
+        delete
+        from tbl_sys_file
+        where v_file_id = #{vFileId,jdbcType=VARCHAR}
+    </delete>
+
+    <!--通过实体非空属性删除-->
+    <delete id="deleteByEntity" parameterType="com.shmashine.common.entity.TblSysFile">
+        delete from tbl_sys_file
+        <where>
+            <if test="vFileType != null">
+                and v_file_type = #{vFileType,jdbcType=VARCHAR}
+            </if>
+            <if test="vFileName != null">
+                and v_file_name = #{vFileName,jdbcType=VARCHAR}
+            </if>
+            <if test="vBusinessId != null">
+                and v_business_id = #{vBusinessId,jdbcType=VARCHAR}
+            </if>
+            <if test="iBusinessType != null">
+                and i_business_type = #{iBusinessType,jdbcType=INTEGER}
+            </if>
+            <if test="vUrl != null">
+                and v_url = #{vUrl,jdbcType=VARCHAR}
+            </if>
+            <if test="vRemark != null">
+                and v_remark = #{vRemark,jdbcType=VARCHAR}
+            </if>
+            <if test="dtCreateTime != null">
+                and dt_create_time = #{dtCreateTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="dtModifyTime != null">
+                and dt_modify_time = #{dtModifyTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="vCreateUserId != null">
+                and v_create_user_id = #{vCreateUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="vModifyUserId != null">
+                and v_modify_user_id = #{vModifyUserId,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </delete>
+
+    <!--通过主键列表删除，列表长度不能为0-->
+    <delete id="deleteByIds" parameterType="list">
+        delete from tbl_sys_file where v_file_id in
+        <foreach item="item" collection="list" separator="," open="(" close=")" index="index">
+            #{item}
+        </foreach>
+    </delete>
+
+    <select id="countAll" resultType="int">
+        select count(v_file_id)
+        from tbl_sys_file
+    </select>
+
+    <select id="countByEntity" parameterType="com.shmashine.common.entity.TblSysFile" resultType="int">
+        select count(v_file_id) from tbl_sys_file
+        <where>
+            <if test="vFileId != null">
+                and v_file_id = #{vFileId,jdbcType=VARCHAR}
+            </if>
+            <if test="vFileType != null">
+                and v_file_type = #{vFileType,jdbcType=VARCHAR}
+            </if>
+            <if test="vFileName != null">
+                and v_file_name = #{vFileName,jdbcType=VARCHAR}
+            </if>
+            <if test="vBusinessId != null">
+                and v_business_id = #{vBusinessId,jdbcType=VARCHAR}
+            </if>
+            <if test="iBusinessType != null">
+                and i_business_type = #{iBusinessType,jdbcType=INTEGER}
+            </if>
+            <if test="vUrl != null">
+                and v_url = #{vUrl,jdbcType=VARCHAR}
+            </if>
+            <if test="vRemark != null">
+                and v_remark = #{vRemark,jdbcType=VARCHAR}
+            </if>
+            <if test="dtCreateTime != null">
+                and dt_create_time = #{dtCreateTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="dtModifyTime != null">
+                and dt_modify_time = #{dtModifyTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="vCreateUserId != null">
+                and v_create_user_id = #{vCreateUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="vModifyUserId != null">
+                and v_modify_user_id = #{vModifyUserId,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+
+    <select id="getByBusinessIdAndBusinessType" resultType="java.lang.String">
+        select v_url
+        from tbl_sys_file
+        where i_business_type = #{businessType}
+          and v_business_id = #{businessId}
+    </select>
+
+
+    <select id="getByBusinessIdAndBusinessTypeAndFileType" resultType="java.lang.String">
+        select v_url
+        from tbl_sys_file
+        where i_business_type = #{businessType}
+          and v_business_id = #{businessId}
+          and v_file_type = #{fileType}
+    </select>
+
+
+    <select id="getVideoUrl" resultType="java.lang.String">
+        select v_url
+        from tbl_sys_file
+        where i_business_type = #{businessType}
+          and v_business_id = #{businessId}
+          and v_file_type = #{fileType} limit 1
+    </select>
+
+    <select id="getAllByBusinessIdAndBusinessType" resultMap="TblSysFileResultMap">
+        select
+        <include refid="table_field"/>
+        from
+        tbl_sys_file
+        where
+        i_business_type = #{businessType}
+        and
+        v_business_id = #{businessId}
+    </select>
+
+    <!--根据业务id获取文件列表-->
+    <select id="getByBusinessId" resultType="com.shmashine.common.entity.TblSysFile">
+        select
+        <include refid="table_field"/>
+        from
+        tbl_sys_file
+        where
+        v_business_id = #{businessId}
+    </select>
+</mapper>

@@ -1,0 +1,652 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.api.dao.TblDeviceFileDao">
+
+    <resultMap type="com.shmashine.common.entity.TblDeviceFile" id="TblDeviceFileResultMap">
+        <result property="deviceFileId" column="device_file_id" jdbcType="VARCHAR"/>
+        <result property="fileName" column="file_name" jdbcType="VARCHAR"/>
+        <result property="version" column="version" jdbcType="VARCHAR"/>
+        <result property="fileUrl" column="file_url" jdbcType="VARCHAR"/>
+        <result property="requestFileUrl" column="request_file_url" jdbcType="VARCHAR"/>
+        <result property="label" column="label" jdbcType="VARCHAR"/>
+        <result property="signature" column="signature" jdbcType="VARCHAR"/>
+        <result property="crc" column="crc" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="modifyTime" column="modify_time" jdbcType="TIMESTAMP"/>
+        <result property="createUserId" column="create_user_id" jdbcType="VARCHAR"/>
+        <result property="modifyUserId" column="modify_user_id" jdbcType="VARCHAR"/>
+        <result property="delFlag" column="del_flag" jdbcType="INTEGER"/>
+        <result property="eType" column="eType" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="table_field">
+        device_file_id
+        , file_name, version, file_url, request_file_url, label, signature, crc, create_time, modify_time, create_user_id, hw_version, modify_user_id, del_flag, eType
+    </sql>
+
+    <!--通过Id查询单个-->
+    <select id="getById" resultMap="TblDeviceFileResultMap" parameterType="java.lang.String">
+        select
+        <include refid="table_field"/>
+        from tbl_device_file
+        where device_file_id = #{deviceFileId,jdbcType=VARCHAR}
+    </select>
+
+
+    <!--通过实体不为空的属性作为筛选条件查询列表-->
+    <select id="listByEntity" resultMap="TblDeviceFileResultMap"
+            parameterType="com.shmashine.common.entity.TblDeviceFile">
+        select
+        <include refid="table_field"/>
+        from tbl_device_file
+        <where>
+            <if test="deviceFileId != null">
+                and device_file_id = #{deviceFileId,jdbcType=VARCHAR}
+            </if>
+            <if test="fileName != null">
+                and file_name = #{fileName,jdbcType=VARCHAR}
+            </if>
+            <if test="version != null">
+                and version = #{version,jdbcType=VARCHAR}
+            </if>
+            <if test="fileUrl != null">
+                and file_url = #{fileUrl,jdbcType=VARCHAR}
+            </if>
+            <if test="requestFileUrl != null">
+                and request_file_url = #{requestFileUrl,jdbcType=VARCHAR}
+            </if>
+            <if test="label != null">
+                and label = #{label,jdbcType=VARCHAR}
+            </if>
+            <if test="signature != null">
+                and signature = #{signature,jdbcType=VARCHAR}
+            </if>
+            <if test="crc != null">
+                and crc = #{crc,jdbcType=VARCHAR}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="modifyTime != null">
+                and modify_time = #{modifyTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="createUserId != null">
+                and create_user_id = #{createUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="modifyUserId != null">
+                and modify_user_id = #{modifyUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="delFlag != null">
+                and del_flag = #{delFlag,jdbcType=INTEGER}
+            </if>
+            <if test="eType  != null and eType != ''">
+                and eType = #{eType,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+    <!--通过实体不为空的属性作为筛选条件查询单个-->
+    <select id="getByEntity" resultMap="TblDeviceFileResultMap"
+            parameterType="com.shmashine.common.entity.TblDeviceFile">
+        select
+        <include refid="table_field"/>
+        from tbl_device_file
+        <where>
+            <if test="deviceFileId != null">
+                and device_file_id = #{deviceFileId,jdbcType=VARCHAR}
+            </if>
+            <if test="fileName != null">
+                and file_name = #{fileName,jdbcType=VARCHAR}
+            </if>
+            <if test="version != null">
+                and version = #{version,jdbcType=VARCHAR}
+            </if>
+            <if test="fileUrl != null">
+                and file_url = #{fileUrl,jdbcType=VARCHAR}
+            </if>
+            <if test="requestFileUrl != null">
+                and request_file_url = #{requestFileUrl,jdbcType=VARCHAR}
+            </if>
+            <if test="label != null">
+                and label = #{label,jdbcType=VARCHAR}
+            </if>
+            <if test="signature != null">
+                and signature = #{signature,jdbcType=VARCHAR}
+            </if>
+            <if test="crc != null">
+                and crc = #{crc,jdbcType=VARCHAR}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="modifyTime != null">
+                and modify_time = #{modifyTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="createUserId != null">
+                and create_user_id = #{createUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="modifyUserId != null">
+                and modify_user_id = #{modifyUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="delFlag != null">
+                and del_flag = #{delFlag,jdbcType=INTEGER}
+            </if>
+            <if test="eType != null">
+                and eType = #{eType, jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+    <!--通过Id列表作为筛选条件查询列表，列表长度不为0-->
+    <select id="listByIds" resultMap="TblDeviceFileResultMap" parameterType="list">
+        select
+        <include refid="table_field"/>
+        from tbl_device_file
+        where device_file_id in
+        <foreach item="item" collection="list" separator="," open="(" close=")" index="index">
+            #{item}
+        </foreach>
+    </select>
+
+    <!--新增实体属性不为null的列-->
+    <insert id="insert" keyProperty="deviceFileId" useGeneratedKeys="true"
+            parameterType="com.shmashine.common.entity.TblDeviceFile">
+        insert into tbl_device_file
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="deviceFileId != null">
+                device_file_id,
+            </if>
+            <if test="fileName != null">
+                file_name,
+            </if>
+            <if test="version != null">
+                version,
+            </if>
+            <if test="fileUrl != null">
+                file_url,
+            </if>
+            <if test="requestFileUrl != null">
+                request_file_url,
+            </if>
+            <if test="label != null">
+                label,
+            </if>
+            <if test="signature != null">
+                signature,
+            </if>
+            <if test="crc != null">
+                crc,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="modifyTime != null">
+                modify_time,
+            </if>
+            <if test="hWVersion != null">
+                hw_version,
+            </if>
+            <if test="createUserId != null">
+                create_user_id,
+            </if>
+            <if test="modifyUserId != null">
+                modify_user_id,
+            </if>
+            <if test="delFlag != null">
+                del_flag,
+            </if>
+            <if test="eType != null">
+                eType,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="deviceFileId != null">
+                #{deviceFileId,jdbcType=VARCHAR},
+            </if>
+            <if test="fileName != null">
+                #{fileName,jdbcType=VARCHAR},
+            </if>
+            <if test="version != null">
+                #{version,jdbcType=VARCHAR},
+            </if>
+            <if test="fileUrl != null">
+                #{fileUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="requestFileUrl != null">
+                #{requestFileUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="label != null">
+                #{label,jdbcType=VARCHAR},
+            </if>
+            <if test="signature != null">
+                #{signature,jdbcType=VARCHAR},
+            </if>
+            <if test="crc != null">
+                #{crc,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifyTime != null">
+                #{modifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="hWVersion != null">
+                #{hWVersion,jdbcType=VARCHAR},
+            </if>
+            <if test="createUserId != null">
+                #{createUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="modifyUserId != null">
+                #{modifyUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="delFlag != null">
+                #{delFlag,jdbcType=INTEGER},
+            </if>
+            <if test="eType != null">
+                #{eType, jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <!--批量新增所有列，列表长度不能为0-->
+    <insert id="insertBatch" keyProperty="deviceFileId" useGeneratedKeys="true" parameterType="list">
+        insert into tbl_device_file
+        (device_file_id,file_name, version, file_url, request_file_url, label, signature, crc, create_time, modify_time,
+        create_user_id, modify_user_id, del_flag, eType)
+        values
+        <foreach item="item" collection="list" separator="," open="" close="" index="index">
+            (#{deviceFileId,jdbcType=VARCHAR},#{item.fileName,jdbcType=VARCHAR}, #{item.version,jdbcType=VARCHAR},
+            #{item.fileUrl,jdbcType=VARCHAR}, #{item.requestFileUrl,jdbcType=VARCHAR}, #{item.label,jdbcType=VARCHAR},
+            #{item.signature,jdbcType=VARCHAR}, #{item.crc,jdbcType=VARCHAR}, #{item.createTime,jdbcType=TIMESTAMP},
+            #{item.modifyTime,jdbcType=TIMESTAMP}, #{item.createUserId,jdbcType=VARCHAR},
+            #{item.modifyUserId,jdbcType=VARCHAR}, #{item.delFlag,jdbcType=INTEGER}, #{item.eType, jdbcType=VARCHAR})
+        </foreach>
+    </insert>
+
+    <!--通过主键修改实体属性不为null的列-->
+    <update id="update" parameterType="com.shmashine.common.entity.TblDeviceFile">
+        update tbl_device_file
+        <set>
+            <if test="fileName != null and fileName != ''">
+                file_name = #{fileName,jdbcType=VARCHAR},
+            </if>
+            <if test="version != null and version != ''">
+                version = #{version,jdbcType=VARCHAR},
+            </if>
+            <if test="fileUrl != null and fileUrl != ''">
+                file_url = #{fileUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="requestFileUrl != null and requestFileUrl != ''">
+                request_file_url = #{requestFileUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="label != null and label != ''">
+                label = #{label,jdbcType=VARCHAR},
+            </if>
+            <if test="signature != null and signature != ''">
+                signature = #{signature,jdbcType=VARCHAR},
+            </if>
+            <if test="crc != null and crc != ''">
+                crc = #{crc,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifyTime != null">
+                modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createUserId != null and createUserId != ''">
+                create_user_id = #{createUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="modifyUserId != null and modifyUserId != ''">
+                modify_user_id = #{modifyUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="delFlag != null">
+                del_flag = #{delFlag,jdbcType=INTEGER},
+            </if>
+            <if test="eType != null">
+                eType = #{eType, jdbcType=VARCHAR},
+            </if>
+        </set>
+        where device_file_id = #{deviceFileId,jdbcType=VARCHAR}
+    </update>
+
+    <!--通过表字段修改实体属性不为null的列-->
+    <update id="updateByField">
+        update tbl_device_file
+        <set>
+            <if test="where.fileName == null and set.fileName != null and set.fileName != ''">
+                file_name = #{set.fileName,jdbcType=VARCHAR},
+            </if>
+            <if test="where.version == null and set.version != null and set.version != ''">
+                version = #{set.version,jdbcType=VARCHAR},
+            </if>
+            <if test="where.fileUrl == null and set.fileUrl != null and set.fileUrl != ''">
+                file_url = #{set.fileUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="where.requestFileUrl == null and set.requestFileUrl != null and set.requestFileUrl != ''">
+                request_file_url = #{set.requestFileUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="where.label == null and set.label != null and set.label != ''">
+                label = #{set.label,jdbcType=VARCHAR},
+            </if>
+            <if test="where.signature == null and set.signature != null and set.signature != ''">
+                signature = #{set.signature,jdbcType=VARCHAR},
+            </if>
+            <if test="where.crc == null and set.crc != null and set.crc != ''">
+                crc = #{set.crc,jdbcType=VARCHAR},
+            </if>
+            <if test="where.createTime == null and set.createTime != null">
+                create_time = #{set.createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="where.modifyTime == null and set.modifyTime != null">
+                modify_time = #{set.modifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="where.createUserId == null and set.createUserId != null and set.createUserId != ''">
+                create_user_id = #{set.createUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="where.modifyUserId == null and set.modifyUserId != null and set.modifyUserId != ''">
+                modify_user_id = #{set.modifyUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="where.delFlag == null and set.delFlag != null">
+                del_flag = #{set.delFlag,jdbcType=INTEGER},
+            </if>
+            <if test="where.eType != null">
+                eType = #{set.eType, jdbcType=VARCHAR},
+            </if>
+        </set>
+        <where>
+            <if test="where.deviceFileId != null">
+                and device_file_id = #{where.deviceFileId,jdbcType=VARCHAR}
+            </if>
+            <if test="where.fileName != null">
+                and file_name = #{where.fileName,jdbcType=VARCHAR}
+            </if>
+            <if test="where.version != null">
+                and version = #{where.version,jdbcType=VARCHAR}
+            </if>
+            <if test="where.fileUrl != null">
+                and file_url = #{where.fileUrl,jdbcType=VARCHAR}
+            </if>
+            <if test="where.requestFileUrl != null">
+                and request_file_url = #{where.requestFileUrl,jdbcType=VARCHAR}
+            </if>
+            <if test="where.label != null">
+                and label = #{where.label,jdbcType=VARCHAR}
+            </if>
+            <if test="where.signature != null">
+                and signature = #{where.signature,jdbcType=VARCHAR}
+            </if>
+            <if test="where.crc != null">
+                and crc = #{where.crc,jdbcType=VARCHAR}
+            </if>
+            <if test="where.createTime != null">
+                and create_time = #{where.createTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="where.modifyTime != null">
+                and modify_time = #{where.modifyTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="where.createUserId != null">
+                and create_user_id = #{where.createUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="where.modifyUserId != null">
+                and modify_user_id = #{where.modifyUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="where.delFlag != null">
+                and del_flag = #{where.delFlag,jdbcType=INTEGER}
+            </if>
+            <if test="where.eType != null">
+                eType = #{where.eType, jdbcType=VARCHAR}
+            </if>
+        </where>
+    </update>
+
+    <!--通过主键修改实体列表，列表长度不能为0，注意：当实体属性为null时，对应的列也会别更新为null-->
+    <update id="updateBatch" parameterType="list">
+        update tbl_device_file
+        <trim prefix="set" suffixOverrides=",">
+            <trim prefix="file_name = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when device_file_id = #{item.deviceFileId} then #{item.fileName}
+                </foreach>
+            </trim>
+            <trim prefix="version = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when device_file_id = #{item.deviceFileId} then #{item.version}
+                </foreach>
+            </trim>
+            <trim prefix="file_url = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when device_file_id = #{item.deviceFileId} then #{item.fileUrl}
+                </foreach>
+            </trim>
+            <trim prefix="request_file_url = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when device_file_id = #{item.deviceFileId} then #{item.requestFileUrl}
+                </foreach>
+            </trim>
+            <trim prefix="label = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when device_file_id = #{item.deviceFileId} then #{item.label}
+                </foreach>
+            </trim>
+            <trim prefix="signature = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when device_file_id = #{item.deviceFileId} then #{item.signature}
+                </foreach>
+            </trim>
+            <trim prefix="crc = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when device_file_id = #{item.deviceFileId} then #{item.crc}
+                </foreach>
+            </trim>
+            <trim prefix="create_time = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when device_file_id = #{item.deviceFileId} then #{item.createTime}
+                </foreach>
+            </trim>
+            <trim prefix="modify_time = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when device_file_id = #{item.deviceFileId} then #{item.modifyTime}
+                </foreach>
+            </trim>
+            <trim prefix="create_user_id = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when device_file_id = #{item.deviceFileId} then #{item.createUserId}
+                </foreach>
+            </trim>
+            <trim prefix="modify_user_id = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when device_file_id = #{item.deviceFileId} then #{item.modifyUserId}
+                </foreach>
+            </trim>
+            <trim prefix="del_flag = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when device_file_id = #{item.deviceFileId} then #{item.delFlag}
+                </foreach>
+            </trim>
+        </trim>
+        where device_file_id in
+        <foreach collection="list" index="index" item="item" separator="," open="(" close=")">
+            #{item.deviceFileId,jdbcType=VARCHAR}
+        </foreach>
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById" parameterType="java.lang.String">
+        delete
+        from tbl_device_file
+        where device_file_id = #{deviceFileId,jdbcType=VARCHAR}
+    </delete>
+
+    <!--通过实体非空属性删除-->
+    <delete id="deleteByEntity" parameterType="com.shmashine.common.entity.TblDeviceFile">
+        delete from tbl_device_file
+        <where>
+            <if test="fileName != null">
+                and file_name = #{fileName,jdbcType=VARCHAR}
+            </if>
+            <if test="version != null">
+                and version = #{version,jdbcType=VARCHAR}
+            </if>
+            <if test="fileUrl != null">
+                and file_url = #{fileUrl,jdbcType=VARCHAR}
+            </if>
+            <if test="requestFileUrl != null">
+                and request_file_url = #{requestFileUrl,jdbcType=VARCHAR}
+            </if>
+            <if test="label != null">
+                and label = #{label,jdbcType=VARCHAR}
+            </if>
+            <if test="signature != null">
+                and signature = #{signature,jdbcType=VARCHAR}
+            </if>
+            <if test="crc != null">
+                and crc = #{crc,jdbcType=VARCHAR}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="modifyTime != null">
+                and modify_time = #{modifyTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="createUserId != null">
+                and create_user_id = #{createUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="modifyUserId != null">
+                and modify_user_id = #{modifyUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="delFlag != null">
+                and del_flag = #{delFlag,jdbcType=INTEGER}
+            </if>
+        </where>
+    </delete>
+
+    <!--通过主键列表删除，列表长度不能为0-->
+    <delete id="deleteByIds" parameterType="list">
+        delete from tbl_device_file where device_file_id in
+        <foreach item="item" collection="list" separator="," open="(" close=")" index="index">
+            #{item}
+        </foreach>
+    </delete>
+
+    <select id="countAll" resultType="int">
+        select count(device_file_id)
+        from tbl_device_file
+    </select>
+
+    <select id="countByEntity" parameterType="com.shmashine.common.entity.TblDeviceFile" resultType="int">
+        select count(device_file_id) from tbl_device_file
+        <where>
+            <if test="deviceFileId != null">
+                and device_file_id = #{deviceFileId,jdbcType=VARCHAR}
+            </if>
+            <if test="fileName != null">
+                and file_name = #{fileName,jdbcType=VARCHAR}
+            </if>
+            <if test="version != null">
+                and version = #{version,jdbcType=VARCHAR}
+            </if>
+            <if test="fileUrl != null">
+                and file_url = #{fileUrl,jdbcType=VARCHAR}
+            </if>
+            <if test="requestFileUrl != null">
+                and request_file_url = #{requestFileUrl,jdbcType=VARCHAR}
+            </if>
+            <if test="label != null">
+                and label = #{label,jdbcType=VARCHAR}
+            </if>
+            <if test="signature != null">
+                and signature = #{signature,jdbcType=VARCHAR}
+            </if>
+            <if test="crc != null">
+                and crc = #{crc,jdbcType=VARCHAR}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="modifyTime != null">
+                and modify_time = #{modifyTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="createUserId != null">
+                and create_user_id = #{createUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="modifyUserId != null">
+                and modify_user_id = #{modifyUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="delFlag != null">
+                and del_flag = #{delFlag,jdbcType=INTEGER}
+            </if>
+        </where>
+    </select>
+
+
+    <select id="searchDeviceFileList" resultType="java.util.Map">
+        select
+        <include refid="table_field"/>
+        from tbl_device_file
+        <where>
+            <if test="deviceFileModule.hWVersion != null and deviceFileModule.hWVersion != ''">
+                and hw_version like concat('%', #{deviceFileModule.hWVersion,jdbcType=VARCHAR} ,'%')
+            </if>
+
+            <if test="deviceFileModule.hWVersion == null">
+                and hw_version is null
+            </if>
+
+            <if test="deviceFileModule.eType != null and deviceFileModule.eType.contains('201')">
+                and (eType = #{deviceFileModule.eType, jdbcType=VARCHAR} or eType is null)
+            </if>
+
+            <if test="deviceFileModule.eType != null and !deviceFileModule.eType.contains('201')">
+                and eType = #{deviceFileModule.eType, jdbcType=VARCHAR}
+            </if>
+            and del_flag = 0
+        </where>
+        order by create_time desc
+    </select>
+
+
+    <!--通过Id查询单个-->
+    <select id="getByDeviceFileName" resultMap="TblDeviceFileResultMap" parameterType="java.lang.String">
+        select
+        <include refid="table_field"/>
+        from tbl_device_file
+        where file_name = #{fileName,jdbcType=VARCHAR}
+    </select>
+
+    <!--设备升级文件信息修改或删除-->
+    <update id="modifyOrDeleteFileInformation" parameterType="com.shmashine.api.module.device.UploadFileModule">
+        update tbl_device_file
+        <set>
+            <if test="uploadFileModule.fileName != null and uploadFileModule.fileName != ''">
+                file_name = #{uploadFileModule.fileName,jdbcType=VARCHAR},
+            </if>
+            <if test="uploadFileModule.version != null and uploadFileModule.version != ''">
+                version = #{uploadFileModule.version,jdbcType=VARCHAR},
+            </if>
+            <if test="uploadFileModule.hWVersion != null and uploadFileModule.hWVersion != ''">
+                hw_version = #{uploadFileModule.hWVersion,jdbcType=VARCHAR},
+            </if>
+            <if test="uploadFileModule.label != null and uploadFileModule.label != ''">
+                label = #{uploadFileModule.label,jdbcType=VARCHAR},
+            </if>
+            <if test="uploadFileModule.signature != null and uploadFileModule.signature != ''">
+                signature = #{uploadFileModule.signature,jdbcType=VARCHAR},
+            </if>
+            <if test="uploadFileModule.delFlag != null and uploadFileModule.delFlag != ''">
+                del_flag = #{uploadFileModule.delFlag,jdbcType=INTEGER},
+            </if>
+            <if test="uploadFileModule.eType != null and uploadFileModule.eType != ''">
+                eType = #{uploadFileModule.eType, jdbcType=VARCHAR},
+            </if>
+        </set>
+        where device_file_id = #{uploadFileModule.deviceFileId,jdbcType=VARCHAR}
+    </update>
+
+    <select id="getHwVersions" resultType="String" parameterType="java.lang.String">
+        select distinct hw_version
+        from tbl_device_file
+        where eType = #{eType, jdbcType=VARCHAR}
+          and del_flag = 0
+    </select>
+</mapper>

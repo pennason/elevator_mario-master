@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.sender.dao.TblElevatorBrandMapper">
+    <sql id="TABLE_NAME">
+        tbl_elevator_brand
+    </sql>
+    <!-- 查询 -->
+
+    <select id="getByBrandId" resultType="com.shmashine.common.entity.TblElevatorBrand">
+        SELECT v_elevator_brand_id AS vElevatorBrandId, v_elevator_brand_name AS vElevatorBrandName, v_remarks AS
+        vRemarks
+        FROM
+        <include refid="TABLE_NAME"/>
+        WHERE v_elevator_brand_id = #{brandId} AND i_del_flag = 0
+    </select>
+</mapper>

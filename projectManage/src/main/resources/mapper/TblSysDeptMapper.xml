@@ -1,0 +1,675 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.pm.api.dao.TblSysDeptDao">
+
+    <resultMap type="com.shmashine.pm.api.entity.TblSysDept" id="TblSysDeptResultMap">
+        <result property="vDeptId" column="v_dept_id" jdbcType="VARCHAR"/>
+        <result property="vParentId" column="v_parent_id" jdbcType="VARCHAR"/>
+        <result property="iDeptTypeId" column="i_dept_type_id" jdbcType="INTEGER"/>
+        <result property="vDeptName" column="v_dept_name" jdbcType="VARCHAR"/>
+        <result property="iOrderNum" column="i_order_num" jdbcType="INTEGER"/>
+        <result property="iStatus" column="i_status" jdbcType="INTEGER"/>
+        <result property="vFax" column="v_fax" jdbcType="VARCHAR"/>
+        <result property="vMobilephone" column="v_mobilephone" jdbcType="VARCHAR"/>
+        <result property="vTell" column="v_tell" jdbcType="VARCHAR"/>
+        <result property="vProvinceId" column="v_province_id" jdbcType="INTEGER"/>
+        <result property="vAddress" column="v_address" jdbcType="VARCHAR"/>
+        <result property="vRemarks" column="v_remarks" jdbcType="VARCHAR"/>
+        <result property="vContacts" column="v_contacts" jdbcType="VARCHAR"/>
+        <result property="dtCreatetime" column="dt_createTime" jdbcType="TIMESTAMP"/>
+        <result property="dtModifytime" column="dt_modifyTime" jdbcType="TIMESTAMP"/>
+        <result property="vCreateid" column="v_createid" jdbcType="VARCHAR"/>
+        <result property="vModifyid" column="v_modifyid" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="table_field">
+        v_dept_id
+        , v_parent_id, i_dept_type_id, v_dept_name, i_order_num, i_status, v_fax, v_mobilephone, v_tell, v_province_id, v_address, v_remarks, v_contacts, dt_createTime, dt_modifyTime, v_createid, v_modifyid
+    </sql>
+
+    <!--通过Id查询单个-->
+    <select id="getById" resultMap="TblSysDeptResultMap" parameterType="java.lang.String">
+        select
+        <include refid="table_field"/>
+        from tbl_sys_dept
+        where v_dept_id = #{vDeptId,jdbcType=VARCHAR}
+    </select>
+
+
+    <!--通过实体不为空的属性作为筛选条件查询列表-->
+    <select id="listByEntity" resultMap="TblSysDeptResultMap" parameterType="com.shmashine.pm.api.entity.TblSysDept">
+        select
+        <include refid="table_field"/>
+        from tbl_sys_dept
+        <where>
+            <if test="vDeptId != null and vDeptId != ''">
+                and v_dept_id = #{vDeptId,jdbcType=VARCHAR}
+            </if>
+            <if test="vParentId != null and vParentId != ''">
+                and v_parent_id = #{vParentId,jdbcType=VARCHAR}
+            </if>
+            <if test="iDeptTypeId != null and iDeptTypeId != ''">
+                and i_dept_type_id = #{iDeptTypeId,jdbcType=INTEGER}
+            </if>
+            <if test="vDeptName != null and vDeptName != ''">
+                and v_dept_name = #{vDeptName,jdbcType=VARCHAR}
+            </if>
+            <if test="iOrderNum != null and iOrderNum != ''">
+                and i_order_num = #{iOrderNum,jdbcType=INTEGER}
+            </if>
+            <if test="iStatus != null and iStatus != ''">
+                and i_status = #{iStatus,jdbcType=INTEGER}
+            </if>
+            <if test="vFax != null and vFax != ''">
+                and v_fax = #{vFax,jdbcType=VARCHAR}
+            </if>
+            <if test="vMobilephone != null and vMobilephone != ''">
+                and v_mobilephone = #{vMobilephone,jdbcType=VARCHAR}
+            </if>
+            <if test="vTell != null and vTell != ''">
+                and v_tell = #{vTell,jdbcType=VARCHAR}
+            </if>
+            <if test="vProvinceId != null and vProvinceId != ''">
+                and v_province_id = #{vProvinceId,jdbcType=INTEGER}
+            </if>
+            <if test="vAddress != null and vAddress != ''">
+                and v_address = #{vAddress,jdbcType=VARCHAR}
+            </if>
+            <if test="vRemarks != null and vRemarks != ''">
+                and v_remarks = #{vRemarks,jdbcType=VARCHAR}
+            </if>
+            <if test="dtCreatetime != null and dtCreatetime != ''">
+                and dt_createTime = #{dtCreatetime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="dtModifytime != null and dtModifytime != ''">
+                and dt_modifyTime = #{dtModifytime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="vCreateid != null and vCreateid != ''">
+                and v_createid = #{vCreateid,jdbcType=VARCHAR}
+            </if>
+            <if test="vModifyid != null and vModifyid != ''">
+                and v_modifyid = #{vModifyid,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+    <!--通过实体不为空的属性作为筛选条件查询单个-->
+    <select id="getByEntity" resultMap="TblSysDeptResultMap" parameterType="com.shmashine.pm.api.entity.TblSysDept">
+        select
+        <include refid="table_field"/>
+        from tbl_sys_dept
+        <where>
+            <if test="vDeptId != null and vDeptId != ''">
+                and v_dept_id = #{vDeptId,jdbcType=VARCHAR}
+            </if>
+            <if test="vParentId != null and vParentId != ''">
+                and v_parent_id = #{vParentId,jdbcType=VARCHAR}
+            </if>
+            <if test="iDeptTypeId != null and iDeptTypeId != ''">
+                and i_dept_type_id = #{iDeptTypeId,jdbcType=INTEGER}
+            </if>
+            <if test="vDeptName != null and vDeptName != ''">
+                and v_dept_name = #{vDeptName,jdbcType=VARCHAR}
+            </if>
+            <if test="iOrderNum != null and iOrderNum != ''">
+                and i_order_num = #{iOrderNum,jdbcType=INTEGER}
+            </if>
+            <if test="iStatus != null and iStatus != ''">
+                and i_status = #{iStatus,jdbcType=INTEGER}
+            </if>
+            <if test="vFax != null and vFax != ''">
+                and v_fax = #{vFax,jdbcType=VARCHAR}
+            </if>
+            <if test="vMobilephone != null and vMobilephone != ''">
+                and v_mobilephone = #{vMobilephone,jdbcType=VARCHAR}
+            </if>
+            <if test="vTell != null and vTell != ''">
+                and v_tell = #{vTell,jdbcType=VARCHAR}
+            </if>
+            <if test="vProvinceId != null and vProvinceId != ''">
+                and v_province_id = #{vProvinceId,jdbcType=INTEGER}
+            </if>
+            <if test="vAddress != null and vAddress != ''">
+                and v_address = #{vAddress,jdbcType=VARCHAR}
+            </if>
+            <if test="vRemarks != null and vRemarks != ''">
+                and v_remarks = #{vRemarks,jdbcType=VARCHAR}
+            </if>
+            <if test="dtCreatetime != null and dtCreatetime != ''">
+                and dt_createTime = #{dtCreatetime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="dtModifytime != null and dtModifytime != ''">
+                and dt_modifyTime = #{dtModifytime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="vCreateid != null and vCreateid != ''">
+                and v_createid = #{vCreateid,jdbcType=VARCHAR}
+            </if>
+            <if test="vModifyid != null and vModifyid != ''">
+                and v_modifyid = #{vModifyid,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+    <!--通过Id列表作为筛选条件查询列表，列表长度不为0-->
+    <select id="listByIds" resultMap="TblSysDeptResultMap" parameterType="list">
+        select
+        <include refid="table_field"/>
+        from tbl_sys_dept
+        where v_dept_id in
+        <foreach item="item" collection="list" separator="," open="(" close=")" index="index">
+            #{item}
+        </foreach>
+    </select>
+
+    <!--新增实体属性不为null的列-->
+    <insert id="insert" keyProperty="vDeptId" useGeneratedKeys="true"
+            parameterType="com.shmashine.pm.api.entity.TblSysDept">
+        insert into tbl_sys_dept
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="vDeptId != null">
+                v_dept_id,
+            </if>
+            <if test="vParentId != null">
+                v_parent_id,
+            </if>
+            <if test="iDeptTypeId != null">
+                i_dept_type_id,
+            </if>
+            <if test="vDeptName != null">
+                v_dept_name,
+            </if>
+            <if test="iOrderNum != null">
+                i_order_num,
+            </if>
+            <if test="iStatus != null">
+                i_status,
+            </if>
+            <if test="vFax != null">
+                v_fax,
+            </if>
+            <if test="vMobilephone != null">
+                v_mobilephone,
+            </if>
+            <if test="vTell != null">
+                v_tell,
+            </if>
+            <if test="vProvinceId != null">
+                v_province_id,
+            </if>
+            <if test="vAddress != null">
+                v_address,
+            </if>
+            <if test="vRemarks != null">
+                v_remarks,
+            </if>
+            <if test="vContacts != null">
+                v_contacts,
+            </if>
+            <if test="dtCreatetime != null">
+                dt_createTime,
+            </if>
+            <if test="dtModifytime != null">
+                dt_modifyTime,
+            </if>
+            <if test="vCreateid != null">
+                v_createid,
+            </if>
+            <if test="vModifyid != null">
+                v_modifyid,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="vDeptId != null">
+                #{vDeptId,jdbcType=VARCHAR},
+            </if>
+            <if test="vParentId != null">
+                #{vParentId,jdbcType=VARCHAR},
+            </if>
+            <if test="iDeptTypeId != null">
+                #{iDeptTypeId,jdbcType=INTEGER},
+            </if>
+            <if test="vDeptName != null">
+                #{vDeptName,jdbcType=VARCHAR},
+            </if>
+            <if test="iOrderNum != null">
+                #{iOrderNum,jdbcType=INTEGER},
+            </if>
+            <if test="iStatus != null">
+                #{iStatus,jdbcType=INTEGER},
+            </if>
+            <if test="vFax != null">
+                #{vFax,jdbcType=VARCHAR},
+            </if>
+            <if test="vMobilephone != null">
+                #{vMobilephone,jdbcType=VARCHAR},
+            </if>
+            <if test="vTell != null">
+                #{vTell,jdbcType=VARCHAR},
+            </if>
+            <if test="vProvinceId != null">
+                #{vProvinceId,jdbcType=INTEGER},
+            </if>
+            <if test="vAddress != null">
+                #{vAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="vRemarks != null">
+                #{vRemarks,jdbcType=VARCHAR},
+            </if>
+            <if test="vContacts != null">
+                #{vContacts,jdbcType=VARCHAR},
+            </if>
+            <if test="dtCreatetime != null">
+                #{dtCreatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="dtModifytime != null">
+                #{dtModifytime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="vCreateid != null">
+                #{vCreateid,jdbcType=VARCHAR},
+            </if>
+            <if test="vModifyid != null">
+                #{vModifyid,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <!--批量新增所有列，列表长度不能为0，且列表id统一为null或者统一不为null-->
+    <insert id="insertBatch" keyProperty="vDeptId" useGeneratedKeys="true" parameterType="list">
+        insert into tbl_sys_dept
+        (<if test="vDeptId != null">v_dept_id,</if>v_parent_id, i_dept_type_id, v_dept_name, i_order_num, i_status,
+        v_fax, v_mobilephone, v_tell, v_province_id, v_address, v_remarks, v_contacts, dt_createTime, dt_modifyTime,
+        v_createid,
+        v_modifyid)
+        values
+        <foreach item="item" collection="list" separator="," open="" close="" index="index">
+            (<if test="vDeptId != null">#{vDeptId,jdbcType=VARCHAR},</if>#{vParentId,jdbcType=VARCHAR},
+            #{iDeptTypeId,jdbcType=INTEGER}, #{vDeptName,jdbcType=VARCHAR}, #{iOrderNum,jdbcType=INTEGER},
+            #{iStatus,jdbcType=INTEGER}, #{vFax,jdbcType=VARCHAR}, #{vMobilephone,jdbcType=VARCHAR},
+            #{vTell,jdbcType=VARCHAR}, #{vProvinceId,jdbcType=INTEGER}, #{vAddress,jdbcType=VARCHAR},
+            #{vRemarks,jdbcType=VARCHAR}, #{vContacts, jdbcType=VARCHAR}, #{dtCreatetime,jdbcType=TIMESTAMP},
+            #{dtModifytime,jdbcType=TIMESTAMP},
+            #{vCreateid,jdbcType=VARCHAR}, #{vModifyid,jdbcType=VARCHAR})
+        </foreach>
+    </insert>
+
+    <!--通过主键修改实体属性不为null的列-->
+    <update id="update" parameterType="com.shmashine.pm.api.entity.TblSysDept">
+        update tbl_sys_dept
+        <set>
+            <if test="vParentId != null and vParentId != ''">
+                v_parent_id = #{vParentId,jdbcType=VARCHAR},
+            </if>
+            <if test="iDeptTypeId != null">
+                i_dept_type_id = #{iDeptTypeId,jdbcType=INTEGER},
+            </if>
+            <if test="vDeptName != null and vDeptName != ''">
+                v_dept_name = #{vDeptName,jdbcType=VARCHAR},
+            </if>
+            <if test="iOrderNum != null">
+                i_order_num = #{iOrderNum,jdbcType=INTEGER},
+            </if>
+            <if test="iStatus != null">
+                i_status = #{iStatus,jdbcType=INTEGER},
+            </if>
+            <if test="vFax != null and vFax != ''">
+                v_fax = #{vFax,jdbcType=VARCHAR},
+            </if>
+            <if test="vMobilephone != null and vMobilephone != ''">
+                v_mobilephone = #{vMobilephone,jdbcType=VARCHAR},
+            </if>
+            <if test="vTell != null and vTell != ''">
+                v_tell = #{vTell,jdbcType=VARCHAR},
+            </if>
+            <if test="vProvinceId != null">
+                v_province_id = #{vProvinceId,jdbcType=INTEGER},
+            </if>
+            <if test="vAddress != null">
+                v_address = #{vAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="vRemarks != null">
+                v_remarks = #{vRemarks,jdbcType=VARCHAR},
+            </if>
+
+            <if test="vContacts != null and vContacts != ''">
+                v_contacts = #{vContacts,jdbcType=VARCHAR},
+            </if>
+            <if test="dtCreatetime != null">
+                dt_createTime = #{dtCreatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="dtModifytime != null">
+                dt_modifyTime = #{dtModifytime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="vCreateid != null and vCreateid != ''">
+                v_createid = #{vCreateid,jdbcType=VARCHAR},
+            </if>
+            <if test="vModifyid != null and vModifyid != ''">
+                v_modifyid = #{vModifyid,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where v_dept_id = #{vDeptId,jdbcType=VARCHAR}
+    </update>
+
+    <!--通过表字段修改实体属性不为null的列-->
+    <update id="updateByField">
+        update tbl_sys_dept
+        <set>
+            <if test="where.vParentId == null and set.vParentId != null and set.vParentId != ''">
+                v_parent_id = #{set.vParentId,jdbcType=VARCHAR},
+            </if>
+            <if test="where.iDeptTypeId == null and set.iDeptTypeId != null">
+                i_dept_type_id = #{set.iDeptTypeId,jdbcType=INTEGER},
+            </if>
+            <if test="where.vDeptName == null and set.vDeptName != null and set.vDeptName != ''">
+                v_dept_name = #{set.vDeptName,jdbcType=VARCHAR},
+            </if>
+            <if test="where.iOrderNum == null and set.iOrderNum != null">
+                i_order_num = #{set.iOrderNum,jdbcType=INTEGER},
+            </if>
+            <if test="where.iStatus == null and set.iStatus != null">
+                i_status = #{set.iStatus,jdbcType=INTEGER},
+            </if>
+            <if test="where.vFax == null and set.vFax != null and set.vFax != ''">
+                v_fax = #{set.vFax,jdbcType=VARCHAR},
+            </if>
+            <if test="where.vMobilephone == null and set.vMobilephone != null and set.vMobilephone != ''">
+                v_mobilephone = #{set.vMobilephone,jdbcType=VARCHAR},
+            </if>
+            <if test="where.vTell == null and set.vTell != null and set.vTell != ''">
+                v_tell = #{set.vTell,jdbcType=VARCHAR},
+            </if>
+            <if test="where.vProvinceId == null and set.vProvinceId != null">
+                v_province_id = #{set.vProvinceId,jdbcType=INTEGER},
+            </if>
+            <if test="where.vAddress == null and set.vAddress != null and set.vAddress != ''">
+                v_address = #{set.vAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="where.vRemarks == null and set.vRemarks != null and set.vRemarks != ''">
+                v_remarks = #{set.vRemarks,jdbcType=VARCHAR},
+            </if>
+            <if test="where.vContacts == null and set.vContacts != null and set.vContacts != ''">
+                v_contacts = #{set.vContacts,jdbcType=VARCHAR},
+            </if>
+            <if test="where.dtCreatetime == null and set.dtCreatetime != null">
+                dt_createTime = #{set.dtCreatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="where.dtModifytime == null and set.dtModifytime != null">
+                dt_modifyTime = #{set.dtModifytime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="where.vCreateid == null and set.vCreateid != null and set.vCreateid != ''">
+                v_createid = #{set.vCreateid,jdbcType=VARCHAR},
+            </if>
+            <if test="where.vModifyid == null and set.vModifyid != null and set.vModifyid != ''">
+                v_modifyid = #{set.vModifyid,jdbcType=VARCHAR},
+            </if>
+        </set>
+        <where>
+            <if test="where.vDeptId != null">
+                and v_dept_id = #{where.vDeptId,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vParentId != null">
+                and v_parent_id = #{where.vParentId,jdbcType=VARCHAR}
+            </if>
+            <if test="where.iDeptTypeId != null">
+                and i_dept_type_id = #{where.iDeptTypeId,jdbcType=INTEGER}
+            </if>
+            <if test="where.vDeptName != null">
+                and v_dept_name = #{where.vDeptName,jdbcType=VARCHAR}
+            </if>
+            <if test="where.iOrderNum != null">
+                and i_order_num = #{where.iOrderNum,jdbcType=INTEGER}
+            </if>
+            <if test="where.iStatus != null">
+                and i_status = #{where.iStatus,jdbcType=INTEGER}
+            </if>
+            <if test="where.vFax != null">
+                and v_fax = #{where.vFax,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vMobilephone != null">
+                and v_mobilephone = #{where.vMobilephone,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vTell != null">
+                and v_tell = #{where.vTell,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vProvinceId != null">
+                and v_province_id = #{where.vProvinceId,jdbcType=INTEGER}
+            </if>
+            <if test="where.vAddress != null">
+                and v_address = #{where.vAddress,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vRemarks != null">
+                and v_remarks = #{where.vRemarks,jdbcType=VARCHAR}
+            </if>
+            <if test="where.dtCreatetime != null">
+                and dt_createTime = #{where.dtCreatetime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="where.dtModifytime != null">
+                and dt_modifyTime = #{where.dtModifytime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="where.vCreateid != null">
+                and v_createid = #{where.vCreateid,jdbcType=VARCHAR}
+            </if>
+            <if test="where.vModifyid != null">
+                and v_modifyid = #{where.vModifyid,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </update>
+
+    <!--通过主键修改实体列表，列表长度不能为0，注意：当实体属性为null时，对应的列也会别更新为null-->
+    <update id="updateBatch" parameterType="list">
+        update tbl_sys_dept
+        <trim prefix="set" suffixOverrides=",">
+            <trim prefix="v_parent_id = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_dept_id = #{item.vDeptId} then #{item.vParentId}
+                </foreach>
+            </trim>
+            <trim prefix="i_dept_type_id = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_dept_id = #{item.vDeptId} then #{item.iDeptTypeId}
+                </foreach>
+            </trim>
+            <trim prefix="v_dept_name = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_dept_id = #{item.vDeptId} then #{item.vDeptName}
+                </foreach>
+            </trim>
+            <trim prefix="i_order_num = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_dept_id = #{item.vDeptId} then #{item.iOrderNum}
+                </foreach>
+            </trim>
+            <trim prefix="i_status = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_dept_id = #{item.vDeptId} then #{item.iStatus}
+                </foreach>
+            </trim>
+            <trim prefix="v_fax = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    <if test="item.vDeptId != null and item.vDeptId != ''">
+                        when v_dept_id = #{item.vDeptId} then #{item.vFax}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="v_mobilephone = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_dept_id = #{item.vDeptId} then #{item.vMobilephone}
+                </foreach>
+            </trim>
+            <trim prefix="v_tell = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_dept_id = #{item.vDeptId} then #{item.vTell}
+                </foreach>
+            </trim>
+            <trim prefix="v_province_id = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_dept_id = #{item.vDeptId} then #{item.vProvinceId}
+                </foreach>
+            </trim>
+            <trim prefix="v_address = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_dept_id = #{item.vDeptId} then #{item.vAddress}
+                </foreach>
+            </trim>
+            <trim prefix="v_remarks = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_dept_id = #{item.vDeptId} then #{item.vRemarks}
+                </foreach>
+            </trim>
+            <trim prefix="v_contacts = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_dept_id = #{item.vDeptId} then #{item.vContacts}
+                </foreach>
+            </trim>
+            <trim prefix="dt_createTime = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_dept_id = #{item.vDeptId} then #{item.dtCreatetime}
+                </foreach>
+            </trim>
+            <trim prefix="dt_modifyTime = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_dept_id = #{item.vDeptId} then #{item.dtModifytime}
+                </foreach>
+            </trim>
+            <trim prefix="v_createid = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_dept_id = #{item.vDeptId} then #{item.vCreateid}
+                </foreach>
+            </trim>
+            <trim prefix="v_modifyid = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when v_dept_id = #{item.vDeptId} then #{item.vModifyid}
+                </foreach>
+            </trim>
+        </trim>
+        where v_dept_id in
+        <foreach collection="list" index="index" item="item" separator="," open="(" close=")">
+            #{item.vDeptId,jdbcType=VARCHAR}
+        </foreach>
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById" parameterType="java.lang.String">
+        delete
+        from tbl_sys_dept
+        where v_dept_id = #{vDeptId,jdbcType=VARCHAR}
+    </delete>
+
+    <!--通过实体非空属性删除-->
+    <delete id="deleteByEntity" parameterType="com.shmashine.pm.api.entity.TblSysDept">
+        delete from tbl_sys_dept
+        <where>
+            <if test="vParentId != null">
+                and v_parent_id = #{vParentId,jdbcType=VARCHAR}
+            </if>
+            <if test="iDeptTypeId != null">
+                and i_dept_type_id = #{iDeptTypeId,jdbcType=INTEGER}
+            </if>
+            <if test="vDeptName != null">
+                and v_dept_name = #{vDeptName,jdbcType=VARCHAR}
+            </if>
+            <if test="iOrderNum != null">
+                and i_order_num = #{iOrderNum,jdbcType=INTEGER}
+            </if>
+            <if test="iStatus != null">
+                and i_status = #{iStatus,jdbcType=INTEGER}
+            </if>
+            <if test="vFax != null">
+                and v_fax = #{vFax,jdbcType=VARCHAR}
+            </if>
+            <if test="vMobilephone != null">
+                and v_mobilephone = #{vMobilephone,jdbcType=VARCHAR}
+            </if>
+            <if test="vTell != null">
+                and v_tell = #{vTell,jdbcType=VARCHAR}
+            </if>
+            <if test="vProvinceId != null">
+                and v_province_id = #{vProvinceId,jdbcType=INTEGER}
+            </if>
+            <if test="vAddress != null">
+                and v_address = #{vAddress,jdbcType=VARCHAR}
+            </if>
+            <if test="vRemarks != null">
+                and v_remarks = #{vRemarks,jdbcType=VARCHAR}
+            </if>
+            <if test="dtCreatetime != null">
+                and dt_createTime = #{dtCreatetime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="dtModifytime != null">
+                and dt_modifyTime = #{dtModifytime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="vCreateid != null">
+                and v_createid = #{vCreateid,jdbcType=VARCHAR}
+            </if>
+            <if test="vModifyid != null">
+                and v_modifyid = #{vModifyid,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </delete>
+
+    <!--通过主键列表删除，列表长度不能为0-->
+    <delete id="deleteByIds" parameterType="list">
+        delete from tbl_sys_dept where v_dept_id in
+        <foreach item="item" collection="list" separator="," open="(" close=")" index="index">
+            #{item}
+        </foreach>
+    </delete>
+
+    <select id="countAll" resultType="int">
+        select count(v_dept_id)
+        from tbl_sys_dept
+    </select>
+
+    <select id="countByEntity" parameterType="com.shmashine.pm.api.entity.TblSysDept" resultType="int">
+        select count(v_dept_id) from tbl_sys_dept
+        <where>
+            <if test="vDeptId != null">
+                and v_dept_id = #{vDeptId,jdbcType=VARCHAR}
+            </if>
+            <if test="vParentId != null">
+                and v_parent_id = #{vParentId,jdbcType=VARCHAR}
+            </if>
+            <if test="iDeptTypeId != null">
+                and i_dept_type_id = #{iDeptTypeId,jdbcType=INTEGER}
+            </if>
+            <if test="vDeptName != null">
+                and v_dept_name = #{vDeptName,jdbcType=VARCHAR}
+            </if>
+            <if test="iOrderNum != null">
+                and i_order_num = #{iOrderNum,jdbcType=INTEGER}
+            </if>
+            <if test="iStatus != null">
+                and i_status = #{iStatus,jdbcType=INTEGER}
+            </if>
+            <if test="vFax != null">
+                and v_fax = #{vFax,jdbcType=VARCHAR}
+            </if>
+            <if test="vMobilephone != null">
+                and v_mobilephone = #{vMobilephone,jdbcType=VARCHAR}
+            </if>
+            <if test="vTell != null">
+                and v_tell = #{vTell,jdbcType=VARCHAR}
+            </if>
+            <if test="vProvinceId != null">
+                and v_province_id = #{vProvinceId,jdbcType=INTEGER}
+            </if>
+            <if test="vAddress != null">
+                and v_address = #{vAddress,jdbcType=VARCHAR}
+            </if>
+            <if test="vRemarks != null">
+                and v_remarks = #{vRemarks,jdbcType=VARCHAR}
+            </if>
+            <if test="dtCreatetime != null">
+                and dt_createTime = #{dtCreatetime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="dtModifytime != null">
+                and dt_modifyTime = #{dtModifytime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="vCreateid != null">
+                and v_createid = #{vCreateid,jdbcType=VARCHAR}
+            </if>
+            <if test="vModifyid != null">
+                and v_modifyid = #{vModifyid,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+</mapper>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shmashine.api.dao.BizDataAccountDao">
+
+    <sql id="table_field">
+        v_data_account_id
+        , v_account_name, v_account_code, v_push_url, i_delay_duration, dt_create_time, dt_modify_time, v_create_user_id, v_modify_user_id, i_del_flag
+    </sql>
+
+    <select id="search" resultType="java.util.Map">
+        select
+        <include refid="table_field"/>
+        from
+        tbl_data_account as tbl
+        <where>
+            i_del_flag = 0
+            <if test="vAccountName != null and vAccountName=''">
+                and tbl.v_account_name like concat("%", #{vAccountName,jdbcType=VARCHAR}, "%")
+            </if>
+            <if test="vAccountCode != null and vAccountCode=''">
+                and tbl.v_account_code like concat("%", #{vAccountCode,jdbcType=VARCHAR}, "%")
+            </if>
+        </where>
+    </select>
+</mapper>

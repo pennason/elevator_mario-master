@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.sender.dao.TblCameraDownloadTaskMapper">
+
+    <sql id="TABLE_NAME">
+        tbl_camera_download_task
+    </sql>
+    <sql id="BASE_COLUMNS">
+        elevator_code
+        , task_type, task_custom_id, media_type, camera_type, cloud_number, task_custom_type, collect_time, start_time,
+        end_time, floor, file_status, cloud_task_id, extend_info
+    </sql>
+    <sql id="ALL_COLUMNS">
+        <include refid="BASE_COLUMNS"/>,
+        id, request_failed_count, upload_failed_count, return_code, err_message, source_url, oss_url, create_time,
+        modify_time
+    </sql>
+    <sql id="SET_COLUMNS">
+        <if test="entity.mediaType != null and entity.mediaType != ''">media_type = #{entity.mediaType},</if>
+        <if test="entity.cameraType != null">camera_type = #{entity.cameraType},</if>
+        <if test="entity.cloudNumber != null and entity.cloudNumber != ''">cloud_number = #{entity.cloudNumber},</if>
+        <if test="entity.taskCustomType != null">task_custom_type = #{entity.taskCustomType},</if>
+        <if test="entity.collectTime != null and entity.collectTime != ''">collect_time = #{entity.collectTime},</if>
+        <if test="entity.startTime != null and entity.startTime != ''">start_time = #{entity.startTime},</if>
+        <if test="entity.endTime != null and entity.endTime != ''">end_time = #{entity.endTime},</if>
+        <if test="entity.floor != null and entity.floor != ''">floor = #{entity.floor},</if>
+        <if test="entity.fileStatus != null">file_status = #{entity.fileStatus},</if>
+        <if test="entity.cloudTaskId != null and entity.cloudTaskId != ''">cloud_task_id = #{entity.cloudTaskId},</if>
+        <if test="entity.requestFailedCount != null">request_failed_count = #{entity.requestFailedCount},</if>
+        <if test="entity.uploadFailedCount != null">upload_failed_count = #{entity.uploadFailedCount},</if>
+        <if test="entity.returnCode != null">return_code = #{entity.returnCode},</if>
+        <if test="entity.errMessage != null and entity.errMessage != ''">err_message = #{entity.errMessage},</if>
+        <if test="entity.sourceUrl != null and entity.sourceUrl != ''">source_url = #{entity.sourceUrl},</if>
+        <if test="entity.ossUrl != null and entity.ossUrl != ''">oss_url = #{entity.ossUrl},</if>
+        <if test="entity.extendInfo != null and entity.extendInfo != ''">extend_info = #{entity.extendInfo},</if>
+    </sql>
+
+    <!-- 查询 -->
+    <select id="listByTaskCustomId" resultType="com.shmashine.common.entity.TblCameraDownloadTaskEntity">
+        select
+        <include refid="ALL_COLUMNS"/>
+        from
+        <include refid="TABLE_NAME"/>
+        where task_custom_id = #{taskCustomId}
+    </select>
+
+    <select id="listSuccessesByTaskCustomId" resultType="com.shmashine.common.entity.TblCameraDownloadTaskEntity">
+        select
+        <include refid="ALL_COLUMNS"/>
+        from
+        <include refid="TABLE_NAME"/>
+        where task_custom_id = #{taskCustomId}
+        AND file_status = 1 AND oss_url IS NOT NULL
+    </select>
+</mapper>

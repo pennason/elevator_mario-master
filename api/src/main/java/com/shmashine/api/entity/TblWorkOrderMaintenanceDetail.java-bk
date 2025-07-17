@@ -1,0 +1,145 @@
+package com.shmashine.api.entity;
+
+import java.io.Serializable;
+import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+/**
+ * 维保详情记录表(TblWorkOrderMaintenanceDetail)实体类
+ *
+ * @author little.li
+ * @since 2020-07-13 15:33:15
+ */
+public class TblWorkOrderMaintenanceDetail implements Serializable {
+
+    private static final long serialVersionUID = 521071484863486982L;
+
+
+    private String vWorkOrderMaintenanceDetailId;
+    /**
+     * 工单id
+     */
+    private String vWorkOrderId;
+    /**
+     * 工单详情id
+     */
+    private String vWorkOrderDetailId;
+    /**
+     * 维保项id
+     */
+    private String vMaintenanceDefinitionId;
+    /**
+     * 维保结果 0：未维保，1：已维保
+     */
+    private Integer iResult;
+    /**
+     * 历史维保记录标记 0 当前维保记录，1 历史维保记录
+     */
+    private Integer iHistoryDetailFlag;
+    private Date dtCreateTime;
+    private Date dtModifyTime;
+    private String vCreateUserId;
+    private String vModifyUserId;
+    private Integer iDelFlag;
+
+    @JsonProperty("vWorkOrderMaintenanceDetailId")
+    public String getVWorkOrderMaintenanceDetailId() {
+        return vWorkOrderMaintenanceDetailId;
+    }
+
+    public void setVWorkOrderMaintenanceDetailId(String vWorkOrderMaintenanceDetailId) {
+        this.vWorkOrderMaintenanceDetailId = vWorkOrderMaintenanceDetailId;
+    }
+
+    @JsonProperty("vWorkOrderId")
+    public String getVWorkOrderId() {
+        return vWorkOrderId;
+    }
+
+    public void setVWorkOrderId(String vWorkOrderId) {
+        this.vWorkOrderId = vWorkOrderId;
+    }
+
+    @JsonProperty("vWorkOrderDetailId")
+    public String getVWorkOrderDetailId() {
+        return vWorkOrderDetailId;
+    }
+
+    public void setVWorkOrderDetailId(String vWorkOrderDetailId) {
+        this.vWorkOrderDetailId = vWorkOrderDetailId;
+    }
+
+    @JsonProperty("vMaintenanceDefinitionId")
+    public String getVMaintenanceDefinitionId() {
+        return vMaintenanceDefinitionId;
+    }
+
+    public void setVMaintenanceDefinitionId(String vMaintenanceDefinitionId) {
+        this.vMaintenanceDefinitionId = vMaintenanceDefinitionId;
+    }
+
+    @JsonProperty("iResult")
+    public Integer getIResult() {
+        return iResult;
+    }
+
+    public void setIResult(Integer iResult) {
+        this.iResult = iResult;
+    }
+
+    @JsonProperty("iHistoryDetailFlag")
+    public Integer getIHistoryDetailFlag() {
+        return iHistoryDetailFlag;
+    }
+
+    public void setIHistoryDetailFlag(Integer iHistoryDetailFlag) {
+        this.iHistoryDetailFlag = iHistoryDetailFlag;
+    }
+
+    @JsonProperty("dtCreateTime")
+    public Date getDtCreateTime() {
+        return dtCreateTime;
+    }
+
+    public void setDtCreateTime(Date dtCreateTime) {
+        this.dtCreateTime = dtCreateTime;
+    }
+
+    @JsonProperty("dtModifyTime")
+    public Date getDtModifyTime() {
+        return dtModifyTime;
+    }
+
+    public void setDtModifyTime(Date dtModifyTime) {
+        this.dtModifyTime = dtModifyTime;
+    }
+
+    @JsonProperty("vCreateUserId")
+    public String getVCreateUserId() {
+        return vCreateUserId;
+    }
+
+    public void setVCreateUserId(String vCreateUserId) {
+        this.vCreateUserId = vCreateUserId;
+    }
+
+    @JsonProperty("vModifyUserId")
+    public String getVModifyUserId() {
+        return vModifyUserId;
+    }
+
+    public void setVModifyUserId(String vModifyUserId) {
+        this.vModifyUserId = vModifyUserId;
+    }
+
+    @JsonProperty("iDelFlag")
+    public Integer getIDelFlag() {
+        return iDelFlag;
+    }
+
+    public void setIDelFlag(Integer iDelFlag) {
+        this.iDelFlag = iDelFlag;
+    }
+
+}

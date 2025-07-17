@@ -1,0 +1,276 @@
+package com.shmashine.hikYunMou.utils;
+
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+
+import java.io.*;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.security.GeneralSecurityException;
+import java.security.SecureRandom;
+import java.security.cert.X509Certificate;
+import java.util.UUID;
+
+public class FileUtil {
+
+    /**
+     * 文件上传
+     *
+     * @param file
+     * @param filePath
+     * @param fileName
+     * @throws Exception
+     */
+    public static void uploadFile(byte[] file, String filePath, String fileName) throws Exception {
+        File targetFile = new File(filePath);
+        if (!targetFile.exists()) {
+            targetFile.mkdirs();
+        }
+        FileOutputStream out = new FileOutputStream(filePath + fileName);
+        out.write(file);
+        out.flush();
+        out.close();
+    }
+
+    /**
+     * 文件转存到本地
+     *
+     * @param fileUrl  资源路径
+     * @param filePath 本地存储路径
+     * @param fileName 文件名
+     * @return
+     * @throws Exception
+     */
+    public static String downloadFile2LocalByUrl(String fileUrl, String filePath, String fileName) throws Exception {
+        byte[] bytesByFile = getBytesByRemotePath(fileUrl);
+        uploadFile(bytesByFile, filePath, fileName);
+        return filePath + fileName;
+    }
+
+    /**
+     * web端文件下载
+     *
+     * @param url
+     * @param fileName
+     * @param response
+     * @return
+     */
+    public static File downloadFile(String url, String fileName, HttpServletResponse response) {
+        File scFileDir = new File(url);
+        File TrxFiles[] = scFileDir.listFiles();
+        String path = url + fileName;
+        for (int i = 0; i < TrxFiles.length; i++) {
+            String trxFile = TrxFiles[i].getName();
+            // 如果文件名不为空，则进行下载
+            if (trxFile.equals(fileName)) {
+                File file = new File(path);
+                // 如果文件名存在，则进行下载
+                if (file.exists()) {
+                    // 配置文件下载
+                    response.setHeader("content-type", "application/octet-stream");
+                    response.setContentType("application/octet-stream");
+                    // 下载文件能正常显示中文
+                    try {
+                        response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(fileName, "UTF-8"));
+                    } catch (UnsupportedEncodingException e1) {
+                        // TODO Auto-generated catch block
+                        e1.printStackTrace();
+                    }
+                    // 实现文件下载
+                    try {
+                        FileInputStream fis = new FileInputStream(path);
+                        byte[] content = new byte[fis.available()];
+                        fis.read(content);
+                        fis.close();
+                        ServletOutputStream sos = response.getOutputStream();
+                        sos.write(content);
+                        sos.flush();
+                        sos.close();
+
+                        System.out.println("Download the song successfully!");
+                    } catch (Exception e) {
+                        // TODO: handle exception
+                        System.out.println("Download the song failed!");
+                    }
+
+                }
+
+            }
+
+        }
+
+        return null;
+    }
+
+
+    /**
+     * 文件删除
+     *
+     * @param fileName
+     * @return
+     */
+    public static boolean deleteFile(String fileName) {
+        File file = new File(fileName);
+        // 如果文件路径所对应的文件存在，并且是一个文件，则直接删除
+        if (file.exists() && file.isFile()) {
+            if (file.delete()) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    public static String renameToUUID(String fileName) {
+        return UUID.randomUUID() + "." + fileName.substring(fileName.lastIndexOf(".") + 1);
+    }
+
+    /**
+     * MultipartFile转file
+     *
+     * @param multiFile
+     * @return
+     */
+    public static File MultipartFileToFile(MultipartFile multiFile) throws IOException {
+        // 获取文件名
+        String fileName = multiFile.getOriginalFilename();
+
+        // 获取文件后缀
+        assert fileName != null;
+        String prefix = fileName.substring(fileName.lastIndexOf("."));
+
+        File file = null;
+        InputStream ins = null;
+
+        try {
+            ins = multiFile.getInputStream();
+            file = new File(multiFile.getOriginalFilename());
+            inputStreamToFile(ins, file);
+            return file;
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            assert ins != null;
+            ins.close();
+        }
+        return null;
+    }
+
+    /**
+     * 输入流转file
+     *
+     * @param ins
+     * @param file
+     */
+    public static void inputStreamToFile(InputStream ins, File file) {
+        try {
+            OutputStream os = new FileOutputStream(file);
+            int bytesRead = 0;
+            byte[] buffer = new byte[8192];
+            while ((bytesRead = ins.read(buffer, 0, 8192)) != -1) {
+                os.write(buffer, 0, bytesRead);
+            }
+            os.close();
+            ins.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * File转换为byte[]
+     *
+     * @param filePath
+     * @return byte[]
+     */
+    public static byte[] getBytesByFile(String filePath) {
+
+        try {
+            FileInputStream fis = new FileInputStream(filePath);
+            return fis.readAllBytes();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * File转换为byte[]
+     *
+     * @param remoteFilePath
+     * @return byte[]
+     */
+    public static byte[] getBytesByRemotePath(String remoteFilePath) {
+
+        URL urlfile;
+        HttpsURLConnection httpUrl;
+        BufferedInputStream bis;
+        ByteArrayOutputStream bos;
+        try {
+
+            urlfile = new URL(remoteFilePath);
+            httpUrl = (HttpsURLConnection) urlfile.openConnection();
+            httpUrl.connect();
+
+            InputStream inputStream = httpUrl.getInputStream();
+
+            bis = new BufferedInputStream(inputStream);
+            bos = new ByteArrayOutputStream(1024);
+            int len = 2048;
+            byte[] b = new byte[len];
+            while ((len = bis.read(b)) != -1) {
+                bos.write(b, 0, len);
+            }
+            byte[] data = bos.toByteArray();
+            bos.flush();
+            bis.close();
+            httpUrl.disconnect();
+
+            return data;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    //信任https文件下载
+    static {
+        final TrustManager[] trustAllCertificates = new TrustManager[]{
+                new X509TrustManager() {
+                    @Override
+                    public X509Certificate[] getAcceptedIssuers() {
+                        return null; // Not relevant.
+                    }
+
+                    @Override
+                    public void checkClientTrusted(X509Certificate[] certs, String authType) {
+                        // Do nothing. Just allow them all.
+                    }
+
+                    @Override
+                    public void checkServerTrusted(X509Certificate[] certs, String authType) {
+                        // Do nothing. Just allow them all.
+                    }
+                }
+        };
+
+        try {
+            SSLContext sc = SSLContext.getInstance("SSL");
+            sc.init(null, trustAllCertificates, new SecureRandom());
+            HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
+        } catch (GeneralSecurityException e) {
+            throw new ExceptionInInitializerError(e);
+        }
+    }
+
+
+
+}

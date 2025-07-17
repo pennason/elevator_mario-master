@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.hikYunMou.dao.TblElevatorMapper">
+
+    <sql id="TABLE_NAME">
+        tbl_elevator
+    </sql>
+
+    <!--电梯安装状态-->
+    <select id="checkCanDownMedia" resultType="java.lang.Boolean">
+        SELECT i_install_status
+        FROM
+        <include refid="TABLE_NAME"/>
+        WHERE
+        v_elevator_code = #{elevatorCode}
+    </select>
+</mapper>

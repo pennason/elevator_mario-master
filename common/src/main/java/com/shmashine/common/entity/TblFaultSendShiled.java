@@ -1,0 +1,182 @@
+package com.shmashine.common.entity;
+
+import java.io.Serial;
+import java.io.Serializable;
+import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+/**
+ * 故障推送第三方平台规则表(TblFaultSendShiled)实体类
+ *
+ * @author makejava
+ * @since 2020-07-08 18:08:02
+ */
+public class TblFaultSendShiled implements Serializable {
+    @Serial
+    private static final long serialVersionUID = -60301343044408221L;
+    /**
+     * ID
+     */
+    private String vFaultSendShiledId;
+    /**
+     * 电梯ID
+     */
+    private String vElevatorId;
+    /**
+     * 电梯编号
+     */
+    private String vElevatorCode;
+    /**
+     * 电梯注册码
+     */
+    private String vRegisterNo;
+    /**
+     * 故障类型
+     */
+    private String vFaultType;
+    /**
+     * 故障名称
+     */
+    private String vFaultName;
+    /**
+     * 推送的平台
+     */
+    private String vPtCode;
+    /**
+     * 是否推送，0 屏蔽推送，1 推送
+     */
+    private Integer iIsReport;
+    /**
+     * 创建时间
+     */
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
+    private Date dtCreateTime;
+    /**
+     * 修改时间
+     */
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
+    private Date dtModifyTime;
+    /**
+     * 创建记录用户
+     */
+    private String vCreateUserId;
+    /**
+     * 修改记录用户
+     */
+    private String vModifyUserId;
+
+    @JsonProperty("vFaultSendShiledId")
+    public String getVFaultSendShiledId() {
+        return vFaultSendShiledId;
+    }
+
+    public void setVFaultSendShiledId(String vFaultSendShiledId) {
+        this.vFaultSendShiledId = vFaultSendShiledId;
+    }
+
+    @JsonProperty("vElevatorId")
+    public String getVElevatorId() {
+        return vElevatorId;
+    }
+
+    public void setVElevatorId(String vElevatorId) {
+        this.vElevatorId = vElevatorId;
+    }
+
+    @JsonProperty("vElevatorCode")
+    public String getVElevatorCode() {
+        return vElevatorCode;
+    }
+
+    public void setVElevatorCode(String vElevatorCode) {
+        this.vElevatorCode = vElevatorCode;
+    }
+
+    @JsonProperty("vRegisterNo")
+    public String getVRegisterNo() {
+        return vRegisterNo;
+    }
+
+    public void setVRegisterNo(String vRegisterNo) {
+        this.vRegisterNo = vRegisterNo;
+    }
+
+    @JsonProperty("vFaultType")
+    public String getVFaultType() {
+        return vFaultType;
+    }
+
+    public void setVFaultType(String vFaultType) {
+        this.vFaultType = vFaultType;
+    }
+
+    @JsonProperty("vFaultName")
+    public String getVFaultName() {
+        return vFaultName;
+    }
+
+    public void setVFaultName(String vFaultName) {
+        this.vFaultName = vFaultName;
+    }
+
+    @JsonProperty("vPtCode")
+    public String getVPtCode() {
+        return vPtCode;
+    }
+
+    public void setVPtCode(String vPtCode) {
+        this.vPtCode = vPtCode;
+    }
+
+    @JsonProperty("iIsReport")
+    public Integer getIIsReport() {
+        return iIsReport;
+    }
+
+    public void setIIsReport(Integer iIsReport) {
+        this.iIsReport = iIsReport;
+    }
+
+    @JsonProperty("dtCreateTime")
+    public Date getDtCreateTime() {
+        return dtCreateTime;
+    }
+
+    public void setDtCreateTime(Date dtCreateTime) {
+        this.dtCreateTime = dtCreateTime;
+    }
+
+    @JsonProperty("dtModifyTime")
+    public Date getDtModifyTime() {
+        return dtModifyTime;
+    }
+
+    public void setDtModifyTime(Date dtModifyTime) {
+        this.dtModifyTime = dtModifyTime;
+    }
+
+    @JsonProperty("vCreateUserId")
+    public String getVCreateUserId() {
+        return vCreateUserId;
+    }
+
+    public void setVCreateUserId(String vCreateUserId) {
+        this.vCreateUserId = vCreateUserId;
+    }
+
+    @JsonProperty("vModifyUserId")
+    public String getVModifyUserId() {
+        return vModifyUserId;
+    }
+
+    public void setVModifyUserId(String vModifyUserId) {
+        this.vModifyUserId = vModifyUserId;
+    }
+
+}

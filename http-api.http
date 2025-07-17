@@ -1,0 +1,47 @@
+POST http://localhost:10087/api/image-label-save
+Content-Type: application/json
+
+{
+  "image_path": "https://oss-mashine.oss-cn-qingdao.aliyuncs.com/Oreo_Project/electric-bike-identify/2023-11-02/20231102090244-MX37500.jpg",
+  "width": 1280,
+  "height": 720,
+  "labels": [
+    {
+      "x1": 0,
+      "y1": 0,
+      "x2": 640,
+      "y2": 360,
+      "label": "electricBike"
+    },
+    {
+      "x1": 640,
+      "y1": 360,
+      "x2": 1280,
+      "y2": 720,
+      "label": "testTag"
+    }
+  ]
+}
+
+### 同步仪电电梯
+GET http://localhost:8086/task/updateThirdPartyRuiJinElevatorTask
+
+### 请求一点
+POST http://www.smartelevator.net/iot/api/v1/login
+Content-Type: application/json
+
+{
+  "username":"sys_shmx",
+  "password":"i*esa-t0013C"
+}
+
+### 获取电梯列表
+POST http://localhost:8080/api/elevator/searchElevator
+Content-Type: application/json
+User_id: zhangtaiping
+
+{
+  "pageIndex": 1,
+  "pageSize": 10,
+  "iOnLine": 1
+}

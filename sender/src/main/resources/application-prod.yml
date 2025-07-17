@@ -1,0 +1,87 @@
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://rm-m5e5x3037x8bn5br6.mysql.rds.aliyuncs.com:3306/elevator_master?useSSL=false&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+    username: elevator_master
+    password: Shmash1ne@elevator_master
+
+  redis:
+    database: 2
+    host: redis.tech.internal.shmashine.com
+    port: 6379
+    password: shmashine@666
+    timeout: 5000
+    lettuce:
+      pool:
+        max-active: 256  # 最大活跃连接数
+        max-wait: 5000  # 最大等待时间MS（-1表示无限等待）
+        max-idle: 128  # 最大空闲连接数
+        min-idle: 0  # 最小空闲连接数
+  data:
+    mongodb:
+      host: mongodb.tech.internal.shmashine.com
+      port: 27017
+      database: MX
+      username: shmashine
+      password: Shmashine@666
+
+  kafka:
+    producer:
+      bootstrap-servers: kafka.pro.internal.shmashine.com:29092
+      retries: 0
+      batch-size: 16384
+      buffer-memory: 33554432
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      properties:
+        security.protocol: SASL_PLAINTEXT
+        sasl.mechanism: PLAIN
+        sasl.jaas.config: org.apache.kafka.common.security.plain.PlainLoginModule required username="producer" password="secret20190219";
+    consumer:
+      bootstrap-servers: kafka.pro.internal.shmashine.com:29092
+      group-id: pro-sender-ali-20230713
+      auto-offset-reset: latest
+      enable-auto-commit: true
+      auto-commit-interval: 1000
+      #max-poll-records: 800
+      heartbeat-interval: 3000
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      properties:
+        security.protocol: SASL_PLAINTEXT
+        sasl.mechanism: PLAIN
+        sasl.jaas.config: org.apache.kafka.common.security.plain.PlainLoginModule required username="producer" password="secret20190219";
+    listener:
+      missing-topics-fatal: false
+
+
+  boot:
+    admin:
+      client:
+        # url: http://47.105.214.0:9999 #配置admin-server地址
+        url: http://spring-boot-admin:9999
+        username: shmashine
+        password: shmashine
+        instance:
+          prefer-ip: true
+          # service-url: http://39.100.10.59:8086
+          service-url: http://sender-service:8086
+
+springdoc:
+  api-docs:
+    enabled: false
+
+# sa-token 配置
+sa-token:
+  # 配置 Sa-Token 单独使用的 Redis 连接
+  alone-redis:
+    database: 13  # 默认13
+    host: redis.tech.internal.shmashine.com
+    port: 6379
+    password: shmashine@666
+    timeout: 5000
+
+# endpoint 正式环境使用内网地址
+endpoint:
+  push-city-govern-domain: http://push.city.govern.internal.shmashine.com

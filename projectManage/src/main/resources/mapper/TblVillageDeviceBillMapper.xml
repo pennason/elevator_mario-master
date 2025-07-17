@@ -1,0 +1,430 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.pm.api.dao.TblVillageDeviceBillDao">
+
+    <resultMap type="com.shmashine.common.entity.TblVillageDeviceBill" id="TblVillageDeviceBillResultMap">
+        <result property="vVillageDeviceBillId" column="v_village_device_bill_id" jdbcType="VARCHAR"/>
+        <result property="vVillageId" column="v_village_id" jdbcType="VARCHAR"/>
+        <result property="iSingleBoxCount" column="i_single_box_count" jdbcType="INTEGER"/>
+        <result property="iDoubleBoxCount" column="i_double_box_count" jdbcType="INTEGER"/>
+        <result property="iCamera" column="i_camera" jdbcType="INTEGER"/>
+        <result property="iCameraType" column="i_camera_type" jdbcType="INTEGER"/>
+        <result property="iBodySensor" column="i_body_sensor" jdbcType="INTEGER"/>
+        <result property="iCarroofDoorSensor" column="i_carroof_door_sensor" jdbcType="INTEGER"/>
+        <result property="iCarroofLockSensor" column="i_carroof_lock_sensor" jdbcType="INTEGER"/>
+        <result property="iMachRoomServiceSensor" column="i_mach_room_service_sensor" jdbcType="INTEGER"/>
+        <result property="iMachRoomOverhaulSensor" column="i_mach_room_overhaul_sensor" jdbcType="INTEGER"/>
+        <result property="iMachRoomSwitchSensor" column="i_mach_room_switch_sensor" jdbcType="INTEGER"/>
+        <result property="iMachRoomCallSensor" column="i_mach_room_call_sensor" jdbcType="INTEGER"/>
+        <result property="iMachRoomCircuitSensor" column="i_mach_room_circuit_sensor" jdbcType="INTEGER"/>
+        <result property="iMachRoomHallCircuitSensor" column="i_mach_room_hall_circuit_sensor" jdbcType="INTEGER"/>
+        <result property="iMachRoomSwitchCircuitSensor" column="i_mach_room_switch_circuit_sensor" jdbcType="INTEGER"/>
+        <result property="iMachRoomElectricitySensor" column="i_mach_room_electricity_sensor" jdbcType="INTEGER"/>
+        <result property="vRemarks" column="v_remarks" jdbcType="VARCHAR"/>
+        <result property="vDeviceType" column="v_device_type" jdbcType="VARCHAR"/>
+        <result property="vDevicePosition" column="v_device_position" jdbcType="VARCHAR"/>
+        <result property="dtCreateTime" column="dt_create_time" jdbcType="TIMESTAMP"/>
+        <result property="dtModifyTime" column="dt_modify_time" jdbcType="TIMESTAMP"/>
+        <result property="vCreateUserId" column="v_create_user_id" jdbcType="VARCHAR"/>
+        <result property="vModifyUserId" column="v_modify_user_id" jdbcType="VARCHAR"/>
+        <result property="iDelFlag" column="i_del_flag" jdbcType="INTEGER"/>
+        <result property="iTempSensor" column="i_temp_sensor" jdbcType="INTEGER"/>
+        <result property="vBodySensorMode" column="v_body_sensor_mode" jdbcType="VARCHAR"/>
+        <result property="iFloorSensor" column="i_floor_sensor" jdbcType="INTEGER"/>
+        <result property="iCollateFloorSensor" column="i_collate_floor_sensor" jdbcType="INTEGER"/>
+        <result property="iMagnetSensor" column="i_magnet_sensor" jdbcType="INTEGER"/>
+        <result property="vCameraMode" column="v_camera_mode" jdbcType="VARCHAR"/>
+        <result property="iControlElevator" column="i_control_elevator" javaType="INTEGER"/>
+    </resultMap>
+
+    <sql id="table_field">
+        v_village_device_bill_id
+        , v_village_id, i_single_box_count, i_double_box_count, i_camera, i_camera_type, i_body_sensor, i_carroof_door_sensor, i_carroof_lock_sensor, i_mach_room_service_sensor, i_mach_room_overhaul_sensor, i_mach_room_switch_sensor, i_mach_room_call_sensor, i_mach_room_circuit_sensor, i_mach_room_hall_circuit_sensor, i_mach_room_switch_circuit_sensor, i_mach_room_electricity_sensor, v_remarks, v_device_type, v_device_position, dt_create_time, dt_modify_time, v_create_user_id, v_modify_user_id, i_del_flag, i_temp_sensor,
+      v_body_sensor_mode, i_floor_sensor, i_collate_floor_sensor, i_magnet_sensor, v_camera_mode, i_control_elevator
+    </sql>
+
+    <!--通过Id查询单个-->
+    <select id="getById" resultMap="TblVillageDeviceBillResultMap" parameterType="java.lang.String">
+        select
+        <include refid="table_field"/>
+        from tbl_village_device_bill
+        where v_village_device_bill_id = #{vVillageDeviceBillId,jdbcType=VARCHAR}
+    </select>
+
+
+    <!--通过Id查询单个-->
+    <select id="getByVillageId" resultMap="TblVillageDeviceBillResultMap" parameterType="java.lang.String">
+        select
+        <include refid="table_field"/>
+        from tbl_village_device_bill
+        where v_village_id = #{vVillageId, jdbcType=VARCHAR}
+    </select>
+
+    <!--&lt;!&ndash;通过实体不为空的属性作为筛选条件查询列表&ndash;&gt;-->
+    <!--<select id="listByEntity" resultMap="TblVillageDeviceBillResultMap" parameterType="com.shmashine.common.entity.TblVillageDeviceBill">-->
+    <!--select-->
+    <!--<include refid="table_field" />-->
+    <!--from tbl_village_device_bill-->
+    <!--<where>-->
+    <!--<if test="vRemarks != null">-->
+    <!--and v_remarks = #{vRemarks,jdbcType=VARCHAR}-->
+    <!--</if>-->
+    <!--<if test="dtCreateTime != null">-->
+    <!--and dt_create_time = #{dtCreateTime,jdbcType=TIMESTAMP}-->
+    <!--</if>-->
+    <!--<if test="dtModifyTime != null">-->
+    <!--and dt_modify_time = #{dtModifyTime,jdbcType=TIMESTAMP}-->
+    <!--</if>-->
+    <!--<if test="vCreateUserId != null">-->
+    <!--and v_create_user_id = #{vCreateUserId,jdbcType=VARCHAR}-->
+    <!--</if>-->
+    <!--<if test="vModifyUserId != null">-->
+    <!--and v_modify_user_id = #{vModifyUserId,jdbcType=VARCHAR}-->
+    <!--</if>-->
+    <!--<if test="iDelFlag != null">-->
+    <!--and i_del_flag = #{iDelFlag,jdbcType=INTEGER}-->
+    <!--</if>-->
+    <!--</where>-->
+    <!--</select>-->
+
+    <!--通过实体不为空的属性作为筛选条件查询单个-->
+    <select id="getByEntity" resultMap="TblVillageDeviceBillResultMap"
+            parameterType="com.shmashine.common.entity.TblVillageDeviceBill">
+        select
+        <include refid="table_field"/>
+        from tbl_village_device_bill
+        <where>
+            <if test="vVillageId != null and vVillageId != ''">
+                and v_village_id = #{vVillageId, jdbcType=VARCHAR}
+            </if>
+            <if test="dtCreateTime != null">
+                and dt_create_time = #{dtCreateTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="dtModifyTime != null">
+                and dt_modify_time = #{dtModifyTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="vCreateUserId != null">
+                and v_create_user_id = #{vCreateUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="vModifyUserId != null">
+                and v_modify_user_id = #{vModifyUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="iDelFlag != null">
+                and i_del_flag = #{iDelFlag,jdbcType=INTEGER}
+            </if>
+        </where>
+    </select>
+
+    <!--新增实体属性不为null的列-->
+    <insert id="insert" keyProperty="vVillageDeviceBillId" useGeneratedKeys="true"
+            parameterType="com.shmashine.common.entity.TblVillageDeviceBill">
+        insert into tbl_village_device_bill
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="vVillageDeviceBillId != null">
+                v_village_device_bill_id,
+            </if>
+            <if test="vVillageId != null">
+                v_village_id,
+            </if>
+            <if test="iSingleBoxCount != null">
+                i_single_box_count,
+            </if>
+            <if test="iDoubleBoxCount != null">
+                i_double_box_count,
+            </if>
+            <if test="iCamera != null">
+                i_camera,
+            </if>
+            <if test="iCameraType != null">
+                i_camera_type,
+            </if>
+            <if test="iBodySensor != null">
+                i_body_sensor,
+            </if>
+            <if test="iCarroofDoorSensor != null">
+                i_carroof_door_sensor,
+            </if>
+            <if test="iCarroofLockSensor != null">
+                i_carroof_lock_sensor,
+            </if>
+            <if test="iMachRoomServiceSensor != null">
+                i_mach_room_service_sensor,
+            </if>
+            <if test="iMachRoomOverhaulSensor != null">
+                i_mach_room_overhaul_sensor,
+            </if>
+            <if test="iMachRoomSwitchSensor != null">
+                i_mach_room_switch_sensor,
+            </if>
+            <if test="iMachRoomCallSensor != null">
+                i_mach_room_call_sensor,
+            </if>
+            <if test="iMachRoomCircuitSensor != null">
+                i_mach_room_circuit_sensor,
+            </if>
+            <if test="iMachRoomHallCircuitSensor != null">
+                i_mach_room_hall_circuit_sensor,
+            </if>
+            <if test="iMachRoomSwitchCircuitSensor != null">
+                i_mach_room_switch_circuit_sensor,
+            </if>
+            <if test="iMachRoomElectricitySensor != null">
+                i_mach_room_Electricity_sensor,
+            </if>
+            <if test="vRemarks != null">
+                v_remarks,
+            </if>
+            <if test="vDeviceType != null and vDeviceType != ''">
+                v_device_type,
+            </if>
+            <if test="vDevicePosition != null and vDevicePosition != ''">
+                v_device_position,
+            </if>
+            <if test="dtCreateTime != null">
+                dt_create_time,
+            </if>
+            <if test="dtModifyTime != null">
+                dt_modify_time,
+            </if>
+            <if test="vCreateUserId != null">
+                v_create_user_id,
+            </if>
+            <if test="vModifyUserId != null">
+                v_modify_user_id,
+            </if>
+            <if test="iDelFlag != null">
+                i_del_flag,
+            </if>
+            <if test="iTempSensor != null">
+                i_temp_sensor,
+            </if>
+            <if test="vBodySensorMode != null and vBodySensorMode != ''">
+                v_body_sensor_mode,
+            </if>
+            <if test="iFloorSensor != null">
+                i_floor_sensor,
+            </if>
+            <if test="iCollateFloorSensor != null">
+                i_collate_floor_sensor,
+            </if>
+            <if test="iMagnetSensor != null">
+                i_magnet_sensor,
+            </if>
+            <if test="vCameraMode != null and vCameraMode != ''">
+                v_camera_mode,
+            </if>
+            <if test="iControlElevator != null">
+                i_control_elevator,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="vVillageDeviceBillId != null">
+                #{vVillageDeviceBillId,jdbcType=VARCHAR},
+            </if>
+            <if test="vVillageId != null">
+                #{vVillageId,jdbcType=VARCHAR},
+            </if>
+            <if test="iSingleBoxCount != null">
+                #{iSingleBoxCount,jdbcType=INTEGER},
+            </if>
+            <if test="iDoubleBoxCount != null">
+                #{iDoubleBoxCount,jdbcType=INTEGER},
+            </if>
+            <if test="iCamera != null">
+                #{iCamera,jdbcType=INTEGER},
+            </if>
+            <if test="iCameraType != null">
+                #{iCameraType,jdbcType=INTEGER},
+            </if>
+            <if test="iBodySensor != null">
+                #{iBodySensor,jdbcType=INTEGER},
+            </if>
+            <if test="iCarroofDoorSensor != null">
+                #{iCarroofDoorSensor,jdbcType=INTEGER},
+            </if>
+            <if test="iCarroofLockSensor != null">
+                #{iCarroofLockSensor,jdbcType=INTEGER},
+            </if>
+            <if test="iMachRoomServiceSensor != null">
+                #{iMachRoomServiceSensor,jdbcType=INTEGER},
+            </if>
+            <if test="iMachRoomOverhaulSensor != null">
+                #{iMachRoomOverhaulSensor,jdbcType=INTEGER},
+            </if>
+            <if test="iMachRoomSwitchSensor != null">
+                #{iMachRoomSwitchSensor,jdbcType=INTEGER},
+            </if>
+            <if test="iMachRoomCallSensor != null">
+                #{iMachRoomCallSensor,jdbcType=INTEGER},
+            </if>
+            <if test="iMachRoomCircuitSensor != null">
+                #{iMachRoomCircuitSensor,jdbcType=INTEGER},
+            </if>
+            <if test="iMachRoomHallCircuitSensor != null">
+                #{iMachRoomHallCircuitSensor,jdbcType=INTEGER},
+            </if>
+            <if test="iMachRoomSwitchCircuitSensor != null">
+                #{iMachRoomSwitchCircuitSensor,jdbcType=INTEGER},
+            </if>
+            <if test="iMachRoomElectricitySensor != null">
+                #{iMachRoomElectricitySensor,jdbcType=INTEGER},
+            </if>
+            <if test="vRemarks != null">
+                #{vRemarks,jdbcType=VARCHAR},
+            </if>
+            <if test="vDeviceType != null and vDeviceType != ''">
+                #{vDeviceType, jdbcType=VARCHAR},
+            </if>
+            <if test="vDevicePosition != null and vDevicePosition != ''">
+                #{vDevicePosition, jdbcType=VARCHAR},
+            </if>
+            <if test="dtCreateTime != null">
+                #{dtCreateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="dtModifyTime != null">
+                #{dtModifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="vCreateUserId != null">
+                #{vCreateUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="vModifyUserId != null">
+                #{vModifyUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="iDelFlag != null">
+                #{iDelFlag,jdbcType=INTEGER},
+            </if>
+            <if test="iTempSensor != null">
+                #{iTempSensor,jdbcType=INTEGER},
+            </if>
+            <if test="vBodySensorMode != null and vBodySensorMode != ''">
+                #{vBodySensorMode,jdbcType=VARCHAR},
+            </if>
+            <if test="iFloorSensor != null">
+                #{iFloorSensor,jdbcType=INTEGER},
+            </if>
+            <if test="iCollateFloorSensor != null">
+                #{iCollateFloorSensor,jdbcType=INTEGER},
+            </if>
+            <if test="iMagnetSensor != null">
+                #{iMagnetSensor,jdbcType=INTEGER},
+            </if>
+            <if test="vCameraMode != null and vCameraMode != ''">
+                #{vCameraMode, jdbcType=VARCHAR},
+            </if>
+            <if test="iControlElevator != null">
+                #{iControlElevator, jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+
+    <!--通过主键修改实体属性不为null的列-->
+    <update id="update" parameterType="com.shmashine.common.entity.TblVillageDeviceBill">
+        update tbl_village_device_bill
+        <set>
+            <if test="vVillageDeviceBillId != null">
+                v_village_device_bill_id = #{vVillageDeviceBillId,jdbcType=VARCHAR},
+            </if>
+            <if test="vVillageId != null">
+                v_village_id = #{vVillageId,jdbcType=VARCHAR},
+            </if>
+            <if test="iSingleBoxCount != null">
+                i_single_box_count = #{iSingleBoxCount,jdbcType=INTEGER},
+            </if>
+            <if test="iDoubleBoxCount != null">
+                i_double_box_count = #{iDoubleBoxCount,jdbcType=INTEGER},
+            </if>
+            <if test="iCamera != null">
+                i_camera = #{iCamera,jdbcType=INTEGER},
+            </if>
+            <if test="iCameraType != null">
+                i_camera_type = #{iCameraType,jdbcType=INTEGER},
+            </if>
+            <if test="iBodySensor != null">
+                i_body_sensor = #{iBodySensor,jdbcType=INTEGER},
+            </if>
+            <if test="iCarroofDoorSensor != null">
+                i_carroof_door_sensor = #{iCarroofDoorSensor,jdbcType=INTEGER},
+            </if>
+            <if test="iCarroofLockSensor != null">
+                i_carroof_lock_sensor = #{iCarroofLockSensor,jdbcType=INTEGER},
+            </if>
+            <if test="iMachRoomServiceSensor != null">
+                i_mach_room_service_sensor = #{iMachRoomServiceSensor,jdbcType=INTEGER},
+            </if>
+            <if test="iMachRoomOverhaulSensor != null">
+                i_mach_room_overhaul_sensor = #{iMachRoomOverhaulSensor,jdbcType=INTEGER},
+            </if>
+            <if test="iMachRoomSwitchSensor != null">
+                i_mach_room_switch_sensor = #{iMachRoomSwitchSensor,jdbcType=INTEGER},
+            </if>
+            <if test="iMachRoomCallSensor != null">
+                i_mach_room_call_sensor = #{iMachRoomCallSensor,jdbcType=INTEGER},
+            </if>
+            <if test="iMachRoomCircuitSensor != null">
+                i_mach_room_circuit_sensor = #{iMachRoomCircuitSensor,jdbcType=INTEGER},
+            </if>
+            <if test="iMachRoomHallCircuitSensor != null">
+                i_mach_room_hall_circuit_sensor = #{iMachRoomHallCircuitSensor,jdbcType=INTEGER},
+            </if>
+            <if test="iMachRoomSwitchCircuitSensor != null">
+                i_mach_room_switch_circuit_sensor = #{iMachRoomSwitchCircuitSensor,jdbcType=INTEGER},
+            </if>
+            <if test="iMachRoomElectricitySensor != null">
+                i_mach_room_electricity_sensor = #{iMachRoomElectricitySensor,jdbcType=INTEGER},
+            </if>
+            <if test="vRemarks != null">
+                v_remarks = #{vRemarks,jdbcType=VARCHAR},
+            </if>
+            <if test="vDeviceType != null and vDeviceType != ''">
+                v_device_type = #{vDeviceType, jdbcType=VARCHAR},
+            </if>
+            <if test="vDevicePosition != null and vDevicePosition != ''">
+                v_device_position = #{vDevicePosition, jdbcType=VARCHAR},
+            </if>
+            <if test="dtCreateTime != null">
+                dt_create_time = #{dtCreateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="dtModifyTime != null">
+                dt_modify_time = #{dtModifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="vCreateUserId != null and vCreateUserId != ''">
+                v_create_user_id = #{vCreateUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="vModifyUserId != null and vModifyUserId != ''">
+                v_modify_user_id = #{vModifyUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="iDelFlag != null">
+                i_del_flag = #{iDelFlag,jdbcType=INTEGER},
+            </if>
+            <if test="iTempSensor != null">
+                i_temp_sensor = #{iTempSensor, jdbcType=INTEGER},
+            </if>
+            <if test="vBodySensorMode != null and vBodySensorMode != ''">
+                v_body_sensor_mode = #{vBodySensorMode,jdbcType=VARCHAR},
+            </if>
+            <if test="iFloorSensor != null">
+                i_floor_sensor = #{iFloorSensor,jdbcType=INTEGER},
+            </if>
+            <if test="iCollateFloorSensor != null">
+                i_collate_floor_sensor = #{iCollateFloorSensor,jdbcType=INTEGER},
+            </if>
+            <if test="iMagnetSensor != null">
+                i_magnet_sensor = #{iMagnetSensor,jdbcType=INTEGER},
+            </if>
+            <if test="vCameraMode != null and vCameraMode != ''">
+                v_camera_mode = #{vCameraMode, jdbcType=VARCHAR},
+            </if>
+            <if test="iControlElevator != null">
+                i_control_elevator = #{iControlElevator, jdbcType=INTEGER},
+            </if>
+        </set>
+        where v_village_device_bill_id = #{vVillageDeviceBillId,jdbcType=VARCHAR}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById" parameterType="java.lang.String">
+        delete
+        from tbl_village_device_bill
+        where v_village_id = #{vVillageId,jdbcType=VARCHAR}
+    </delete>
+</mapper>

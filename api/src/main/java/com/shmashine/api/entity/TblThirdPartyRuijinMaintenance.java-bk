@@ -1,0 +1,109 @@
+package com.shmashine.api.entity;
+
+import lombok.Data;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.io.Serializable;
+import java.util.Date;
+
+/**
+ * @author chenx
+ */
+
+@Data
+public class TblThirdPartyRuijinMaintenance implements Serializable {
+
+    private static final long serialVersionUID = 7919455936502472016L;
+
+    private Long id;
+
+    private String registerNumber;
+
+    private String address;
+
+    private String internalNumber;
+
+    private String maintenanceCompanyCode;
+
+    private String maintenanceCompanyName;
+
+    private String maintenancePrinciple;
+
+    private String maintenancePrincipleTel;
+
+    private Integer maintenancePeriod;
+
+    private String certNumber;
+
+    private String qualificationScope;
+
+    private String registerAddress;
+
+    private String officeAddress;
+
+    private String maintenanceStation;
+
+    private String stationAddress;
+
+    private String stationTel;
+
+    private String stationPrinciple;
+
+    private String driver;
+
+    private String rescueTel;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
+    private Date checkDate;
+
+    private String checkCompanyName;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
+    private Date nextCheckDate;
+
+    private String contractUseCompanyName;
+
+    private String useCompanyCode;
+
+    private String useCompanyPrinciple;
+
+    private String useCompanyPrincipleTel;
+
+    private String usePlaceName;
+
+    private String usePlaceAreaCode;
+
+    private String usePlaceTownCode;
+
+    private String usePlaceAddress;
+
+    private String usePlaceType;
+
+    private String safetyAdministrator;
+
+    private String safetyAdminTel;
+
+    private String firstMaintainerName;
+
+    private String firstMaintainerIdNumber;
+
+    private String firstMaintainerTel;
+
+    private String secondMaintainerName;
+
+    private String secondMaintainerIdNumber;
+
+    private String secondMaintainerTel;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
+    private Date dtCreateTime;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
+    private Date dtModifyTime;
+
+    private String vCreateUserId;
+
+    private String vModifyUserId;
+
+}

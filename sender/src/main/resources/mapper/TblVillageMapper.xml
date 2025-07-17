@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.sender.dao.TblVillageMapper">
+
+    <!--<resultMap type="com.shmashine.common.entity.TblVillage" id="TblVillageResultMap">
+        <result property="vVillageId" column="v_village_id" jdbcType="VARCHAR"/>
+        <result property="vVillageName" column="v_village_name" jdbcType="VARCHAR"/>
+        <result property="vAddress" column="v_address" jdbcType="VARCHAR"/>
+        <result property="vProjectId" column="v_project_id" jdbcType="VARCHAR"/>
+        <result property="vLongitude" column="v_longitude" jdbcType="VARCHAR"/>
+        <result property="vLatitude" column="v_latitude" jdbcType="VARCHAR"/>
+        <result property="vRemarks" column="v_remarks" jdbcType="VARCHAR"/>
+
+        <result property="vContactsId" column="v_contacts_id" jdbcType="VARCHAR" />
+        <result property="vContactsName" column="v_contacts_name" jdbcType="VARCHAR" />
+        <result property="vContactsPhone" column="v_contacts_phone" jdbcType="VARCHAR" />
+        <result property="vInvestigatorId" column="v_investigator_id" jdbcType="VARCHAR"/>
+        <result property="dInvestigateDate" column="d_investigate_date" jdbcType="TIMESTAMP"/>
+        <result property="vInstallerId" column="v_installer_id" jdbcType="VARCHAR" />
+        <result property="dInstallDate" column="d_install_date" jdbcType="TIMESTAMP" />
+        <result property="iElevatorCount" column="i_elevator_count" jdbcType="INTEGER" />
+        <result property="iStatus" column="i_status" jdbcType="INTEGER"/>
+
+        <result property="dtCreateTime" column="dt_create_time" jdbcType="TIMESTAMP"/>
+        <result property="dtModifyTime" column="dt_modify_time" jdbcType="TIMESTAMP"/>
+        <result property="vCreateUserId" column="v_create_user_id" jdbcType="VARCHAR"/>
+        <result property="vModifyUserId" column="v_modify_user_id" jdbcType="VARCHAR"/>
+        <result property="iDelFlag" column="i_del_flag" jdbcType="INTEGER"/>
+
+        <result property="groupLeasingStatus" column="group_leasing_status" jdbcType="INTEGER"/>
+        <result property="groupLeasingTimeCoefficient" column="group_leasing_time_coefficient" jdbcType="VARCHAR"/>
+        <result property="groupLeasingStepRange" column="group_leasing_step_range" jdbcType="VARCHAR"/>
+        <result property="groupLeasingStartDate" column="group_leasing_start_date" jdbcType="DATE"/>
+        <result property="groupLeasingEndDate" column="group_leasing_end_date" jdbcType="DATE"/>
+        <result property="groupLeasingStartTime" column="group_leasing_start_time" jdbcType="TIME"/>
+        <result property="groupLeasingEndTime" column="group_leasing_end_time" jdbcType="TIME"/>
+        <result property="groupLeasingResult" column="group_leasing_result" jdbcType="INTEGER"/>
+    </resultMap>-->
+
+    <sql id="TABLE_NAME">
+        tbl_village
+    </sql>
+
+    <select id="getOneById" resultType="com.shmashine.common.entity.TblVillage">
+        SELECT *
+        FROM
+        <include refid="TABLE_NAME"/>
+        WHERE v_village_id = #{villageId}
+    </select>
+</mapper>

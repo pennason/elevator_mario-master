@@ -1,0 +1,38 @@
+package com.shmashine.hkCameraByYS.entity;
+
+import java.util.Date;
+
+import lombok.Builder;
+import lombok.Data;
+
+/**
+ * @author  jiangheng
+ * @version 2022/12/7 11:44
+ * @description: 设备上下线记录
+ */
+@Data
+@Builder
+public class CameraStatusRecord {
+
+    //主键id
+    private Long id;
+
+    //消息唯一ID
+    private String messageId;
+
+    //设备序列号
+    private String serialNumber;
+
+    //发生的时间
+    private String occurTime;
+
+    //设备名称
+    private String deviceName;
+
+    //状态：0-设备离线，1-设备上线
+    private Integer status;
+
+    //创建时间
+    private Date creatTime;
+
+}

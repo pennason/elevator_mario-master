@@ -1,0 +1,84 @@
+// Copyright (C) 2023 Shmashine Holding Ltd. All Rights Reserved.
+
+package com.shmashine.sender.platform.city;
+
+import javax.annotation.PostConstruct;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import com.alibaba.fastjson2.JSON;
+import com.shmashine.common.message.FaultMessage;
+import com.shmashine.common.message.MessageData;
+import com.shmashine.common.message.OnOfflineMessage;
+import com.shmashine.common.utils.RedisKeyUtils;
+import com.shmashine.sender.message.handle.FaultHandle;
+import com.shmashine.sender.message.handle.MonitorHandle;
+import com.shmashine.sender.message.handle.OnOfflineHandle;
+import com.shmashine.sender.message.handle.TrappedHandle;
+import com.shmashine.sender.message.send.FaultSend;
+import com.shmashine.sender.message.send.MonitorSend;
+import com.shmashine.sender.message.send.OnOfflineSend;
+import com.shmashine.sender.message.send.TrappedSend;
+import com.shmashine.sender.redis.utils.RedisUtils;
+import com.shmashine.sender.server.ElevatorCacheServiceI;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
+/**
+ * Kafka消息原样缓存，运行数据使用Redis,故障数据记录使用Mongodb
+ *
+ * @author 'Xue Chen - (chenxue4076@163.com)'
+ * @version v1.0  -  2023/11/27 15:45
+ * @since v1.0
+ */
+
+@Slf4j
+@Component
+@RequiredArgsConstructor(onConstructor_ = {@Autowired})
+public class KafkaMessageCacheSender implements MonitorSend, TrappedSend, FaultSend, OnOfflineSend {
+    private final ElevatorCacheServiceI elevatorCacheService;
+
+    private final RedisUtils redisUtils;
+    private static final String PT_CODE = "kafkaMessageCache";
+
+    @PostConstruct
+    public void registerHandle() {
+        // 注册到监控、故障、困人消息的处理流程
+        MonitorHandle.register(this);
+        TrappedHandle.register(this);
+        FaultHandle.register(this);
+        OnOfflineHandle.register(this);
+    }
+
+    @Override
+    public String getPtCode() {
+        return PT_CODE;
+    }
+
+    @Override
+    public void handleMonitor(MessageData message) {
+        log.info("handleMonitor for {}: {}", PT_CODE, message.toString());
+        elevatorCacheService.setMonitorCache(message.getElevatorCode(), message);
+    }
+
+    @Override
+    public void handleTrapped(FaultMessage message) {
+        log.info("handleTrapped for {}: {}", PT_CODE, message.toString());
+
+    }
+
+
+    @Override
+    public void handleFault(FaultMessage message) {
+        log.info("handleFault for {}: {}", PT_CODE, message.toString());
+
+    }
+
+    @Override
+    public void handleOnOfflineStatus(OnOfflineMessage message) {
+        log.info("handleOnOfflineStatus for {}: {}", PT_CODE, message.toString());
+        elevatorCacheService.setOnOfflineStatusCache(message.getElevatorCode(), message);
+    }
+}

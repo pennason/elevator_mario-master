@@ -1,0 +1,37 @@
+POST http://yingshi.camera.shmashine.com:8005/camera/download-camera-file-by-elevator-code
+Content-Type: application/json
+User_id: shmashine666
+Authorization: Bearer GvZGFE_Cb7qf8X5_FQgDCEnE7OQ
+
+{
+  "elevatorCode": "MX5578",
+  "collectTime": "2023-10-17 18:04:19",
+  "startTime": "2023-10-17 18:04:19",
+  "floor": "1",
+  "taskType": "FAULT",
+  "taskCustomId": "20231017180419-MX5578",
+  "taskCustomType": 0,
+  "mediaType": "JPG"
+}
+
+### 北向推送统计
+
+GET https://iot.shmashine.com/api/kpi/project-task/start_north-push-statistics
+Content-Type: application/json
+User_id: shmashine666
+
+### 北向推送统计整体
+
+GET https://iot.shmashine.com/api/kpi/project-task/start_north-push-statistics
+Content-Type: application/json
+User_id: shmashine666
+
+### sender
+GET http://sender.service.shmashine.com/counter/group-offline-project/yidian
+Content-Type: application/json
+User_id: shmashine666
+
+### sender2
+GET http://sender.service.shmashine.com/counter/group-offline/yidian
+Content-Type: application/json
+User_id: shmashine666

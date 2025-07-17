@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shmashine.pm.api.dao.BizTestingBillDao">
+    <resultMap type="com.shmashine.pm.api.entity.dto.TblTestingBillDto" id="TblTestingBillDtoResultMap">
+        <result property="vTestingBillId" column="v_Testing_bill_id" jdbcType="VARCHAR"/>
+        <result property="vTestingTaskId" column="v_testing_task_id" jdbcType="VARCHAR"/>
+        <result property="vProjectId" column="v_project_id" jdbcType="VARCHAR"/>
+        <result property="vVillageId" column="v_village_id" jdbcType="VARCHAR"/>
+        <result property="iDeviceSelfcheck" column="i_device_selfcheck" jdbcType="INTEGER"/>
+        <result property="iDeviceFault" column="i_device_fault" jdbcType="INTEGER"/>
+        <result property="iElevatorFloorCollate" column="i_elevator_floor_collate" jdbcType="INTEGER"/>
+        <result property="iElevatorFaultCollate" column="i_elevator_fault_collate" jdbcType="INTEGER"/>
+        <result property="iElevatorFaultCover" column="i_elevator_fault_cover" jdbcType="INTEGER"/>
+        <result property="iStatus" column="i_status" jdbcType="INTEGER"/>
+        <result property="iNeedExpert" column="i_need_expert" jdbcType="INTEGER"/>
+        <result property="vRemark" column="v_remark" jdbcType="VARCHAR"/>
+        <result property="vElevatorId" column="v_elevator_id" jdbcType="VARCHAR"/>
+        <result property="dtCreateTime" column="dt_create_time" jdbcType="TIMESTAMP"/>
+        <result property="dtModifyTime" column="dt_modify_time" jdbcType="TIMESTAMP"/>
+        <result property="vCreateUserId" column="v_create_user_id" jdbcType="VARCHAR"/>
+        <result property="vModifyUserId" column="v_modify_user_id" jdbcType="VARCHAR"/>
+        <result property="iDelFlag" column="i_del_flag" jdbcType="INTEGER"/>
+        <result property="vProjectName" column="v_project_name" jdbcType="VARCHAR"/>
+        <result property="vVillageName" column="v_village_name" jdbcType="VARCHAR"/>
+        <result property="vElevatorAddress" column="v_elevator_address" jdbcType="VARCHAR"/>
+        <result property="vDeviceType" column="v_device_type" jdbcType="VARCHAR"/>
+        <result property="iCameraCheck" column="i_camera_check" jdbcType="INTEGER"/>
+        <result property="iElevatorRunCheck" column="i_elevator_run_check" jdbcType="INTEGER"/>
+        <result property="iElectronBikeCheck" column="i_electron_bike_check" jdbcType="INTEGER"/>
+        <result property="iSensorCheck" column="i_sensor_check" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <select id="getByBizInfo" parameterType="com.shmashine.pm.api.entity.TblTestingBill"
+            resultMap="TblTestingBillDtoResultMap">
+        select tbl.*, project.v_project_name, village.v_village_name, elevator.v_address as v_elevator_address,
+        elevator.v_elevator_id as v_elevator_id
+        from tbl_testing_bill as tbl
+        left join tbl_project as project
+        on project.v_project_id = tbl.v_project_id
+        left join tbl_village as village
+        on village.v_village_id = tbl.v_village_id
+        left join tbl_elevator as elevator
+        on elevator.v_elevator_code = tbl.v_elevator_code
+        <where>
+            <if test="vTestingBillId != null and vTestingBillId != ''">
+                tbl.v_testing_bill_id = #{vTestingBillId, jdbcType=VARCHAR}
+            </if>
+            <if test="vElevatorCode != null and vElevatorCode != ''">
+                or tbl.v_elevator_code = #{vElevatorCode, jdbcType=VARCHAR}
+            </if>
+        </where>
+        limit 0, 1
+    </select>
+
+    <select id="getInfoAndElevatorInfo" parameterType="com.shmashine.pm.api.entity.TblTestingBill"
+            resultType="java.util.Map">
+        select
+        village.v_village_name as vVillageName,
+        village.i_elevator_count as iElevatorCount,
+        village.v_longitude as vLongitude,
+        village.v_latitude as vLatitude,
+        elevator.v_equipment_code as vEquipmentCode,
+        tbl.v_remark as vRemark,
+        tbl.v_device_type as vDeviceType,
+        tbl.i_camera_check,
+        tbl.i_elevator_run_check,
+        tbl.i_electron_bike_check,
+        tbl.i_sensor_check,
+        from tbl_village as village
+        join tbl_elevator as elevator
+        on elevator.v_village_id = village.v_village_id
+        left join tbl_testing_bill as tbl
+        on tbl.v_elevator_code = elevator.v_elevator_code
+        <where>
+            <if test="vTestingBillId != null and vTestingBillId != ''">
+                tbl.v_testing_bill_id = #{vTestingBillId, jdbcType=VARCHAR}
+            </if>
+
+            <if test="vElevatorCode != null and vElevatorCode != ''">
+                or elevator.v_elevator_code = #{vElevatorCode, jdbcType=VARCHAR}
+            </if>
+        </where>
+        limit 0, 1
+    </select>
+
+    <select id="getAllStatus" resultType="java.lang.Integer">
+        select tbl.i_status
+        from tbl_testing_bill as tbl
+        <where>
+            <if test="vTestingTaskId != null and vTestingTaskId != ''">
+                and tbl.v_testing_task_id = #{vTestingTaskId, jdbcType=VARCHAR}
+            </if>
+            <if test="vVillageId != null and vVillageId !=''">
+                and tbl.v_village_id = #{vVillageId, jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+    <!--<select id="getAllStatusByVillageId" parameterType="java.lang.String" resultType="java.lang.Integer">-->
+    <!--select tbl.i_status-->
+    <!--from tbl_testing_bill as tbl-->
+    <!--where tbl.v_village_id = #{vVillageId, jdbcType=VARCHAR}-->
+    <!--</select>-->
+
+    <select id="getStatusInfo" parameterType="java.lang.String" resultType="java.util.Map">
+        select distinct ifnull(count(1), 0) as count,
+      group_concat(tbl.v_testing_bill_id) as vTestingBillIds,
+      group_concat(tbl.v_elevator_code) as vElevatorCodes,
+      ifnull(group_concat(tbl.v_remark), "") as vRemarks,
+      tbl.i_status as iStatus,
+      tbl.v_device_type as vDeviceType,
+      case
+      when tbl.i_status = 1 then "调测中"
+      when tbl.i_status = 2 then "未通过"
+      when tbl.i_status = 3 then "已通过"
+      when tbl.i_status = -1 then '已取消'
+      else ""
+        end
+        as iStatusName,
+      group_concat(elevator.v_address) as vAddresses,
+      brand.v_elevator_brand_name as vElevatorBrandName
+      from tbl_testing_bill tbl
+      left join tbl_elevator elevator on elevator.v_elevator_code = tbl.v_elevator_code
+      left join tbl_elevator_brand brand on brand.v_elevator_brand_id = elevator.v_elevator_brand_id
+      where tbl.v_village_id =
+        #{vVillageId, jdbcType=VARCHAR}
+        group
+        by
+        iStatus
+    </select>
+
+    <select id="getElevatorsInfo" resultType="java.util.Map">
+        select testBill.v_testing_bill_id,
+               installingBill.v_elevator_code,
+               installingBill.i_status,
+               elevator.v_elevator_name,
+               elevator.v_address,
+               elevator.v_equipment_code
+        from tbl_testing_bill as testBill
+                 join tbl_installing_bill as installingBill
+                      on testBill.v_elevator_code = installingBill.v_elevator_code
+                 join tbl_elevator as elevator
+                      on elevator.v_elevator_code = installingBill.v_elevator_code
+        where testBill.v_testing_task_id = #{vTestingTaskId, jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectByBillModule" parameterType="com.shmashine.pm.api.module.testingBill.input.TestingBillModule"
+            resultType="Map">
+        select
+        bill.v_testing_bill_id,
+        bill.v_testing_task_id,
+        bill.v_elevator_code,
+        bill.v_device_type,
+        bill.i_camera_check,
+        bill.i_elevator_run_check,
+        bill.i_electron_bike_check,
+        bill.i_sensor_check,
+        case
+        when bill.i_status = 1 then "调测中"
+        when bill.i_status = 2 then "未通过"
+        when bill.i_status = 3 then "已调测"
+        when bill.i_status = -1 then '已取消'
+        else "无"
+        end as v_status_name,
+        bill.i_status,
+        elevator.v_elevator_name,
+        elevator.v_address,
+        elevator.v_equipment_code,
+        elevator.i_elevator_type,
+        elevator.v_elevator_id,
+        case
+        when elevator.i_elevator_type = 1 then "直梯"
+        when elevator.i_elevator_type = 2 then "扶梯"
+        else "直梯"
+        end as v_elevator_type_name,
+        brand.v_elevator_brand_name
+        from
+        tbl_testing_bill bill
+        inner join tbl_elevator elevator on bill.v_elevator_code = elevator.v_elevator_code
+        left join tbl_elevator_brand brand on brand.v_elevator_brand_id = elevator.v_elevator_brand_id
+        <where>
+            <if test="vElevatorCode != null and vElevatorCode !=''">
+                and bill.v_elevator_code = #{vElevatorCode}
+            </if>
+            <if test="vTestingTaskId != null and vTestingTaskId != ''">
+                and bill.v_testing_task_id = #{vTestingTaskId}
+            </if>
+            <if test="vTestingBillId != null and vTestingBillId != ''">
+                and bill.v_testing_bill_id = #{vTestingBillId}
+            </if>
+        </where>
+    </select>
+</mapper>

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.api.dao.MashineServiceBizElevatorDao">
+    <resultMap id="MashineServiceBizElevatorResult" type="com.shmashine.common.entity.TblThirdPartyRuijinElevator">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="registerNumber" column="register_number" jdbcType="VARCHAR"/>
+        <result property="useCertNumber" column="useCert_number" jdbcType="VARCHAR"/>
+        <result property="registerOrg" column="register_org" jdbcType="VARCHAR"/>
+        <result property="registerDate" column="register_date" jdbcType="TIMESTAMP"/>
+        <result property="registerPerson" column="register_person" jdbcType="VARCHAR"/>
+        <result property="designStandard" column="design_standard" jdbcType="VARCHAR"/>
+        <result property="manufactureCountry" column="manufacture_country" jdbcType="VARCHAR"/>
+        <result property="manufacturerCode" column="manufacturer_code" jdbcType="VARCHAR"/>
+        <result property="manufacturerName" column="manufacturer_name" jdbcType="VARCHAR"/>
+        <result property="leaveFactoryNumber" column="leaveFactory_number" jdbcType="VARCHAR"/>
+        <result property="deviceNumber" column="device_number" jdbcType="VARCHAR"/>
+        <result property="model" column="model" jdbcType="VARCHAR"/>
+        <result property="leaveFactoryDate" column="leave_factory_date" jdbcType="TIMESTAMP"/>
+        <result property="designServiceLife" column="design_service_life" jdbcType="TIMESTAMP"/>
+        <result property="kind" column="kind" jdbcType="VARCHAR"/>
+        <result property="category" column="category" jdbcType="VARCHAR"/>
+        <result property="type" column="type" jdbcType="VARCHAR"/>
+        <result property="deviceName" column="device_name" jdbcType="VARCHAR"/>
+        <result property="produceStandard" column="produce_standard" jdbcType="VARCHAR"/>
+        <result property="inspectionModality" column="inspection_modality" jdbcType="VARCHAR"/>
+        <result property="supervisorName" column="supervisor_name" jdbcType="VARCHAR"/>
+        <result property="supervisorApprNumber" column="supervisor_appr_number" jdbcType="VARCHAR"/>
+        <result property="supervisorCertNumber" column="supervisor_cert_number" jdbcType="VARCHAR"/>
+        <result property="modelTestOrg" column="model_test_org" jdbcType="VARCHAR"/>
+        <result property="modelTestApprNumber" column="model_test_appr_number" jdbcType="VARCHAR"/>
+        <result property="modelTestCertNumber" column="model_test_cert_number" jdbcType="VARCHAR"/>
+        <result property="sellerCode" column="seller_code" jdbcType="VARCHAR"/>
+        <result property="sellerName" column="seller_name" jdbcType="VARCHAR"/>
+        <result property="sellerAddress" column="seller_address" jdbcType="VARCHAR"/>
+        <result property="sellerContact" column="seller_contact" jdbcType="VARCHAR"/>
+        <result property="sellerTel" column="seller_tel" jdbcType="VARCHAR"/>
+        <result property="noticeNumber" column="notice_number" jdbcType="VARCHAR"/>
+        <result property="noticeDate" column="notice_date" jdbcType="TIMESTAMP"/>
+        <result property="setupCompanyCode" column="setup_company_code" jdbcType="VARCHAR"/>
+        <result property="setupCompanyName" column="setup_company_name" jdbcType="VARCHAR"/>
+        <result property="setupCompanyCertNumber" column="setup_company_certNumber" jdbcType="VARCHAR"/>
+        <result property="setupPrinciple" column="setup_principle" jdbcType="VARCHAR"/>
+        <result property="setupPrincipleTel" column="setup_principle_tel" jdbcType="VARCHAR"/>
+        <result property="setupFinishDate" column="setup_finish_date" jdbcType="TIMESTAMP"/>
+        <result property="setupSupervisorCode" column="setup_supervisor_code" jdbcType="VARCHAR"/>
+        <result property="setupSupervisorName" column="setup_supervisor_name" jdbcType="VARCHAR"/>
+        <result property="setupSupervisorApprNumber" column="setup_supervisor_appr_number" jdbcType="VARCHAR"/>
+        <result property="buyDate" column="buy_date" jdbcType="TIMESTAMP"/>
+        <result property="ownerCode" column="owner_code" jdbcType="VARCHAR"/>
+        <result property="ownerName" column="owner_name" jdbcType="VARCHAR"/>
+        <result property="ownerAddress" column="owner_address" jdbcType="VARCHAR"/>
+        <result property="ownerContact" column="owner_contact" jdbcType="VARCHAR"/>
+        <result property="ownerTel" column="owner_tel" jdbcType="VARCHAR"/>
+        <result property="areaCode" column="area_code" jdbcType="VARCHAR"/>
+        <result property="town" column="town" jdbcType="VARCHAR"/>
+        <result property="adminOrg" column="admin_org" jdbcType="VARCHAR"/>
+        <result property="usePlace" column="use_place" jdbcType="VARCHAR"/>
+        <result property="buildingUnit" column="building_unit" jdbcType="VARCHAR"/>
+        <result property="address" column="address" jdbcType="VARCHAR"/>
+        <result property="longitude" column="longitude" jdbcType="VARCHAR"/>
+        <result property="latitude" column="latitude" jdbcType="VARCHAR"/>
+        <result property="rescueNumber" column="rescue_number" jdbcType="VARCHAR"/>
+        <result property="useCompanyType" column="use_company_type" jdbcType="VARCHAR"/>
+        <result property="useCompanyCode" column="use_company_code" jdbcType="VARCHAR"/>
+        <result property="useCompanyName" column="use_company_name" jdbcType="VARCHAR"/>
+        <result property="useCompanyAlias" column="use_company_alias" jdbcType="VARCHAR"/>
+        <result property="useCompanyPerson" column="use_company_person" jdbcType="VARCHAR"/>
+        <result property="useCompanyTel" column="use_company_tel" jdbcType="VARCHAR"/>
+        <result property="adminBranchName" column="admin_branch_name" jdbcType="VARCHAR"/>
+        <result property="adminBranchContact" column="admin_branch_contact" jdbcType="VARCHAR"/>
+        <result property="adminBranchTel" column="admin_branch_tel" jdbcType="VARCHAR"/>
+        <result property="adminBranchAddress" column="admin_branch_address" jdbcType="VARCHAR"/>
+        <result property="safetyDept" column="safety_dept" jdbcType="VARCHAR"/>
+        <result property="safetyDeptAddress" column="safety_dept_address" jdbcType="VARCHAR"/>
+        <result property="safetyAdministrator" column="safety_administrator" jdbcType="VARCHAR"/>
+        <result property="safetyAdmCertNumber" column="safety_adm_cert_number" jdbcType="VARCHAR"/>
+        <result property="safetyAdminTel" column="safety_admin_tel" jdbcType="VARCHAR"/>
+        <result property="useStatus" column="use_status" jdbcType="INTEGER"/>
+        <result property="conditions" column="conditions" jdbcType="VARCHAR"/>
+        <result property="remouldEntCode" column="remould_ent_code" jdbcType="VARCHAR"/>
+        <result property="remouldEntName" column="remould_ent_name" jdbcType="VARCHAR"/>
+        <result property="remouldDate" column="remould_date" jdbcType="TIMESTAMP"/>
+        <result property="startUseDate" column="start_use_date" jdbcType="TIMESTAMP"/>
+        <result property="stopUseDate" column="stop_use_date" jdbcType="TIMESTAMP"/>
+        <result property="cancelDate" column="cancel_date" jdbcType="TIMESTAMP"/>
+        <result property="inspectDutyCompany" column="inspect_duty_company" jdbcType="VARCHAR"/>
+        <result property="iotInstallCompany" column="iot_install_company" jdbcType="VARCHAR"/>
+        <result property="dataType" column="data_type" jdbcType="VARCHAR"/>
+        <result property="dtCreateTime" column="dt_create_time" jdbcType="TIMESTAMP"/>
+        <result property="dtModifyTime" column="dt_modify_time" jdbcType="TIMESTAMP"/>
+        <result property="vCreateUserId" column="v_create_user_id" jdbcType="VARCHAR"/>
+        <result property="vModifyUserId" column="v_modify_user_id" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="list" parameterType="com.shmashine.api.module.mashineService.MashineServiceBizElevatorModule"
+            resultMap="MashineServiceBizElevatorResult">
+        select tbl_third_party_ruijin_elevator.* from tbl_third_party_ruijin_elevator
+        join tbl_elevator on tbl_third_party_ruijin_elevator.register_number = tbl_elevator.v_equipment_code
+        <if test="!mashineServiceBizElevatorModule.isAdminFlag">
+            join tbl_sys_user_resource resource on tbl_elevator.v_elevator_id = resource.v_resource_id and
+            resource.v_user_id =
+            #{mashineServiceBizElevatorModule.userId}
+        </if>
+        order by tbl_third_party_ruijin_elevator.id desc
+    </select>
+</mapper>

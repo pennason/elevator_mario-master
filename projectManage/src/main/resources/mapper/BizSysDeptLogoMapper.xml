@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shmashine.pm.api.dao.BizSysDeptLogoDao">
+
+    <select id="getByDeptId" resultType="java.util.Map">
+        SELECT log.*
+        FROM tbl_sys_dept dept
+                 JOIN tbl_sys_dept_logo log ON dept.v_dept_id = log.v_dept_id
+        WHERE dept.v_dept_id = #{deptId}
+    </select>
+
+    <!--通过主键修改实体属性不为null的列-->
+    <update id="updateDeptLogo" parameterType="com.shmashine.pm.api.entity.TblSysDeptLogo">
+        update tbl_sys_dept_logo
+        <set>
+            <if test="vSystemTitle != null and vSystemTitle != ''">
+                v_system_title = #{vSystemTitle,jdbcType=VARCHAR},
+            </if>
+            <if test="vLogoId != null and vLogoId != ''">
+                v_logo_id = #{vLogoId,jdbcType=VARCHAR}
+            </if>
+            <if test="vRemark != null and vRemark != ''">
+                v_remark = #{vRemark,jdbcType=VARCHAR},
+            </if>
+            <if test="vServerUrl != null and vServerUrl != ''">
+                v_server_url = #{vServerUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="vLogFileUrl != null and vLogFileUrl != ''">
+                v_log_file_url = #{vLogFileUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="dtCreateTime != null">
+                dt_create_time = #{dtCreateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="dtModifyTime != null">
+                dt_modify_time = #{dtModifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="vCreateUserId != null and vCreateUserId != ''">
+                v_create_user_id = #{vCreateUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="vModifyUserId != null and vModifyUserId != ''">
+                v_modify_user_id = #{vModifyUserId,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where v_dept_id = #{vDeptId,jdbcType=VARCHAR}
+    </update>
+</mapper>

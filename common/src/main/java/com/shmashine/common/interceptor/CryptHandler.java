@@ -1,0 +1,176 @@
+package com.shmashine.common.interceptor;
+
+import java.lang.reflect.Field;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArraySet;
+
+import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.springframework.core.annotation.AnnotationUtils;
+import org.springframework.util.CollectionUtils;
+
+import com.shmashine.common.annotation.FieldEncrypt;
+import com.shmashine.common.annotation.SensitiveData;
+import com.shmashine.common.enums.SerializeType;
+import com.shmashine.common.utils.CryptoUtil;
+
+import lombok.extern.slf4j.Slf4j;
+
+/**
+ * 加密处理类
+ *
+ * @Author: jiangheng
+ * @Version: 1.0.0
+ * @Date: 2024/5/20 17:32
+ * @Since: 1.0.0
+ */
+@Slf4j
+public class CryptHandler extends PrivacyAbstractHandler<FieldEncrypt> {
+
+    private static final String KEY = "edcb87b4-68b1-466b-8f6d-256ef53e50f0";
+    private static final Map<Class<?>, Set<Field>> FIELDS_MAP = new ConcurrentHashMap<>();
+    private static final Set<Class<?>> CLASS_SET = new CopyOnWriteArraySet<>();
+
+    public CryptHandler() {
+        super(FieldEncrypt.class);
+    }
+
+    @Override
+    protected Map<Class<?>, Set<Field>> getFieldsMap() {
+        return FIELDS_MAP;
+    }
+
+    @Override
+    protected Set<Class<?>> getClassSet() {
+        return CLASS_SET;
+    }
+
+    @Override
+    String getAfterValue(FieldEncrypt annotation, String originalValue, SerializeType serializeType) {
+
+        //属性上的key
+        String key = annotation.key();
+        if (key == null || key.isEmpty()) {
+            key = KEY;
+        }
+
+        String valueResult;
+        try {
+            if (serializeType.equals(SerializeType.DE)) {
+                valueResult = CryptoUtil.decryptAesBase64(key, String.valueOf(originalValue));
+            } else {
+                valueResult = CryptoUtil.encryptAesBase64(key, String.valueOf(originalValue));
+            }
+        } catch (Exception e) {
+            valueResult = originalValue;
+            log.error("数据库字段加密处理错误-value:{}-error:{}", valueResult, ExceptionUtils.getStackTrace(e));
+        }
+        return valueResult;
+    }
+
+
+    /**
+     * 处理结果集
+     */
+    public void handleResultList(List<Object> resultList) {
+        if (CollectionUtils.isEmpty(resultList)) {
+            return;
+        }
+        resultList = resultList.stream().filter(Objects::nonNull).toList();
+        // 默认集合内元素一致
+        parse(resultList.getLast().getClass());
+
+        resultList.forEach(object -> {
+            //校验该实例的类是否被@SensitiveData所注解-简化流程，也可不要此判断
+            SensitiveData sensitiveData = AnnotationUtils.findAnnotation(object.getClass(), SensitiveData.class);
+
+            if (sensitiveData != null && object != null) {
+                handleObject(object, object.getClass(), SerializeType.DE);
+            }
+        });
+    }
+
+    /**
+     * 处理参数
+     */
+    @SuppressWarnings("checkstyle:NestedIfDepth")
+    public void handleParam(Object parameter) {
+
+        if (parameter == null) {
+            return;
+        }
+
+        //校验该实例的类是否被@SensitiveData所注解-简化流程，也可不要此判断
+        SensitiveData sensitiveData = AnnotationUtils.findAnnotation(parameter.getClass(), SensitiveData.class);
+
+        if (sensitiveData != null) {
+
+            if (parameter instanceof Map) {
+                Map paramMap = (Map) parameter;
+                Set<Object> handledObjectList = new HashSet<>();
+                for (Object value : paramMap.values()) {
+                    if (value != null) {
+                        if (value instanceof Collection) {
+                            for (Object item : ((Collection<?>) value)) {
+                                if (handledObjectList.contains(item)) {
+                                    continue;
+                                }
+                                parse(item.getClass());
+                                handleObject(item, item.getClass(), SerializeType.EN);
+                                handledObjectList.add(item);
+                            }
+                        } else {
+                            parse(value.getClass());
+                            handleObject(value, value.getClass(), SerializeType.EN);
+                        }
+                    }
+                }
+
+            } else {
+                parse(parameter.getClass());
+                handleObject(parameter, parameter.getClass(), SerializeType.EN);
+            }
+
+        }
+
+    }
+
+    /**
+     * 处理参数或结果
+     */
+    protected void handleParameterOrResult(Object object, SerializeType serializeType) {
+        //多个参数
+        if (object instanceof Map) {
+            Map paramMap = (Map) object;
+            Set keySet = paramMap.keySet();
+            for (Object key : keySet) {
+                Object o = paramMap.get(key);
+                // 如果参数是集合类型，根据遍历处理
+                if (o != null) {
+                    if (o instanceof Collection) {
+                        for (Object item : ((Collection<?>) o)) {
+                            parse(item.getClass());
+                            handleObject(item, item.getClass(), serializeType);
+                        }
+                    } else {
+                        //
+                        parse(o.getClass());
+                        handleObject(o, o.getClass(), serializeType);
+                    }
+                }
+            }
+        } else {
+            if (object != null) {
+                //
+                parse(object.getClass());
+                handleObject(object, object.getClass(), serializeType);
+            }
+        }
+
+    }
+}

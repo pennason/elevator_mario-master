@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.sender.dao.TblDeviceMapper">
+    <sql id="TABLE_NAME">
+        tbl_device
+    </sql>
+    <!-- 查询 -->
+
+    <select id="getOneByElevatorCode" resultType="com.shmashine.common.entity.TblDevice">
+        SELECT v_device_id AS vDeviceId, v_device_code AS vDeviceCode, v_sensor_type AS vSensorType, eType
+        FROM
+        <include refid="TABLE_NAME"/>
+        WHERE v_elevator_code = #{elevatorCode} AND i_del_flag = 0
+        ORDER BY v_sensor_type ASC
+        LIMIT 1
+    </select>
+</mapper>

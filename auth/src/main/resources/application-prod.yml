@@ -1,0 +1,65 @@
+eureka:
+  client:
+    service-url:
+      #      defaultZone: http://172.31.183.101:8008/eureka/
+      defaultZone: http://shmashine-eureka:8080/eureka/
+    instance:
+      instance-id: ${spring.cloud.client.ip-address}:${server.port}
+      prefer-ip-address: true
+
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql://rm-m5e5x3037x8bn5br6.mysql.rds.aliyuncs.com:3306/elevator_master?useSSL=false&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+    username: elevator_master
+    password: Shmash1ne@elevator_master
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    # 指定连接池中最大的活跃连接数.
+    max-active: 20
+    # 指定连接池最大的空闲连接数量.
+    max-idle: 8
+    # 指定必须保持连接的最小值
+    min-idle: 8
+    # 指定启动连接池时，初始建立的连接数量
+    initial-size: 10
+
+    # 避免日期值序列化时发生时区错误，算是spring boot框架本身整合时的兼容的小BUG吧。
+    jackson:
+      time-zone: GMT+8
+
+
+  ########################################################
+  ### Redis Config
+  ########################################################
+  # Redis数据库索引（默认为0）
+  redis:
+    database: 15
+    # Redis服务器地址
+    host: redis.tech.internal.shmashine.com
+    # Redis服务器连接端口
+    port: 6379
+    # Redis服务器连接密码（默认为空）
+    password: shmashine@666
+
+  boot:
+    admin:
+      client:
+        url: http://spring-boot-admin:8080/
+        username: shmashine
+        password: shmashine
+        instance:
+          prefer-ip: true
+          service-url: http://shmashine-auth:8080/auth
+
+########################################################
+### Business Config
+########################################################
+# Token的有效时间(单位：秒)
+biz:
+  token:
+    valid:
+      seconds: 604800
+  # RefreshToken的有效时间(单位：秒)
+  refreshtoken:
+    valid:
+      seconds: 60

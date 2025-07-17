@@ -1,0 +1,25 @@
+server:
+  port: 8014
+
+spring:
+  redis:
+    database: 2
+    host: 10.0.0.113
+    port: 6379
+    password: shmashine@666
+    timeout: 5000
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://rm-m5e5x3037x8bn5br61o.mysql.rds.aliyuncs.com:3306/elevator_master?useSSL=false&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+    username: shmashine_dev
+    password: Maixin@789#jhgfdsa
+
+camera:
+  tysl:
+    callback-base-url: http://tysl.camera.shmashine.com:8005
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8008/eureka/

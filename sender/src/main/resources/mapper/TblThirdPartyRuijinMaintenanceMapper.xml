@@ -1,0 +1,374 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shmashine.sender.dao.TblThirdPartyRuijinMaintenanceDao">
+
+    <resultMap type="com.shmashine.common.entity.TblThirdPartyRuijinMaintenance"
+               id="TblThirdPartyRuijinMaintenanceResultMap">
+        <result property="registerNumber" column="register_number" jdbcType="VARCHAR"/>
+        <result property="address" column="address" jdbcType="VARCHAR"/>
+        <result property="internalNumber" column="internal_number" jdbcType="VARCHAR"/>
+        <result property="maintenanceCompanyCode" column="maintenance_company_code" jdbcType="VARCHAR"/>
+        <result property="maintenanceCompanyName" column="maintenance_company_name" jdbcType="VARCHAR"/>
+        <result property="maintenancePrinciple" column="maintenance_principle" jdbcType="VARCHAR"/>
+        <result property="maintenancePrincipleTel" column="maintenance_principle_tel" jdbcType="VARCHAR"/>
+        <result property="maintenancePeriod" column="maintenance_period" jdbcType="INTEGER"/>
+        <result property="certNumber" column="cert_number" jdbcType="VARCHAR"/>
+        <result property="qualificationScope" column="qualification_scope" jdbcType="VARCHAR"/>
+        <result property="registerAddress" column="register_address" jdbcType="VARCHAR"/>
+        <result property="officeAddress" column="office_address" jdbcType="VARCHAR"/>
+        <result property="maintenanceStation" column="maintenance_station" jdbcType="VARCHAR"/>
+        <result property="stationAddress" column="station_address" jdbcType="VARCHAR"/>
+        <result property="stationTel" column="station_tel" jdbcType="VARCHAR"/>
+        <result property="stationPrinciple" column="station_principle" jdbcType="VARCHAR"/>
+        <result property="driver" column="driver" jdbcType="VARCHAR"/>
+        <result property="rescueTel" column="rescue_tel" jdbcType="VARCHAR"/>
+        <result property="checkDate" column="check_date" jdbcType="OTHER"/>
+        <result property="checkCompanyName" column="check_company_name" jdbcType="VARCHAR"/>
+        <result property="nextCheckDate" column="next_check_date" jdbcType="OTHER"/>
+        <result property="contractUseCompanyName" column="contract_use_company_name" jdbcType="VARCHAR"/>
+        <result property="useCompanyCode" column="use_company_code" jdbcType="VARCHAR"/>
+        <result property="useCompanyPrinciple" column="use_company_principle" jdbcType="VARCHAR"/>
+        <result property="useCompanyPrincipleTel" column="use_company_principle_tel" jdbcType="VARCHAR"/>
+        <result property="usePlaceName" column="use_place_name" jdbcType="VARCHAR"/>
+        <result property="usePlaceAreaCode" column="use_place_area_code" jdbcType="VARCHAR"/>
+        <result property="usePlaceTownCode" column="use_place_town_code" jdbcType="VARCHAR"/>
+        <result property="usePlaceAddress" column="use_place_address" jdbcType="VARCHAR"/>
+        <result property="usePlaceType" column="use_place_type" jdbcType="VARCHAR"/>
+        <result property="safetyAdministrator" column="safety_administrator" jdbcType="VARCHAR"/>
+        <result property="safetyAdminTel" column="safety_admin_tel" jdbcType="VARCHAR"/>
+        <result property="firstMaintainerName" column="first_maintainer_name" jdbcType="VARCHAR"/>
+        <result property="firstMaintainerIdNumber" column="first_maintainer_id_number" jdbcType="VARCHAR"/>
+        <result property="firstMaintainerTel" column="first_maintainer_tel" jdbcType="VARCHAR"/>
+        <result property="secondMaintainerName" column="second_maintainer_name" jdbcType="VARCHAR"/>
+        <result property="secondMaintainerIdNumber" column="second_maintainer_id_number" jdbcType="VARCHAR"/>
+        <result property="secondMaintainerTel" column="second_maintainer_tel" jdbcType="VARCHAR"/>
+        <result property="dtCreateTime" column="dt_create_time" jdbcType="TIMESTAMP"/>
+        <result property="dtModifyTime" column="dt_modify_time" jdbcType="TIMESTAMP"/>
+        <result property="vCreateUserId" column="v_create_user_id" jdbcType="VARCHAR"/>
+        <result property="vModifyUserId" column="v_modify_user_id" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="table_field">
+        register_number
+        , address, internal_number, maintenance_company_code, maintenance_company_name, maintenance_principle, maintenance_principle_tel, maintenance_period, cert_number, qualification_scope, register_address, office_address, maintenance_station, station_address, station_tel, station_principle, driver, rescue_tel, check_date, check_company_name, next_check_date, contract_use_company_name, use_company_code, use_company_principle, use_company_principle_tel, use_place_name, use_place_area_code, use_place_town_code, use_place_address, use_place_type, safety_administrator, safety_admin_tel, first_maintainer_name, first_maintainer_id_number, first_maintainer_tel, second_maintainer_name, second_maintainer_id_number, second_maintainer_tel, dt_create_time, dt_modify_time, v_create_user_id, v_modify_user_id
+    </sql>
+
+
+    <!--新增实体属性不为null的列-->
+    <insert id="insert" keyProperty="registerNumber" useGeneratedKeys="true"
+            parameterType="com.shmashine.common.entity.TblThirdPartyRuijinMaintenance">
+        insert into tbl_third_party_ruijin_maintenance
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="registerNumber != null">
+                register_number,
+            </if>
+            <if test="address != null">
+                address,
+            </if>
+            <if test="internalNumber != null">
+                internal_number,
+            </if>
+            <if test="maintenanceCompanyCode != null">
+                maintenance_company_code,
+            </if>
+            <if test="maintenanceCompanyName != null">
+                maintenance_company_name,
+            </if>
+            <if test="maintenancePrinciple != null">
+                maintenance_principle,
+            </if>
+            <if test="maintenancePrincipleTel != null">
+                maintenance_principle_tel,
+            </if>
+            <if test="maintenancePeriod != null">
+                maintenance_period,
+            </if>
+            <if test="certNumber != null">
+                cert_number,
+            </if>
+            <if test="qualificationScope != null">
+                qualification_scope,
+            </if>
+            <if test="registerAddress != null">
+                register_address,
+            </if>
+            <if test="officeAddress != null">
+                office_address,
+            </if>
+            <if test="maintenanceStation != null">
+                maintenance_station,
+            </if>
+            <if test="stationAddress != null">
+                station_address,
+            </if>
+            <if test="stationTel != null">
+                station_tel,
+            </if>
+            <if test="stationPrinciple != null">
+                station_principle,
+            </if>
+            <if test="driver != null">
+                driver,
+            </if>
+            <if test="rescueTel != null">
+                rescue_tel,
+            </if>
+            <if test="checkDate != null">
+                check_date,
+            </if>
+            <if test="checkCompanyName != null">
+                check_company_name,
+            </if>
+            <if test="nextCheckDate != null">
+                next_check_date,
+            </if>
+            <if test="contractUseCompanyName != null">
+                contract_use_company_name,
+            </if>
+            <if test="useCompanyCode != null">
+                use_company_code,
+            </if>
+            <if test="useCompanyPrinciple != null">
+                use_company_principle,
+            </if>
+            <if test="useCompanyPrincipleTel != null">
+                use_company_principle_tel,
+            </if>
+            <if test="usePlaceName != null">
+                use_place_name,
+            </if>
+            <if test="usePlaceAreaCode != null">
+                use_place_area_code,
+            </if>
+            <if test="usePlaceTownCode != null">
+                use_place_town_code,
+            </if>
+            <if test="usePlaceAddress != null">
+                use_place_address,
+            </if>
+            <if test="usePlaceType != null">
+                use_place_type,
+            </if>
+            <if test="safetyAdministrator != null">
+                safety_administrator,
+            </if>
+            <if test="safetyAdminTel != null">
+                safety_admin_tel,
+            </if>
+            <if test="firstMaintainerName != null">
+                first_maintainer_name,
+            </if>
+            <if test="firstMaintainerIdNumber != null">
+                first_maintainer_id_number,
+            </if>
+            <if test="firstMaintainerTel != null">
+                first_maintainer_tel,
+            </if>
+            <if test="secondMaintainerName != null">
+                second_maintainer_name,
+            </if>
+            <if test="secondMaintainerIdNumber != null">
+                second_maintainer_id_number,
+            </if>
+            <if test="secondMaintainerTel != null">
+                second_maintainer_tel,
+            </if>
+            <if test="dtCreateTime != null">
+                dt_create_time,
+            </if>
+            <if test="dtModifyTime != null">
+                dt_modify_time,
+            </if>
+            <if test="vCreateUserId != null">
+                v_create_user_id,
+            </if>
+            <if test="vModifyUserId != null">
+                v_modify_user_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="registerNumber != null">
+                #{registerNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="address != null">
+                #{address,jdbcType=VARCHAR},
+            </if>
+            <if test="internalNumber != null">
+                #{internalNumber,jdbcType=INTEGER},
+            </if>
+            <if test="maintenanceCompanyCode != null">
+                #{maintenanceCompanyCode,jdbcType=VARCHAR},
+            </if>
+            <if test="maintenanceCompanyName != null">
+                #{maintenanceCompanyName,jdbcType=VARCHAR},
+            </if>
+            <if test="maintenancePrinciple != null">
+                #{maintenancePrinciple,jdbcType=VARCHAR},
+            </if>
+            <if test="maintenancePrincipleTel != null">
+                #{maintenancePrincipleTel,jdbcType=VARCHAR},
+            </if>
+            <if test="maintenancePeriod != null">
+                #{maintenancePeriod,jdbcType=INTEGER},
+            </if>
+            <if test="certNumber != null">
+                #{certNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="qualificationScope != null">
+                #{qualificationScope,jdbcType=VARCHAR},
+            </if>
+            <if test="registerAddress != null">
+                #{registerAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="officeAddress != null">
+                #{officeAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="maintenanceStation != null">
+                #{maintenanceStation,jdbcType=VARCHAR},
+            </if>
+            <if test="stationAddress != null">
+                #{stationAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="stationTel != null">
+                #{stationTel,jdbcType=VARCHAR},
+            </if>
+            <if test="stationPrinciple != null">
+                #{stationPrinciple,jdbcType=VARCHAR},
+            </if>
+            <if test="driver != null">
+                #{driver,jdbcType=VARCHAR},
+            </if>
+            <if test="rescueTel != null">
+                #{rescueTel,jdbcType=VARCHAR},
+            </if>
+            <if test="checkDate != null">
+                #{checkDate,jdbcType=OTHER},
+            </if>
+            <if test="checkCompanyName != null">
+                #{checkCompanyName,jdbcType=VARCHAR},
+            </if>
+            <if test="nextCheckDate != null">
+                #{nextCheckDate,jdbcType=OTHER},
+            </if>
+            <if test="contractUseCompanyName != null">
+                #{contractUseCompanyName,jdbcType=VARCHAR},
+            </if>
+            <if test="useCompanyCode != null">
+                #{useCompanyCode,jdbcType=VARCHAR},
+            </if>
+            <if test="useCompanyPrinciple != null">
+                #{useCompanyPrinciple,jdbcType=VARCHAR},
+            </if>
+            <if test="useCompanyPrincipleTel != null">
+                #{useCompanyPrincipleTel,jdbcType=VARCHAR},
+            </if>
+            <if test="usePlaceName != null">
+                #{usePlaceName,jdbcType=VARCHAR},
+            </if>
+            <if test="usePlaceAreaCode != null">
+                #{usePlaceAreaCode,jdbcType=VARCHAR},
+            </if>
+            <if test="usePlaceTownCode != null">
+                #{usePlaceTownCode,jdbcType=VARCHAR},
+            </if>
+            <if test="usePlaceAddress != null">
+                #{usePlaceAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="usePlaceType != null">
+                #{usePlaceType,jdbcType=VARCHAR},
+            </if>
+            <if test="safetyAdministrator != null">
+                #{safetyAdministrator,jdbcType=VARCHAR},
+            </if>
+            <if test="safetyAdminTel != null">
+                #{safetyAdminTel,jdbcType=VARCHAR},
+            </if>
+            <if test="firstMaintainerName != null">
+                #{firstMaintainerName,jdbcType=VARCHAR},
+            </if>
+            <if test="firstMaintainerIdNumber != null">
+                #{firstMaintainerIdNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="firstMaintainerTel != null">
+                #{firstMaintainerTel,jdbcType=VARCHAR},
+            </if>
+            <if test="secondMaintainerName != null">
+                #{secondMaintainerName,jdbcType=VARCHAR},
+            </if>
+            <if test="secondMaintainerIdNumber != null">
+                #{secondMaintainerIdNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="secondMaintainerTel != null">
+                #{secondMaintainerTel,jdbcType=VARCHAR},
+            </if>
+            <if test="dtCreateTime != null">
+                #{dtCreateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="dtModifyTime != null">
+                #{dtModifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="vCreateUserId != null">
+                #{vCreateUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="vModifyUserId != null">
+                #{vModifyUserId,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <!--批量新增所有列，列表长度不能为0-->
+    <insert id="insertBatch" keyProperty="registerNumber" useGeneratedKeys="true" parameterType="list">
+        insert into tbl_third_party_ruijin_maintenance
+        ( register_number ,address, internal_number, maintenance_company_code, maintenance_company_name,
+        maintenance_principle, maintenance_principle_tel, maintenance_period, cert_number, qualification_scope,
+        register_address, office_address, maintenance_station, station_address, station_tel, station_principle, driver,
+        rescue_tel, check_date, check_company_name, next_check_date, contract_use_company_name, use_company_code,
+        use_company_principle, use_company_principle_tel, use_place_name, use_place_area_code, use_place_town_code,
+        use_place_address, use_place_type, safety_administrator, safety_admin_tel, first_maintainer_name,
+        first_maintainer_id_number, first_maintainer_tel, second_maintainer_name, second_maintainer_id_number,
+        second_maintainer_tel, dt_create_time, dt_modify_time, v_create_user_id, v_modify_user_id)
+        values
+        <foreach item="item" collection="list" separator="," open="" close="" index="index">
+            (#{item.registerNumber,jdbcType=VARCHAR},#{item.address,jdbcType=VARCHAR},
+            #{item.internalNumber,jdbcType=VARCHAR}, #{item.maintenanceCompanyCode,jdbcType=VARCHAR},
+            #{item.maintenanceCompanyName,jdbcType=VARCHAR}, #{item.maintenancePrinciple,jdbcType=VARCHAR},
+            #{item.maintenancePrincipleTel,jdbcType=VARCHAR}, #{item.maintenancePeriod,jdbcType=INTEGER},
+            #{item.certNumber,jdbcType=VARCHAR}, #{item.qualificationScope,jdbcType=VARCHAR},
+            #{item.registerAddress,jdbcType=VARCHAR}, #{item.officeAddress,jdbcType=VARCHAR},
+            #{item.maintenanceStation,jdbcType=VARCHAR}, #{item.stationAddress,jdbcType=VARCHAR},
+            #{item.stationTel,jdbcType=VARCHAR}, #{item.stationPrinciple,jdbcType=VARCHAR},
+            #{item.driver,jdbcType=VARCHAR}, #{item.rescueTel,jdbcType=VARCHAR}, #{item.checkDate,jdbcType=OTHER},
+            #{item.checkCompanyName,jdbcType=VARCHAR}, #{item.nextCheckDate,jdbcType=OTHER},
+            #{item.contractUseCompanyName,jdbcType=VARCHAR}, #{item.useCompanyCode,jdbcType=VARCHAR},
+            #{item.useCompanyPrinciple,jdbcType=VARCHAR}, #{item.useCompanyPrincipleTel,jdbcType=VARCHAR},
+            #{item.usePlaceName,jdbcType=VARCHAR}, #{item.usePlaceAreaCode,jdbcType=VARCHAR},
+            #{item.usePlaceTownCode,jdbcType=VARCHAR}, #{item.usePlaceAddress,jdbcType=VARCHAR},
+            #{item.usePlaceType,jdbcType=VARCHAR}, #{item.safetyAdministrator,jdbcType=VARCHAR},
+            #{item.safetyAdminTel,jdbcType=VARCHAR}, #{item.firstMaintainerName,jdbcType=VARCHAR},
+            #{item.firstMaintainerIdNumber,jdbcType=VARCHAR}, #{item.firstMaintainerTel,jdbcType=VARCHAR},
+            #{item.secondMaintainerName,jdbcType=VARCHAR}, #{item.secondMaintainerIdNumber,jdbcType=VARCHAR},
+            #{item.secondMaintainerTel,jdbcType=VARCHAR}, now(), now(), 'sys', 'sys')
+        </foreach>
+    </insert>
+
+    <!--通过主键删除-->
+    <delete id="deleteById" parameterType="java.lang.String">
+        delete
+        from tbl_third_party_ruijin_maintenance
+        where register_number = #{registerNumber}
+    </delete>
+
+    <!--通过主键列表删除，列表长度不能为0-->
+    <delete id="deleteAll">
+        delete
+        from tbl_third_party_ruijin_maintenance
+    </delete>
+
+    <select id="getMaintenanceInfoByRegisternumber" resultMap="TblThirdPartyRuijinMaintenanceResultMap"
+            parameterType="java.lang.String">
+        select *
+        from tbl_third_party_ruijin_maintenance
+        where register_number = #{value}
+    </select>
+
+</mapper>

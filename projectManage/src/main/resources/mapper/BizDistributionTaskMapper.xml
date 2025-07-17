@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shmashine.pm.api.dao.BizDistributionTaskDao">
+
+    <sql id="table_field">
+        v_distribution_task_id
+        , v_project_id, v_village_id, v_principal_id, i_elevator_count, i_status, v_template_file_url, v_address, v_ dt_create_time, dt_modify_time, v_create_user_id, v_modify_user_id, i_del_flag
+    </sql>
+
+    <!-- 列表 -->
+    <select id="searchDistributionTaskList" resultType="java.util.Map">
+        select
+        tbl.v_distribution_task_id,
+        tbl.v_project_id,
+        tbl.v_village_id,
+        tbl.v_principal_id,
+        tbl.i_elevator_count,
+        tbl.i_status,
+        tbl.i_next_step,
+        tbl.v_init_elevator_code,
+        tbl.v_init_verify_code,
+        tbl.i_shortcut,
+        tbl.i_cube_count,
+        tbl.v_distributer_name,
+        case
+        when tbl.i_status = 1 then '未配货'
+        when tbl.i_status = 2 then '配货中'
+        when tbl.i_status = 3 then '完成'
+        when tbl.i_status = -1 then '已取消'
+        else ''
+        end as i_status_name,
+        tbl.v_template_file_url,
+        tbl.v_address,
+        tbl.dt_create_time,
+        tbl.dt_modify_time,
+        tbl.v_create_user_id,
+        tbl.v_modify_user_id,
+        tbl.i_del_flag,
+        village.v_village_name,
+        project.v_project_name,
+        u.v_name as v_principal_name,
+        file.dt_modify_time as upload_time,
+        file.v_modify_user_id as upload_user_id,
+        sysinfo.v_name_zh_cn AS i_del_flag_name,
+        dept.v_dept_name
+        from tbl_distribution_task tbl
+        left join tbl_sys_user as u
+        on u.v_user_id = tbl.v_principal_id
+        left join tbl_pm_file as file
+        on file.v_target_id = tbl.v_distribution_task_id
+        left join tbl_project project on project.v_project_id = tbl.v_project_id
+        left join tbl_sys_dept dept on dept.v_dept_id = project.v_dept_id
+        left join tbl_village village on village.v_village_id = tbl.v_village_id
+        left join tbl_sys_systeminfo sysinfo on sysinfo.v_sysvalue5 = tbl.i_del_flag and sysinfo.v_sysid = '10012'
+        <where>
+            <!--dept.v_dept_id-->
+            <!--<foreach collection="permissionDeptIds" item="item"  open="IN(" separator="," close=")" >-->
+            <!--#{item}-->
+            <!--</foreach>-->
+            <if test="vDistributionTaskId != null and vDistributionTaskId != ''">
+                and tbl.v_distribution_task_id = #{vDistributionTaskId,jdbcType=VARCHAR}
+            </if>
+            <if test="vProjectId != null and vProjectId != ''">
+                and tbl.v_project_id = #{vProjectId,jdbcType=VARCHAR}
+            </if>
+            <if test="projectName != null and projectName != ''">
+                and project.v_project_name like concat("%", #{projectName,jdbcType=VARCHAR}, "%")
+            </if>
+            <if test="vVillageId != null and vVillageId != ''">
+                and tbl.v_village_id = #{vVillageId,jdbcType=VARCHAR}
+            </if>
+            <if test="vVillageName != null and vVillageName != ''">
+                and village.v_village_name like concat("%", #{vVillageName,jdbcType=VARCHAR}, "%")
+            </if>
+            <if test="vAddress != null and vAddress !=''">
+                and tbl.v_address like CONCAT('%',#{vAddress,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="iDelFlag != null">
+                and tbl.i_del_flag = #{iDelFlag, jdbcType=INTEGER}
+            </if>
+            <if test="iStatus != null">
+                and tbl.i_status = #{iStatus, jdbcType=INTEGER}
+            </if>
+            <if test="!isAdminFlag">
+                and tbl.v_principal_id = #{userId, jdbcType=VARCHAR}
+            </if>
+        </where>
+        order by tbl.dt_create_time desc
+    </select>
+
+    <!-- 小区列表 -->
+    <select id="getBizInfoById" resultType="java.util.Map">
+        select tbl.v_distribution_task_id,
+               tbl.v_project_id,
+               tbl.v_village_id,
+               tbl.v_project_id,
+               tbl.v_principal_id,
+               tbl.i_elevator_count,
+               tbl.v_address,
+               tbl.i_status,
+               tbl.i_next_step,
+               tbl.v_init_elevator_code,
+               tbl.v_init_verify_code,
+               tbl.i_shortcut,
+               tbl.i_cube_count,
+               tbl.v_distributer_name,
+               case
+                   when tbl.i_status = 1 then '未配货'
+                   when tbl.i_status = 2 then '配货中'
+                   when tbl.i_status = 3 then '完成'
+                   when tbl.i_status = -1 then '已取消'
+                   else ''
+                   end               as i_status_name,
+               tbl.v_template_file_url,
+               tbl.dt_create_time,
+               tbl.dt_modify_time,
+               tbl.v_create_user_id,
+               tbl.v_modify_user_id,
+               tbl.i_del_flag,
+               village.v_village_name,
+               project.v_project_name,
+               u.v_name              as v_principal_name,
+               file.dt_modify_time   as upload_time,
+               file.v_modify_user_id as upload_user_id,
+               sysinfo.v_name_zh_cn  AS i_del_flag_name
+        from tbl_distribution_task tbl
+                 left join tbl_sys_user as u
+                           on u.v_user_id = tbl.v_principal_id
+                 left join tbl_pm_file as file
+                           on file.v_target_id = tbl.v_distribution_task_id
+                 left join tbl_project project on project.v_project_id = tbl.v_project_id
+                 left join tbl_sys_dept dept on dept.v_dept_id = project.v_dept_id
+                 left join tbl_village village on village.v_village_id = tbl.v_village_id
+                 left join tbl_sys_systeminfo sysinfo
+                           on sysinfo.v_sysvalue5 = tbl.i_del_flag and sysinfo.v_sysid = '10012'
+        where tbl.v_distribution_task_id = #{vDistributionTaskId, jdbcType=VARCHAR}
+    </select>
+
+    <!-- 获取下拉框 -->
+    <select id="searchDistributionTaskSelectList" resultType="java.util.Map">
+        select
+        v_distribution_task_id,
+        v_project_id,
+        v_village_id,
+        from tbl_distribution_task
+        <where>
+            v_distribution_task_id = #{distributionTaskId}
+        </where>
+    </select>
+
+    <!-- 获取下拉框 -->
+    <select id="getByVillageId" resultType="com.shmashine.pm.api.entity.TblDistributionTask">
+        select
+        <include refid="table_field"/>
+        from tbl_distribution_task
+        <where>
+            v_village_id = #{vVillageId}
+        </where>
+        limit 0, 1
+    </select>
+
+    <select id="getRelativeInfo" resultType="java.util.Map" parameterType="java.lang.String">
+        select project.v_project_name          as projectName,
+               village.v_village_name          as villageName,
+               IFNULL(tbl.i_elevator_count, 0) as elevatorCount,
+               dept.v_dept_name                as deptName,
+               elevator.v_equipment_code       as equipmentCode,
+               elevator.v_address              as address
+        from tbl_distribution_task as tbl
+                 join tbl_project as project
+                      on tbl.v_project_id = project.v_project_id
+                 join tbl_village as village
+                      on tbl.v_village_id = village.v_village_id
+                 join tbl_sys_dept as dept
+                      on project.v_dept_id = dept.v_dept_id
+                 join tbl_elevator as elevator
+                      on elevator.v_village_id = tbl.v_village_id
+        where tbl.v_distribution_task_id = #{vDistributionTaskId, jdbcType=VARCHAR}
+        order by tbl.dt_modify_time asc
+    </select>
+
+    <select id="existsElevatorCode" resultType="java.lang.Integer" parameterType="list">
+        select 1
+        from tbl_elevator as elevator
+        where
+        elevator.v_elevator_code in
+        <foreach collection="list" separator="," open="(" close=")" item="item" index="index">
+            #{item}
+        </foreach>
+        and
+        elevator.i_del_flag = 0
+        limit 0, 1
+    </select>
+</mapper>

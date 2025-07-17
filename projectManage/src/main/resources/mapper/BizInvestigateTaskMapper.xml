@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shmashine.pm.api.dao.BizInvestigateTaskDao">
+
+    <sql id="table_field">
+        v_investigate_task_id
+        , v_project_id, v_village_id, v_address, v_principal_id, d_investigate_date, i_elevator_count, i_status, v_template_file_url, dt_create_time, dt_modify_time, v_create_user_id, v_modify_user_id, i_del_flag
+    </sql>
+
+    <!-- 小区列表 -->
+    <select id="searchInvestigateTaskList" resultType="java.util.Map">
+        select
+        tbl.v_investigate_task_id,
+        tbl.v_project_id,
+        tbl.v_village_id,
+        tbl.v_project_id,
+        tbl.v_address,
+        tbl.v_principal_id,
+        tbl.d_investigate_date,
+        tbl.i_elevator_count,
+        tbl.i_status,
+        tbl.i_next_step,
+        case
+        when tbl.i_status = 1 then '现勘中'
+        when tbl.i_status = 2 then '已现勘'
+        when tbl.i_status = 3 then '完成'
+        when tbl.i_status = -1 then '已取消'
+        else '无'
+        end as i_status_name,
+        tbl.v_template_file_url,
+        tbl.dt_create_time,
+        tbl.dt_modify_time,
+        tbl.v_create_user_id,
+        tbl.v_modify_user_id,
+        tbl.i_del_flag,
+        village.v_village_name,
+        project.v_project_name,
+        sysinfo.v_name_zh_cn AS i_del_flag_name,
+        u.v_name as v_principal_name,
+        dept.v_dept_name
+        from tbl_investigate_task tbl
+        left join tbl_sys_user as u
+        on u.v_user_id = tbl.v_principal_id
+        left join tbl_project project on project.v_project_id = tbl.v_project_id
+        left join tbl_sys_dept dept on dept.v_dept_id = project.v_dept_id
+        left join tbl_village village on village.v_village_id = tbl.v_village_id
+        left join tbl_sys_systeminfo sysinfo on sysinfo.v_sysvalue5 = tbl.i_del_flag and sysinfo.v_sysid = '10012'
+        <where>
+            <!--dept.v_dept_id-->
+            <!--<foreach collection="permissionDeptIds" item="item"  open="IN(" separator="," close=")" >-->
+            <!--#{item}-->
+            <!--</foreach>-->
+            <if test="vInvestigateTaskId != null and vInvestigateTaskId != ''">
+                and tbl.v_investigate_task_id like concat("%", #{vInvestigateTaskId,jdbcType=VARCHAR}, "%")
+            </if>
+            <if test="vProjectId != null and vProjectId != ''">
+                and tbl.v_project_id = #{vProjectId,jdbcType=VARCHAR}
+            </if>
+            <if test="vVillageId != null and vVillageId != ''">
+                and tbl.v_village_id = #{vVillageId,jdbcType=VARCHAR}
+            </if>
+            <if test="vAddress != null and vAddress != ''">
+                and tbl.v_address like CONCAT('%',#{vAddress,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="dInvestigateDate != null">
+                and tbl.d_investigate_date = #{dInvestigateDate,jdbcType=TIMESTAMP}
+            </if>
+            <if test="vPrincipalId != null and vPrincipalId != ''">
+                and tbl.v_principal_id = #{vPrincipalId, jdbcType=VARCHAR}
+            </if>
+            <if test="iDelFlag != null">
+                and tbl.i_del_flag = #{iDelFlag, jdbcType=INTEGER}
+            </if>
+            <if test="iStatus != null and iStatus != ''">
+                and tbl.i_status in
+                <foreach collection="iStatus.split(',')" item="item" index="index" open="(" close=")" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="!isAdminFlag">
+                and tbl.v_principal_id = #{userId, jdbcType=VARCHAR}
+            </if>
+            <if test="vVillageName != null and vVillageName != ''">
+                and village.v_village_name like concat("%", #{vVillageName,jdbcType=VARCHAR}, "%")
+            </if>
+            <if test="vProjectName != null and vProjectName != ''">
+                and project.v_project_name like concat("%", #{vProjectName,jdbcType=VARCHAR}, "%")
+            </if>
+        </where>
+        order by tbl.dt_create_time desc
+    </select>
+
+    <!-- 获取小区下拉框 -->
+    <select id="searchInvestigateTaskSelectList" resultType="java.util.Map">
+        select
+        v_investigate_task_id,
+        v_project_id,
+        v_village_id,
+        v_address
+        from tbl_investigate_task
+        <where>
+            v_investigate_task_id = #{investigateTaskId}
+        </where>
+    </select>
+
+    <!-- 获取小区下拉框 -->
+    <select id="getByVillageId" resultType="com.shmashine.pm.api.entity.TblInvestigateTask">
+        select
+        <include refid="table_field"/>
+        from tbl_investigate_task
+        <where>
+            v_village_id = #{vVillageId}
+        </where>
+        limit 0, 1
+    </select>
+
+    <select id="getRelativeInfo" resultType="java.util.Map" parameterType="java.lang.String">
+        select project.v_project_name          as projectName,
+               village.v_village_name          as villageName,
+               IFNULL(tbl.i_elevator_count, 0) as elevatorCount,
+               dept.v_dept_name                as deptName
+        from tbl_investigate_task as tbl
+                 join tbl_project as project
+                      on tbl.v_project_id = project.v_project_id
+                 join tbl_village as village
+                      on tbl.v_village_id = village.v_village_id
+                 join tbl_sys_dept as dept
+                      on project.v_dept_id = dept.v_dept_id
+        where tbl.v_investigate_task_id = #{vInvestigateTaskId, jdbcType=VARCHAR}
+    </select>
+
+    <select id="getBizVillageInfo" resultType="java.util.Map" parameterType="java.lang.String">
+        select dept.v_dept_name                as customerName,
+               village.v_village_name          as vVillageName,
+               village.v_longitude             as vLongitude,
+               village.v_latitude              as vLatitude,
+               village.d_investigate_date      as dInvestigateDate,
+               village.v_address               as vAddress,
+               project.v_project_name          as vProjectName,
+               file.dt_modify_time             as uploadTime,
+               IFNULL(tbl.i_elevator_count, 0) as iElevatorCount,
+               tbl.i_status                    as taskStatus
+        from tbl_investigate_task as tbl
+                 left join tbl_pm_file as file
+                           on tbl.v_investigate_task_id = file.v_target_id
+                 join tbl_project as project
+                      on tbl.v_project_id = project.v_project_id
+                 join tbl_village as village
+                      on tbl.v_village_id = village.v_village_id
+                 join tbl_sys_dept as dept
+                      on project.v_dept_id = dept.v_dept_id
+        where tbl.v_investigate_task_id = #{vInvestigateTaskId, jdbcType=VARCHAR} limit 0, 1
+    </select>
+
+    <select id="getAllStatus" resultType="java.lang.Integer">
+        select
+        i_status
+        from
+        tbl_investigate_task
+        <where>
+            <if test="vProjectId != null and vProjectId != ''">
+                and v_project_id = #{vProjectId}
+            </if>
+            <if test="vVillageId != null and vVillageId != ''">
+                and v_village_id = #{vVillageId}
+            </if>
+        </where>
+    </select>
+
+</mapper>

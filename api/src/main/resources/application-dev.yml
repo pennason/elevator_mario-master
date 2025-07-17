@@ -1,0 +1,122 @@
+# kafka topic 名称
+kafka:
+  topic:
+    fault: dev_oreo_fault
+    pre-fault: dev_oreo_preFault
+    http: dev_netty_nezha
+    socket: dev_web_nezha
+    monitor: dev_oreo_monitor
+#    monitor: pro_oreo_monitor
+
+# sa-token 配置
+sa-token:
+  # 配置 Sa-Token 单独使用的 Redis 连接
+  alone-redis:
+    database: 12  # 默认13
+    host: redis
+    port: 6379
+    password: shmashine@666
+    timeout: 5000
+
+spring:
+  redis:
+    database: 1
+    host: redis
+    port: 6379
+    password: shmashine@666
+    timeout: 5000
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    #    driverClassName: net.sf.log4jdbc.DriverSpy
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://mysql8:3306/elevator_master?useSSL=false&useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&autoReconnect=true&failOverReadOnly=false&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+    username: root
+    password: shmashine@666
+    #url: jdbc:mysql://rm-m5e5x3037x8bn5br61o.mysql.rds.aliyuncs.com:3306/elevator_master?useSSL=false&useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&autoReconnect=true&failOverReadOnly=false&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+    #username: shmashine_dev
+    #password: Maixin@789#jhgfdsa
+
+  data:
+    mongodb:
+      host: mongodb
+      port: 27017
+      database: MX
+      username: shmashine
+      password: Shmashine@666
+
+  kafka:
+    producer:
+      bootstrap-servers: kafka:9092
+      retries: 0
+      batch-size: 16384
+      buffer-memory: 33554432
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      properties:
+        security.protocol: SASL_PLAINTEXT
+        sasl.mechanism: PLAIN
+        sasl.jaas.config: org.apache.kafka.common.security.plain.PlainLoginModule required username="producer" password="secret20190219";
+    consumer:
+      bootstrap-servers: kafka:9092
+      group-id: oreo-socket-group-testwu-test
+      auto-offset-reset: latest
+      enable-auto-commit: true
+      auto-commit-interval: 100
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      properties:
+        security.protocol: SASL_PLAINTEXT
+        sasl.mechanism: PLAIN
+        sasl.jaas.config: org.apache.kafka.common.security.plain.PlainLoginModule required username="producer" password="secret20190219";
+    listener:
+      missing-topics-fatal: false
+
+  boot:
+    admin:
+      client:
+        url: http://spring-boot-admin:9999/
+        username: shmashine
+        password: shmashine
+        instance:
+          service-url: http://shmashine-api:8003/api
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://shmashine-eureka:8080/eureka/
+  instance:
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+    # 优先使用IP地址方式进行注册服务
+    prefer-ip-address: true
+
+xxl:
+  job:
+    admin:
+      addresses: http://xxl-job-admin:8088/xxl-job-admin
+    accessToken: shmashine
+    executor:
+      appname: shmashine-api
+      address:
+      ip:
+      port: 9999
+      logpath: /data/logs/${spring.application.name}/xxl-job
+      logretentiondays: 7
+
+springdoc:
+  api-docs:
+    enabled: true
+
+endpoint:
+  shmashine-applets: http://shmashine-applets:8080
+  shmashine-hk-camera-ys: http://shmashine-hk-camera-ys:8009
+  shmashine-hk-camera-ym: http://shmashine-hk-camera-ym:8010
+  ai-image-label: http://10.0.0.185:10087
+  # 升级文件使用地址
+  upgrade-file-server: 10.0.0.174:8003
+
+# 故障屏蔽, 超过指定次数后不上报
+fault-masking:
+  # 每天故障上报次数大于5次-北向屏蔽
+  north-fault-count-day: 5
+  # 每小时故障上报次数大于3次-平台屏蔽
+  platform-fault-count-hour: 9999

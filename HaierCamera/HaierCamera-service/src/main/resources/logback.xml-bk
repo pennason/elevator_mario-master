@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true">
+	<!--copy from base.xml -->
+	<conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter" />
+	<conversionRule conversionWord="wex" converterClass="org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter" />
+
+	<!--CONSOLE-->
+	<property name="CONSOLE_LOG_PATTERN"
+		value="%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr([%5p]) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t{14}]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n%wex" />
+	<property name="FILE_LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%5p] ${PID:- } --- [%t] %-40.40logger{39} : %m%n%wex" />
+	<!--MESSAGE_LOG-->
+	<property name="MESSAGE_LOG_PATTERN" value="%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr([%5p]) %m%n" />
+
+
+	<!--CONSOLE-->
+	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<charset>utf-8</charset>
+			<Pattern>${CONSOLE_LOG_PATTERN}</Pattern>
+		</encoder>
+	</appender>
+
+	<!--The FILE and ASYNC appenders are here as examples for a production configuration -->
+	<appender name="haierCamera" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>./logs/haier.log</file>
+		<!--滚动策略 -->
+		<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+			<!--日志路径 -->
+			<fileNamePattern>./logs/haier.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+			<maxHistory>30</maxHistory>
+			<MaxFileSize>10MB</MaxFileSize>
+			<totalSizeCap>1GB</totalSizeCap>
+		</rollingPolicy>
+		<encoder>
+			<charset>utf-8</charset>
+			<Pattern>${FILE_LOG_PATTERN}</Pattern>
+		</encoder>
+	</appender>
+	<appender name="ASYNC" class="ch.qos.logback.classic.AsyncAppender">
+		<queueSize>512</queueSize>
+		<appender-ref ref="haierCamera" />
+	</appender>
+
+	<!--faultMessageLog -->
+	<appender name="haierCameraLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>./logs/haierCamera.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+			<!--日志路径 -->
+			<fileNamePattern>./logs/haierCamera.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+			<maxHistory>30</maxHistory>
+			<MaxFileSize>10MB</MaxFileSize>
+			<totalSizeCap>1GB</totalSizeCap>
+		</rollingPolicy>
+		<encoder>
+			<charset>utf-8</charset>
+			<Pattern>${MESSAGE_LOG_PATTERN}</Pattern>
+		</encoder>
+	</appender>
+
+	<logger name="haierCameraLogger" level="info" additivity="true">
+		<appender-ref ref="haierCameraLog"/>
+	</logger>
+
+	<contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator">
+		<resetJUL>true</resetJUL>
+	</contextListener>
+
+	<root level="info">
+		<appender-ref ref="CONSOLE" />
+	</root>
+
+</configuration>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shmashine.api.dao.BizBuildingDao">
+
+    <select id="search" resultType="java.util.Map">
+        SELECT
+        building.*,
+        CASE
+        WHEN EXISTS (
+        SELECT
+        '1'
+        FROM
+        tbl_elevator ele
+        JOIN tbl_third_party_ruijin_envent envent ON envent.register_number = ele.v_equipment_code
+        WHERE <![CDATA[ envent.current_status < 5 ]]>
+        AND envent.event_type = '2'
+        AND envent.occur_time &gt; curdate()
+        AND ele.v_building_id = building.v_building_id)
+        THEN 3
+        WHEN EXISTS (
+        SELECT
+        '1'
+        FROM
+        tbl_elevator ele
+        JOIN tbl_third_party_ruijin_envent envent ON envent.register_number = ele.v_equipment_code
+        WHERE
+        <![CDATA[ envent.current_status < 5 ]]>
+        AND envent.event_type = '1'
+        AND envent.occur_time &gt; curdate()
+        AND ele.v_building_id = building.v_building_id
+        ) THEN 2
+        ELSE 0
+        END AS fault_status
+        FROM
+        tbl_building building
+        <where>
+            <if test="villageId != null">
+                building.v_village_id = #{villageId}
+            </if>
+            <if test="villageIds != null">
+                or building.v_village_id
+                <foreach collection="villageIds" item="item" open="IN(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+
+    </select>
+
+</mapper>

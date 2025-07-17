@@ -1,0 +1,56 @@
+# kafka topic 名称
+kafka:
+  topic:
+    fault: pro_oreo_fault
+    pre-fault: pro_oreo_preFault
+    http: pro_netty_nezha
+    socket: pro_web_nezha_test
+
+# sa-token 配置
+sa-token:
+  # 配置 Sa-Token 单独使用的 Redis 连接
+  alone-redis:
+    database: 13  # 默认13
+    host: redis.tech.internal.shmashine.com
+    port: 6379
+    password: shmashine@666
+    timeout: 5000
+
+eureka:
+  client:
+    service-url:
+      # defaultZone: http://47.105.214.0:8008/eureka/
+      defaultZone: http://shmashine-eureka:8008/eureka/
+  instance:
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+    prefer-ip-address: true
+#    ip-address: 47.105.214.0
+#    non-secure-port: 8011
+
+
+spring:
+  redis:
+    database: 2
+    host: redis.tech.internal.shmashine.com
+    port: 6379
+    password: shmashine@666
+    timeout: 5000
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://rm-m5e5x3037x8bn5br6.mysql.rds.aliyuncs.com:3306/elevator_master?useSSL=false&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+    username: elevator_master
+    password: Shmash1ne@elevator_master
+  boot:
+    admin:
+      client:
+        # url: http://47.105.214.0:9999 #配置admin-server地址
+        url: http://spring-boot-admin:9999 #配置admin-server地址
+        username: shmashine
+        password: shmashine
+        instance:
+          prefer-ip: true
+          # service-url: http://39.100.10.59:8011/api/pm
+          service-url: http://shmashine-pm:8011/api/pm
+
+

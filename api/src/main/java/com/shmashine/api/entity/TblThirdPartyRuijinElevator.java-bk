@@ -1,0 +1,990 @@
+package com.shmashine.api.entity;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.io.Serializable;
+import java.util.Date;
+
+public class TblThirdPartyRuijinElevator implements Serializable {
+
+    private static final long serialVersionUID = 4857238461473355637L;
+
+    private Long id;
+
+    private String registerNumber;
+
+    private String useCertNumber;
+
+    private String registerOrg;
+
+    private Date registerDate;
+
+    private String registerPerson;
+
+    private String designStandard;
+
+    private String manufactureCountry;
+
+    private String manufacturerCode;
+
+    private String manufacturerName;
+
+    private String leaveFactoryNumber;
+
+    private String deviceNumber;
+
+    private String model;
+
+    private Date leaveFactoryDate;
+
+    private Date designServiceLife;
+
+    private String kind;
+
+    private String category;
+
+    private String type;
+
+    private String deviceName;
+
+    private String produceStandard;
+
+    private String inspectionModality;
+
+    private String supervisorName;
+
+    private String supervisorApprNumber;
+
+    private String supervisorCertNumber;
+
+    private String modelTestOrg;
+
+    private String modelTestApprNumber;
+
+    private String modelTestCertNumber;
+
+    private String sellerCode;
+
+    private String sellerName;
+
+    private String sellerAddress;
+
+    private String sellerContact;
+
+    private String sellerTel;
+
+    private String noticeNumber;
+
+    private Date noticeDate;
+
+    private String setupCompanyCode;
+
+    private String setupCompanyName;
+
+    private String setupCompanyCertNumber;
+
+    private String setupPrinciple;
+
+    private String setupPrincipleTel;
+
+    private Date setupFinishDate;
+
+    private String setupSupervisorCode;
+
+    private String setupSupervisorName;
+
+    private String setupSupervisorApprNumber;
+
+    private Date buyDate;
+
+    private String ownerCode;
+
+    private String ownerName;
+
+    private String ownerAddress;
+
+    private String ownerContact;
+
+    private String ownerTel;
+
+    private String areaCode;
+
+    private String town;
+
+    private String adminOrg;
+
+    private String usePlace;
+
+    private String buildingUnit;
+
+    private String address;
+
+    private String longitude;
+
+    private String latitude;
+
+    private String rescueNumber;
+
+    private String useCompanyType;
+
+    private String useCompanyCode;
+
+    private String useCompanyName;
+
+    private String useCompanyAlias;
+
+    private String useCompanyPerson;
+
+    private String useCompanyTel;
+
+    private String adminBranchName;
+
+    private String adminBranchContact;
+
+    private String adminBranchTel;
+
+    private String adminBranchAddress;
+
+    private String safetyDept;
+
+    private String safetyDeptAddress;
+
+    private String safetyAdministrator;
+
+    private String safetyAdmCertNumber;
+
+    private String safetyAdminTel;
+
+    private Integer useStatus;
+
+    private String conditions;
+
+    private String remouldEntCode;
+
+    private String remouldEntName;
+
+    private Date remouldDate;
+
+    private Date startUseDate;
+
+    private Date stopUseDate;
+
+    private Date cancelDate;
+
+    private String inspectDutyCompany;
+
+    private String iotInstallCompany;
+
+    private String dataType;
+
+    private Date dtCreateTime;
+
+    private Date dtModifyTime;
+
+    private String vCreateUserId;
+
+    private String vModifyUserId;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    @JsonProperty("registerNumber")
+    public String getRegisterNumber() {
+        return registerNumber;
+    }
+
+    public void setRegisterNumber(String registerNumber) {
+        this.registerNumber = registerNumber;
+    }
+
+    @JsonProperty("useCertNumber")
+    public String getUseCertNumber() {
+        return useCertNumber;
+    }
+
+    public void setUseCertNumber(String useCertNumber) {
+        this.useCertNumber = useCertNumber;
+    }
+
+    @JsonProperty("registerOrg")
+    public String getRegisterOrg() {
+        return registerOrg;
+    }
+
+    public void setRegisterOrg(String registerOrg) {
+        this.registerOrg = registerOrg;
+    }
+
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss.SSS")
+    @JsonProperty("registerDate")
+    public Date getRegisterDate() {
+        return registerDate;
+    }
+
+    public void setRegisterDate(Date registerDate) {
+        this.registerDate = registerDate;
+    }
+
+    @JsonProperty("registerPerson")
+    public String getRegisterPerson() {
+        return registerPerson;
+    }
+
+    public void setRegisterPerson(String registerPerson) {
+        this.registerPerson = registerPerson;
+    }
+
+    @JsonProperty("designStandard")
+    public String getDesignStandard() {
+        return designStandard;
+    }
+
+    public void setDesignStandard(String designStandard) {
+        this.designStandard = designStandard;
+    }
+
+    @JsonProperty("manufactureCountry")
+    public String getManufactureCountry() {
+        return manufactureCountry;
+    }
+
+    public void setManufactureCountry(String manufactureCountry) {
+        this.manufactureCountry = manufactureCountry;
+    }
+
+    @JsonProperty("manufacturerCode")
+    public String getManufacturerCode() {
+        return manufacturerCode;
+    }
+
+    public void setManufacturerCode(String manufacturerCode) {
+        this.manufacturerCode = manufacturerCode;
+    }
+
+    @JsonProperty("manufacturerName")
+    public String getManufacturerName() {
+        return manufacturerName;
+    }
+
+    public void setManufacturerName(String manufacturerName) {
+        this.manufacturerName = manufacturerName;
+    }
+
+    @JsonProperty("leaveFactoryNumber")
+    public String getLeaveFactoryNumber() {
+        return leaveFactoryNumber;
+    }
+
+    public void setLeaveFactoryNumber(String leaveFactoryNumber) {
+        this.leaveFactoryNumber = leaveFactoryNumber;
+    }
+
+    @JsonProperty("deviceNumber")
+    public String getDeviceNumber() {
+        return deviceNumber;
+    }
+
+    public void setDeviceNumber(String deviceNumber) {
+        this.deviceNumber = deviceNumber;
+    }
+
+    @JsonProperty("model")
+    public String getModel() {
+        return model;
+    }
+
+    public void setModel(String model) {
+        this.model = model;
+    }
+
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss.SSS")
+    @JsonProperty("leaveFactoryDate")
+    public Date getLeaveFactoryDate() {
+        return leaveFactoryDate;
+    }
+
+    public void setLeaveFactoryDate(Date leaveFactoryDate) {
+        this.leaveFactoryDate = leaveFactoryDate;
+    }
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss.SSS")
+    @JsonProperty("designServiceLife")
+    public Date getDesignServiceLife() {
+        return designServiceLife;
+    }
+
+    public void setDesignServiceLife(Date designServiceLife) {
+        this.designServiceLife = designServiceLife;
+    }
+
+    @JsonProperty("kind")
+    public String getKind() {
+        return kind;
+    }
+
+    public void setKind(String kind) {
+        this.kind = kind;
+    }
+
+    @JsonProperty("category")
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        category = category;
+    }
+
+    @JsonProperty("type")
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    @JsonProperty("deviceName")
+    public String getDeviceName() {
+        return deviceName;
+    }
+
+    public void setDeviceName(String deviceName) {
+        this.deviceName = deviceName;
+    }
+
+    @JsonProperty("produceStandard")
+    public String getProduceStandard() {
+        return produceStandard;
+    }
+
+    public void setProduceStandard(String produceStandard) {
+        this.produceStandard = produceStandard;
+    }
+
+    @JsonProperty("inspectionModality")
+    public String getInspectionModality() {
+        return inspectionModality;
+    }
+
+    public void setInspectionModality(String inspectionModality) {
+        this.inspectionModality = inspectionModality;
+    }
+
+    @JsonProperty("supervisorName")
+    public String getSupervisorName() {
+        return supervisorName;
+    }
+
+    public void setSupervisorName(String supervisorName) {
+        this.supervisorName = supervisorName;
+    }
+
+    @JsonProperty("supervisorApprNumber")
+    public String getSupervisorApprNumber() {
+        return supervisorApprNumber;
+    }
+
+    public void setSupervisorApprNumber(String supervisorApprNumber) {
+        this.supervisorApprNumber = supervisorApprNumber;
+    }
+
+    @JsonProperty("supervisorCertNumber")
+    public String getSupervisorCertNumber() {
+        return supervisorCertNumber;
+    }
+
+    public void setSupervisorCertNumber(String supervisorCertNumber) {
+        this.supervisorCertNumber = supervisorCertNumber;
+    }
+
+    @JsonProperty("modelTestOrg")
+    public String getModelTestOrg() {
+        return modelTestOrg;
+    }
+
+    public void setModelTestOrg(String modelTestOrg) {
+        this.modelTestOrg = modelTestOrg;
+    }
+
+    @JsonProperty("modelTestApprNumber")
+    public String getModelTestApprNumber() {
+        return modelTestApprNumber;
+    }
+
+    public void setModelTestApprNumber(String modelTestApprNumber) {
+        this.modelTestApprNumber = modelTestApprNumber;
+    }
+
+    @JsonProperty("modelTestCertNumber")
+    public String getModelTestCertNumber() {
+        return modelTestCertNumber;
+    }
+
+    public void setModelTestCertNumber(String modelTestCertNumber) {
+        this.modelTestCertNumber = modelTestCertNumber;
+    }
+
+    @JsonProperty("sellerCode")
+    public String getSellerCode() {
+        return sellerCode;
+    }
+
+    public void setSellerCode(String sellerCode) {
+        this.sellerCode = sellerCode;
+    }
+
+    @JsonProperty("sellerName")
+    public String getSellerName() {
+        return sellerName;
+    }
+
+    public void setSellerName(String sellerName) {
+        this.sellerName = sellerName;
+    }
+
+    @JsonProperty("sellerAddress")
+    public String getSellerAddress() {
+        return sellerAddress;
+    }
+
+    public void setSellerAddress(String sellerAddress) {
+        this.sellerAddress = sellerAddress;
+    }
+
+    @JsonProperty("sellerContact")
+    public String getSellerContact() {
+        return sellerContact;
+    }
+
+    public void setSellerContact(String sellerContact) {
+        this.sellerContact = sellerContact;
+    }
+
+    @JsonProperty("sellerTel")
+    public String getSellerTel() {
+        return sellerTel;
+    }
+
+    public void setSellerTel(String sellerTel) {
+        this.sellerTel = sellerTel;
+    }
+
+    @JsonProperty("noticeNumber")
+    public String getNoticeNumber() {
+        return noticeNumber;
+    }
+
+    public void setNoticeNumber(String noticeNumber) {
+        this.noticeNumber = noticeNumber;
+    }
+
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss.SSS")
+    @JsonProperty("noticeDate")
+    public Date getNoticeDate() {
+        return noticeDate;
+    }
+
+    public void setNoticeDate(Date noticeDate) {
+        this.noticeDate = noticeDate;
+    }
+
+    @JsonProperty("setupCompanyCode")
+    public String getSetupCompanyCode() {
+        return setupCompanyCode;
+    }
+
+    public void setSetupCompanyCode(String setupCompanyCode) {
+        this.setupCompanyCode = setupCompanyCode;
+    }
+
+    @JsonProperty("setupCompanyName")
+    public String getSetupCompanyName() {
+        return setupCompanyName;
+    }
+
+    public void setSetupCompanyName(String setupCompanyName) {
+        this.setupCompanyName = setupCompanyName;
+    }
+
+    @JsonProperty("setupCompanyCertNumber")
+    public String getSetupCompanyCertNumber() {
+        return setupCompanyCertNumber;
+    }
+
+    public void setSetupCompanyCertNumber(String setupCompanyCertNumber) {
+        this.setupCompanyCertNumber = setupCompanyCertNumber;
+    }
+
+    @JsonProperty("setupPrinciple")
+    public String getSetupPrinciple() {
+        return setupPrinciple;
+    }
+
+    public void setSetupPrinciple(String setupPrinciple) {
+        this.setupPrinciple = setupPrinciple;
+    }
+
+    @JsonProperty("setupPrincipleTel")
+    public String getSetupPrincipleTel() {
+        return setupPrincipleTel;
+    }
+
+    public void setSetupPrincipleTel(String setupPrincipleTel) {
+        this.setupPrincipleTel = setupPrincipleTel;
+    }
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
+    @JsonProperty("setupFinishDate")
+    public Date getSetupFinishDate() {
+        return setupFinishDate;
+    }
+
+    public void setSetupFinishDate(Date setupFinishDate) {
+        this.setupFinishDate = setupFinishDate;
+    }
+
+    @JsonProperty("setupSupervisorCode")
+    public String getSetupSupervisorCode() {
+        return setupSupervisorCode;
+    }
+
+    public void setSetupSupervisorCode(String setupSupervisorCode) {
+        this.setupSupervisorCode = setupSupervisorCode;
+    }
+
+    @JsonProperty("setupSupervisorName")
+    public String getSetupSupervisorName() {
+        return setupSupervisorName;
+    }
+
+    public void setSetupSupervisorName(String setupSupervisorName) {
+        this.setupSupervisorName = setupSupervisorName;
+    }
+
+    @JsonProperty("setupSupervisorApprNumber")
+    public String getSetupSupervisorApprNumber() {
+        return setupSupervisorApprNumber;
+    }
+
+    public void setSetupSupervisorApprNumber(String setupSupervisorApprNumber) {
+        this.setupSupervisorApprNumber = setupSupervisorApprNumber;
+    }
+
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss.SSS")
+    @JsonProperty("buyDate")
+    public Date getBuyDate() {
+        return buyDate;
+    }
+
+    public void setBuyDate(Date buyDate) {
+        this.buyDate = buyDate;
+    }
+
+    @JsonProperty("ownerCode")
+    public String getOwnerCode() {
+        return ownerCode;
+    }
+
+    public void setOwnerCode(String ownerCode) {
+        this.ownerCode = ownerCode;
+    }
+
+    @JsonProperty("ownerName")
+    public String getOwnerName() {
+        return ownerName;
+    }
+
+    public void setOwnerName(String ownerName) {
+        this.ownerName = ownerName;
+    }
+
+    @JsonProperty("ownerAddress")
+    public String getOwnerAddress() {
+        return ownerAddress;
+    }
+
+    public void setOwnerAddress(String ownerAddress) {
+        this.ownerAddress = ownerAddress;
+    }
+
+    @JsonProperty("ownerContact")
+    public String getOwnerContact() {
+        return ownerContact;
+    }
+
+    public void setOwnerContact(String ownerContact) {
+        this.ownerContact = ownerContact;
+    }
+
+    @JsonProperty("ownerTel")
+    public String getOwnerTel() {
+        return ownerTel;
+    }
+
+    public void setOwnerTel(String ownerTel) {
+        this.ownerTel = ownerTel;
+    }
+
+    @JsonProperty("areaCode")
+    public String getAreaCode() {
+        return areaCode;
+    }
+
+    public void setAreaCode(String areaCode) {
+        this.areaCode = areaCode;
+    }
+
+    @JsonProperty("town")
+    public String getTown() {
+        return town;
+    }
+
+    public void setTown(String town) {
+        this.town = town;
+    }
+
+    @JsonProperty("adminOrg")
+    public String getAdminOrg() {
+        return adminOrg;
+    }
+
+    public void setAdminOrg(String adminOrg) {
+        this.adminOrg = adminOrg;
+    }
+
+    @JsonProperty("usePlace")
+    public String getUsePlace() {
+        return usePlace;
+    }
+
+    public void setUsePlace(String usePlace) {
+        this.usePlace = usePlace;
+    }
+
+    @JsonProperty("buildingUnit")
+    public String getBuildingUnit() {
+        return buildingUnit;
+    }
+
+    public void setBuildingUnit(String buildingUnit) {
+        this.buildingUnit = buildingUnit;
+    }
+
+    @JsonProperty("address")
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    @JsonProperty("longitude")
+    public String getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
+    }
+
+    @JsonProperty("latitude")
+    public String getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
+    }
+
+    @JsonProperty("rescueNumber")
+    public String getRescueNumber() {
+        return rescueNumber;
+    }
+
+    public void setRescueNumber(String rescueNumber) {
+        this.rescueNumber = rescueNumber;
+    }
+
+    @JsonProperty("useCompanyType")
+    public String getUseCompanyType() {
+        return useCompanyType;
+    }
+
+    public void setUseCompanyType(String useCompanyType) {
+        this.useCompanyType = useCompanyType;
+    }
+
+    @JsonProperty("useCompanyCode")
+    public String getUseCompanyCode() {
+        return useCompanyCode;
+    }
+
+    public void setUseCompanyCode(String useCompanyCode) {
+        this.useCompanyCode = useCompanyCode;
+    }
+
+    @JsonProperty("useCompanyName")
+    public String getUseCompanyName() {
+        return useCompanyName;
+    }
+
+    public void setUseCompanyName(String useCompanyName) {
+        this.useCompanyName = useCompanyName;
+    }
+
+    @JsonProperty("useCompanyAlias")
+    public String getUseCompanyAlias() {
+        return useCompanyAlias;
+    }
+
+    public void setUseCompanyAlias(String useCompanyAlias) {
+        this.useCompanyAlias = useCompanyAlias;
+    }
+
+    @JsonProperty("useCompanyPerson")
+    public String getUseCompanyPerson() {
+        return useCompanyPerson;
+    }
+
+    public void setUseCompanyPerson(String useCompanyPerson) {
+        this.useCompanyPerson = useCompanyPerson;
+    }
+
+    @JsonProperty("useCompanyTel")
+    public String getUseCompanyTel() {
+        return useCompanyTel;
+    }
+
+    public void setUseCompanyTel(String useCompanyTel) {
+        this.useCompanyTel = useCompanyTel;
+    }
+
+    @JsonProperty("adminBranchName")
+    public String getAdminBranchName() {
+        return adminBranchName;
+    }
+
+    public void setAdminBranchName(String adminBranchName) {
+        this.adminBranchName = adminBranchName;
+    }
+
+    @JsonProperty("adminBranchContact")
+    public String getAdminBranchContact() {
+        return adminBranchContact;
+    }
+
+    public void setAdminBranchContact(String adminBranchContact) {
+        this.adminBranchContact = adminBranchContact;
+    }
+
+    @JsonProperty("adminBranchTel")
+    public String getAdminBranchTel() {
+        return adminBranchTel;
+    }
+
+    public void setAdminBranchTel(String adminBranchTel) {
+        this.adminBranchTel = adminBranchTel;
+    }
+
+    @JsonProperty("adminBranchAddress")
+    public String getAdminBranchAddress() {
+        return adminBranchAddress;
+    }
+
+    public void setAdminBranchAddress(String adminBranchAddress) {
+        this.adminBranchAddress = adminBranchAddress;
+    }
+
+    @JsonProperty("safetyDept")
+    public String getSafetyDept() {
+        return safetyDept;
+    }
+
+    public void setSafetyDept(String safetyDept) {
+        this.safetyDept = safetyDept;
+    }
+
+    @JsonProperty("safetyDeptAddress")
+    public String getSafetyDeptAddress() {
+        return safetyDeptAddress;
+    }
+
+    public void setSafetyDeptAddress(String safetyDeptAddress) {
+        this.safetyDeptAddress = safetyDeptAddress;
+    }
+
+    @JsonProperty("safetyAdministrator")
+    public String getSafetyAdministrator() {
+        return safetyAdministrator;
+    }
+
+    public void setSafetyAdministrator(String safetyAdministrator) {
+        this.safetyAdministrator = safetyAdministrator;
+    }
+
+    @JsonProperty("safetyAdmCertNumber")
+    public String getSafetyAdmCertNumber() {
+        return safetyAdmCertNumber;
+    }
+
+    public void setSafetyAdmCertNumber(String safetyAdmCertNumber) {
+        this.safetyAdmCertNumber = safetyAdmCertNumber;
+    }
+
+    @JsonProperty("safetyAdminTel")
+    public String getSafetyAdminTel() {
+        return safetyAdminTel;
+    }
+
+    public void setSafetyAdminTel(String safetyAdminTel) {
+        this.safetyAdminTel = safetyAdminTel;
+    }
+
+    @JsonProperty("useStatus")
+    public Integer getUseStatus() {
+        return useStatus;
+    }
+
+    public void setUseStatus(Integer useStatus) {
+        this.useStatus = useStatus;
+    }
+
+    @JsonProperty("conditions")
+    public String getConditions() {
+        return conditions;
+    }
+
+    public void setConditions(String conditions) {
+        this.conditions = conditions;
+    }
+
+    @JsonProperty("remouldEntCode")
+    public String getRemouldEntCode() {
+        return remouldEntCode;
+    }
+
+    public void setRemouldEntCode(String remouldEntCode) {
+        this.remouldEntCode = remouldEntCode;
+    }
+
+    @JsonProperty("remouldEntName")
+    public String getRemouldEntName() {
+        return remouldEntName;
+    }
+
+    public void setRemouldEntName(String remouldEntName) {
+        this.remouldEntName = remouldEntName;
+    }
+
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss.SSS")
+    @JsonProperty("remouldDate")
+    public Date getRemouldDate() {
+        return remouldDate;
+    }
+
+    public void setRemouldDate(Date remouldDate) {
+        this.remouldDate = remouldDate;
+    }
+
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss.SSS")
+    @JsonProperty("startUseDate")
+    public Date getStartUseDate() {
+        return startUseDate;
+    }
+
+    public void setStartUseDate(Date startUseDate) {
+        this.startUseDate = startUseDate;
+    }
+
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss.SSS")
+    @JsonProperty("stopUseDate")
+    public Date getStopUseDate() {
+        return stopUseDate;
+    }
+
+    public void setStopUseDate(Date stopUseDate) {
+        this.stopUseDate = stopUseDate;
+    }
+
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss.SSS")
+    @JsonProperty("cancelDate")
+    public Date getCancelDate() {
+        return cancelDate;
+    }
+
+    public void setCancelDate(Date cancelDate) {
+        this.cancelDate = cancelDate;
+    }
+
+    @JsonProperty("inspectDutyCompany")
+    public String getInspectDutyCompany() {
+        return inspectDutyCompany;
+    }
+
+    public void setInspectDutyCompany(String inspectDutyCompany) {
+        this.inspectDutyCompany = inspectDutyCompany;
+    }
+
+    @JsonProperty("iotInstallCompany")
+    public String getIotInstallCompany() {
+        return iotInstallCompany;
+    }
+
+    public void setIotInstallCompany(String iotInstallCompany) {
+        this.iotInstallCompany = iotInstallCompany;
+    }
+
+    @JsonProperty("dataType")
+    public String getDataType() {
+        return dataType;
+    }
+
+    public void setDataType(String dataType) {
+        this.dataType = dataType;
+    }
+
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss.SSS")
+    @JsonProperty("dtCreateTime")
+    public Date getDtCreateTime() {
+        return dtCreateTime;
+    }
+
+    public void setDtCreateTime(Date dtCreateTime) {
+        this.dtCreateTime = dtCreateTime;
+    }
+
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss.SSS")
+    @JsonProperty("dtModifyTime")
+    public Date getDtModifyTime() {
+        return dtModifyTime;
+    }
+
+    public void setDtModifyTime(Date dtModifyTime) {
+        this.dtModifyTime = dtModifyTime;
+    }
+
+    @JsonProperty("vCreateUserId")
+    public String getvCreateUserId() {
+        return vCreateUserId;
+    }
+
+    public void setvCreateUserId(String vCreateUserId) {
+        this.vCreateUserId = vCreateUserId;
+    }
+
+    @JsonProperty("vModifyUserId")
+    public String getvModifyUserId() {
+        return vModifyUserId;
+    }
+
+    public void setvModifyUserId(String vModifyUserId) {
+        this.vModifyUserId = vModifyUserId;
+    }
+}

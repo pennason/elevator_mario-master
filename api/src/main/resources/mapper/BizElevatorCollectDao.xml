@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shmashine.api.dao.BizElevatorCollectDao">
+
+    <resultMap type="com.shmashine.common.entity.TblElevatorCollect" id="TblElevatorCollectResultMap">
+        <result property="vUserId" column="v_user_id" jdbcType="VARCHAR"/>
+        <result property="vElevatorId" column="v_elevator_id" jdbcType="VARCHAR"/>
+        <result property="dtCreateTime" column="dt_create_time" jdbcType="TIMESTAMP"/>
+        <result property="dtModifyTime" column="dt_modify_time" jdbcType="TIMESTAMP"/>
+        <result property="vCreateUserId" column="v_create_user_id" jdbcType="VARCHAR"/>
+        <result property="vModifyUserId" column="v_modify_user_id" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="table_field">
+        v_user_id
+        , v_elevator_id, dt_create_time, dt_modify_time, v_create_user_id, v_modify_user_id
+    </sql>
+
+
+    <!-- 获取电梯收藏列表 -->
+    <select id="searchElevatorCollectList" resultType="java.util.Map">
+        select
+        collect.v_elevator_id,
+        collect.v_user_id,
+        elevator.v_elevator_code,
+        elevator.i_elevator_type,
+        elevator.i_elevator_place_type,
+        elevator.v_address
+        from tbl_elevator_collect collect
+        JOIN tbl_elevator elevator on collect.v_elevator_id = elevator.v_elevator_id
+        <if test="!isAdminFlag">
+            join tbl_sys_user_resource resource on elevator.v_elevator_id = resource.v_resource_id and
+            resource.v_user_id =
+            #{userId}
+        </if>
+        where
+        collect.v_user_id = #{userId}
+        <if test="projectIds != null and projectIds.size() > 0">
+            and elevator.v_project_id in
+            <foreach collection="projectIds" item="projectId" open="(" separator="," close=")">
+                #{projectId}
+            </foreach>
+        </if>
+    </select>
+
+    <!-- 获取用户是否收藏电梯 -->
+    <select id="searchUserCollectElevatorInfo" resultType="java.util.Map">
+
+        select case count(1)
+                   when 1 then '1'
+                   ELSE '0' end AS flag
+        from tbl_elevator_collect collect
+        where collect.v_user_id = #{userId}
+          and collect.v_elevator_id = #{elevatorId}
+    </select>
+
+
+</mapper>
