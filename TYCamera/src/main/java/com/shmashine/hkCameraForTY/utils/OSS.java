@@ -21,9 +21,9 @@ public class OSS {
 
     private static String endpoint = "http://oss-cn-shanghai.aliyuncs.com";
 
-    private static String accessKeyId = "LTAIYOtTu4EmnOKn";
+    private static String accessKeyId = "aaa";
 
-    private static String accessKeySecret = "1A7iXXtcy5kBXLW2uPAFRIhgIqRGRA";
+    private static String accessKeySecret = "aaa";
 
     private static String bucketName = "oss-maixin";
 
