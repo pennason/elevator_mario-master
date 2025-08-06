@@ -26,11 +26,11 @@ public class SmsDemo {
     static final String domain = "dysmsapi.aliyuncs.com";
 
     // TODO 此处需要替换成开发者自己的AK(在阿里云访问控制台寻找)
-    static final String accessKeyId = "LTAI2xpuWnJLsOAu";
-    static final String accessKeySecret = "WbUEGgRAf4Qf1eVigywknIUfMRBslD";
+    static final String accessKeyId = "aaa";
+    static final String accessKeySecret = "aaa";
 
-    static final String accessKeyId_XiZi = "LTAI5t68diLZpyArwsYDTdn9";
-    static final String accessKeySecret_XiZi = "puG27lqsWBPxdaOPUf9p65OXCq3bjN";
+    static final String accessKeyId_XiZi = "aaa";
+    static final String accessKeySecret_XiZi = "aaa";
 
     public static SendSmsResponse sendSms(String telephone, String verificationCode) throws ClientException {
 
