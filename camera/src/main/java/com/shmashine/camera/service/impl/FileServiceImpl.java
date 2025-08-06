@@ -175,9 +175,9 @@ public class FileServiceImpl implements FileService {
 
         String endpoint = "http://oss-cn-shanghai.aliyuncs.com";
 
-        String accessKeyId = "LTAIYOtTu4EmnOKn";
+        String accessKeyId = "aaa";
 
-        String accessKeySecret = "1A7iXXtcy5kBXLW2uPAFRIhgIqRGRA";
+        String accessKeySecret = "aaa";
 
         String bucketName = "oss-maixin";
 
